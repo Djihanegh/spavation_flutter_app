@@ -7,7 +7,7 @@ const appPrimaryColor = Color(0xFFB6A5CA);
 appBottomCircularRadius(double value) => BorderRadius.only(
     bottomLeft: Radius.circular(value), bottomRight: Radius.circular(value));
 
-const appCircular = BorderRadius.all(Radius.circular(50));
+const appCircular = BorderRadius.all(Radius.circular(90));
 
 List<BoxShadow>? boxShadow = [
   BoxShadow(

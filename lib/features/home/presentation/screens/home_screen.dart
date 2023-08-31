@@ -18,13 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
       fit: StackFit.loose,
       children: [
-        Container(
-          height: sh! * 0.3,
-          width: sw! * 0.3,
-          decoration: BoxDecoration(
-              color: appPrimaryColor.withOpacity(0.35),
-              borderRadius: appCircular),
-        ),
+        //
         Container(
           height: sh! * 0.25,
           decoration: BoxDecoration(
@@ -32,6 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
               color: appPrimaryColor,
               borderRadius: appBottomCircularRadius(30)),
         ),
+        Positioned(
+            top: -10,
+            left: -25,
+            child: Container(
+              height: sh! * 0.17,
+              width: sw! * 0.35,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.35),
+                  borderRadius: appCircular),
+            )),
       ],
     ));
   }
