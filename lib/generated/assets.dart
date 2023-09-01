@@ -3,13 +3,17 @@ class Assets {
   Assets._();
 
   static const String iconsApple = 'assets/icons/apple.svg';
+  static const String iconsAwesomeFemale = 'assets/icons/awesome-female.png';
+  static const String iconsAwesomeMale = 'assets/icons/awesome-male.png';
   static const String iconsList = 'assets/icons/list.svg';
   static const String iconsLogo = 'assets/icons/logo.svg';
   static const String iconsSettingsIcon = 'assets/icons/settings-icon.svg';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
+  static const String imagesGreyStar = 'assets/images/grey-star.png';
   static const String imagesSlider1 = 'assets/images/slider1.png';
   static const String imagesSlider2 = 'assets/images/slider2.png';
   static const String imagesSpa = 'assets/images/spa.png';
   static const String imagesSpa2 = 'assets/images/spa2.png';
+  static const String imagesYellowStar = 'assets/images/yellow-star.png';
 
 }

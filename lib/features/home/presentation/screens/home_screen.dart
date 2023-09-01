@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/features/home/presentation/widgets/custom_icon.dart';
+import 'package:spavation/features/home/presentation/widgets/service_item.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../../../core/utils/app_styles.dart';
@@ -28,118 +29,131 @@ class _HomeScreenState extends State<HomeScreen> {
     screenSizeInit(context);
     return Scaffold(
         body: SingleChildScrollView(
-            child: Stack(
-      fit: StackFit.loose,
+            child: Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        //
-        Column(
+        Stack(
+          fit: StackFit.loose,
           children: [
-            Container(
-              height: sh! * 0.4,
-              decoration: BoxDecoration(
-                  boxShadow: boxShadow,
-                  color: appPrimaryColor,
-                  borderRadius: appBottomCircularRadius(30)),
+            //
+            Column(
+              children: [
+                Container(
+                  height: sh! * 0.4,
+                  decoration: BoxDecoration(
+                      boxShadow: boxShadow,
+                      color: appPrimaryColor,
+                      borderRadius: appBottomCircularRadius(30)),
+                ),
+                Container(
+                  height: sh! * 0.1,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            Container(
-              height: sh! * 0.1,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-            ),
+            Positioned(
+                top: -10,
+                left: -25,
+                child: Container(
+                  height: sh! * 0.17,
+                  width: sw! * 0.35,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.35),
+                      borderRadius: appCircular),
+                )),
+            Positioned(
+                top: 50,
+                left: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.location_on_outlined,
+                      color: Colors.white,
+                    ),
+                    AutoSizeText(
+                      'Riyadh',
+                      style: TextStyles.inter,
+                    ),
+                  ],
+                )),
+
+            Positioned(
+                top: 50,
+                right: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CustomIcon(icon: Icons.map_outlined),
+                    10.widthXBox,
+                    const CustomIcon(icon: Icons.filter_alt),
+                  ],
+                )),
+
+            Positioned(
+                top: sh! * 0.125,
+                right: sw! * 0.01,
+                child: Container(
+                    width: sw! * 0.98,
+                    height: sh! * 0.15,
+                    // padding: EdgeInsets.only(right: 10, left: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                        child: PageView.builder(
+                      onPageChanged: (value) {},
+                      controller: sliderController,
+                      itemCount: 2,
+                      itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: Image.asset(Assets.imagesSlider1)
+                                        .image)),
+                            width: sw! * 0.99,
+                            height: sh! * 0.15,
+                          )),
+                    )))),
+
+            Positioned(
+                top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
+            Positioned(
+                top: sh! * 0.37,
+                left: sw! * 0.03,
+                right: sw! * 0.03,
+                child: Container(
+                  width: sw! * 0.935,
+                  height: sh! * 0.12,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: boxShadow),
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          itemCount: categories.length,
+                          itemBuilder: (context, index) => categories[index])),
+                ))
           ],
         ),
-        Positioned(
-            top: -10,
-            left: -25,
-            child: Container(
-              height: sh! * 0.17,
-              width: sw! * 0.35,
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.35),
-                  borderRadius: appCircular),
-            )),
-        Positioned(
-            top: 50,
-            left: 30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.location_on_outlined,
-                  color: Colors.white,
-                ),
-                AutoSizeText(
-                  'Riyadh',
-                  style: TextStyles.inter,
-                ),
-              ],
-            )),
-
-        Positioned(
-            top: 50,
-            right: 30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CustomIcon(icon: Icons.map_outlined),
-                10.widthXBox,
-                const CustomIcon(icon: Icons.filter_alt),
-              ],
-            )),
-
-        Positioned(
-            top: sh! * 0.125,
-            right: sw! * 0.01,
-            child: Container(
-                width: sw! * 0.98,
-                height: sh! * 0.15,
-                // padding: EdgeInsets.only(right: 10, left: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
-                    child: PageView.builder(
-                  onPageChanged: (value) {},
-                  controller: sliderController,
-                  itemCount: 2,
-                  itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image:
-                                    Image.asset(Assets.imagesSlider1).image)),
-                        width: sw! * 0.99,
-                        height: sh! * 0.15,
-                      )),
-                )))),
-
-        Positioned(
-            top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
-        Positioned(
-            top: sh! * 0.37,
-            left: sw! * 0.03,
-            right: sw! * 0.03,
-            child: Container(
-              width: sw! * 0.935,
-              height: sh! * 0.12,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: boxShadow),
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) => categories[index])),
-            ))
+        Flexible(
+            child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
+                itemCount: 20,
+                itemBuilder: (context, index) => const ServiceItem()))
       ],
     )));
   }
