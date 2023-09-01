@@ -9,12 +9,11 @@ appBottomCircularRadius(double value) => BorderRadius.only(
 
 const appCircular = BorderRadius.all(Radius.circular(90));
 
-
-
 List<BoxShadow>? boxShadow = [
   BoxShadow(
     color: Colors.grey.shade500,
-    offset: const Offset(0.0, 1.0), //(x,y)
-    blurRadius: 6.0,
+    spreadRadius: 0,
+    blurRadius: 2,
+    offset: const Offset(0, 0.5),
   ),
 ];

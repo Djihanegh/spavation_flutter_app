@@ -7,5 +7,7 @@ class Assets {
   static const String iconsLogo = 'assets/icons/logo.svg';
   static const String iconsSettingsIcon = 'assets/icons/settings-icon.svg';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
-
+  static const String imagesSlider1 = 'assets/images/slider1.png';
+  static const String imagesSlider2 = 'assets/images/slider2.png';
+  static const String imagesSpa = 'assets/images/spa.png';
 }
