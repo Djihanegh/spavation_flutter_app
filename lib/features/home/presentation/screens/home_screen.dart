@@ -9,7 +9,7 @@ import 'package:spavation/generated/assets.dart';
 
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
-import '../widgets/search_bar.dart';
+import '../widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
