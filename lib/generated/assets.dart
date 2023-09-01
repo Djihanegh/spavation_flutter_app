@@ -10,4 +10,6 @@ class Assets {
   static const String imagesSlider1 = 'assets/images/slider1.png';
   static const String imagesSlider2 = 'assets/images/slider2.png';
   static const String imagesSpa = 'assets/images/spa.png';
+  static const String imagesSpa2 = 'assets/images/spa2.png';
+
 }

@@ -9,6 +9,7 @@ import 'package:spavation/generated/assets.dart';
 
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
+import '../widgets/category_item.dart';
 import '../widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,16 +27,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     return Scaffold(
-        body: Stack(
+        body: SingleChildScrollView(
+            child: Stack(
       fit: StackFit.loose,
       children: [
         //
-        Container(
-          height: sh! * 0.4,
-          decoration: BoxDecoration(
-              boxShadow: boxShadow,
-              color: appPrimaryColor,
-              borderRadius: appBottomCircularRadius(30)),
+        Column(
+          children: [
+            Container(
+              height: sh! * 0.4,
+              decoration: BoxDecoration(
+                  boxShadow: boxShadow,
+                  color: appPrimaryColor,
+                  borderRadius: appBottomCircularRadius(30)),
+            ),
+            Container(
+              height: sh! * 0.1,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         Positioned(
             top: -10,
@@ -109,7 +121,54 @@ class _HomeScreenState extends State<HomeScreen> {
 
         Positioned(
             top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
+        Positioned(
+            top: sh! * 0.37,
+            left: sw! * 0.03,
+            right: sw! * 0.03,
+            child: Container(
+              width: sw! * 0.935,
+              height: sh! * 0.12,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: boxShadow),
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) => categories[index])),
+            ))
       ],
-    ));
+    )));
   }
+
+  List<CategoryItem> categories = const [
+    CategoryItem(
+      color: appPurple,
+      title: 'All',
+      image: Assets.imagesSpa2,
+    ),
+    CategoryItem(
+      color: appPurple,
+      title: 'Body care',
+      image: Assets.imagesSpa2,
+    ),
+    CategoryItem(
+      color: appPurple,
+      title: 'Hair',
+      image: Assets.imagesSpa2,
+    ),
+    CategoryItem(
+      color: appPurple,
+      title: 'Massage',
+      image: Assets.imagesSpa2,
+    ),
+    CategoryItem(
+      color: appPurple,
+      title: 'Nails',
+      image: Assets.imagesSpa2,
+    )
+  ];
 }
