@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     AutoSizeText(
                       'Riyadh',
-                      style: TextStyles.inter,
+                      style: TextStyles.inter.copyWith(color: Colors.white),
                     ),
                   ],
                 )),
