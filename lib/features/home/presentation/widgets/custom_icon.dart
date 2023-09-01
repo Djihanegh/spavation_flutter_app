@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spavation/app/theme.dart';
 
 class CustomIcon extends StatelessWidget {
   const CustomIcon({super.key, required this.icon});
@@ -12,7 +13,7 @@ class CustomIcon extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 1)),
       child: Padding(
-          padding: const EdgeInsets.all(4),
+          padding: paddingAll(4),
           child: Icon(
             icon,
             color: Colors.white,

@@ -9,6 +9,7 @@ import 'package:spavation/generated/assets.dart';
 
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
+import '../widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         //
         Container(
-          height: sh! * 0.25,
+          height: sh! * 0.4,
           decoration: BoxDecoration(
               boxShadow: boxShadow,
               color: appPrimaryColor,
@@ -78,24 +79,36 @@ class _HomeScreenState extends State<HomeScreen> {
             )),
 
         Positioned(
-            top: 50,
-            right: 30,
-            child: SizedBox(
-                height: sh!,
-                width: sw!,
-                child: PageView.builder(
+            top: sh! * 0.125,
+            right: sw! * 0.01,
+            child: Container(
+                width: sw! * 0.98,
+                height: sh! * 0.15,
+                // padding: EdgeInsets.only(right: 10, left: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                    child: PageView.builder(
                   onPageChanged: (value) {},
                   controller: sliderController,
                   itemCount: 2,
-                  itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: Image.asset(Assets.imagesSlider1).image)),
-                    width: sw!,
-                    height: sh! * 0.3,
-                  ),
-                )))
+                  itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image:
+                                    Image.asset(Assets.imagesSlider1).image)),
+                        width: sw! * 0.99,
+                        height: sh! * 0.15,
+                      )),
+                )))),
+
+        Positioned(
+            top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
       ],
     ));
   }
