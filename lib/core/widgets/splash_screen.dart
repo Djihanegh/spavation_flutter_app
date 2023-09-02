@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spavation/features/home/presentation/screens/home_screen.dart';
+import 'package:spavation/features/home/presentation/screens/home.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../app/theme.dart';
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigateToHome() {
     Future.delayed(const Duration(seconds: 05),
-        () => navigateAndRemoveUntil(const HomeScreen(), context));
+        () => navigateAndRemoveUntil(const Home(), context));
   }
 
   @override

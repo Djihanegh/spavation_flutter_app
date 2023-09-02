@@ -93,7 +93,7 @@ class ServiceItem extends StatelessWidget {
                                       stars[index]))),
                       const Spacer(),
                       AutoSizeText(
-                        '1.5 Km',
+                        '1.5 k.m',
                         style: TextStyles.inter
                             .copyWith(fontSize: 18, color: headerTextColor),
                       ),
