@@ -2,10 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 
-import '../../../../app/theme.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/utils/size_config.dart';
-import '../../../../generated/assets.dart';
+import '../../../../../../app/theme.dart';
+import '../../../../../../core/utils/app_styles.dart';
+import '../../../../../../core/utils/size_config.dart';
+import '../../../../../../generated/assets.dart';
 
 class ServiceItem extends StatelessWidget {
   const ServiceItem({super.key});

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:spavation/app/theme.dart';
-import 'package:spavation/features/home/presentation/screens/home_screen.dart';
+import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:spavation/features/reservation/presentation/screens/reservation_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/settings_screen.dart';
 import 'package:spavation/generated/assets.dart';
 
-import '../../../../core/utils/size_config.dart';
-import '../widgets/bottom_nav_bar_item.dart';
+import '../../../../../core/utils/size_config.dart';
+import 'widgets/bottom_nav_bar_item.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

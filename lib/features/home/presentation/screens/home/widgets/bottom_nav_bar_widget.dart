@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/utils/size_config.dart';
+import '../../../../../../core/utils/size_config.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
   const BottomNavBarWidget(

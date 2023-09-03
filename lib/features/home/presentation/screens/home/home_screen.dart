@@ -2,14 +2,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/features/home/presentation/widgets/custom_icon.dart';
-import 'package:spavation/features/home/presentation/widgets/service_item.dart';
+import 'package:spavation/features/home/presentation/screens/filter/filter_screen.dart';
+import 'package:spavation/features/home/presentation/screens/home/widgets/custom_icon.dart';
+import 'package:spavation/features/home/presentation/screens/home/widgets/service_item.dart';
 import 'package:spavation/generated/assets.dart';
 
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/utils/size_config.dart';
-import '../widgets/category_item.dart';
-import '../widgets/search_input.dart';
+import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/utils/size_config.dart';
+import 'widgets/category_item.dart';
+import 'widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,9 +87,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const CustomIcon(icon: Icons.map_outlined),
+                    const CustomIcon(
+                        icon: Icons.map_outlined, page: FilterScreen()),
                     10.widthXBox,
-                    const CustomIcon(icon: Icons.filter_alt),
+                    const CustomIcon(
+                      icon: Icons.filter_alt,
+                      page: FilterScreen(),
+                    ),
                   ],
                 )),
 

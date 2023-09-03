@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spavation/features/home/presentation/screens/home.dart';
+import 'package:spavation/features/home/presentation/screens/home/home.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../app/theme.dart';
