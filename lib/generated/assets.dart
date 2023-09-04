@@ -4,9 +4,16 @@ class Assets {
 
   static const String iconsApple = 'assets/icons/apple.svg';
   static const String iconsAwesomeFemale = 'assets/icons/awesome-female.png';
+  static const String iconsAwesomeHeadset = 'assets/icons/awesome-headset.svg';
   static const String iconsAwesomeMale = 'assets/icons/awesome-male.png';
+  static const String iconsAwesomeUser = 'assets/icons/awesome-user.svg';
+  static const String iconsIonicIosBookmark = 'assets/icons/ionic-ios-bookmark.svg';
+  static const String iconsIonicIosSettings = 'assets/icons/ionic-ios-settings.svg';
   static const String iconsList = 'assets/icons/list.svg';
   static const String iconsLogo = 'assets/icons/logo.svg';
+  static const String iconsMaterialPayment = 'assets/icons/material-payment.svg';
+  static const String iconsMetroExit = 'assets/icons/metro-exit.svg';
+  static const String iconsMetroHistory = 'assets/icons/metro-history.svg';
   static const String iconsSettingsIcon = 'assets/icons/settings-icon.svg';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
   static const String imagesGreyStar = 'assets/images/grey-star.png';
