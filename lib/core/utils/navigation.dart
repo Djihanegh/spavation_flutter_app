@@ -4,6 +4,10 @@ navigateToPage<T>(Widget page, BuildContext context) async {
   Navigator.of(context).push(createRoute(page));
 }
 
+pushReplacement<T>(Widget page, BuildContext context) async {
+  Navigator.of(context).pushReplacement(createRoute(page));
+}
+
 navigateAndRemoveUntil<T>(Widget page, BuildContext context) async {
   Navigator.of(context).pushAndRemoveUntil(createRoute(page), (route) => false);
 }

@@ -22,6 +22,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  PageController pageController = PageController(initialPage: 0);
+
   @override
   Widget build(BuildContext context) {
     screenSizeInit(context);
@@ -146,4 +148,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           )),
     );
   }
+
+  List<Widget> pages = const [
+    UpdateUserInfoScreen(),
+    UpdateUserInfoScreen(),
+    BillsScreen(),
+    CallCenterScreen(),
+    DeleteAccountScreen()
+  ];
 }
