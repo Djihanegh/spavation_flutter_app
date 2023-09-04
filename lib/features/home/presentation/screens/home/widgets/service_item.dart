@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
-import 'package:spavation/features/home/presentation/screens/serviceDetails/service_details_screen.dart';
+import 'package:spavation/features/home/presentation/screens/service_details/service_details_screen.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';

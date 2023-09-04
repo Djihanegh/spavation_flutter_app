@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/widgets/custom_back_button.dart';
 import 'widgets/bills_item.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -27,6 +28,21 @@ class _BillsScreenState extends State<BillsScreen> {
                   height: sh!,
                   color: Colors.white,
                 ),
+                Positioned(
+                    top: (sh! * 0.12),
+                    right: 0,
+                    child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CustomBackButton(),
+                            ],
+                          )
+                        ])),
                 Padding(
                     padding: EdgeInsets.only(top: sh! * 0.1),
                     child: Container(

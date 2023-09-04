@@ -110,6 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   child: ListView(
                     scrollDirection: Axis.vertical,
+                    //  controller: pageController,
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       SettingsItem(

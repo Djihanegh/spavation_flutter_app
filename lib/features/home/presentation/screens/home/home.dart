@@ -16,11 +16,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int navBarIndex = 0;
+  int _selectedIndex = 0;
 
   void _onPressed(int value) {
     setState(() {
-      navBarIndex = value;
+      _selectedIndex = value;
     });
   }
 
@@ -30,13 +30,36 @@ class _HomeState extends State<Home> {
     SettingsScreen()
   ];
 
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>()
+  ];
+
   @override
   Widget build(BuildContext context) {
     screenSizeInit(context);
 
-    return Scaffold(
-      body: pages.elementAt(navBarIndex),
-      bottomNavigationBar: _navBarWidget(),
+    return WillPopScope(
+        onWillPop: () async {
+          final isFirstRouteInCurrentTab =
+              !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
+
+          return isFirstRouteInCurrentTab;
+        },
+        child: Scaffold(
+          body: buildNavigator(),
+          bottomNavigationBar: _navBarWidget(),
+        ));
+  }
+
+  buildNavigator() {
+    return Navigator(
+      key: _navigatorKeys[_selectedIndex],
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+            builder: (_) => pages.elementAt(_selectedIndex));
+      },
     );
   }
 
@@ -57,7 +80,7 @@ class _HomeState extends State<Home> {
                 width: sw!,
                 color: appPrimaryColor,
               )),
-          if (navBarIndex == 0)
+          if (_selectedIndex == 0)
             Positioned(
                 top: -20,
                 bottom: 10,
@@ -71,7 +94,7 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
-          if (navBarIndex == 1)
+          if (_selectedIndex == 1)
             Positioned(
                 top: -20,
                 bottom: 10,
@@ -85,7 +108,7 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
-          if (navBarIndex == 2)
+          if (_selectedIndex == 2)
             Positioned(
                 top: -20,
                 bottom: 15,
@@ -108,21 +131,21 @@ class _HomeState extends State<Home> {
                   title: 'Home',
                   onPressed: () => _onPressed(0),
                   index: 0,
-                  navBarIndex: navBarIndex,
+                  navBarIndex: _selectedIndex,
                 ),
                 BottomNavBarItem(
                   icon: Assets.iconsList,
                   title: 'Reservations',
                   onPressed: () => _onPressed(1),
                   index: 1,
-                  navBarIndex: navBarIndex,
+                  navBarIndex: _selectedIndex,
                 ),
                 BottomNavBarItem(
                   icon: Assets.iconsSettingsIcon,
                   title: 'Settings',
                   onPressed: () => _onPressed(2),
                   index: 2,
-                  navBarIndex: navBarIndex,
+                  navBarIndex: _selectedIndex,
                 ),
               ])
         ]));

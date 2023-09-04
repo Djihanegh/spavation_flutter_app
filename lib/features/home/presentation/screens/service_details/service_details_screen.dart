@@ -21,7 +21,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             child: Stack(alignment: Alignment.center, children: [
           Padding(
               padding: EdgeInsets.only(top: sh! * 0.3),
-              child: Column(
+              child: const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -29,7 +29,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const CustomBackButton(),
+                        CustomBackButton(),
                       ],
                     )
                   ])),
