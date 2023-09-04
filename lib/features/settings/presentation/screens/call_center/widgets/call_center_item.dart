@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/core/utils/constant.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';

@@ -24,7 +24,6 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
             physics: const NeverScrollableScrollPhysics(),
             child: Stack(
               children: [
-                // (sh! * 0.8).heightXBox,
                 Container(
                   height: sh!,
                   color: Colors.white,
