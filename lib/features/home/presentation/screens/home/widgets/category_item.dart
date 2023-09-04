@@ -33,7 +33,7 @@ class CategoryItem extends StatelessWidget {
             ),
             AutoSizeText(
               title,
-              style: TextStyles.inter.copyWith(color: appPurple, fontSize: 15),
+              style: TextStyles.inter.copyWith(color: appPrimaryColor, fontSize: 15),
               textAlign: TextAlign.center,
             )
           ],

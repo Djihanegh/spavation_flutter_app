@@ -6,6 +6,7 @@ import 'package:spavation/core/utils/constant.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/size_config.dart';
+import '../../../../../core/widgets/custom_back_button.dart';
 import 'widgets/filter_choice_box.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _FilterScreenState extends State<FilterScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     return Scaffold(
-        backgroundColor: appPurple,
+        backgroundColor: appPrimaryColor,
         body: Center(
             child: Stack(
           alignment: Alignment.center,
@@ -43,26 +44,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                   style: TextStyles.inter
                                       .copyWith(color: Colors.white),
                                 ))),
-                        Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Container(
-                              height: 20,
-                              width: 20,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.white),
-                              child: Center(
-                                  child: IconButton(
-                                splashRadius: 10,
-                                iconSize: 20,
-                                padding: paddingAll(0),
-                                icon: const Icon(
-                                  Icons.navigate_next,
-                                  color: appPrimaryColor,
-                                  size: 20,
-                                ),
-                                onPressed: () => Navigator.pop(context),
-                              )),
-                            ))
+                        const CustomBackButton(),
                       ],
                     ),
                     10.heightXBox,

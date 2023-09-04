@@ -31,7 +31,7 @@ class BottomNavBarItem extends StatelessWidget {
           children: [
             SvgPicture.asset(
               icon,
-              color: index == navBarIndex ? appPurple : Colors.white,
+              color: index == navBarIndex ? appPrimaryColor : Colors.white,
               height: 25,
               width: 25,
             ),
@@ -39,7 +39,7 @@ class BottomNavBarItem extends StatelessWidget {
             AutoSizeText(
               title,
               style: TextStyles.inter.copyWith(
-                  color: index == navBarIndex ? appPurple : Colors.white,
+                  color: index == navBarIndex ? appPrimaryColor : Colors.white,
                   fontSize: 10),
               textAlign: TextAlign.center,
             )

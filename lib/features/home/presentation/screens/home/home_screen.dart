@@ -163,27 +163,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<CategoryItem> categories = const [
     CategoryItem(
-      color: appPurple,
+      color: appPrimaryColor,
       title: 'All',
       image: Assets.imagesSpa2,
     ),
     CategoryItem(
-      color: appPurple,
+      color: appPrimaryColor,
       title: 'Body care',
       image: Assets.imagesSpa2,
     ),
     CategoryItem(
-      color: appPurple,
+      color: appPrimaryColor,
       title: 'Hair',
       image: Assets.imagesSpa2,
     ),
     CategoryItem(
-      color: appPurple,
+      color: appPrimaryColor,
       title: 'Massage',
       image: Assets.imagesSpa2,
     ),
     CategoryItem(
-      color: appPurple,
+      color: appPrimaryColor,
       title: 'Nails',
       image: Assets.imagesSpa2,
     )
