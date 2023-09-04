@@ -52,13 +52,13 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: padding ?? 10), // , left: 20, right: 20
+        padding: EdgeInsets.only(
+          top: padding ?? 10,
+        ), // , left: 20, right: 20
         child: DecoratedBox(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: controller!.text.isNotEmpty
-                    ? Colors.white
-                    : appPrimaryColor,
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
                 border: Border.all(color: Colors.white)),
             child: TextFormField(
               enabled: enabled,
@@ -68,7 +68,7 @@ class CustomTextFormField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (newValue) => onSaved(newValue),
               onChanged: (value) => onChanged!(value),
-              validator: (value) => validator!(value),
+              //  validator: (value) => validator!(value),
               onFieldSubmitted: (value) => onSaved(value),
               keyboardType: keyboardType,
               inputFormatters: [
@@ -84,7 +84,7 @@ class CustomTextFormField extends StatelessWidget {
                     minWidth: 10,
                     minHeight: 10,
                   ),
-                  contentPadding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                  contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                   icon: icon,
                   prefix: prefix,
                   focusedErrorBorder: InputBorder.none,
@@ -98,14 +98,14 @@ class CustomTextFormField extends StatelessWidget {
                   disabledBorder: InputBorder.none,
                   hintText: hintText,
                   labelStyle: GoogleFonts.montserrat(
-                      color: appLightGrey, fontSize: size ?? 18),
+                      color: Colors.white, fontSize: size ?? 18),
                   hintStyle: GoogleFonts.montserrat(
                       color: Colors.white, fontSize: size ?? 15),
                   suffixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: suffixIcon),
                   prefixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      padding: const EdgeInsets.only(right: 10, left: 10),
                       child: prefixIcon)),
             )));
   }

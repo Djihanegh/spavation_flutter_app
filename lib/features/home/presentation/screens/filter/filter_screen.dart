@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/constant.dart';
+import 'package:spavation/core/widgets/app_button.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/size_config.dart';
@@ -138,20 +139,10 @@ class _FilterScreenState extends State<FilterScreen> {
                             thickness: 1,
                             color: dividerColor,
                           ),
-                          Center(
-                              child: Container(
-                            width: sw! * 0.8,
-                            padding: paddingAll(10),
-                            decoration: BoxDecoration(
-                                color: appFilterCoLOR,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: AutoSizeText(
-                              'Apply now',
-                              style: TextStyles.inter
-                                  .copyWith(color: Colors.white, fontSize: 20),
-                              textAlign: TextAlign.center,
-                            ),
-                          ))
+                          const AppButton(
+                              title: 'Apply now',
+                              color: appFilterCoLOR,
+                              textColor: Colors.white)
                         ],
                       ),
                     )

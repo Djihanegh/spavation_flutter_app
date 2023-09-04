@@ -108,47 +108,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         topRight: Radius.circular(25)),
                     color: appPrimaryColor,
                   ),
-                  child: ListView(
+                  child: PageView(
                     scrollDirection: Axis.vertical,
-                    //  controller: pageController,
+                    controller: pageController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      SettingsItem(
-                          icon: Assets.iconsAwesomeUser,
-                          name: 'Account',
-                          onPressed: () => navigateToPage(
-                              const UpdateUserInfoScreen(), context)),
-                      SettingsItem(
-                        icon: Assets.iconsMaterialPayment,
-                        name: 'Payment method',
-                        onPressed: () {},
-                      ),
-                      SettingsItem(
-                          icon: Assets.iconsMetroHistory,
-                          name: 'Bills',
-                          onPressed: () =>
-                              navigateToPage(const BillsScreen(), context)),
-                      SettingsItem(
-                          icon: Assets.iconsAwesomeHeadset,
-                          name: 'Contact us',
-                          onPressed: () => navigateToPage(
-                              const CallCenterScreen(), context)),
-                      SettingsItem(
-                          icon: Assets.iconsIonicIosSettings,
-                          name: 'Setting',
-                          onPressed: () => navigateToPage(
-                              const DeleteAccountScreen(), context)),
-                      SettingsItem(
-                        icon: Assets.iconsMetroExit,
-                        name: 'Exit',
-                        onPressed: () {},
-                      )
-                    ],
+                    children: [settingsItem(), const UpdateUserInfoScreen()],
                   ))
             ],
           )),
     );
   }
+
+  Widget settingsItem() => ListView(
+          scrollDirection: Axis.vertical,
+          //  controller: pageController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SettingsItem(
+                icon: Assets.iconsAwesomeUser,
+                name: 'Account',
+                onPressed: () => pageController.jumpToPage(1)),
+            SettingsItem(
+              icon: Assets.iconsMaterialPayment,
+              name: 'Payment method',
+              onPressed: () {},
+            ),
+            SettingsItem(
+                icon: Assets.iconsMetroHistory,
+                name: 'Bills',
+                onPressed: () => navigateToPage(const BillsScreen(), context)),
+            SettingsItem(
+                icon: Assets.iconsAwesomeHeadset,
+                name: 'Contact us',
+                onPressed: () =>
+                    navigateToPage(const CallCenterScreen(), context)),
+            SettingsItem(
+                icon: Assets.iconsIonicIosSettings,
+                name: 'Setting',
+                onPressed: () =>
+                    navigateToPage(const DeleteAccountScreen(), context)),
+            SettingsItem(
+              icon: Assets.iconsMetroExit,
+              name: 'Exit',
+              onPressed: () {},
+            )
+          ]);
 
   List<Widget> pages = const [
     UpdateUserInfoScreen(),
