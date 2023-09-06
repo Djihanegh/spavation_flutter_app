@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 
-import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/size_config.dart';
-import '../../../../../../generated/assets.dart';
 
 class SettingsItem extends StatelessWidget {
   const SettingsItem(

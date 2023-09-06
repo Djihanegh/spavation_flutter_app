@@ -14,13 +14,13 @@ class StatusButton extends StatelessWidget {
     return Container(
       padding: paddingAll(5),
       decoration: BoxDecoration(
-          color: status ? greenWithOpacity : redWithOpacity,
-          border: Border.all(color: status ? greenColor : redColor),
+          color: status ? greenWithOpacity : red[1],
+          border: Border.all(color: status ? greenColor : red[0]),
           borderRadius: BorderRadius.circular(10)),
       child: AutoSizeText(
         status ? 'Done' : 'Cancel',
         style: TextStyles.inter
-            .copyWith(color: status ? greenColor : redColor, fontSize: 14),
+            .copyWith(color: status ? greenColor : red[0], fontSize: 14),
       ),
     );
   }

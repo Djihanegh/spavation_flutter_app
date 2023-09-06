@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:spavation/app/theme.dart';
 
 class MyCustomPainter extends CustomPainter {
   /*@override
@@ -33,11 +31,11 @@ class MyCustomPainter extends CustomPainter {
     @override
     void paint(Canvas canvas, Size size) {
       var paint1 = Paint()
-        ..color = Color(0xff63aa65)
+        ..color = const Color(0xff63aa65)
         ..style = PaintingStyle.fill
         ..strokeWidth = 5;
       //draw arc
-      canvas.drawArc(Offset(100, 100) & Size(100, 100),
+      canvas.drawArc(const Offset(100, 100) & const  Size(100, 100),
           0, //radians
           2, //radians
           true,

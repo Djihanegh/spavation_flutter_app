@@ -50,7 +50,7 @@ class BillsItem extends StatelessWidget {
                   ],
                 ),
                 5.heightXBox,
-                Divider(
+                const Divider(
                   color: Color(0xFFA899BB),
                 )
               ],

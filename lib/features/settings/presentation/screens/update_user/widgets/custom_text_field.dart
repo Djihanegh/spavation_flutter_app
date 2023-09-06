@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:spavation/app/theme.dart';
 
 import '../../../../../../core/utils/regex.dart';
 
