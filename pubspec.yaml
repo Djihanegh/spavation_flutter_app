@@ -42,6 +42,8 @@ dependencies:
   flutter_datetime_picker_plus: ^2.0.1
   dartz: ^0.10.1
   date_picker_timeline: ^1.2.5
+  qr_flutter: ^4.1.0
+  dotted_line: ^3.2.2
 
 dev_dependencies:
   flutter_test:
@@ -82,10 +84,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+     - family: 'Tahoma'
+       fonts:
+         - asset: lib/core/utils/fonts/tahoma/Tahoma Regular font.ttf
+         - asset: lib/core/utils/fonts/tahoma/TAHOMAB0.ttf
+           weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

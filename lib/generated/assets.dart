@@ -27,5 +27,4 @@ class Assets {
   static const String imagesSpa = 'assets/images/spa.png';
   static const String imagesSpa2 = 'assets/images/spa2.png';
   static const String imagesYellowStar = 'assets/images/yellow-star.png';
-
 }

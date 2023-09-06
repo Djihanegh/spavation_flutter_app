@@ -1,12 +1,6 @@
-import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/features/home/presentation/screens/service_details/widgets/date_time_widget.dart';
-import 'package:spavation/generated/assets.dart';
-
-import '../../../../../../app/theme.dart';
-import '../../../../../../core/utils/app_styles.dart';
 
 showDateTimeDialog({
   required BuildContext context,
