@@ -29,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     screenSizeInit(context);
     return Scaffold(
       body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,8 +99,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   )),
               Container(
                   width: sw!,
-                  height: sh!,
-                  margin: const EdgeInsets.only(bottom: 80),
+                  height: sh! * 0.8,
+                  margin: const EdgeInsets.only(bottom: 0),
                   decoration: const BoxDecoration(
                     //  boxShadow: boxShadow2,
                     borderRadius: BorderRadius.only(
@@ -109,9 +109,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: appPrimaryColor,
                   ),
                   child: PageView(
+                    allowImplicitScrolling: true,
                     scrollDirection: Axis.vertical,
                     controller: pageController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [settingsItem(), const UpdateUserInfoScreen()],
                   ))
             ],
@@ -123,6 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           scrollDirection: Axis.vertical,
           //  controller: pageController,
           physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
           children: [
             SettingsItem(
                 icon: Assets.iconsAwesomeUser,

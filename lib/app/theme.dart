@@ -19,6 +19,7 @@ const redWithOpacity = Color(0xFFFFA8A8);
 const redColor = Color(0xFFFF0000);
 const lightWhite = Color(0xFFF0F0F0);
 const lightPurple = Color(0xFFDCDCDC);
+const borderColor = Color(0xFF707070);
 
 appBottomCircularRadius(double value) => BorderRadius.only(
     bottomLeft: Radius.circular(value), bottomRight: Radius.circular(value));

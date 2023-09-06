@@ -165,12 +165,20 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                     )
                   ],
                 )),
-            const AppButton(
-                title: 'Update',
-                color: appFilterCoLOR,
-                textColor: Colors.white),
-            const AppButton(
-                title: 'Cancel', color: appFilterCoLOR, textColor: Colors.white)
+            ...[
+              10.heightXBox,
+              const AppButton(
+                  title: 'Update',
+                  color: appFilterCoLOR,
+                  borderColor: borderColor,
+                  textColor: Colors.white),
+              10.heightXBox,
+              const AppButton(
+                  borderColor: appFilterCoLOR,
+                  title: 'Cancel',
+                  color: Colors.white,
+                  textColor: appPrimaryColor),
+            ]
           ],
         ));
   }
