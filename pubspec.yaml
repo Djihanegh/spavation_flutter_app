@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_datetime_picker_plus: ^2.0.1
   dartz: ^0.10.1
+  date_picker_timeline: ^1.2.5
 
 dev_dependencies:
   flutter_test:

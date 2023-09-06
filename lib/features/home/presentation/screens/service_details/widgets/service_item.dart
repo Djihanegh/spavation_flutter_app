@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:spavation/features/home/presentation/screens/service_details/widgets/showDialog.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
@@ -18,8 +19,8 @@ class ServiceItem extends StatelessWidget {
         Padding(
             padding: EdgeInsets.only(left: sw! * 0.038, top: 10, bottom: 0),
             child: AutoSizeText('Nails 1',
-                style: TextStyles.inter
-                    .copyWith(color: purple[2], fontSize: 15))),
+                style:
+                    TextStyles.inter.copyWith(color: purple[2], fontSize: 15))),
         Padding(
             padding: EdgeInsets.only(left: sw! * 0.035, bottom: 0),
             child: Row(
@@ -33,15 +34,15 @@ class ServiceItem extends StatelessWidget {
                           style: TextStyles.inter
                               .copyWith(color: purple[2], fontSize: 15))),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(Assets.iconsAdd),
-                      AutoSizeText('75 SR',
-                          style: TextStyles.inter
-                              .copyWith(color: purple[3], fontSize: 15))
-                    ],
-                  ),
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(Assets.iconsAdd),
+                          AutoSizeText('75 SR',
+                              style: TextStyles.inter
+                                  .copyWith(color: purple[3], fontSize: 15))
+                        ],
+                      ),
                 ]))
       ],
     );

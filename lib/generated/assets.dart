@@ -16,6 +16,8 @@ class Assets {
   static const String iconsMaterialPayment = 'assets/icons/material-payment.svg';
   static const String iconsMetroExit = 'assets/icons/metro-exit.svg';
   static const String iconsMetroHistory = 'assets/icons/metro-history.svg';
+  static const String iconsNext = 'assets/icons/next.svg';
+  static const String iconsPrevious = 'assets/icons/previous.svg';
   static const String iconsSettingsIcon = 'assets/icons/settings-icon.svg';
   static const String iconsSpaLogo = 'assets/icons/spa-logo.png';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';

@@ -9,6 +9,7 @@ import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
 import '../../../../../generated/assets.dart';
 import 'widgets/service_item.dart';
+import 'widgets/showDialog.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({super.key});
@@ -23,10 +24,11 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
-        body: Center(
-            child: Stack(alignment: Alignment.center, children: [
+        body: SingleChildScrollView(
+            child: Center(
+                child: Stack(alignment: Alignment.center, children: [
           Padding(
-              padding: EdgeInsets.only(top: sh! * 0.2),
+              padding: EdgeInsets.only(top: sh! * 0.15),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,47 +210,61 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           ],
                         )),
                     Container(
-                        height: sh! * 0.4,
+                        height: sh! * 0.45,
                         width: sw! * 0.9,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15)),
                         child: Stack(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                10.heightXBox,
-                                RichText(
-                                  text: TextSpan(
-                                    // text: 'Hello ',
-                                    style: DefaultTextStyle.of(context).style,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'All',
-                                          style: TextStyles.inter.copyWith(
-                                              color: red[2], fontSize: 15)),
-                                      TextSpan(
-                                          text:
-                                              ' Hair Nails Massage Hair Nails Massage ',
-                                          style: TextStyles.inter.copyWith(
-                                              color: appFilterCoLOR,
-                                              fontSize: 15)),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: sh! * 0.36,
-                                    width: sw!,
-                                    child: ListView.builder(
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemCount: 9,
-                                        itemBuilder: (context, index) =>
-                                            const ServiceItem())),
-                              ],
-                            ),
+                            Positioned(
+                                bottom: 50,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    10.heightXBox,
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.only(left: sw! * 0.07),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            // text: 'Hello ',
+                                            style: DefaultTextStyle.of(context)
+                                                .style,
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: 'All',
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color: red[2],
+                                                          fontSize: 15)),
+                                              TextSpan(
+                                                  text:
+                                                      ' Hair Nails Massage Hair Nails Massage ',
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color: appFilterCoLOR,
+                                                          fontSize: 15)),
+                                            ],
+                                          ),
+                                        )),
+                                    SizedBox(
+                                        height: sh! * 0.36,
+                                        width: sw!,
+                                        child: ListView.builder(
+                                            physics:
+                                                const AlwaysScrollableScrollPhysics(),
+                                            itemCount: 9,
+                                            itemBuilder: (context, index) =>
+                                                GestureDetector(
+                                                    onTap: () =>
+                                                        showDateTimeDialog(
+                                                            context: context),
+                                                    child:
+                                                        const ServiceItem()))),
+                                  ],
+                                )),
                             Positioned(
                                 bottom: 0,
                                 child: Container(
@@ -260,8 +276,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                           topLeft: Radius.circular(20),
                                           topRight: Radius.circular(20))),
                                   child: Padding(
-                                      padding:
-                                         const  EdgeInsets.only(left: 10, right: 10),
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -282,7 +298,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                       )),
                                 ))
                           ],
-                        ))
+                        )),
+                    Container(
+                      height: sh! * 0.02,
+                    )
                   ])),
           Positioned(
               top: -10,
@@ -294,6 +313,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     color: Colors.white.withOpacity(0.35),
                     borderRadius: appCircular),
               )),
-        ])));
+        ]))));
   }
 }
