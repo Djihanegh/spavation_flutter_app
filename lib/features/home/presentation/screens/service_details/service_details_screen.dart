@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
+import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/features/home/presentation/screens/pay/payment_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/size_config.dart';
@@ -267,36 +269,41 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                 )),
                             Positioned(
                                 bottom: 0,
-                                child: Container(
-                                  height: 40,
-                                  width: sw! * 0.9,
-                                  decoration: BoxDecoration(
-                                      color: grey[0],
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20))),
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          AutoSizeText(
-                                            'Services details',
-                                            style: TextStyles.inter.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 15),
-                                          ),
-                                          AutoSizeText('Riyal',
-                                              style: TextStyles.inter.copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 15))
-                                        ],
-                                      )),
-                                ))
+                                child: GestureDetector(
+                                    onTap: () => navigateToPage(
+                                        const PaymentScreen(), context),
+                                    child: Container(
+                                      height: 40,
+                                      width: sw! * 0.9,
+                                      decoration: BoxDecoration(
+                                          color: grey[0],
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20))),
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              AutoSizeText(
+                                                'Services details',
+                                                style: TextStyles.inter
+                                                    .copyWith(
+                                                        color: Colors.white,
+                                                        fontSize: 15),
+                                              ),
+                                              AutoSizeText('Riyal',
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 15))
+                                            ],
+                                          )),
+                                    )))
                           ],
                         )),
                     Container(

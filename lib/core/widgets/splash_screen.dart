@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spavation/features/home/presentation/screens/home/home.dart';
-import 'package:spavation/generated/assets.dart';
+import 'dart:async';
 
-import '../../app/theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:spavation/features/home/presentation/screens/home/home.dart';
+import 'package:video_player/video_player.dart';
+
 import '../utils/navigation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,32 +16,46 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController controller;
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 03),
-    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
-    controller.forward();
+    _controller =
+        VideoPlayerController.asset("assets/animation/splash-animation.mp4");
+    _controller.initialize().then((_) {
+      _controller.setLooping(false);
+      Timer(const Duration(milliseconds: 100), () {
+        setState(() {
+          _controller.play();
+        });
+      });
+    });
+
     navigateToHome();
     super.initState();
   }
 
   void navigateToHome() {
-    Future.delayed(const Duration(seconds: 05),
+    Future.delayed(const Duration(seconds: 3),
         () => navigateAndRemoveUntil(const Home(), context));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appPrimaryColor,
+      backgroundColor: Colors.white,
       body: Center(
-        child: SvgPicture.asset(Assets.iconsLogo),
-      ),
+          child: Container(
+              color: Colors.white,
+              height: 300,
+              width: 300,
+              child: VideoPlayer(
+                  _controller)) //  SvgPicture.asset(Assets.iconsLogo),
+          ),
     );
   }
 }
