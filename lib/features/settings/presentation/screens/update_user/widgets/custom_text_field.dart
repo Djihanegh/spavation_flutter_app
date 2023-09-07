@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:spavation/app/theme.dart';
 
 import '../../../../../../core/utils/regex.dart';
 
@@ -99,7 +100,7 @@ class CustomTextFormField extends StatelessWidget {
                   labelStyle: GoogleFonts.montserrat(
                       color: Colors.white, fontSize: size ?? 18),
                   hintStyle: GoogleFonts.montserrat(
-                      color: Colors.white, fontSize: size ?? 15),
+                      color: dividerColor, fontSize: size ?? 18),
                   suffixIcon: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: suffixIcon),

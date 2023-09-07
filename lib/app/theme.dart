@@ -23,15 +23,13 @@ List<Color> purple = const [
   Color(0xFF624695),
   Color(0xFF4754A0),
   Color(0xFFA25DB6),
-  Color(0xFF660682)
+  Color(0xFF660682),
+  Color(0xFF813298)
 ];
 
 List<Color> grey = const [
   Color(0xFFEEEEEE),
-
 ];
-
-
 
 List<Color> red = const [
   Color(0xFFFF0000),
@@ -39,10 +37,8 @@ List<Color> red = const [
   Color(0xFFDB6989)
 ];
 
-appBottomCircularRadius(double value) =>
-    BorderRadius.only(
-        bottomLeft: Radius.circular(value),
-        bottomRight: Radius.circular(value));
+appBottomCircularRadius(double value) => BorderRadius.only(
+    bottomLeft: Radius.circular(value), bottomRight: Radius.circular(value));
 
 const appCircular = BorderRadius.all(Radius.circular(90));
 

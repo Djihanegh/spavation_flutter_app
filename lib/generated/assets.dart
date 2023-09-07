@@ -2,17 +2,21 @@
 class Assets {
   Assets._();
 
+  static const String animationSplashAnimation = 'assets/animation/splash-animation.mp4';
   static const String iconsAdd = 'assets/icons/add.png';
   static const String iconsApple = 'assets/icons/apple.svg';
   static const String iconsAwesomeFemale = 'assets/icons/awesome-female.png';
+  static const String iconsAwesomeFileInvoice = 'assets/icons/awesome-file-invoice.svg';
   static const String iconsAwesomeHeadset = 'assets/icons/awesome-headset.svg';
   static const String iconsAwesomeMale = 'assets/icons/awesome-male.png';
   static const String iconsAwesomeUser = 'assets/icons/awesome-user.svg';
   static const String iconsClock = 'assets/icons/clock.png';
   static const String iconsIonicIosBookmark = 'assets/icons/ionic-ios-bookmark.svg';
+  static const String iconsIonicIosCalendar = 'assets/icons/ionic-ios-calendar.svg';
   static const String iconsIonicIosSettings = 'assets/icons/ionic-ios-settings.svg';
   static const String iconsList = 'assets/icons/list.svg';
   static const String iconsLogo = 'assets/icons/logo.svg';
+  static const String iconsMaterialDetails = 'assets/icons/material-details.svg';
   static const String iconsMaterialPayment = 'assets/icons/material-payment.svg';
   static const String iconsMetroExit = 'assets/icons/metro-exit.svg';
   static const String iconsMetroHistory = 'assets/icons/metro-history.svg';
@@ -27,4 +31,5 @@ class Assets {
   static const String imagesSpa = 'assets/images/spa.png';
   static const String imagesSpa2 = 'assets/images/spa2.png';
   static const String imagesYellowStar = 'assets/images/yellow-star.png';
+
 }
