@@ -115,7 +115,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                                 ))
                                           ],
                                         )),
-
                                     Positioned(
                                         left: sw! * 0.05,
                                         top: sh! * 0.15,
@@ -181,17 +180,14 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                                 ),
                                               ],
                                             ))),
-
                                     Positioned(
                                         left: 0,
-                                        top: sh! * 0.2,
+                                        top: sh! * 0.205,
                                         child: Container(
                                           color: dividerColor,
                                           width: sw!,
                                           height: 1,
                                         ))
-
-                                    ///
                                   ],
                                 )),
                             Positioned(
@@ -220,15 +216,15 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                         child: Stack(
                           children: [
                             Positioned(
-                                bottom: 50,
+                                bottom: sh! * 0.05,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     10.heightXBox,
                                     Padding(
-                                        padding:
-                                            EdgeInsets.only(left: sw! * 0.07),
+                                        padding: EdgeInsets.only(
+                                            left: sw! * 0.07, right: 10),
                                         child: RichText(
                                           text: TextSpan(
                                             // text: 'Hello ',

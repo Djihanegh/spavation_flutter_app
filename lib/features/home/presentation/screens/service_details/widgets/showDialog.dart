@@ -16,21 +16,10 @@ showDateTimeDialog({
             scrollable: true,
             content: Container(
                 width: sw! * 0.7,
-                height: sh! * 0.38,
-                // padding: const EdgeInsets.all(10),
+                height: 320,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5)),
-                child: const DateTimeWidget()
-
-                /* RepaintBoundary(
-                              key: globalKey,
-                              child: QrImage(
-                                  data: eventCode,
-                                  padding: const EdgeInsets.all(20),
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.black)),*/
-
-                ));
+                child: const DateTimeWidget()));
       });
 }

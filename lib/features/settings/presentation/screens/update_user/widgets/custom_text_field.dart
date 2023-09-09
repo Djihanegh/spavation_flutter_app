@@ -25,7 +25,8 @@ class CustomTextFormField extends StatelessWidget {
       this.suffixIcon,
       this.size,
       this.prefixIcon,
-      this.validator})
+      this.validator,
+      this.borderColor})
       : super(key: key);
 
   final String? title;
@@ -46,6 +47,7 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefix;
   final int? maxlines;
   final Widget? prefixIcon;
+  final Color? borderColor;
 
   final Function? validator;
 
@@ -59,7 +61,7 @@ class CustomTextFormField extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
-                border: Border.all(color: Colors.white)),
+                border: Border.all(color: borderColor ?? Colors.white)),
             child: TextFormField(
               enabled: enabled,
               maxLines: maxlines ?? 1,

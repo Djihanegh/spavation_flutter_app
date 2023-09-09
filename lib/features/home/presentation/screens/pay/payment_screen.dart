@@ -48,7 +48,7 @@ class PaymentScreen extends StatelessWidget {
                       ),
                       10.heightXBox,
                       Container(
-                        height: sh! * 0.28,
+                        //  height: sh! * 0.28,
                         width: sw! * 0.95,
                         margin: paddingAll(10),
                         padding: paddingAll(10),
@@ -172,7 +172,7 @@ class PaymentScreen extends StatelessWidget {
                       ),
 
                       Container(
-                          height: sh! * 0.15,
+                          // height: sh! * 0.15,
                           width: sw! * 0.95,
                           margin: paddingAll(10),
                           padding: paddingAll(10),
@@ -238,7 +238,7 @@ class PaymentScreen extends StatelessWidget {
                               ])),
 
                       Container(
-                          height: sh! * 0.1,
+                          //  height: sh! * 0.1,
                           width: sw! * 0.95,
                           margin: paddingAll(10),
                           padding: paddingAll(10),
@@ -246,13 +246,15 @@ class PaymentScreen extends StatelessWidget {
                               boxShadow: boxShadow,
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
-                          child: CustomTextFormField(
+                          child: Center(
+                              child: CustomTextFormField(
                             hintText: 'Discount code',
                             onSaved: () {},
-                          )),
+                            padding: 0,
+                          ))),
                       10.heightXBox,
                       Container(
-                          height: sh! * 0.25,
+                          //     height: sh! * 0.25,
                           width: sw! * 0.95,
                           margin: paddingAll(10),
                           padding: paddingAll(10),

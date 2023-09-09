@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-List<String> categories = ['Body Care', 'Massage', 'Hair', 'Nails'];
+List<String> categories = <String>['Body Care', 'Massage', 'Hair', 'Nails'];
+
+const List<String> gender = <String>['Male', 'Female'];
 
 emptyWidget() => const SizedBox.shrink();
