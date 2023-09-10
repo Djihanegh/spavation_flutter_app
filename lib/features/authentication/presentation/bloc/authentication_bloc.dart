@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
+
+import '../../domain/entities/create_user_response.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

@@ -34,6 +34,12 @@ class UserModel extends User {
           gender: map['gender'] as String,
         );
 
+  UserModel.loginUserModel(UserModel user)
+      : this(
+          password: user.password,
+          phone: user.phone,
+        );
+
   DataMap toMap() => {
         'name': name,
         'phone': phone,
