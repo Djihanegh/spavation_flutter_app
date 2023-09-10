@@ -1,26 +1,24 @@
 import 'package:equatable/equatable.dart';
 
+//ignore: must_be_immutable
 class User extends Equatable {
-  const User(
-      {required this.name,
-      required this.email,
-      required this.password,
-      required this.phone,
-      required this.address,
-      required this.latitude,
-      required this.longitude,
-      required this.birthday,
-      required this.gender});
+  User({this.name, this.email, this.password, this.phone, this.address,
+      this.latitude, this.longitude, this.birthday, this.gender});
 
-  final String name;
-  final String email;
-  final String password;
-  final String phone;
-  final String address;
-  final String latitude;
-  final String longitude;
-  final String birthday;
-  final String gender;
+  User.login({
+    this.name,
+    this.password,
+  });
+
+  String? name;
+  String? email;
+  String? phone;
+  String? password;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? birthday;
+  String? gender;
 
   @override
   List<Object?> get props => ["Email : $email , Password : $password"];

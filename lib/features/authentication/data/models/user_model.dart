@@ -1,19 +1,22 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert';
 
 import '../../../../core/utils/typedef.dart';
 import '../../domain/entities/user.dart';
 
 class UserModel extends User {
-  const UserModel(
-      {required super.name,
-      required super.email,
-      required super.password,
-      required super.phone,
-      required super.address,
-      required super.latitude,
-      required super.longitude,
-      required super.birthday,
-      required super.gender});
+  UserModel({
+    super.name,
+    super.email,
+    super.password,
+    super.phone,
+    super.address,
+    super.latitude,
+    super.longitude,
+    super.birthday,
+    super.gender,
+  });
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(jsonDecode(source) as DataMap);
