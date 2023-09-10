@@ -1,8 +1,6 @@
 import 'package:spavation/core/usecase/usecase.dart';
 import 'package:spavation/core/utils/typedef.dart';
-import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
-import 'package:spavation/features/authentication/domain/entities/user.dart';
 import 'package:spavation/features/authentication/domain/repositories/authentication_repository.dart';
 
 import '../../data/models/user_model.dart';

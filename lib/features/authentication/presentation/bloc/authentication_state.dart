@@ -26,8 +26,8 @@ class UserCreated extends AuthenticationState {
       [createdUserResponse.message, createdUserResponse.status];
 }
 
-class LoginUser extends AuthenticationState {
-  const LoginUser();
+class LoginUserState extends AuthenticationState {
+  const LoginUserState();
 
   @override
   List<Object?> get props => [];
@@ -45,4 +45,13 @@ class UserLoggedIn extends AuthenticationState {
         userResponse.message,
         userResponse.status
       ];
+}
+
+class AuthenticationError extends AuthenticationState {
+  const AuthenticationError(this.errorMessage);
+
+  final String errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
 }
