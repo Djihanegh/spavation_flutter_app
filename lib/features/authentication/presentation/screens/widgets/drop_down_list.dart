@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
 
+import '../../bloc/authentication_bloc.dart';
+
 class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
+  const DropdownButtonExample({super.key, required this.onChanged});
+
+  final Function(String?) onChanged;
 
   @override
   State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
@@ -41,6 +46,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
             // This is called when the user selects an item.
             setState(() {
               dropdownValue = value!;
+              widget.onChanged(value);
             });
           },
           items: gender.map<DropdownMenuItem<String>>((String value) {

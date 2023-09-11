@@ -17,13 +17,79 @@ class CreateUserEvent extends AuthenticationEvent {
 
 class LoginUserEvent extends AuthenticationEvent {
   const LoginUserEvent({
-    required this.phone,
+    required this.email,
     required this.password,
   });
 
-  final String phone;
+  final String email;
   final String password;
 
   @override
-  List<Object?> get props => [phone, password];
+  List<Object?> get props => [email, password];
+}
+
+class GenderChanged extends AuthenticationEvent {
+  const GenderChanged({
+    required this.gender,
+  });
+
+  final String gender;
+
+  @override
+  List<Object?> get props => [gender];
+}
+
+class NameChanged extends AuthenticationEvent {
+  const NameChanged({
+    required this.name,
+  });
+
+  final String name;
+
+  @override
+  List<Object?> get props => [name];
+}
+
+class PhoneChanged extends AuthenticationEvent {
+  const PhoneChanged({
+    required this.phone,
+  });
+
+  final String phone;
+
+  @override
+  List<Object?> get props => [phone];
+}
+
+class EmailChanged extends AuthenticationEvent {
+  const EmailChanged({
+    required this.email,
+  });
+
+  final String email;
+
+  @override
+  List<Object?> get props => [email];
+}
+
+class PasswordChanged extends AuthenticationEvent {
+  const PasswordChanged({
+    required this.password,
+  });
+
+  final String password;
+
+  @override
+  List<Object?> get props => [password];
+}
+
+class ConfirmPasswordChanged extends AuthenticationEvent {
+  const ConfirmPasswordChanged({
+    required this.confirmPassword,
+  });
+
+  final String confirmPassword;
+
+  @override
+  List<Object?> get props => [confirmPassword];
 }

@@ -1,12 +1,12 @@
 import 'dart:async';
-
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:spavation/features/authentication/data/models/user_model.dart';
-import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
 
-import '../../domain/entities/create_user_response.dart';
 import '../../domain/usecases/login_user_usecase.dart';
 
 part 'authentication_event.dart';
@@ -19,32 +19,91 @@ class AuthenticationBloc
       {required RegisterUser registerUser, required LoginUser loginUser})
       : _registerUser = registerUser,
         _loginUser = loginUser,
-        super(AuthenticationInitial()) {
+        super(const AuthenticationState()) {
     on<CreateUserEvent>(_createUserHandler);
     on<LoginUserEvent>(_loginUserHandler);
+    on<EmailChanged>(_emailChanged);
+    on<NameChanged>(_nameChanged);
+    on<PhoneChanged>(_phoneChanged);
+    on<PasswordChanged>(_passwordChanged);
+    on<ConfirmPasswordChanged>(_confirmPasswordChanged);
+    on<GenderChanged>(_genderChanged);
   }
 
   final RegisterUser _registerUser;
   final LoginUser _loginUser;
 
+  Future<void> _emailChanged(
+      EmailChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(email: event.email, gender: state.gender));
+  }
+
+  Future<void> _nameChanged(
+      NameChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(name: event.name, gender: state.gender));
+  }
+
+  Future<void> _phoneChanged(
+      PhoneChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(phone: event.phone, gender: state.gender));
+  }
+
+  Future<void> _passwordChanged(
+      PasswordChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(password: event.password, gender: state.gender));
+  }
+
+  Future<void> _confirmPasswordChanged(
+      ConfirmPasswordChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+        confirmPassword: event.confirmPassword, gender: state.gender));
+  }
+
+  Future<void> _genderChanged(
+      GenderChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(gender: event.gender));
+    await Future.delayed(const Duration(seconds: 3));
+  }
+
   Future<void> _createUserHandler(
       CreateUserEvent event, Emitter<AuthenticationState> emit) async {
-    emit(const CreatingUser());
+    emit(state.copyWith(
+        status: FormzSubmissionStatus.inProgress, gender: state.gender));
+    await Future.delayed(const Duration(seconds: 3));
 
     final result = await _registerUser(event.user);
 
-    result.fold((l) => emit(AuthenticationError(l.message)),
-        (r) => emit(UserCreated(r)));
+    result.fold(
+        (l) => emit(state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            gender: state.gender)),
+        (r) => emit(state.copyWith(
+            status: FormzSubmissionStatus.success,
+            token: r.token,
+            gender: state.gender)));
   }
 
   Future<void> _loginUserHandler(
       LoginUserEvent event, Emitter<AuthenticationState> emit) async {
-    emit(const LoginUserState());
+    emit(state.copyWith(
+        status: FormzSubmissionStatus.inProgress, gender: state.gender));
+
+    await Future.delayed(const Duration(seconds: 3));
 
     final result = await _loginUser(UserModel.loginUserModel(
-        UserModel(password: event.password, phone: event.phone)));
+        UserModel(password: event.password, email: event.email)));
 
-    result.fold((l) => emit(AuthenticationError(l.message)),
-        (r) => emit(UserLoggedIn(r)));
+    result.fold(
+        (l) => emit(state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            gender: state.gender)),
+        (r) => emit(state.copyWith(
+            gender: state.gender,
+            status: FormzSubmissionStatus.success,
+            token: r.token,
+            email: r.email,
+            name: r.name)));
   }
 }

@@ -5,10 +5,13 @@ import 'package:spavation/app/config.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'app/app.dart';
 import 'core/services/injection_container.dart';
+import 'core/utils/bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
+  Bloc.observer = SpavationBlocObserver();
+
   runApp(const SpavationApp(
     config: AppConfig(env: AppEnv.dev),
   ));
@@ -19,8 +22,6 @@ void main() async {
         providers: [
           BlocProvider<AuthenticationBloc>(
               create: (context) => sl<AuthenticationBloc>()),
-          //  BlocProvider<UserBloc>(create: (context) => getIt<UserBloc>()),
-          //  BlocProvider<PaymentBloc>(create: (context) => getIt<PaymentBloc>()),
         ],
         child: const SpavationApp(
           config: AppConfig(env: AppEnv.dev),

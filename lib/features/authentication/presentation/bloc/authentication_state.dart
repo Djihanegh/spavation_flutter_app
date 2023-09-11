@@ -1,10 +1,54 @@
 part of 'authentication_bloc.dart';
 
-abstract class AuthenticationState extends Equatable {
-  const AuthenticationState();
+final class AuthenticationState extends Equatable {
+  const AuthenticationState(
+      {this.status = FormzSubmissionStatus.initial,
+      this.name = '',
+      this.phone = '',
+      this.email = '',
+      this.password = '',
+      this.confirmPassword = '',
+      this.gender = '',
+      this.errorMessage = '',
+      this.token = ''});
+
+  final FormzSubmissionStatus status;
+  final String name;
+  final String phone;
+  final String email;
+  final String password;
+  final String confirmPassword;
+  final String gender;
+  final String errorMessage;
+  final String token;
+
+  AuthenticationState copyWith(
+      {FormzSubmissionStatus? status,
+      String? name,
+      String? phone,
+      String? email,
+      String? password,
+      String? confirmPassword,
+      String? gender,
+      String? errorMessage,
+      String? token}) {
+    return AuthenticationState(
+        status: status ?? this.status,
+        name: name ?? this.name,
+        password: password ?? this.password,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        confirmPassword: confirmPassword ?? this.confirmPassword,
+        gender: gender ?? this.gender,
+        errorMessage: errorMessage ?? this.errorMessage,
+        token: token ?? this.token);
+  }
+
+  @override
+  List<Object?> get props => [status, errorMessage];
 }
 
-class AuthenticationInitial extends AuthenticationState {
+/*class AuthenticationInitial extends AuthenticationState {
   @override
   List<Object> get props => [];
 }
@@ -54,4 +98,4 @@ class AuthenticationError extends AuthenticationState {
 
   @override
   List<Object?> get props => [errorMessage];
-}
+}*/

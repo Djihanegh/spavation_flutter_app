@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
-import 'package:spavation/features/home/presentation/screens/home/home.dart';
 import 'package:video_player/video_player.dart';
 
 import '../utils/navigation.dart';
@@ -41,8 +40,16 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void navigateToHome() {
-    Future.delayed(const Duration(seconds: 3),
-        () => navigateAndRemoveUntil(const AuthenticationScreen(), context));
+    if (mounted) {
+      Future.delayed(const Duration(seconds: 3),
+          () => navigateAndRemoveUntil(const AuthenticationScreen(), context));
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

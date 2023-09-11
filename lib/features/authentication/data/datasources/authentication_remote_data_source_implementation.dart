@@ -47,7 +47,11 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     try {
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.login),
-          body: UserModel.loginUserModel(user));
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: UserModel.loginUserModel(user).toJson());
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(
