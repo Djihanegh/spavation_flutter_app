@@ -33,8 +33,7 @@ class AppButton extends StatelessWidget {
         listenWhen: (prev, curr) => prev.status != curr.status,
         buildWhen: (prev, curr) => prev.status != curr.status,
         builder: (context, state) {
-          log(state.status.toString());
-          log('///////////');
+
           return GestureDetector(
               onTap: () => onPressed!(),
               child: Center(

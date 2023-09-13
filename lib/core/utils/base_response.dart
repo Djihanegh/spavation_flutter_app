@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:spavation/core/utils/typedef.dart';
 
 class BaseResponse {
@@ -6,7 +8,15 @@ class BaseResponse {
 
   BaseResponse({required this.message, required this.status});
 
-  factory BaseResponse.fromJson(DataMap json) {
-    return BaseResponse(status: json["status"], message: json["message"]);
+  factory BaseResponse.fromJson(String json) {
+    return BaseResponse.fromMap(jsonDecode(json) as DataMap);
   }
+
+  BaseResponse.fromMap(DataMap map)
+      : this(
+          message: map['message'] as String,
+          status: map['status'] as bool,
+        );
+
+  DataMap toMap() => {'name': message, 'status': status};
 }

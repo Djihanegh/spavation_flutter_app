@@ -8,7 +8,7 @@ part 'resend_otp_response.g.dart';
 class ResendOtpResponse extends BaseResponse {
   ResendOtpResponse(this.otp, {required super.message, required super.status});
 
-  final String otp;
+  final int otp;
 
   factory ResendOtpResponse.fromJson(DataMap json) =>
       _$ResendOtpResponseFromJson(json);

@@ -28,11 +28,11 @@ class _SplashScreenState extends State<SplashScreen>
         VideoPlayerController.asset("assets/animation/splash-animation.mp4");
     _controller.initialize().then((_) {
       _controller.setLooping(false);
-      Timer(const Duration(milliseconds: 100), () {
-        setState(() {
+   //   Timer(const Duration(milliseconds: 100), () {
+       // setState(() {
           _controller.play();
-        });
-      });
+      //  });
+    //  });
     });
 
     navigateToHome();
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigateToHome() {
     if (mounted) {
-      Future.delayed(const Duration(seconds: 3),
+      Future.delayed(const Duration(seconds: 4),
           () => navigateAndRemoveUntil(const AuthenticationScreen(), context));
     }
   }

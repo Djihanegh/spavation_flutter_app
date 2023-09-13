@@ -8,7 +8,7 @@ part of 'resend_otp_response.dart';
 
 ResendOtpResponse _$ResendOtpResponseFromJson(Map<String, dynamic> json) =>
     ResendOtpResponse(
-      json['otp'] as String,
+      json['otp'] as int,
       message: json['message'] as String,
       status: json['status'] as bool,
     );

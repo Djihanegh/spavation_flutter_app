@@ -5,14 +5,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
+import '../otp/otp_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,12 +36,27 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state.status == FormzSubmissionStatus.failure) {
             openSnackBar(
                 context, state.errorMessage, AnimatedSnackBarType.error);
+
+            if (state.errorMessage == 'Your account is not verified') {
+              context
+                  .read<AuthenticationBloc>()
+                  .add(ResendOtpEvent(email: emailController.text));
+
+              navigateToPage(const OtpScreen(), context);
+            }
+          }
+
+          if (state.action == AuthAction.loginUser &&
+              state.status == FormzSubmissionStatus.success) {
+            navigateAndRemoveUntil(const HomeScreen(), context);
           }
         },
         listenWhen: (prev, curr) => prev.status != curr.status,
-        buildWhen: (prev, curr) => prev.status != curr.status,
+        buildWhen: (prev, curr) =>
+            prev.status != curr.status || prev.email != curr.email,
         builder: (context, state) {
-
+          log('EMAILLLLLLLLL ');
+          log(state.email);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               10.heightXBox,
               Padding(
                   padding:
-                  const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,19 +77,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       CustomTextFormField(
                         controller: emailController,
                         borderColor: purple[2],
-                        onSaved: (e) {},
-                        onChanged: (e) {
+                        onSaved: (e) {
                           context
                               .read<AuthenticationBloc>()
                               .add(EmailChanged(email: e));
                         },
+                        onEditingComplete: () {
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(EmailChanged(email: emailController.text));
+                        },
+                        onFieldSubmitted: () {
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(EmailChanged(email: emailController.text));
+                        },
+                        onChanged: (e) {},
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ],
                   )),
               Padding(
                   padding:
-                  const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

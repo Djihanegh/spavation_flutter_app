@@ -7,6 +7,6 @@ const List<String> gender = <String>['Male', 'Female'];
 emptyWidget() => const SizedBox.shrink();
 
 const headers = {
-  'Content-type': 'application/json',
+  'Content-Type': 'application/json',
   'Accept': 'application/json'
 };

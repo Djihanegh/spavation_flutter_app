@@ -4,12 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/app/config.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'app/app.dart';
+import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
 import 'core/utils/bloc_observer.dart';
+import 'core/utils/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
+  await Prefs.load();
+  //setupLogging();
   Bloc.observer = SpavationBlocObserver();
 
   runApp(const SpavationApp(

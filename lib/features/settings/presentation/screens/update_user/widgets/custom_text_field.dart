@@ -26,7 +26,9 @@ class CustomTextFormField extends StatelessWidget {
       this.size,
       this.prefixIcon,
       this.validator,
-      this.borderColor})
+      this.borderColor,
+      this.onFieldSubmitted,
+      this.onEditingComplete})
       : super(key: key);
 
   final String? title;
@@ -41,6 +43,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? error;
   final TextInputType? keyboardType;
   final Function? onChanged;
+  final Function? onFieldSubmitted;
+  final Function? onEditingComplete;
   final Function onSaved;
   final Widget? suffixIcon;
   final Widget? icon;
@@ -70,6 +74,8 @@ class CustomTextFormField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (newValue) => onSaved(newValue),
               onChanged: (value) => onChanged!(value),
+              //onEditingComplete: () => onSaved(),
+
               //  validator: (value) => validator!(value),
               onFieldSubmitted: (value) => onSaved(value),
               keyboardType: keyboardType,
