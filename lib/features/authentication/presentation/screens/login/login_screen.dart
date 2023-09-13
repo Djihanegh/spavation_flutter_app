@@ -10,11 +10,11 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
-import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/widgets/app_button.dart';
+import '../../../../home/presentation/screens/home/home.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import '../otp/otp_screen.dart';
 
@@ -48,15 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
           if (state.action == AuthAction.loginUser &&
               state.status == FormzSubmissionStatus.success) {
-            navigateAndRemoveUntil(const HomeScreen(), context);
+            navigateAndRemoveUntil(const Home(), context);
           }
         },
         listenWhen: (prev, curr) => prev.status != curr.status,
         buildWhen: (prev, curr) =>
             prev.status != curr.status || prev.email != curr.email,
         builder: (context, state) {
-          log('EMAILLLLLLLLL ');
-          log(state.email);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

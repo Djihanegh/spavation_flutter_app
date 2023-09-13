@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
+import 'package:spavation/features/home/presentation/screens/home/home.dart';
+import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:video_player/video_player.dart';
 
 import '../utils/navigation.dart';
@@ -18,21 +21,25 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late VideoPlayerController _controller;
 
+  String token = '';
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
 
+    token = Prefs.getString(Prefs.TOKEN) ?? '';
+
     _controller =
         VideoPlayerController.asset("assets/animation/splash-animation.mp4");
     _controller.initialize().then((_) {
       _controller.setLooping(false);
-   //   Timer(const Duration(milliseconds: 100), () {
-       // setState(() {
-          _controller.play();
+      //   Timer(const Duration(milliseconds: 100), () {
+      // setState(() {
+      _controller.play();
       //  });
-    //  });
+      //  });
     });
 
     navigateToHome();
@@ -41,8 +48,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigateToHome() {
     if (mounted) {
-      Future.delayed(const Duration(seconds: 4),
-          () => navigateAndRemoveUntil(const AuthenticationScreen(), context));
+      Future.delayed(
+          const Duration(seconds: 4),
+          () => navigateAndRemoveUntil(
+              token.isEmpty ? const AuthenticationScreen() : const Home(),
+              context));
     }
   }
 
