@@ -1,23 +1,16 @@
-import 'dart:developer';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/core/widgets/app_button.dart';
-import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
-import '../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import '../bloc/authentication_bloc.dart';
 import 'login/login_screen.dart';
 import 'register/register_screen.dart';
-import 'widgets/drop_down_list.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
@@ -55,9 +48,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 prev.password != curr.password ||
                 prev.confirmPassword != curr.confirmPassword,
             builder: (context, state) {
-              log('GENDERRRRRRRRRRRRRR AUTHHHHHHHHHH');
-              log(state.gender.toString());
-              return SingleChildScrollView(
+                return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Center(
                       child: Stack(

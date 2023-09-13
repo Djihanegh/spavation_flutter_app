@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/constant.dart';
+import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/features/authentication/presentation/screens/otp/otp_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -45,6 +47,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (state.status == FormzSubmissionStatus.success) {
             openSnackBar(context, 'User Successfully created !',
                 AnimatedSnackBarType.success);
+
+            navigateToPage(const OtpScreen(), context);
           }
         },
         listenWhen: (prev, curr) =>
