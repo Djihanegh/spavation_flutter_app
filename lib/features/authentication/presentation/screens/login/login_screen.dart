@@ -9,10 +9,10 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 
-import '../../../../app/theme.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
+import '../../../../../app/theme.dart';
+import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/widgets/app_button.dart';
+import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

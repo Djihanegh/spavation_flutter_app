@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:spavation/core/errors/failure.dart';
+import 'package:spavation/core/utils/base_response.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
+import 'package:spavation/features/authentication/domain/entities/resend_otp_response.dart';
 import 'package:spavation/features/authentication/domain/entities/user.dart';
 import 'package:spavation/features/authentication/domain/repositories/authentication_repository.dart';
 
@@ -30,6 +32,26 @@ class AuthenticationRepositoryImplementation
   ResultFuture<LoginUserResponse> loginUser({required UserModel user}) async {
     try {
       final result = await _remoteDataSource.loginUser(user: user);
+      return Right(result);
+    } on APIException catch (e) {
+      return Left(APIFailure.fomException(e));
+    }
+  }
+
+  @override
+  ResultFuture<BaseResponse> checkOtp({required String otp}) async {
+    try {
+      final result = await _remoteDataSource.checkOtp(otp: otp);
+      return Right(result);
+    } on APIException catch (e) {
+      return Left(APIFailure.fomException(e));
+    }
+  }
+
+  @override
+  ResultFuture<ResendOtpResponse> resendOtp({required String email}) async {
+    try {
+      final result = await _remoteDataSource.resendOtp(email: email);
       return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fomException(e));

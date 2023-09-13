@@ -8,14 +8,14 @@ import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/constant.dart';
 
-import '../../../../app/theme.dart';
-import '../../../../core/utils/app_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_snack_bar.dart';
-import '../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
-import '../../data/models/user_model.dart';
-import '../bloc/authentication_bloc.dart';
-import 'widgets/drop_down_list.dart';
+import '../../../../../app/theme.dart';
+import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/widgets/app_button.dart';
+import '../../../../../core/widgets/app_snack_bar.dart';
+import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
+import '../../../data/models/user_model.dart';
+import '../../bloc/authentication_bloc.dart';
+import '../widgets/drop_down_list.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

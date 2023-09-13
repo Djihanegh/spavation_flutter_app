@@ -10,7 +10,8 @@ final class AuthenticationState extends Equatable {
       this.confirmPassword = '',
       this.gender = '',
       this.errorMessage = '',
-      this.token = ''});
+      this.token = '',
+      this.otp = ''});
 
   final FormzSubmissionStatus status;
   final String name;
@@ -21,6 +22,7 @@ final class AuthenticationState extends Equatable {
   final String gender;
   final String errorMessage;
   final String token;
+  final String otp;
 
   AuthenticationState copyWith(
       {FormzSubmissionStatus? status,
@@ -31,7 +33,8 @@ final class AuthenticationState extends Equatable {
       String? confirmPassword,
       String? gender,
       String? errorMessage,
-      String? token}) {
+      String? token,
+      String? otp}) {
     return AuthenticationState(
         status: status ?? this.status,
         name: name ?? this.name,
@@ -41,61 +44,10 @@ final class AuthenticationState extends Equatable {
         confirmPassword: confirmPassword ?? this.confirmPassword,
         gender: gender ?? this.gender,
         errorMessage: errorMessage ?? this.errorMessage,
-        token: token ?? this.token);
+        token: token ?? this.token,
+        otp: otp ?? this.otp);
   }
 
   @override
   List<Object?> get props => [status, errorMessage];
 }
-
-/*class AuthenticationInitial extends AuthenticationState {
-  @override
-  List<Object> get props => [];
-}
-
-class CreatingUser extends AuthenticationState {
-  const CreatingUser();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class UserCreated extends AuthenticationState {
-  const UserCreated(this.createdUserResponse);
-
-  final CreateUserResponse createdUserResponse;
-
-  @override
-  List<Object?> get props =>
-      [createdUserResponse.message, createdUserResponse.status];
-}
-
-class LoginUserState extends AuthenticationState {
-  const LoginUserState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class UserLoggedIn extends AuthenticationState {
-  const UserLoggedIn(this.userResponse);
-
-  final LoginUserResponse userResponse;
-
-  @override
-  List<Object?> get props => [
-        userResponse.name,
-        userResponse.email,
-        userResponse.message,
-        userResponse.status
-      ];
-}
-
-class AuthenticationError extends AuthenticationState {
-  const AuthenticationError(this.errorMessage);
-
-  final String errorMessage;
-
-  @override
-  List<Object?> get props => [errorMessage];
-}*/

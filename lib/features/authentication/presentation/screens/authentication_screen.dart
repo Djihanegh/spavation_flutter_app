@@ -15,8 +15,8 @@ import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import '../bloc/authentication_bloc.dart';
-import 'login_screen.dart';
-import 'register_screen.dart';
+import 'login/login_screen.dart';
+import 'register/register_screen.dart';
 import 'widgets/drop_down_list.dart';
 
 class AuthenticationScreen extends StatefulWidget {

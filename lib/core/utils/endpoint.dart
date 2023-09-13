@@ -13,4 +13,8 @@ class Endpoints {
   static const String login = '/auth/login';
 
   static const String register = '/auth/register';
+
+  static const String checkOtp = '/auth/otp';
+
+  static const String resendOtp = '/auth/resend-otp';
 }

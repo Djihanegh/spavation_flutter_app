@@ -15,6 +15,28 @@ class CreateUserEvent extends AuthenticationEvent {
   List<Object?> get props => [user.toMap()];
 }
 
+class CheckOtpEvent extends AuthenticationEvent {
+  const CheckOtpEvent({
+    required this.otp,
+  });
+
+  final String otp;
+
+  @override
+  List<Object?> get props => [otp];
+}
+
+class ResendOtpEvent extends AuthenticationEvent {
+  const ResendOtpEvent({
+    required this.email,
+  });
+
+  final String email;
+
+  @override
+  List<Object?> get props => [email];
+}
+
 class LoginUserEvent extends AuthenticationEvent {
   const LoginUserEvent({
     required this.email,
