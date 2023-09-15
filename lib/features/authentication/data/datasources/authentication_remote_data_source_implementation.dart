@@ -81,7 +81,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
             message: result.message, statusCode: response.statusCode);
       }
 
-      return BaseResponse.fromJson(jsonDecode(response.body));
+      return BaseResponse.fromMap(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {

@@ -188,7 +188,9 @@ class PaymentScreen extends StatelessWidget {
                                 Row(children: [
                                   SvgPicture.asset(
                                     Assets.iconsMaterialPayment,
-                                    color: purple[1],
+                                    colorFilter:  ColorFilter.mode(
+                                        purple[1], BlendMode.srcIn)
+
                                   ),
                                   10.widthXBox,
                                   AutoSizeText(

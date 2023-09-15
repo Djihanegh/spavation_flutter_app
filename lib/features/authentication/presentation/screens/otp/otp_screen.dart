@@ -69,14 +69,27 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: appPrimaryColor,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              if (state.action == AuthAction.resendOtp &&
+              if ((state.action == AuthAction.resendOtp ||
+                      state.action == AuthAction.checkOtp) &&
                   state.status == FormzSubmissionStatus.success) {
                 openSnackBar(context, state.successMessage,
                     AnimatedSnackBarType.success);
+                if (state.action == AuthAction.checkOtp &&
+                    state.status == FormzSubmissionStatus.success) {
+                  Navigator.pop(context);
+                }
+              }
+
+              if ((state.action == AuthAction.resendOtp ||
+                      state.action == AuthAction.checkOtp) &&
+                  state.status == FormzSubmissionStatus.failure) {
+                openSnackBar(
+                    context, state.errorMessage, AnimatedSnackBarType.error);
               }
             },
             listenWhen: (prev, curr) => prev.status != curr.status,
-            buildWhen: (prev, curr) => prev.status != curr.status,
+            buildWhen: (prev, curr) =>
+                prev.status != curr.status || prev.email != curr.email,
             builder: (context, state) {
               return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -129,7 +142,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                         ),
                                         20.heightXBox,
                                         SizedBox(
-                                          height: 40,
+                                          height: 80,
                                           child: Center(
                                               child: OtpTextField(
                                             numberOfFields: 6,
@@ -152,6 +165,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                             onCodeChanged: (String code) {
                                               //handle validation or checks here
                                             },
+
                                             //runs when every textfield is filled
                                             onSubmit:
                                                 (String verificationCode) {

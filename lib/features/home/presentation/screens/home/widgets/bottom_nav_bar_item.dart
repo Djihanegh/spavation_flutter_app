@@ -6,13 +6,12 @@ import 'package:spavation/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBarItem extends StatelessWidget {
-  const BottomNavBarItem(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.onPressed,
-      required this.index,
-      required this.navBarIndex});
+  const BottomNavBarItem({super.key,
+    required this.icon,
+    required this.title,
+    required this.onPressed,
+    required this.index,
+    required this.navBarIndex});
 
   final String icon;
   final String title;
@@ -23,26 +22,31 @@ class BottomNavBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => onPressed(),
-        child: Column(
+      onTap: () => onPressed(),
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              icon,
-              color: index == navBarIndex ? appPrimaryColor : Colors.white,
-              height: 25,
-              width: 25,
-            ),
-            5.heightXBox,
-            AutoSizeText(
-              title,
-              style: TextStyles.inter.copyWith(
-                  color: index == navBarIndex ? appPrimaryColor : Colors.white,
-                  fontSize: 10),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ));
+          SvgPicture.asset(
+          icon,
+          colorFilter: ColorFilter.mode(
+              index == navBarIndex ? appPrimaryColor : Colors.white,
+              BlendMode.srcIn),
+
+      height: 25,
+      width: 25,
+    ),
+    5.heightXBox,
+    AutoSizeText(
+    title,
+    style: TextStyles.inter.copyWith(
+    color: index == navBarIndex ? appPrimaryColor : Colors.white,
+    fontSize: 10),
+    textAlign: TextAlign.center,
+    )
+    ]
+    ,
+    )
+    );
   }
 }

@@ -13,6 +13,7 @@ import 'package:spavation/features/authentication/presentation/bloc/authenticati
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/utils/validators.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../home/presentation/screens/home/home.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
@@ -29,26 +30,32 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  String emailValidator = '', passwordValidator = '';
+
+  bool get canLogin =>
+      emailController.text.isNotEmpty && passwordController.text.isNotEmpty;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-          if (state.status == FormzSubmissionStatus.failure) {
-            openSnackBar(
-                context, state.errorMessage, AnimatedSnackBarType.error);
+          if (state.action == AuthAction.loginUser) {
+            if (state.status == FormzSubmissionStatus.failure) {
+              openSnackBar(
+                  context, state.errorMessage, AnimatedSnackBarType.error);
 
-            if (state.errorMessage == 'Your account is not verified') {
-              context
-                  .read<AuthenticationBloc>()
-                  .add(ResendOtpEvent(email: emailController.text));
+              if (state.errorMessage == 'Your account is not verified') {
+                context
+                    .read<AuthenticationBloc>()
+                    .add(ResendOtpEvent(email: emailController.text));
 
-              navigateToPage(const OtpScreen(), context);
+                navigateToPage(const OtpScreen(), context);
+              }
             }
-          }
 
-          if (state.action == AuthAction.loginUser &&
-              state.status == FormzSubmissionStatus.success) {
-            navigateAndRemoveUntil(const Home(), context);
+            if (state.status == FormzSubmissionStatus.success) {
+              navigateAndRemoveUntil(const Home(), context);
+            }
           }
         },
         listenWhen: (prev, curr) => prev.status != curr.status,
@@ -90,9 +97,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               .read<AuthenticationBloc>()
                               .add(EmailChanged(email: emailController.text));
                         },
-                        onChanged: (e) {},
+                        onChanged: (e) => validateEmail(e),
                         keyboardType: TextInputType.emailAddress,
                       ),
+                      emailValidator.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(emailValidator,
+                                      style:
+                                          const TextStyle(color: Colors.red))))
+                          : const SizedBox(),
                     ],
                   )),
               Padding(
@@ -113,23 +129,38 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: true,
                         onSaved: (e) {},
                         onChanged: (e) {
+                          validatePassword(e);
                           context
                               .read<AuthenticationBloc>()
                               .add(PasswordChanged(password: e));
                         },
                         keyboardType: TextInputType.emailAddress,
+                        validator: (v) => null,
                       ),
+                      passwordValidator.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(passwordValidator,
+                                      style:
+                                          const TextStyle(color: Colors.red))))
+                          : const SizedBox(),
                     ],
                   )),
               20.heightXBox,
               AppButton(
                 title: 'Login',
-                color: purple[2],
-                textColor: Colors.white,
+                color: canLogin ? purple[2] : grey[0],
+                borderColor: canLogin ? purple[2] : grey[0],
+                textColor:
+                    canLogin ? Colors.white : Colors.grey.withOpacity(0.5),
                 onPressed: () {
-                  context.read<AuthenticationBloc>().add(LoginUserEvent(
-                      password: passwordController.text,
-                      email: emailController.text));
+                  if (canLogin) {
+                    context.read<AuthenticationBloc>().add(LoginUserEvent(
+                        password: passwordController.text,
+                        email: emailController.text));
+                  }
                 },
               ),
               10.heightXBox,
@@ -146,5 +177,25 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           );
         });
+  }
+
+  void validateEmail(String email) {
+    setState(() {
+      if (Validators.isNotEmpty(email) != null) {
+        emailValidator = 'This field should not be empty';
+      } else {
+        emailValidator = '';
+      }
+    });
+  }
+
+  void validatePassword(String password) {
+    setState(() {
+      if (Validators.isNotEmpty(password) != null) {
+        passwordValidator = 'This field should not be empty';
+      } else {
+        passwordValidator = '';
+      }
+    });
   }
 }

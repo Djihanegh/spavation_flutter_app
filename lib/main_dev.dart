@@ -7,7 +7,6 @@ import 'app/app.dart';
 import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
 import 'core/utils/bloc_observer.dart';
-import 'core/utils/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
