@@ -5,11 +5,11 @@ import 'package:dartz/dartz.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/authentication/data/models/user_model.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
 
-import '../../../../core/enum/enum.dart';
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/login_user_response.dart';
 import '../../domain/usecases/login_user_usecase.dart';
@@ -52,19 +52,19 @@ class AuthenticationBloc
   Future<void> _resendOtpHandler(
       ResendOtpEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
-        action: AuthAction.unknown, status: FormzSubmissionStatus.inProgress));
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
     await Future.delayed(const Duration(seconds: 3));
 
     final result = await _resendOtp(event.email);
 
     result.fold(
         (l) => emit(state.copyWith(
-              action: AuthAction.resendOtp,
+              action: RequestType.resendOtp,
               status: FormzSubmissionStatus.failure,
               errorMessage: l.message,
             )),
         (r) => emit(state.copyWith(
-            action: AuthAction.resendOtp,
+            action: RequestType.resendOtp,
             status: FormzSubmissionStatus.success,
             otp: '${r.otp}',
             successMessage: r.message)));
@@ -73,19 +73,19 @@ class AuthenticationBloc
   Future<void> _checkOtpHandler(
       CheckOtpEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
-        action: AuthAction.unknown, status: FormzSubmissionStatus.inProgress));
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
     await Future.delayed(const Duration(seconds: 3));
 
     final result = await _checkOtp(event.otp);
 
     result.fold(
         (l) => emit(state.copyWith(
-              action: AuthAction.checkOtp,
+              action: RequestType.checkOtp,
               status: FormzSubmissionStatus.failure,
               errorMessage: l.message,
             )),
         (r) => emit(state.copyWith(
-            action: AuthAction.checkOtp,
+            action: RequestType.checkOtp,
             status: FormzSubmissionStatus.success,
             successMessage: r.message)));
   }
@@ -139,7 +139,7 @@ class AuthenticationBloc
   Future<void> _createUserHandler(
       CreateUserEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
-        action: AuthAction.unknown,
+        action: RequestType.unknown,
         status: FormzSubmissionStatus.inProgress,
         gender: state.gender));
     await Future.delayed(const Duration(seconds: 3));
@@ -148,13 +148,13 @@ class AuthenticationBloc
 
     result.fold(
         (l) => emit(state.copyWith(
-            action: AuthAction.createUser,
+            action: RequestType.createUser,
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
             gender: state.gender,
             email: state.email)),
         (r) => emit(state.copyWith(
-            action: AuthAction.createUser,
+            action: RequestType.createUser,
             status: FormzSubmissionStatus.success,
             token: r.token,
             gender: state.gender,
@@ -169,7 +169,7 @@ class AuthenticationBloc
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
       gender: state.gender,
-      action: AuthAction.unknown,
+      action: RequestType.unknown,
     ));
 
     await Future.delayed(const Duration(seconds: 2));
@@ -182,10 +182,10 @@ class AuthenticationBloc
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
             gender: state.gender,
-            action: AuthAction.loginUser,
+            action: RequestType.loginUser,
             email: state.email)),
         (r) => emit(state.copyWith(
-              action: AuthAction.loginUser,
+              action: RequestType.loginUser,
               gender: state.gender,
               status: FormzSubmissionStatus.success,
               token: r.token,

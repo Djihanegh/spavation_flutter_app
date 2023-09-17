@@ -69,19 +69,19 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: appPrimaryColor,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              if ((state.action == AuthAction.resendOtp ||
-                      state.action == AuthAction.checkOtp) &&
+              if ((state.action == RequestType.resendOtp ||
+                      state.action == RequestType.checkOtp) &&
                   state.status == FormzSubmissionStatus.success) {
                 openSnackBar(context, state.successMessage,
                     AnimatedSnackBarType.success);
-                if (state.action == AuthAction.checkOtp &&
+                if (state.action == RequestType.checkOtp &&
                     state.status == FormzSubmissionStatus.success) {
                   Navigator.pop(context);
                 }
               }
 
-              if ((state.action == AuthAction.resendOtp ||
-                      state.action == AuthAction.checkOtp) &&
+              if ((state.action == RequestType.resendOtp ||
+                      state.action == RequestType.checkOtp) &&
                   state.status == FormzSubmissionStatus.failure) {
                 openSnackBar(
                     context, state.errorMessage, AnimatedSnackBarType.error);

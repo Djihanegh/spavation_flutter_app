@@ -54,6 +54,9 @@ dependencies:
   animated_snack_bar: ^0.3.1
   flutter_otp_text_field: ^1.1.1
   shared_preferences: ^2.2.1
+  shimmer: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+  geolocator: ^10.0.1
 
 dev_dependencies:
   json_serializable: ^6.7.1

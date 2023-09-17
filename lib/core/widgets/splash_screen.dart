@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,27 +34,41 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller =
         VideoPlayerController.asset("assets/animation/splash-animation.mp4");
-    _controller.initialize().then((_) {
-      _controller.setLooping(false);
-      //   Timer(const Duration(milliseconds: 100), () {
-      // setState(() {
-      _controller.play();
-      //  });
-      //  });
-    });
 
-    navigateToHome();
+    _controller.initialize().then((value) => {
+          Timer(const Duration(milliseconds: 20), () {
+            setState(() {
+              _controller.play();
+            });
+          }),
+          _controller.addListener(() {
+            //custom Listner
+            setState(() {
+              if (!_controller.value.isPlaying &&
+                  _controller.value.isInitialized &&
+                  (_controller.value.duration == _controller.value.position)) {
+                log('IT ENDSSS');
+                navigateToHome();
+                //checking the duration and position every time
+                setState(() {});
+              }
+            });
+          })
+        });
+
+
     super.initState();
   }
 
   void navigateToHome() {
-    if (mounted) {
-      Future.delayed(
-          const Duration(seconds: 4),
-          () => navigateAndRemoveUntil(
-              token.isEmpty ? const AuthenticationScreen() : const Home(),
-              context));
-    }
+    log('NAVIGATING');
+     if (mounted) {
+    Future.delayed(
+        const Duration(seconds: 3),
+        () => navigateAndRemoveUntil(
+            token.isEmpty ? const AuthenticationScreen() : const Home(),
+            context));
+     }
   }
 
   @override

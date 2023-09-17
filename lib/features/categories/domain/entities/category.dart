@@ -18,5 +18,5 @@ class Category extends Equatable {
   final String status;
 
   @override
-  List<Object?> get props => [id, image, name];
+  List<Object?> get props => [id, image, name, updatedAt, createdAt, status];
 }

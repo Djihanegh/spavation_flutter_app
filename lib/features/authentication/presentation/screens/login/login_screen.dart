@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-          if (state.action == AuthAction.loginUser) {
+          if (state.action == RequestType.loginUser) {
             if (state.status == FormzSubmissionStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);

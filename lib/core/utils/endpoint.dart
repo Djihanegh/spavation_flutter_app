@@ -26,4 +26,13 @@ class Endpoints {
   // Categories
 
   static const String categories = '/categories';
+
+  // Banners
+
+  static const String banners = '/banners';
+
+  // Salons
+
+  static const String salons = '/salons';
+
 }

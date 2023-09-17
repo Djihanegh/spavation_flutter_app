@@ -1,16 +1,21 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/features/banners/presentation/screens/banners_screen.dart';
 import 'package:spavation/features/home/presentation/screens/filter/filter_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/widgets/custom_icon.dart';
-import 'package:spavation/features/home/presentation/screens/home/widgets/service_item.dart';
 import 'package:spavation/generated/assets.dart';
 
+import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../categories/presentation/screens/categories_screen.dart';
 import '../../../../categories/presentation/screens/widgets/category_item.dart';
+import '../../../../salons/presentation/bloc/salon_bloc.dart';
+import '../../../../salons/presentation/screens/salons_screen.dart';
 import 'widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,10 +26,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController sliderController =
-      PageController(initialPage: 0, keepPage: false);
+  late SalonBloc _salonBloc;
+   Position? currentPosition;
 
+  @override
+  void initState() {
+    getCurrentPosition();
+    _salonBloc = BlocProvider.of(context);
+    _salonBloc.add(const GetSalonsEvent());
 
+    super.initState();
+  }
+
+  void getCurrentPosition() async {
+    currentPosition = await Location().determinePosition();
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,67 +118,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 )),
 
-            Positioned(
-                top: sh! * 0.125,
-                right: sw! * 0.01,
-                child: Container(
-                    width: sw! * 0.98,
-                    height: sh! * 0.15,
-                    // padding: EdgeInsets.only(right: 10, left: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                        child: PageView.builder(
-                      onPageChanged: (value) {},
-                      controller: sliderController,
-                      itemCount: 2,
-                      itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: Image.asset(Assets.imagesSlider1)
-                                        .image)),
-                            width: sw! * 0.99,
-                            height: sh! * 0.15,
-                          )),
-                    )))),
+            const BannerScreen(),
 
             Positioned(
                 top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
-           /* Positioned(
-                top: sh! * 0.37,
-                left: sw! * 0.03,
-                right: sw! * 0.03,
-                child: Container(
-                  width: sw! * 0.935,
-                  height: sh! * 0.12,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: boxShadow),
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          itemCount: categories.length,
-                          itemBuilder: (context, index) => categories[index])),
-                ))*/
-            CategoriesScreen()
+
+            const CategoriesScreen()
           ],
         ),
-        Flexible(
-            child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
-                itemCount: 20,
-                itemBuilder: (context, index) => const ServiceItem()))
+        SalonsScreen(
+          lat: currentPosition?.latitude ?? 0,
+          long: currentPosition?.longitude ?? 0,
+        )
       ],
     )));
   }

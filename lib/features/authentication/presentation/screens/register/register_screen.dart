@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-          if (state.action == AuthAction.createUser) {
+          if (state.action == RequestType.createUser) {
             if (state.status == FormzSubmissionStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);

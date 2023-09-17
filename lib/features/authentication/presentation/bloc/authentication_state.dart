@@ -2,7 +2,7 @@ part of 'authentication_bloc.dart';
 
 final class AuthenticationState extends Equatable {
   const AuthenticationState({
-    this.action = AuthAction.unknown,
+    this.action = RequestType.unknown,
     this.status = FormzSubmissionStatus.initial,
     this.name = '',
     this.phone = '',
@@ -27,7 +27,7 @@ final class AuthenticationState extends Equatable {
   final String successMessage;
   final String token;
   final String otp;
-  final AuthAction action;
+  final RequestType action;
 
   AuthenticationState copyWith({
     FormzSubmissionStatus? status,
@@ -41,7 +41,7 @@ final class AuthenticationState extends Equatable {
     String? token,
     String? otp,
     String? successMessage,
-    AuthAction? action,
+    RequestType? action,
   }) {
     return AuthenticationState(
         status: status ?? this.status,

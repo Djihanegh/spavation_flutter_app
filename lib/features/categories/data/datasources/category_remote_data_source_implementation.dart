@@ -22,8 +22,6 @@ class CategoryRemoteDataSrcImpl implements CategoryRemoteDataSource {
         headers: headers,
       );
 
-      log(response.body.toString());
-
       if (response.statusCode != 200 && response.statusCode != 201) {
         GetCategoryResponse result =
             GetCategoryResponse.fromJson(jsonDecode(response.body));

@@ -1,1 +1,11 @@
- enum AuthAction { loginUser, createUser, checkOtp, resendOtp, unknown }
+enum RequestType {
+  loginUser,
+  createUser,
+  checkOtp,
+  resendOtp,
+  getBanners,
+  getCategories,
+  getSalons,
+  getProducts,
+  unknown
+}
