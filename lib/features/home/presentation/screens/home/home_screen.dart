@@ -9,6 +9,7 @@ import 'package:spavation/generated/assets.dart';
 
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
+import '../../../../categories/presentation/screens/categories_screen.dart';
 import '../../../../categories/presentation/screens/widgets/category_item.dart';
 import 'widgets/search_input.dart';
 
@@ -24,11 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
       PageController(initialPage: 0, keepPage: false);
 
 
-  @override
-  void initState() {
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             Positioned(
                 top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
-            Positioned(
+           /* Positioned(
                 top: sh! * 0.37,
                 left: sw! * 0.03,
                 right: sw! * 0.03,
@@ -153,7 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           itemCount: categories.length,
                           itemBuilder: (context, index) => categories[index])),
-                ))
+                ))*/
+            CategoriesScreen()
           ],
         ),
         Flexible(

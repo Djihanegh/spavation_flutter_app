@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:spavation/features/categories/data/datasources/category_remote_data_source.dart';
 import 'package:spavation/features/categories/domain/entities/get_category_response.dart';
@@ -16,17 +17,20 @@ class CategoryRemoteDataSrcImpl implements CategoryRemoteDataSource {
   @override
   Future<GetCategoryResponse> getCategory() async {
     try {
-      final response = await _client.post(
+      final response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.categories),
         headers: headers,
       );
+
+      log(response.body.toString());
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         GetCategoryResponse result =
             GetCategoryResponse.fromJson(jsonDecode(response.body));
         throw APIException(
-            message: result.message, statusCode: response.statusCode);
+            message: '', statusCode: response.statusCode);
       }
+
 
       return GetCategoryResponse.fromJson(jsonDecode(response.body));
     } on APIException {

@@ -8,17 +8,15 @@ part of 'get_category_response.dart';
 
 GetCategoryResponse _$GetCategoryResponseFromJson(Map<String, dynamic> json) =>
     GetCategoryResponse(
-      (json['data'] as List<dynamic>?)
-          ?.map((e) => CategoryModel.fromJson(e as String))
+      (json['categories'] as List<dynamic>?)
+          ?.map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      message: json['message'] as String,
-      status: json['status'] as bool,
+      json['status'] as int,
     );
 
 Map<String, dynamic> _$GetCategoryResponseToJson(
         GetCategoryResponse instance) =>
     <String, dynamic>{
-      'message': instance.message,
+      'categories': instance.categories,
       'status': instance.status,
-      'data': instance.data,
     };

@@ -4,6 +4,9 @@ class Endpoints {
   // base url
   static const String baseUrl = 'https://spa.esayway.com/public/api';
 
+  // Storage Url
+  static const storageUrl = 'https://spa.esayway.com/public/storage/';
+
   // receiveTimeout
   static const Duration receiveTimeout = Duration(seconds: 15000);
 
@@ -23,7 +26,4 @@ class Endpoints {
   // Categories
 
   static const String categories = '/categories';
-
-
-
 }

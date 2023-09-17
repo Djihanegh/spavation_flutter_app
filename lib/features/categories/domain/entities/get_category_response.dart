@@ -7,11 +7,14 @@ import '../../data/models/category_model.dart';
 part 'get_category_response.g.dart';
 
 @JsonSerializable()
-class GetCategoryResponse extends BaseResponse {
-  GetCategoryResponse(this.data,
-      {required super.message, required super.status});
+class GetCategoryResponse {
+  GetCategoryResponse(
+    this.categories,
+    this.status,
+  );
 
-  final List<CategoryModel>? data;
+  final List<CategoryModel>? categories;
+  final int status;
 
   factory GetCategoryResponse.fromJson(DataMap json) =>
       _$GetCategoryResponseFromJson(json);

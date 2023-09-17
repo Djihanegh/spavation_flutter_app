@@ -26,6 +26,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     final result = await _getCategoriesUseCase();
 
+
+
     result.fold(
         (l) => emit(state.copyWith(
               status: FormzSubmissionStatus.failure,
@@ -33,7 +35,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             )),
         (r) => emit(state.copyWith(
             status: FormzSubmissionStatus.success,
-            data: r.data,
-            successMessage: r.message)));
+            data: r.categories,
+            successMessage: '')));
   }
 }

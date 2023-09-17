@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/app/config.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
 import 'app/app.dart';
 import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
@@ -25,6 +26,7 @@ void main() async {
         providers: [
           BlocProvider<AuthenticationBloc>(
               create: (context) => sl<AuthenticationBloc>()),
+          BlocProvider<CategoryBloc>(create: (context) => sl<CategoryBloc>()),
         ],
         child: const SpavationApp(
           config: AppConfig(env: AppEnv.dev),

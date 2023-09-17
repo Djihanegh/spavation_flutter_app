@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/utils/endpoint.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
@@ -26,14 +27,15 @@ class CategoryItem extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: color,
-              child: Image.asset(
-                image,
+              child: Image.network(
+                Endpoints.storageUrl + image,
                 fit: BoxFit.contain,
               ),
             ),
             AutoSizeText(
               title,
-              style: TextStyles.inter.copyWith(color: appPrimaryColor, fontSize: 15),
+              style: TextStyles.inter
+                  .copyWith(color: appPrimaryColor, fontSize: 15),
               textAlign: TextAlign.center,
             )
           ],
