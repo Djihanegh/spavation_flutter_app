@@ -9,7 +9,7 @@ import 'package:spavation/generated/assets.dart';
 
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
-import '../../../../categories/presentation/screens/widgets/category_item.dart';
+import 'widgets/category_item.dart';
 import 'widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,13 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PageController sliderController =
       PageController(initialPage: 0, keepPage: false);
-
-
-  @override
-  void initState() {
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

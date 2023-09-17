@@ -1,6 +1,5 @@
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
-import 'package:spavation/features/authentication/domain/entities/user.dart';
 
 import '../../../../core/utils/base_response.dart';
 import '../../../../core/utils/typedef.dart';

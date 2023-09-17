@@ -10,6 +10,8 @@ class Endpoints {
   // connectTimeout
   static const Duration connectionTimeout = Duration(seconds: 15000);
 
+  // Auth
+
   static const String login = '/auth/login';
 
   static const String register = '/auth/register';
@@ -17,4 +19,11 @@ class Endpoints {
   static const String checkOtp = '/auth/otp';
 
   static const String resendOtp = '/auth/resend-otp';
+
+  // Categories
+
+  static const String categories = '/categories';
+
+
+
 }

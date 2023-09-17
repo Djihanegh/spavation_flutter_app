@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:spavation/features/home/domain/entities/category.dart';
 
 import '../../../../core/utils/typedef.dart';
+import '../../domain/entities/category.dart';
 
 class CategoryModel extends Category {
   const CategoryModel(
@@ -17,8 +17,6 @@ class CategoryModel extends Category {
             id: map['id'] as int,
             image: map['image'] as String);
 
-  CategoryModel.loginUserModel(CategoryModel category)
-      : this(name: category.name, image: category.image, id: category.id);
 
   DataMap toMap() => {'name': name, 'image': image, 'id': id};
 
