@@ -1,20 +1,20 @@
 part of 'authentication_bloc.dart';
 
 final class AuthenticationState extends Equatable {
-  const AuthenticationState({
-    this.action = RequestType.unknown,
-    this.status = FormzSubmissionStatus.initial,
-    this.name = '',
-    this.phone = '',
-    this.email = '',
-    this.password = '',
-    this.confirmPassword = '',
-    this.gender = '',
-    this.errorMessage = '',
-    this.successMessage = '',
-    this.token = '',
-    this.otp = '',
-  });
+  const AuthenticationState(
+      {this.action = RequestType.unknown,
+      this.status = FormzSubmissionStatus.initial,
+      this.name = '',
+      this.phone = '',
+      this.email = '',
+      this.password = '',
+      this.confirmPassword = '',
+      this.gender = '',
+      this.errorMessage = '',
+      this.successMessage = '',
+      this.token = '',
+      this.otp = '',
+      this.user = ''});
 
   final FormzSubmissionStatus status;
   final String name;
@@ -28,6 +28,7 @@ final class AuthenticationState extends Equatable {
   final String token;
   final String otp;
   final RequestType action;
+  final String user;
 
   AuthenticationState copyWith({
     FormzSubmissionStatus? status,
@@ -42,6 +43,7 @@ final class AuthenticationState extends Equatable {
     String? otp,
     String? successMessage,
     RequestType? action,
+    String? user,
   }) {
     return AuthenticationState(
         status: status ?? this.status,
@@ -55,7 +57,8 @@ final class AuthenticationState extends Equatable {
         token: token ?? this.token,
         otp: otp ?? this.otp,
         successMessage: successMessage ?? this.successMessage,
-        action: action ?? this.action);
+        action: action ?? this.action,
+        user: user ?? this.user);
   }
 
   @override
@@ -70,6 +73,7 @@ final class AuthenticationState extends Equatable {
         phone,
         password,
         confirmPassword,
-        name
+        name,
+        user
       ];
 }

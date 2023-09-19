@@ -8,6 +8,7 @@ import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/authentication/data/models/user_model.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
+import 'package:spavation/features/authentication/domain/usecases/get_user.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
 
 import '../../../../core/errors/failure.dart';
@@ -21,15 +22,17 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc({
-    required RegisterUser registerUser,
-    required LoginUser loginUser,
-    required CheckOtpUseCase checkOtpUseCase,
-    required ResendOtpUseCase resendOtpUseCase,
-  })  : _registerUser = registerUser,
+  AuthenticationBloc(
+      {required RegisterUser registerUser,
+      required LoginUser loginUser,
+      required CheckOtpUseCase checkOtpUseCase,
+      required ResendOtpUseCase resendOtpUseCase,
+      required GetUserUseCase getUserUseCase})
+      : _registerUser = registerUser,
         _loginUser = loginUser,
         _checkOtp = checkOtpUseCase,
         _resendOtp = resendOtpUseCase,
+        _getUserUseCase = getUserUseCase,
         super(const AuthenticationState()) {
     on<CreateUserEvent>(_createUserHandler);
     on<LoginUserEvent>(_loginUserHandler);
@@ -42,12 +45,35 @@ class AuthenticationBloc
     on<PasswordChanged>(_passwordChanged);
     on<ConfirmPasswordChanged>(_confirmPasswordChanged);
     on<GenderChanged>(_genderChanged);
+    on<GetUserEvent>(_getUserHandler);
   }
 
   final RegisterUser _registerUser;
   final LoginUser _loginUser;
   final CheckOtpUseCase _checkOtp;
   final ResendOtpUseCase _resendOtp;
+  final GetUserUseCase _getUserUseCase;
+
+  Future<void> _getUserHandler(
+      GetUserEvent event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = await _getUserUseCase(event.token);
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            action: RequestType.getUser,
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            user: '')),
+        (r) => emit(state.copyWith(
+            action: RequestType.getUser,
+            status: FormzSubmissionStatus.success,
+            successMessage: r.message,
+            user: r.user)));
+  }
 
   Future<void> _resendOtpHandler(
       ResendOtpEvent event, Emitter<AuthenticationState> emit) async {

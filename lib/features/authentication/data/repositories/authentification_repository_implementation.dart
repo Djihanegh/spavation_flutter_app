@@ -4,6 +4,7 @@ import 'package:spavation/core/utils/base_response.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
+import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/resend_otp_response.dart';
 import 'package:spavation/features/authentication/domain/entities/user.dart';
@@ -52,6 +53,16 @@ class AuthenticationRepositoryImplementation
   ResultFuture<ResendOtpResponse> resendOtp({required String email}) async {
     try {
       final result = await _remoteDataSource.resendOtp(email: email);
+      return Right(result);
+    } on APIException catch (e) {
+      return Left(APIFailure.fomException(e));
+    }
+  }
+
+  @override
+  ResultFuture<GetUserResponse> getUser({required String token}) async {
+    try {
+      final result = await _remoteDataSource.getUser(token: token);
       return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fomException(e));

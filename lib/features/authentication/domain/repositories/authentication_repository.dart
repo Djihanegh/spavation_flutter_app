@@ -4,6 +4,7 @@ import 'package:spavation/features/authentication/domain/entities/login_user_res
 import '../../../../core/utils/base_response.dart';
 import '../../../../core/utils/typedef.dart';
 import '../../data/models/user_model.dart';
+import '../entities/get_user_response.dart';
 import '../entities/resend_otp_response.dart';
 
 abstract class AuthenticationRepository {
@@ -16,4 +17,7 @@ abstract class AuthenticationRepository {
   ResultFuture<BaseResponse> checkOtp({required String otp});
 
   ResultFuture<ResendOtpResponse> resendOtp({required String email});
+
+  ResultFuture<GetUserResponse> getUser({required String token});
+
 }

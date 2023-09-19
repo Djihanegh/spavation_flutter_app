@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
+import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
@@ -20,7 +21,7 @@ import '../../../home/presentation/screens/pay/payment_screen.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../../../salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import '../bloc/product_bloc.dart';
-import 'widgets/service_item.dart';
+import 'widgets/product_item.dart';
 import 'widgets/showDialog.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -273,7 +274,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                   width: 20,
                                                                 ),
                                                                 AutoSizeText(
-                                                                  'Close At ${DateFormat("hh:mm a").format(product.timeTo)}',
+                                                                  'Close At ${DateFormat("hh:mm a").format(DateFormat('hh:mm:ss').parseUtc(product.timeTo))}',
                                                                   // Close At 11PM
                                                                   style: TextStyles
                                                                       .inter
@@ -381,7 +382,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                     child: ListView.builder(
                                                         physics:
                                                             const AlwaysScrollableScrollPhysics(),
-                                                        itemCount: 9,
+                                                        itemCount: state.data?.length,
                                                         itemBuilder: (context,
                                                                 index) =>
                                                             GestureDetector(
@@ -390,7 +391,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                         context:
                                                                             context),
                                                                 child:
-                                                                    const ServiceItem()))),
+                                                                     ProductItem(description: product.description, name: product.name , price: product.price,)))),
                                               ],
                                             )),
                                         Positioned(

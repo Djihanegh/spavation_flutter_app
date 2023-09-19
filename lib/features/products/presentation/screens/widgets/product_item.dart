@@ -6,8 +6,16 @@ import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 
-class ServiceItem extends StatelessWidget {
-  const ServiceItem({super.key});
+class ProductItem extends StatelessWidget {
+  const ProductItem(
+      {super.key,
+      required this.description,
+      required this.name,
+      required this.price});
+
+  final String description;
+  final String name;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,7 @@ class ServiceItem extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.only(left: sw! * 0.038, top: 10, bottom: 0),
-            child: AutoSizeText('Nails 1',
+            child: AutoSizeText(name,
                 style:
                     TextStyles.inter.copyWith(color: purple[2], fontSize: 15))),
         Padding(
@@ -28,20 +36,19 @@ class ServiceItem extends StatelessWidget {
                 children: [
                   SizedBox(
                       width: sw! * 0.75,
-                      child: AutoSizeText(
-                          'This service includes many features \n that help complete completion',
+                      child: AutoSizeText(description,
                           style: TextStyles.inter
                               .copyWith(color: purple[2], fontSize: 15))),
                   Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(Assets.iconsAdd),
-                          AutoSizeText('75 SR',
-                              style: TextStyles.inter
-                                  .copyWith(color: purple[3], fontSize: 15))
-                        ],
-                      ),
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(Assets.iconsAdd),
+                      AutoSizeText('$price SR',
+                          style: TextStyles.inter
+                              .copyWith(color: purple[3], fontSize: 15))
+                    ],
+                  ),
                 ]))
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import '../../../../core/utils/base_response.dart';
 import '../../domain/entities/create_user_response.dart';
@@ -14,5 +15,8 @@ abstract class AuthenticationRemoteDataSource {
   Future<BaseResponse> checkOtp({required String otp});
 
   Future<ResendOtpResponse> resendOtp({required String email});
+
+  Future<GetUserResponse> getUser({required String token});
+
 
 }

@@ -4,6 +4,17 @@ abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 }
 
+class GetUserEvent extends AuthenticationEvent {
+  const GetUserEvent({
+    required this.token,
+  });
+
+  final String token;
+
+  @override
+  List<Object?> get props => [token];
+}
+
 class CreateUserEvent extends AuthenticationEvent {
   const CreateUserEvent({
     required this.user,

@@ -40,4 +40,8 @@ class Endpoints {
   static const String products = '/products/salon/';
 
 
+  static const String customer = '/auth/customer';
+
+  static const String getUser = '/auth/user';
+
 }

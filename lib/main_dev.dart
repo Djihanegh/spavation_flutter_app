@@ -23,6 +23,7 @@ void main() async {
     config: AppConfig(env: AppEnv.dev),
   ));
 
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(MultiBlocProvider(

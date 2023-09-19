@@ -5,7 +5,7 @@ class Prefs {
   static const String ID = "id";
   static const String SESSION_ID = "session_id";
   static const String TIMESTAMP = "timestamp";
-  static const String TOKEN = "woo_token";
+  static const String TOKEN = "spavation_token";
   static const String PASSWORD = 'password';
   static const String FIRSTNAME = "first_name";
 

@@ -4,6 +4,7 @@ import 'package:spavation/features/authentication/data/datasources/authenticatio
 import 'package:spavation/features/authentication/data/repositories/authentification_repository_implementation.dart';
 import 'package:spavation/features/authentication/domain/repositories/authentication_repository.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
+import 'package:spavation/features/authentication/domain/usecases/get_user.dart';
 import 'package:spavation/features/authentication/domain/usecases/login_user_usecase.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
 import 'package:spavation/features/authentication/domain/usecases/resend_otp.dart';
@@ -43,7 +44,8 @@ Future<void> init() async {
         registerUser: sl(),
         loginUser: sl(),
         checkOtpUseCase: sl(),
-        resendOtpUseCase: sl()))
+        resendOtpUseCase: sl(),
+        getUserUseCase: sl()))
     ..registerFactory(() => CategoryBloc(getCategoriesUseCase: sl()))
     ..registerFactory(() => BannerBloc(
           getBannersUseCase: sl(),
@@ -60,6 +62,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => GetBannersUseCase(sl()))
     ..registerLazySingleton(() => GetSalonsUseCase(sl()))
     ..registerLazySingleton(() => GetProductsUseCase(sl()))
+    ..registerLazySingleton(() => GetUserUseCase(sl()))
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
         () => AuthenticationRepositoryImplementation(sl()))

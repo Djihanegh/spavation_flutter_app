@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spavation/core/widgets/splash_screen.dart';
+import 'package:spavation/features/authentication/presentation/screens/splash/splash_screen.dart';
 
 import 'config.dart';
 

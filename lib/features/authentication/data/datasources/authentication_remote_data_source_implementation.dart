@@ -7,6 +7,7 @@ import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
+import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import 'package:http/http.dart' as http;
 
@@ -105,6 +106,28 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       }
 
       return ResendOtpResponse.fromJson(jsonDecode(response.body));
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
+
+  @override
+  Future<GetUserResponse> getUser({required String token}) async {
+    try {
+      final response = await _client.get(
+        Uri.parse(Endpoints.baseUrl + Endpoints.getUser),
+        headers: headersWithToken(token),
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        BaseResponse result = BaseResponse.fromJson(response.body);
+        throw APIException(
+            message: result.message, statusCode: response.statusCode);
+      }
+
+      return GetUserResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {

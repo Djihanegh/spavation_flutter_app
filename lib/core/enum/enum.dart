@@ -1,6 +1,7 @@
 enum RequestType {
   loginUser,
   createUser,
+  getUser,
   checkOtp,
   resendOtp,
   getBanners,
