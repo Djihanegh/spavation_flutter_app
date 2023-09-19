@@ -1,10 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/core/utils/navigation.dart';
-import 'package:spavation/features/home/presentation/screens/service_details/service_details_screen.dart';
+import 'package:spavation/features/products/presentation/screens/products_screen.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_loadig_widget.dart';
 
 import '../../../../../app/theme.dart';
@@ -22,7 +21,8 @@ class SalonItem extends StatelessWidget {
       required this.isForMale,
       required this.rate,
       required this.distance,
-      required this.image});
+      required this.image,
+      required this.salonId});
 
   final String title;
   final String subtitle;
@@ -31,11 +31,22 @@ class SalonItem extends StatelessWidget {
   final String rate;
   final String distance;
   final String image;
+  final String salonId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => navigateToPage(const ServiceDetailsScreen(), context),
+        onTap: () => navigateToPage(
+            ProductsScreen(
+              salonId: salonId,
+              isForFemale: isForFemale,
+              isForMale: isForMale,
+              distance: distance,
+              name: title,
+              description: subtitle,
+              image: image,
+            ),
+            context),
         child: Padding(
             padding: paddingAll(5),
             child: Column(children: [

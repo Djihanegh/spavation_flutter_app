@@ -5,6 +5,7 @@ import 'package:spavation/app/config.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/banners/presentation/bloc/banner_bloc.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
+import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
 import 'app/app.dart';
 import 'core/cache/cache.dart';
@@ -31,6 +32,7 @@ void main() async {
           BlocProvider<CategoryBloc>(create: (context) => sl<CategoryBloc>()),
           BlocProvider<BannerBloc>(create: (context) => sl<BannerBloc>()),
           BlocProvider<SalonBloc>(create: (context) => sl<SalonBloc>()),
+          BlocProvider<ProductBloc>(create: (context) => sl<ProductBloc>()),
         ],
         child: const SpavationApp(
           config: AppConfig(env: AppEnv.dev),

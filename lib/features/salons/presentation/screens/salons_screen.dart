@@ -69,6 +69,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
                           widget.long);
                       distanceInMeters = distanceInMeters / 1000;
                       return SalonItem(
+                        salonId: "${salon.id}",
                         title: salon.name,
                         subtitle: salon.description,
                         rate: salon.rate,

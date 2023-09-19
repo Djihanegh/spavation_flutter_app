@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spavation/core/utils/size_config.dart';
-import 'package:spavation/features/home/presentation/screens/service_details/widgets/date_time_widget.dart';
+
+import 'date_time_widget.dart';
 
 showDateTimeDialog({
   required BuildContext context,

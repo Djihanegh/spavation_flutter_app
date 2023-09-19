@@ -21,6 +21,12 @@ import 'package:spavation/features/categories/data/repositories/category_reposit
 import 'package:spavation/features/categories/domain/repositories/category_repository.dart';
 import 'package:spavation/features/categories/domain/usecases/get_categories.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
+import 'package:spavation/features/products/data/datasources/products_remote_data_source.dart';
+import 'package:spavation/features/products/data/datasources/products_remote_data_source_implementation.dart';
+import 'package:spavation/features/products/data/repositories/products_repository_implementation.dart';
+import 'package:spavation/features/products/domain/repositories/products_repository.dart';
+import 'package:spavation/features/products/domain/usecases/get_products.dart';
+import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
 import 'package:spavation/features/salons/data/datasources/salons_remote_data_source.dart';
 import 'package:spavation/features/salons/data/datasources/salons_remote_data_source_implementation.dart';
 import 'package:spavation/features/salons/data/repositories/salon_repository_implementation.dart';
@@ -43,6 +49,7 @@ Future<void> init() async {
           getBannersUseCase: sl(),
         ))
     ..registerFactory(() => SalonBloc(getSalonsUseCase: sl()))
+    ..registerFactory(() => ProductBloc(getProductsUseCase: sl()))
 
     // Use cases
     ..registerLazySingleton(() => RegisterUser(sl()))
@@ -52,6 +59,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => GetCategoriesUseCase(sl()))
     ..registerLazySingleton(() => GetBannersUseCase(sl()))
     ..registerLazySingleton(() => GetSalonsUseCase(sl()))
+    ..registerLazySingleton(() => GetProductsUseCase(sl()))
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
         () => AuthenticationRepositoryImplementation(sl()))
@@ -61,6 +69,8 @@ Future<void> init() async {
         () => BannersRepositoryImplementation(sl()))
     ..registerLazySingleton<SalonRepository>(
         () => SalonRepositoryImplementation(sl()))
+    ..registerLazySingleton<ProductsRepository>(
+        () => ProductsRepositoryImplementation(sl()))
     // Data Sources
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
         () => AuthRemoteDataSrcImpl(sl()))
@@ -70,6 +80,8 @@ Future<void> init() async {
         () => BannersRemoteDataSrcImpl(sl()))
     ..registerLazySingleton<SalonRemoteDataSource>(
         () => SalonRemoteDataSrcImpl(sl()))
+    ..registerLazySingleton<ProductsRemoteDataSource>(
+        () => ProductsRemoteDataSrcImpl(sl()))
     // External Dependencies
     ..registerLazySingleton(() => http.Client());
 }
