@@ -7,6 +7,7 @@ import 'package:spavation/features/banners/presentation/bloc/banner_bloc.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
 import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
+import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart';
 import 'app/app.dart';
 import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
@@ -19,10 +20,6 @@ void main() async {
   //setupLogging();
   Bloc.observer = SpavationBlocObserver();
 
-  runApp(const SpavationApp(
-    config: AppConfig(env: AppEnv.dev),
-  ));
-
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -34,6 +31,7 @@ void main() async {
           BlocProvider<BannerBloc>(create: (context) => sl<BannerBloc>()),
           BlocProvider<SalonBloc>(create: (context) => sl<SalonBloc>()),
           BlocProvider<ProductBloc>(create: (context) => sl<ProductBloc>()),
+          BlocProvider<SettingsBloc>(create: (context) => sl<SettingsBloc>()),
         ],
         child: const SpavationApp(
           config: AppConfig(env: AppEnv.dev),

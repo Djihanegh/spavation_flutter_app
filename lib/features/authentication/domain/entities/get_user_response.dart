@@ -8,7 +8,7 @@ part 'get_user_response.g.dart';
 class GetUserResponse extends BaseResponse {
   GetUserResponse(this.user, {required super.message, required super.status});
 
-  final String user;
+  final DataMap user;
 
   factory GetUserResponse.fromJson(DataMap json) =>
       _$GetUserResponseFromJson(json);

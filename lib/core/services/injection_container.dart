@@ -34,6 +34,14 @@ import 'package:spavation/features/salons/data/repositories/salon_repository_imp
 import 'package:spavation/features/salons/domain/repositories/salon_repository.dart';
 import 'package:spavation/features/salons/domain/usecases/get_salons.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
+import 'package:spavation/features/settings/data/datasources/settings_remote_data_source.dart';
+import 'package:spavation/features/settings/data/datasources/settings_remote_data_source_implementation.dart';
+import 'package:spavation/features/settings/data/repositories/settings_repository_implementation.dart';
+import 'package:spavation/features/settings/domain/repositories/settings_repository.dart';
+import 'package:spavation/features/settings/domain/usecases/delete_user.dart';
+import 'package:spavation/features/settings/domain/usecases/get_user_details.dart';
+import 'package:spavation/features/settings/domain/usecases/update_user.dart';
+import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -52,6 +60,10 @@ Future<void> init() async {
         ))
     ..registerFactory(() => SalonBloc(getSalonsUseCase: sl()))
     ..registerFactory(() => ProductBloc(getProductsUseCase: sl()))
+    ..registerFactory(() => SettingsBloc(
+        getUserDetailsUseCase: sl(),
+        deleteUserUseCase: sl(),
+        updateUserUseCasez: sl()))
 
     // Use cases
     ..registerLazySingleton(() => RegisterUser(sl()))
@@ -63,6 +75,10 @@ Future<void> init() async {
     ..registerLazySingleton(() => GetSalonsUseCase(sl()))
     ..registerLazySingleton(() => GetProductsUseCase(sl()))
     ..registerLazySingleton(() => GetUserUseCase(sl()))
+    ..registerLazySingleton(() => GetUserDetailsUseCase(sl()))
+    ..registerLazySingleton(() => DeleteUserUseCase(sl()))
+    ..registerLazySingleton(() => UpdateUserUseCase(sl()))
+
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
         () => AuthenticationRepositoryImplementation(sl()))
@@ -74,6 +90,9 @@ Future<void> init() async {
         () => SalonRepositoryImplementation(sl()))
     ..registerLazySingleton<ProductsRepository>(
         () => ProductsRepositoryImplementation(sl()))
+    ..registerLazySingleton<SettingsRepository>(
+        () => SettingsRepositoryImplementation(sl()))
+
     // Data Sources
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
         () => AuthRemoteDataSrcImpl(sl()))
@@ -85,6 +104,8 @@ Future<void> init() async {
         () => SalonRemoteDataSrcImpl(sl()))
     ..registerLazySingleton<ProductsRemoteDataSource>(
         () => ProductsRemoteDataSrcImpl(sl()))
+    ..registerLazySingleton<SettingsRemoteDataSource>(
+        () => SettingsRemoteDataSrcImpl(sl()))
     // External Dependencies
     ..registerLazySingleton(() => http.Client());
 }

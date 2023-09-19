@@ -9,10 +9,10 @@ class GetUserDetailsResponse extends BaseResponse {
   GetUserDetailsResponse({
     required super.message,
     required super.status,
-    required this.customers,
+    required this.Customers,
   });
 
-  final String customers;
+  final DataMap Customers;
 
   factory GetUserDetailsResponse.fromJson(DataMap json) =>
       _$GetUserDetailsResponseFromJson(json);

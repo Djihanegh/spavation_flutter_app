@@ -8,7 +8,7 @@ part of 'get_user_response.dart';
 
 GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) =>
     GetUserResponse(
-      json['user'] as String,
+      json['user'] as Map<String, dynamic>,
       message: json['message'] as String,
       status: json['status'] as bool,
     );

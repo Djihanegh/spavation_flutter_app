@@ -96,10 +96,10 @@ class _SplashScreenState extends State<SplashScreen>
         backgroundColor: Colors.white,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              if (state.user != '') {
+              if (state.user != {} && state.user != null) {
                 setState(() {
                   userExists = true;
-                  navigateToHome();
+                  // navigateToHome();
                 });
               }
             },

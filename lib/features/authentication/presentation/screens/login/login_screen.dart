@@ -12,6 +12,7 @@ import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 import '../../../../../app/theme.dart';
+import '../../../../../core/cache/cache.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/validators.dart';
 import '../../../../../core/widgets/app_button.dart';
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
 
             if (state.status == FormzSubmissionStatus.success) {
+              saveUserData(state.name);
               navigateAndRemoveUntil(const Home(), context);
             }
           }
@@ -197,5 +199,9 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordValidator = '';
       }
     });
+  }
+
+  void saveUserData(String name) {
+    Prefs.setString(Prefs.FIRSTNAME, name);
   }
 }

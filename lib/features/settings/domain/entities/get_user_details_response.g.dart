@@ -11,7 +11,7 @@ GetUserDetailsResponse _$GetUserDetailsResponseFromJson(
     GetUserDetailsResponse(
       message: json['message'] as String,
       status: json['status'] as bool,
-      customers: json['customers'] as String,
+      Customers: json['Customers'] as Map<String, dynamic>,
     );
 
 Map<String, dynamic> _$GetUserDetailsResponseToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$GetUserDetailsResponseToJson(
     <String, dynamic>{
       'message': instance.message,
       'status': instance.status,
-      'customers': instance.customers,
+      'Customers': instance.Customers,
     };

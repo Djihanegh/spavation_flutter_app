@@ -14,7 +14,7 @@ final class AuthenticationState extends Equatable {
       this.successMessage = '',
       this.token = '',
       this.otp = '',
-      this.user = ''});
+      this.user});
 
   final FormzSubmissionStatus status;
   final String name;
@@ -28,7 +28,7 @@ final class AuthenticationState extends Equatable {
   final String token;
   final String otp;
   final RequestType action;
-  final String user;
+  final Map<String, dynamic>? user;
 
   AuthenticationState copyWith({
     FormzSubmissionStatus? status,
@@ -43,7 +43,7 @@ final class AuthenticationState extends Equatable {
     String? otp,
     String? successMessage,
     RequestType? action,
-    String? user,
+    DataMap? user,
   }) {
     return AuthenticationState(
         status: status ?? this.status,

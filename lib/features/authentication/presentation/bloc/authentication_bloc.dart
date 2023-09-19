@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
+import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/models/user_model.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
 import 'package:spavation/features/authentication/domain/usecases/get_user.dart';
@@ -67,7 +68,7 @@ class AuthenticationBloc
             action: RequestType.getUser,
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
-            user: '')),
+            user: {})),
         (r) => emit(state.copyWith(
             action: RequestType.getUser,
             status: FormzSubmissionStatus.success,

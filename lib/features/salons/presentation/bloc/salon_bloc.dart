@@ -22,13 +22,10 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
   Future<void> _getSalonsHandler(
       GetSalonsEvent event, Emitter<SalonState> emit) async {
-    log('LOADING');
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     await Future.delayed(const Duration(seconds: 3));
 
     final result = await _getSalonsUseCase();
-
-    log('BLOC SALON');
 
     result.fold(
         (l) => emit(state.copyWith(

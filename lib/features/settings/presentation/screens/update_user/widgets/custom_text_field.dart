@@ -74,6 +74,7 @@ class CustomTextFormField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (newValue) => onSaved(newValue),
               onChanged: (value) => onChanged!(value),
+              initialValue: initialValue,
               //onEditingComplete: () => onSaved(),
 
               //  validator: (value) => validator!(value),

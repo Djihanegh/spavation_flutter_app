@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spavation/app/theme.dart';
+import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/bills/bills_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/call_center/call_center_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/delete_account/delete_account_screen.dart';
@@ -12,6 +14,7 @@ import 'package:spavation/features/settings/presentation/screens/update_user/upd
 import 'package:spavation/generated/assets.dart';
 
 import '../../../../../core/utils/size_config.dart';
+import 'widgets/exit_dialog.dart';
 import 'widgets/settings_item.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,6 +26,14 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   PageController pageController = PageController(initialPage: 0);
+
+  String firstName = '';
+
+  @override
+  void initState() {
+    firstName = Prefs.getString(Prefs.FIRSTNAME) ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            'User 1',
+                            firstName,
                             style: TextStyles.inter.copyWith(
                                 color: appPrimaryColor,
                                 fontWeight: FontWeight.w700),
@@ -152,7 +163,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsItem(
               icon: Assets.iconsMetroExit,
               name: 'Exit',
-              onPressed: () {},
+              onPressed: () => showExitDialog(
+                  context: context,
+                  onCancel: () => cancel(),
+                  onContinue: () => logOut()),
             )
           ]);
 
@@ -163,4 +177,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     CallCenterScreen(),
     DeleteAccountScreen()
   ];
+
+  void logOut() {
+    Navigator.pop(context);
+    Prefs.setString(Prefs.TOKEN, '');
+    navigateToPage(const AuthenticationScreen(), context);
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
 }

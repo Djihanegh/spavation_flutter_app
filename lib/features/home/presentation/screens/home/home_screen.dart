@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late SalonBloc _salonBloc;
-   Position? currentPosition;
+  Position? currentPosition;
 
   @override
   void initState() {
@@ -40,8 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getCurrentPosition() async {
     currentPosition = await Location().determinePosition();
-
-    setState(() {});
   }
 
   @override
