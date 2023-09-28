@@ -1,12 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:spavation/core/services/location_service.dart';
 import 'package:spavation/core/utils/typedef.dart';
-import 'package:spavation/features/salons/data/datasources/salons_remote_data_source.dart';
-import 'package:spavation/features/salons/data/models/salon_model.dart';
-import 'package:spavation/features/salons/domain/entities/get_salons_response.dart';
 import 'package:spavation/features/settings/data/datasources/settings_remote_data_source.dart';
 import 'package:spavation/features/settings/domain/entities/get_user_details_response.dart';
 
@@ -68,9 +62,10 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
   Future<BaseResponse> updateUser({required DataMap body}) async {
     try {
       final response = await _client.post(
-        Uri.parse(Endpoints.baseUrl + Endpoints.customer),
-        headers: headers,
-      );
+          Uri.parse(Endpoints.baseUrl + Endpoints.customer),
+          headers: headersWithToken(
+              '66|xako7MgGxzKFZfrqA66ma8SE783spNyB9lm4GIiuafe8db24'),
+          body: jsonEncode(body));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));

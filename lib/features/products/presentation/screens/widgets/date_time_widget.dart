@@ -10,10 +10,21 @@ import 'package:spavation/core/utils/app_styles.dart';
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
+import '../../../../../core/utils/format_date.dart';
 import 'time_container.dart';
 
 class DateTimeWidget extends StatefulWidget {
-  const DateTimeWidget({super.key});
+  const DateTimeWidget(
+      {super.key,
+      required this.timeTo,
+      required this.timeFrom,
+      required this.dateTo,
+      required this.dateFrom});
+
+  final String timeTo;
+  final String timeFrom;
+  final String dateTo;
+  final String dateFrom;
 
   @override
   State<DateTimeWidget> createState() => _DateTimeWidgetState();
@@ -21,7 +32,18 @@ class DateTimeWidget extends StatefulWidget {
 
 class _DateTimeWidgetState extends State<DateTimeWidget> {
   final DatePickerController _pickerController = DatePickerController();
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now(),
+      timeTo = DateTime.now(),
+      timeFrom = DateTime.now(),
+      dateTo = DateTime.now(),
+      dateFrom = DateTime.now();
+
+  @override
+  void initState() {
+    timeTo = convertStringToDateTime(widget.timeTo);
+    timeFrom = convertStringToDateTime(widget.timeFrom);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -14,6 +14,7 @@ import 'package:spavation/features/products/data/models/product_model.dart';
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/constant.dart';
+import '../../../../core/utils/format_date.dart';
 import '../../../../core/utils/navigation.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../core/widgets/custom_back_button.dart';
@@ -261,7 +262,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                             width: 20,
                                                           ),
                                                           AutoSizeText(
-                                                            'Close At ${DateFormat("hh:mm a").format(DateFormat('hh:mm:ss').parseUtc(product.timeTo))}',
+                                                            'Close At ${getHourMnSec(product.timeTo)}',
                                                             // Close At 11PM
                                                             style: TextStyles
                                                                 .inter
@@ -313,15 +314,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               child: Stack(
                                 children: [
                                   Positioned(
-                                      bottom: sh! * 0.05,
+                                      bottom: sh! * 0.09,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          10.heightXBox,
-                                          Padding(
+                                          /*   10.heightXBox,
+                                         Padding(
                                               padding: EdgeInsets.only(
                                                   left: sw! * 0.07, right: 10),
                                               child: RichText(
@@ -347,7 +348,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                 fontSize: 15)),
                                                   ],
                                                 ),
-                                              )),
+                                              )),*/
                                           SizedBox(
                                               height: sh! * 0.36,
                                               width: sw!,
@@ -358,16 +359,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   itemBuilder: (context,
                                                           index) =>
                                                       GestureDetector(
-                                                          onTap: () =>
-                                                              showDateTimeDialog(
-                                                                  context:
-                                                                      context),
+                                                          onTap: () {
+                                                            setState(() {
+
+                                                            });
+                                                          },
                                                           child: ProductItem(
-                                                            description: product
-                                                                .description,
-                                                            name: product.name,
-                                                            price:
-                                                                product.price,
+                                                            product: product,
                                                           )))),
                                         ],
                                       )),
@@ -380,7 +378,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                             height: 40,
                                             width: sw! * 0.9,
                                             decoration: BoxDecoration(
-                                                color: grey[0],
+                                                color: state.selectedProducts !=
+                                                            null &&
+                                                        state.selectedProducts !=
+                                                            []
+                                                    ? green[0]
+                                                    : grey[0],
                                                 borderRadius:
                                                     const BorderRadius.only(
                                                         topLeft:

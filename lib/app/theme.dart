@@ -37,6 +37,8 @@ List<Color> red = const [
   Color(0xFFDB6989)
 ];
 
+List<Color> green = const [Color(0xFF00C534)];
+
 appBottomCircularRadius(double value) => BorderRadius.only(
     bottomLeft: Radius.circular(value), bottomRight: Radius.circular(value));
 

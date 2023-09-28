@@ -5,6 +5,10 @@ import 'date_time_widget.dart';
 
 showDateTimeDialog({
   required BuildContext context,
+  required String timeTo,
+  required String timeFrom,
+  required String dateTo,
+  required String dateFrom,
 }) {
   showDialog(
       context: context,
@@ -21,6 +25,10 @@ showDateTimeDialog({
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5)),
-                child: const DateTimeWidget()));
+                child: DateTimeWidget(
+                    timeTo: timeTo,
+                    timeFrom: timeFrom,
+                    dateFrom: dateFrom,
+                    dateTo: dateTo)));
       });
 }

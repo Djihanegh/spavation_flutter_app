@@ -67,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: borderColor ?? Colors.white)),
             child: TextFormField(
+              textDirection: TextDirection.ltr,
               enabled: enabled,
               maxLines: maxlines ?? 1,
               controller: controller,

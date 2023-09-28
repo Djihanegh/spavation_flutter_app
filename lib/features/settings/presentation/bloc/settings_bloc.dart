@@ -40,11 +40,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            action: RequestType.updateUser)),
         (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success, successMessage: r.message)));
+            action: RequestType.updateUser,
+            status: FormzSubmissionStatus.success,
+            successMessage: r.message)));
   }
 
   Future<void> _deleteUserHandler(
@@ -68,7 +70,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _getUserHandler(
       GetUserDetailsEvent event, Emitter<SettingsState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     final result = await _getUserDetailsUseCase(event.token);
 
@@ -76,9 +78,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         (l) => emit(state.copyWith(
               status: FormzSubmissionStatus.failure,
               errorMessage: l.message,
+              action: RequestType.getUserDetails,
             )),
         (r) => emit(state.copyWith(
             status: FormzSubmissionStatus.success,
+            action: RequestType.getUserDetails,
             customers: r.Customers,
             successMessage: r.message)));
   }

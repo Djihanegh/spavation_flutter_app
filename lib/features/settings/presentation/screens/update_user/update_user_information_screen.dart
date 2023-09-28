@@ -1,23 +1,25 @@
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:formz/formz.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
+import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
-    as picker;
 
+import '../../../../../core/services/location_service.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../home/presentation/screens/filter/widgets/filter_choice_box.dart';
 import '../../../../salons/presentation/screens/widgets/salon_error_widget.dart';
-import '../../../../salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import '../../bloc/settings_bloc.dart';
+import 'widgets/update_user_info_loading_widget.dart';
 
 class UpdateUserInfoScreen extends StatefulWidget {
   const UpdateUserInfoScreen({super.key});
@@ -37,14 +39,18 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
 
   Map<String, dynamic> user = {};
   bool isMale = false;
-  String gender = 'male', token = '';
+  String gender = '', token = '';
+
+  Position? currentPosition;
 
   @override
   void initState() {
     token = Prefs.getString(Prefs.TOKEN) ?? '';
+    getCurrentPosition();
 
     _settingsBloc = BlocProvider.of(context);
     _settingsBloc.add(GetUserDetailsEvent(token));
+
     super.initState();
   }
 
@@ -54,8 +60,28 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: BlocConsumer<SettingsBloc, SettingsState>(
             listener: (context, state) {
-              if (state.customers != {} && state.customers != null) {
+              if (state.customers != {} &&
+                  state.customers != null &&
+                  state.action != RequestType.updateUser) {
                 user = state.customers!;
+
+                isMale = user['gender'] == 'Male' ? true : false;
+
+                mobileController.text = user['phone'] ?? '';
+                emailController.text = user['email'] ?? '';
+                nameController.text = user['fullname'] ?? '';
+              }
+
+              if (state.action == RequestType.updateUser) {
+                if (state.status == FormzSubmissionStatus.success) {
+                  openSnackBar(context, state.successMessage,
+                      AnimatedSnackBarType.success);
+                }
+
+                if (state.status == FormzSubmissionStatus.failure) {
+                  openSnackBar(
+                      context, state.errorMessage, AnimatedSnackBarType.error);
+                }
               }
             },
             listenWhen: (prev, curr) => prev.status != curr.status,
@@ -63,28 +89,18 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
             builder: (context, state) {
               Widget? child;
 
-              if (state.status == FormzSubmissionStatus.inProgress) {
-                child = const SalonShimmer();
+              if (state.status == FormzSubmissionStatus.inProgress ||
+                  state.status == FormzSubmissionStatus.initial) {
+                child = const UpdateUserInfoLoadingWidget();
               }
               if (state.status == FormzSubmissionStatus.failure) {
                 child = const SalonErrorWidget();
-              }
-
-              if (state.status == FormzSubmissionStatus.initial) {
-                child = const SalonShimmer();
               }
 
               if (state.customers == {} && user == {}) {
                 child = const Text('Not found ');
               }
               if (state.customers != {} && state.customers != null) {
-                user = state.customers!;
-                isMale = user['gender'] == 'Male' ? true : false;
-
-                mobileController.text = user['phone'] ?? '';
-                emailController.text = user['email'] ?? '';
-                nameController.text = user['fullname'] ?? '';
-
                 child = Column(
                   children: [
                     Padding(
@@ -147,7 +163,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                               enabled: true,
                               onSaved: (e) {},
                               onChanged: (e) {},
-                              keyboardType: TextInputType.streetAddress,
+                              keyboardType: TextInputType.text,
                             ),
                           ],
                         )),
@@ -245,7 +261,11 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                                     });
                                   },
                                   title: 'Male',
-                                  isSelected: gender == 'male' ? true : false,
+                                  isSelected: isMale && gender.isEmpty
+                                      ? true
+                                      : gender == 'male'
+                                          ? true
+                                          : false,
                                 ),
                                 10.widthXBox,
                                 FilterChoiceBox(
@@ -255,7 +275,11 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                                     });
                                   },
                                   title: 'Female',
-                                  isSelected: gender == 'female' ? true : false,
+                                  isSelected: !isMale && gender.isEmpty
+                                      ? true
+                                      : gender == 'female'
+                                          ? true
+                                          : false,
                                 ),
                               ],
                             )
@@ -268,7 +292,33 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                         color: appFilterCoLOR,
                         borderColor: borderColor,
                         textColor: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          if (nameController.text.isNotEmpty &&
+                              addressController.text.isNotEmpty &&
+                              mobileController.text.isNotEmpty) {
+                            log(nameController.text);
+                            log(mobileController.text);
+                            log(addressController.text);
+                            log(currentPosition!.latitude.toString());
+                            log(currentPosition!.longitude.toString());
+                            log(gender);
+
+                            context.read<SettingsBloc>().add(UpdateUserEvent({
+                                  'fullname': nameController.text,
+                                  'phone': mobileController.text,
+                                  'address': addressController.text,
+                                  'gender': gender.isNotEmpty
+                                      ? gender
+                                      : isMale
+                                          ? 'male'
+                                          : 'female',
+                                  'latitude': currentPosition?.latitude,
+                                  'longitude': currentPosition?.longitude,
+                                  'image': 'bbvnv',
+                                  'birthday': "string",
+                                }));
+                          }
+                        },
                       ),
                       10.heightXBox,
                       const AppButton(
@@ -282,5 +332,11 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
               }
               return child!;
             }));
+  }
+
+  void getCurrentPosition() async {
+    //  setState(() async {
+    currentPosition = await Location().determinePosition();
+    //  });
   }
 }

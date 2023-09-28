@@ -3,11 +3,13 @@ enum RequestType {
   createUser,
   deleteUser,
   getUser,
+  updateUser,
+  getUserDetails,
   checkOtp,
   resendOtp,
   getBanners,
   getCategories,
   getSalons,
   getProducts,
-  unknown
+  unknown,
 }

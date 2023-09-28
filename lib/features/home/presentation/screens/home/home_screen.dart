@@ -53,15 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
     Uri url = Uri.parse('http://ip-api.com/json');
     Response data = await http.get(url);
     Map<String, dynamic> result = jsonDecode(data.body);
-    String country = result['country'];
 
-    setState(() {
-      countryName = country;
-    });
     saveUserAddress(result);
   }
 
   void saveUserAddress(DataMap result) {
+    setState(() {
+      countryName = result['country'];
+    });
     if (result.isNotEmpty) {
       context
           .read<AuthenticationBloc>()
