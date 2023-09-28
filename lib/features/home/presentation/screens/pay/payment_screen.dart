@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import 'package:spavation/generated/assets.dart';
 
@@ -12,8 +11,15 @@ import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
 import '../filter/widgets/filter_choice_box.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
+
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
+  String paymentMethod = 'apple';
 
   @override
   Widget build(BuildContext context) {
@@ -186,12 +192,9 @@ class PaymentScreen extends StatelessWidget {
                               children: [
                                 10.heightXBox,
                                 Row(children: [
-                                  SvgPicture.asset(
-                                    Assets.iconsMaterialPayment,
-                                    colorFilter:  ColorFilter.mode(
-                                        purple[1], BlendMode.srcIn)
-
-                                  ),
+                                  SvgPicture.asset(Assets.iconsMaterialPayment,
+                                      colorFilter: ColorFilter.mode(
+                                          purple[1], BlendMode.srcIn)),
                                   10.widthXBox,
                                   AutoSizeText(
                                     'Payment Type',
@@ -204,9 +207,16 @@ class PaymentScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    const FilterChoiceBox(
-                                      isSelected: true,
+                                    FilterChoiceBox(
+                                      isSelected: paymentMethod == 'apple'
+                                          ? true
+                                          : false,
                                       title: '',
+                                      onChanged: () {
+                                        setState(() {
+                                          paymentMethod = 'apple';
+                                        });
+                                      },
                                     ),
                                     5.widthXBox,
                                     SvgPicture.asset(
@@ -223,9 +233,16 @@ class PaymentScreen extends StatelessWidget {
                                 5.heightXBox,
                                 Row(
                                   children: [
-                                    const FilterChoiceBox(
-                                      isSelected: false,
+                                    FilterChoiceBox(
+                                      isSelected: paymentMethod == 'card'
+                                          ? true
+                                          : false,
                                       title: '',
+                                      onChanged: () {
+                                        setState(() {
+                                          paymentMethod = 'card';
+                                        });
+                                      },
                                     ),
                                     5.widthXBox,
                                     SvgPicture.asset(Assets.iconsVisaCard),

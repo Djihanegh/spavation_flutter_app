@@ -25,7 +25,7 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
     try {
       final response = await _client.delete(
         Uri.parse(Endpoints.baseUrl + Endpoints.customer),
-        headers: headers,
+        headers: headersWithToken(token),
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {

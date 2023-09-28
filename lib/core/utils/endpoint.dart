@@ -2,7 +2,8 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = 'https://spa.esayway.com/public/api';
+  static const String baseUrl =
+      'http://admin.spavation.co/public/api'; //'https://spa.esayway.com/public/api';
 
   // Storage Url
   static const storageUrl = 'https://spa.esayway.com/public/storage/';
@@ -39,9 +40,9 @@ class Endpoints {
 
   static const String products = '/products/salon/';
 
-
   static const String customer = '/auth/customer';
 
   static const String getUser = '/auth/user';
 
+  static const String reservations = '/reservations/';
 }

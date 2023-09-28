@@ -12,3 +12,13 @@ class GetProductsEvent extends ProductEvent {
   @override
   List<Object?> get props => [salonId];
 }
+
+
+class SelectProduct extends ProductEvent {
+  const SelectProduct(this.product);
+
+  final ProductModel product;
+
+  @override
+  List<Object?> get props => [product];
+}

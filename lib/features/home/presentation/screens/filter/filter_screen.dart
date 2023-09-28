@@ -99,12 +99,18 @@ class _FilterScreenState extends State<FilterScreen> {
                                 .copyWith(color: appPrimaryColor),
                           ),
                           10.heightXBox,
-                          const FilterChoiceBox(
+                           FilterChoiceBox(
+                             onChanged: (){
+
+                             },
                             title: 'Near by',
                             isSelected: true,
                           ),
                           5.heightXBox,
-                          const FilterChoiceBox(
+                           FilterChoiceBox(
+                             onChanged: (){
+
+                             },
                             title: 'Top rated',
                             isSelected: false,
                           ),
@@ -113,24 +119,36 @@ class _FilterScreenState extends State<FilterScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const FilterChoiceBox(
+                               FilterChoiceBox(
+                                 onChanged: (){
+
+                                 },
                                 title: 'Men',
                                 isSelected: false,
                               ),
                               10.widthXBox,
-                              const FilterChoiceBox(
+                               FilterChoiceBox(
                                 title: 'Women',
+                                onChanged: (){
+
+                                },
                                 isSelected: false,
                               ),
                               10.widthXBox,
-                              const FilterChoiceBox(
+                               FilterChoiceBox(
+                                 onChanged: (){
+
+                                 },
                                 title: 'Men and Women',
                                 isSelected: false,
                               ),
                             ],
                           ),
                           5.heightXBox,
-                          const FilterChoiceBox(
+                           FilterChoiceBox(
+                             onChanged: (){
+
+                             },
                             title: 'Open now',
                             isSelected: true,
                           ),

@@ -1,19 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/typedef.dart';
+import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/banners/presentation/screens/banners_screen.dart';
 import 'package:spavation/features/home/presentation/screens/filter/filter_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/widgets/custom_icon.dart';
-import 'package:spavation/generated/assets.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../categories/presentation/screens/categories_screen.dart';
-import '../../../../categories/presentation/screens/widgets/category_item.dart';
 import '../../../../salons/presentation/bloc/salon_bloc.dart';
 import '../../../../salons/presentation/screens/salons_screen.dart';
 import 'widgets/search_input.dart';
@@ -28,10 +33,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late SalonBloc _salonBloc;
   Position? currentPosition;
+  String countryName = '';
 
   @override
   void initState() {
     getCurrentPosition();
+    getCountryName();
     _salonBloc = BlocProvider.of(context);
     _salonBloc.add(const GetSalonsEvent());
 
@@ -40,6 +47,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getCurrentPosition() async {
     currentPosition = await Location().determinePosition();
+  }
+
+  void getCountryName() async {
+    Uri url = Uri.parse('http://ip-api.com/json');
+    Response data = await http.get(url);
+    Map<String, dynamic> result = jsonDecode(data.body);
+    String country = result['country'];
+
+    setState(() {
+      countryName = country;
+    });
+    saveUserAddress(result);
+  }
+
+  void saveUserAddress(DataMap result) {
+    if (result.isNotEmpty) {
+      context
+          .read<AuthenticationBloc>()
+          .add(UserAddressChanged(address: result));
+    }
   }
 
   @override
@@ -93,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                     ),
                     AutoSizeText(
-                      'Riyadh',
+                      countryName,
                       style: TextStyles.inter.copyWith(color: Colors.white),
                     ),
                   ],
@@ -131,32 +158,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     )));
   }
-
-  List<CategoryItem> categories = const [
-    CategoryItem(
-      color: appPrimaryColor,
-      title: 'All',
-      image: Assets.imagesSpa2,
-    ),
-    CategoryItem(
-      color: appPrimaryColor,
-      title: 'Body care',
-      image: Assets.imagesSpa2,
-    ),
-    CategoryItem(
-      color: appPrimaryColor,
-      title: 'Hair',
-      image: Assets.imagesSpa2,
-    ),
-    CategoryItem(
-      color: appPrimaryColor,
-      title: 'Massage',
-      image: Assets.imagesSpa2,
-    ),
-    CategoryItem(
-      color: appPrimaryColor,
-      title: 'Nails',
-      image: Assets.imagesSpa2,
-    )
-  ];
 }

@@ -28,6 +28,10 @@ import 'package:spavation/features/products/data/repositories/products_repositor
 import 'package:spavation/features/products/domain/repositories/products_repository.dart';
 import 'package:spavation/features/products/domain/usecases/get_products.dart';
 import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
+import 'package:spavation/features/reservation/data/datasources/reservation_remote_data_source.dart';
+import 'package:spavation/features/reservation/domain/repositories/reservation_repository.dart';
+import 'package:spavation/features/reservation/domain/usecases/get_reservations.dart';
+import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
 import 'package:spavation/features/salons/data/datasources/salons_remote_data_source.dart';
 import 'package:spavation/features/salons/data/datasources/salons_remote_data_source_implementation.dart';
 import 'package:spavation/features/salons/data/repositories/salon_repository_implementation.dart';
@@ -42,6 +46,9 @@ import 'package:spavation/features/settings/domain/usecases/delete_user.dart';
 import 'package:spavation/features/settings/domain/usecases/get_user_details.dart';
 import 'package:spavation/features/settings/domain/usecases/update_user.dart';
 import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart';
+
+import '../../features/reservation/data/datasources/reservation_remote_data_source_implementation.dart';
+import '../../features/reservation/data/repositories/reservation_repository_implementation.dart';
 
 final sl = GetIt.instance;
 
@@ -64,6 +71,7 @@ Future<void> init() async {
         getUserDetailsUseCase: sl(),
         deleteUserUseCase: sl(),
         updateUserUseCasez: sl()))
+    ..registerFactory(() => ReservationBloc(getReservationsUseCase: sl()))
 
     // Use cases
     ..registerLazySingleton(() => RegisterUser(sl()))
@@ -78,6 +86,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => GetUserDetailsUseCase(sl()))
     ..registerLazySingleton(() => DeleteUserUseCase(sl()))
     ..registerLazySingleton(() => UpdateUserUseCase(sl()))
+    ..registerLazySingleton(() => GetReservationsUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
@@ -92,6 +101,8 @@ Future<void> init() async {
         () => ProductsRepositoryImplementation(sl()))
     ..registerLazySingleton<SettingsRepository>(
         () => SettingsRepositoryImplementation(sl()))
+    ..registerLazySingleton<ReservationsRepository>(
+        () => ReservationRepositoryImplementation(sl()))
 
     // Data Sources
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
@@ -106,6 +117,8 @@ Future<void> init() async {
         () => ProductsRemoteDataSrcImpl(sl()))
     ..registerLazySingleton<SettingsRemoteDataSource>(
         () => SettingsRemoteDataSrcImpl(sl()))
+    ..registerLazySingleton<ReservationsRemoteDataSource>(
+            () => ReservationsRemoteDataSrcImpl(sl()))
     // External Dependencies
     ..registerLazySingleton(() => http.Client());
 }

@@ -39,6 +39,7 @@ class AuthenticationBloc
     on<LoginUserEvent>(_loginUserHandler);
     on<CheckOtpEvent>(_checkOtpHandler);
     on<ResendOtpEvent>(_resendOtpHandler);
+    on<GetUserEvent>(_getUserHandler);
 
     on<EmailChanged>(_emailChanged);
     on<NameChanged>(_nameChanged);
@@ -46,7 +47,7 @@ class AuthenticationBloc
     on<PasswordChanged>(_passwordChanged);
     on<ConfirmPasswordChanged>(_confirmPasswordChanged);
     on<GenderChanged>(_genderChanged);
-    on<GetUserEvent>(_getUserHandler);
+    on<UserAddressChanged>(_userAddressChanged);
   }
 
   final RegisterUser _registerUser;
@@ -54,6 +55,13 @@ class AuthenticationBloc
   final CheckOtpUseCase _checkOtp;
   final ResendOtpUseCase _resendOtp;
   final GetUserUseCase _getUserUseCase;
+
+  Future<void> _userAddressChanged(
+      UserAddressChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+      userAddress: event.address,
+    ));
+  }
 
   Future<void> _getUserHandler(
       GetUserEvent event, Emitter<AuthenticationState> emit) async {
@@ -119,16 +127,10 @@ class AuthenticationBloc
 
   Future<void> _emailChanged(
       EmailChanged event, Emitter<AuthenticationState> emit) async {
-    log('Event chnaged');
-    log(event.email);
-
     emit(state.copyWith(
       email: event.email,
       gender: state.gender,
     ));
-
-    log('STATE');
-    log(state.email);
   }
 
   Future<void> _nameChanged(

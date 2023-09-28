@@ -21,8 +21,8 @@ class SalonShimmer extends StatelessWidget {
           width: sw! * 0.97,
           height: sh! * 0.15,
           child: Shimmer.fromColors(
-              baseColor: Colors.grey[400]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: const Color(0XFFC2C2C2), //Colors.grey[400]!,
+              highlightColor: const Color(0XFFC2C2C2), //Colors.grey[100]!,
               child: _body()),
         )));
   }
@@ -33,9 +33,9 @@ class SalonShimmer extends StatelessWidget {
         child: Container(
             width: sw! * 0.97,
             height: sh! * 0.15,
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
             )));
   }
 }

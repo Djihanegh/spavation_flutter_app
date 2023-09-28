@@ -31,11 +31,13 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
   TextEditingController mobileController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   late SettingsBloc _settingsBloc;
-  String token = '';
+
   Map<String, dynamic> user = {};
   bool isMale = false;
+  String gender = 'male', token = '';
 
   @override
   void initState() {
@@ -79,9 +81,6 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                 user = state.customers!;
                 isMale = user['gender'] == 'Male' ? true : false;
 
-                log('IS MALLLLEEE');
-                log(isMale.toString());
-
                 mobileController.text = user['phone'] ?? '';
                 emailController.text = user['email'] ?? '';
                 nameController.text = user['fullname'] ?? '';
@@ -123,9 +122,32 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                             ),
                             CustomTextFormField(
                               controller: emailController,
+                              enabled: false,
                               onSaved: (e) {},
                               onChanged: (e) {},
                               keyboardType: TextInputType.emailAddress,
+                            ),
+                          ],
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 20, left: 20, right: 20),
+                        // , left: 20, right: 20
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText(
+                              'Address',
+                              style: TextStyles.inter
+                                  .copyWith(color: Colors.white, fontSize: 16),
+                            ),
+                            CustomTextFormField(
+                              controller: addressController,
+                              enabled: true,
+                              onSaved: (e) {},
+                              onChanged: (e) {},
+                              keyboardType: TextInputType.streetAddress,
                             ),
                           ],
                         )),
@@ -217,13 +239,23 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 FilterChoiceBox(
+                                  onChanged: () {
+                                    setState(() {
+                                      gender = 'male';
+                                    });
+                                  },
                                   title: 'Male',
-                                  isSelected: isMale,
+                                  isSelected: gender == 'male' ? true : false,
                                 ),
                                 10.widthXBox,
                                 FilterChoiceBox(
+                                  onChanged: () {
+                                    setState(() {
+                                      gender = 'female';
+                                    });
+                                  },
                                   title: 'Female',
-                                  isSelected: !isMale,
+                                  isSelected: gender == 'female' ? true : false,
                                 ),
                               ],
                             )
@@ -231,11 +263,13 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                         )),
                     ...[
                       10.heightXBox,
-                      const AppButton(
-                          title: 'Update',
-                          color: appFilterCoLOR,
-                          borderColor: borderColor,
-                          textColor: Colors.white),
+                      AppButton(
+                        title: 'Update',
+                        color: appFilterCoLOR,
+                        borderColor: borderColor,
+                        textColor: Colors.white,
+                        onPressed: () {},
+                      ),
                       10.heightXBox,
                       const AppButton(
                           borderColor: appFilterCoLOR,

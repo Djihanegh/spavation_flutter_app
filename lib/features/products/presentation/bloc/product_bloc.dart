@@ -15,9 +15,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       : _getProductsUseCase = getProductsUseCase,
         super(const ProductState()) {
     on<GetProductsEvent>(_getProductsHandler);
+    on<SelectProduct>(_onSelectProduct);
   }
 
   final GetProductsUseCase _getProductsUseCase;
+
+  void _onSelectProduct(SelectProduct event, Emitter<ProductState> emit) {
+    List<ProductModel> products = state.selectedProducts ?? [];
+
+    products.add(event.product);
+    state.copyWith(selectedProducts: products);
+  }
 
   Future<void> _getProductsHandler(
       GetProductsEvent event, Emitter<ProductState> emit) async {

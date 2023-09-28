@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/settings/domain/usecases/delete_user.dart';
 import 'package:spavation/features/settings/domain/usecases/get_user_details.dart';
@@ -55,11 +56,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            action: RequestType.deleteUser)),
         (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success, successMessage: r.message)));
+            action: RequestType.deleteUser,
+            status: FormzSubmissionStatus.success,
+            successMessage: r.message)));
   }
 
   Future<void> _getUserHandler(

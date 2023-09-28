@@ -4,6 +4,17 @@ abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 }
 
+class UserAddressChanged extends AuthenticationEvent {
+  const UserAddressChanged({
+    required this.address,
+  });
+
+  final DataMap address;
+
+  @override
+  List<Object?> get props => [address];
+}
+
 class GetUserEvent extends AuthenticationEvent {
   const GetUserEvent({
     required this.token,

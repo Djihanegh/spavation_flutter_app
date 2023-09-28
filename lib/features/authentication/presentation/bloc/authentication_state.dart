@@ -14,7 +14,8 @@ final class AuthenticationState extends Equatable {
       this.successMessage = '',
       this.token = '',
       this.otp = '',
-      this.user});
+      this.user,
+      this.userAddress});
 
   final FormzSubmissionStatus status;
   final String name;
@@ -29,22 +30,23 @@ final class AuthenticationState extends Equatable {
   final String otp;
   final RequestType action;
   final Map<String, dynamic>? user;
+  final Map<String, dynamic>? userAddress;
 
-  AuthenticationState copyWith({
-    FormzSubmissionStatus? status,
-    String? name,
-    String? phone,
-    String? email,
-    String? password,
-    String? confirmPassword,
-    String? gender,
-    String? errorMessage,
-    String? token,
-    String? otp,
-    String? successMessage,
-    RequestType? action,
-    DataMap? user,
-  }) {
+  AuthenticationState copyWith(
+      {FormzSubmissionStatus? status,
+      String? name,
+      String? phone,
+      String? email,
+      String? password,
+      String? confirmPassword,
+      String? gender,
+      String? errorMessage,
+      String? token,
+      String? otp,
+      String? successMessage,
+      RequestType? action,
+      DataMap? user,
+      DataMap? userAddress}) {
     return AuthenticationState(
         status: status ?? this.status,
         name: name ?? this.name,
@@ -58,7 +60,8 @@ final class AuthenticationState extends Equatable {
         otp: otp ?? this.otp,
         successMessage: successMessage ?? this.successMessage,
         action: action ?? this.action,
-        user: user ?? this.user);
+        user: user ?? this.user,
+        userAddress: userAddress ?? this.userAddress);
   }
 
   @override
@@ -74,6 +77,7 @@ final class AuthenticationState extends Equatable {
         password,
         confirmPassword,
         name,
-        user
+        user,
+        userAddress
       ];
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 import '../../app/theme.dart';
@@ -46,10 +47,7 @@ class AppButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: borderColor ?? appFilterCoLOR)),
                 child: state.status == FormzSubmissionStatus.inProgress
-                    ? const SpinKitSquareCircle(
-                        color: Colors.white,
-                        size: 20.0,
-                      )
+                    ? const LoadingWidget()
                     : AutoSizeText(
                         title,
                         style: TextStyles.inter
