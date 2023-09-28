@@ -30,3 +30,21 @@ class RemoveProduct extends ProductEvent {
   @override
   List<Object?> get props => [product];
 }
+
+class SelectDate extends ProductEvent {
+  const SelectDate(this.date);
+
+  final DateTime date;
+
+  @override
+  List<Object?> get props => [date];
+}
+
+class SelectTime extends ProductEvent {
+  const SelectTime(this.time);
+
+  final String time;
+
+  @override
+  List<Object?> get props => [time];
+}

@@ -4,6 +4,16 @@ String getHourMnSec(String timeTo) {
   return DateFormat("hh:mm a").format(DateFormat('hh:mm:ss').parseUtc(timeTo));
 }
 
-DateTime convertStringToDateTime(String time) {
+DateTime convertStringToHourMnSec(String time) {
   return DateFormat("hh:mm:ss").parse(time);
+}
+
+DateTime convertStringToDateTime(String time) {
+  return DateFormat("yyyy-MM-dd").parse(time);
+}
+
+int daysBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day);
+  to = DateTime(to.year, to.month, to.day);
+  return (to.difference(from).inHours / 24).round();
 }

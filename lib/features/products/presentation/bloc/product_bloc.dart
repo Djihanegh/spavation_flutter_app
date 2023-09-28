@@ -19,9 +19,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<SelectProduct>(_onSelectProduct);
     on<RemoveProduct>(_onRemoveProduct);
 
+    on<SelectDate>(_onSelectDate);
+    on<SelectTime>(_onSelectTime);
   }
 
   final GetProductsUseCase _getProductsUseCase;
+
+  void _onSelectDate(SelectDate event, Emitter<ProductState> emit) {
+    emit(state.copyWith(selectedDate: event.date));
+  }
+
+  void _onSelectTime(SelectTime event, Emitter<ProductState> emit) {
+    emit(state.copyWith(selectedTime: event.time));
+  }
 
   void _onRemoveProduct(RemoveProduct event, Emitter<ProductState> emit) {
     List<ProductModel> products = state.selectedProducts ?? [];
@@ -30,9 +40,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       products.remove(event.product);
     }
     emit(state.copyWith(selectedProducts: products));
-
-
-    log(state.selectedProducts.toString());
   }
 
   void _onSelectProduct(SelectProduct event, Emitter<ProductState> emit) {

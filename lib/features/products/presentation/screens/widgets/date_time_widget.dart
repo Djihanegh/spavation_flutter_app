@@ -38,16 +38,30 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       dateTo = DateTime.now(),
       dateFrom = DateTime.now();
 
+  List<int> times = [];
+  int days = 0;
+
   @override
   void initState() {
-    timeTo = convertStringToDateTime(widget.timeTo);
-    timeFrom = convertStringToDateTime(widget.timeFrom);
+    timeTo = convertStringToHourMnSec(widget.timeTo);
+    timeFrom = convertStringToHourMnSec(widget.timeFrom);
+
+    dateTo = convertStringToDateTime(widget.dateTo);
+    dateFrom = convertStringToDateTime(widget.dateFrom);
+
+    for (var i = timeFrom.hour; i < timeTo.hour; i++) {
+      times.add(i);
+    }
+
+    days = daysBetween(dateFrom, dateTo);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
+    return SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
       Align(
           alignment: Alignment.topRight,
           child: GestureDetector(
@@ -74,12 +88,12 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
               height: 100,
               width: sw! * 0.5,
               child: DatePicker(
-                DateTime.now(),
+                dateFrom,
                 controller: _pickerController,
                 initialSelectedDate: DateTime.now(),
                 selectionColor: appPrimaryColor,
                 selectedTextColor: Colors.white,
-                daysCount: 500,
+                daysCount: days + 1,
                 width: 60,
                 onDateChange: (date) {
                   // New date selected
@@ -102,46 +116,21 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       10.heightXBox,
       SizedBox(
           width: sw!,
-          child: const Wrap(
-            direction: Axis.horizontal,
-            alignment: WrapAlignment.center,
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              TimeContainer(
-                isSelected: true,
-                isDisabled: false,
-                startTime: 10,
-                endTime: 11,
-              ),
-              TimeContainer(
-                  isSelected: false,
-                  isDisabled: false,
-                  startTime: 11,
-                  endTime: 12),
-              TimeContainer(
-                  isSelected: false,
-                  isDisabled: true,
-                  startTime: 12,
-                  endTime: 13),
-              TimeContainer(
-                  isSelected: false,
-                  isDisabled: false,
-                  startTime: 13,
-                  endTime: 14),
-              TimeContainer(
-                  isSelected: false,
-                  isDisabled: false,
-                  startTime: 14,
-                  endTime: 15),
-              TimeContainer(
-                  isSelected: false,
-                  isDisabled: false,
-                  startTime: 15,
-                  endTime: 16),
-            ],
-          ))
-    ]);
+          child: Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                for (var i = 0; i < (times.length / 2); i++)
+                  TimeContainer(
+                    isSelected: true,
+                    isDisabled: false,
+                    startTime: times[i],
+                    endTime: times[i + 1],
+                  ),
+              ]))
+    ]));
   }
 
   void setDateAndAnimateTo(String operator) {
