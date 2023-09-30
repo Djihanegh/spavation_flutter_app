@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spavation/features/reservation/data/datasources/reservation_remote_data_source.dart';
+import 'package:spavation/features/reservation/domain/entities/check_coupon_response.dart';
 import 'package:spavation/features/reservation/domain/entities/get_reservations_response.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/base_response.dart';
@@ -27,6 +28,29 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
       }
 
       return GetReservationsResponse.fromJson(jsonDecode(response.body));
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
+
+  @override
+  Future<CheckCouponResponse> checkCoupon(
+      {required String code, required String salonId}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
+        headers: headers,
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
+        throw APIException(
+            message: result.message, statusCode: response.statusCode);
+      }
+
+      return CheckCouponResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {

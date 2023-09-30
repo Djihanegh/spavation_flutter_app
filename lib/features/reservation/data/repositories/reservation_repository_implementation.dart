@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:spavation/core/utils/typedef.dart';
+import 'package:spavation/features/reservation/domain/entities/check_coupon_response.dart';
 import 'package:spavation/features/reservation/domain/repositories/reservation_repository.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failure.dart';
@@ -16,6 +17,18 @@ class ReservationRepositoryImplementation implements ReservationsRepository {
       {required String id}) async {
     try {
       final result = await _remoteDataSource.getReservations(id: id);
+      return Right(result);
+    } on APIException catch (e) {
+      return Left(APIFailure.fomException(e));
+    }
+  }
+
+  @override
+  ResultFuture<CheckCouponResponse> checkCoupon(
+      {required String salonId, required String code}) async {
+    try {
+      final result =
+          await _remoteDataSource.checkCoupon(code: code, salonId: salonId);
       return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fomException(e));

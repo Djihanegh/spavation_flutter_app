@@ -12,3 +12,13 @@ class GetReservationsEvent extends ReservationEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class CheckCouponEvent extends ReservationEvent {
+  const CheckCouponEvent(this.salonId, this.code);
+
+  final String salonId;
+  final String code;
+
+  @override
+  List<Object?> get props => [salonId, code];
+}

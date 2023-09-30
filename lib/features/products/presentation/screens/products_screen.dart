@@ -19,7 +19,7 @@ import '../../../../core/utils/navigation.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../core/widgets/custom_back_button.dart';
 import '../../../../generated/assets.dart';
-import '../../../home/presentation/screens/pay/payment_screen.dart';
+import '../../../reservation/presentation/screens/payment_screen.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../../../salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import '../bloc/product_bloc.dart';
@@ -68,23 +68,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
         body: SingleChildScrollView(
             child: BlocConsumer<ProductBloc, ProductState>(
                 listener: (context, state) {},
-                listenWhen: (prev, curr) => prev.status != curr.status,
-                buildWhen: (prev, curr) => prev.status != curr.status,
+                listenWhen: (prev, curr) =>
+                    prev.selectedProducts != curr.selectedProducts ||
+                    prev.status != curr.status,
+                buildWhen: (prev, curr) =>
+                    prev.selectedProducts != curr.selectedProducts ||
+                    prev.status != curr.status,
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
 
                   child = body(subChild);
 
-                  if (state.status == FormzSubmissionStatus.inProgress) {
+                  if (state.status == FormzSubmissionStatus.inProgress ||
+                      state.status == FormzSubmissionStatus.initial) {
                     subChild = const ProductLoadingWidget();
                   }
                   if (state.status == FormzSubmissionStatus.failure) {
                     subChild = const SalonErrorWidget();
-                  }
-
-                  if (state.status == FormzSubmissionStatus.initial) {
-                    subChild = const ProductLoadingWidget();
                   }
 
                   if (state.status == FormzSubmissionStatus.success &&
@@ -356,17 +357,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   physics:
                                                       const AlwaysScrollableScrollPhysics(),
                                                   itemCount: state.data?.length,
-                                                  itemBuilder: (context,
-                                                          index) =>
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-
-                                                            });
-                                                          },
-                                                          child: ProductItem(
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          ProductItem(
                                                             product: product,
-                                                          )))),
+                                                          ))),
                                         ],
                                       )),
                                   Positioned(

@@ -30,6 +30,7 @@ import 'package:spavation/features/products/domain/usecases/get_products.dart';
 import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
 import 'package:spavation/features/reservation/data/datasources/reservation_remote_data_source.dart';
 import 'package:spavation/features/reservation/domain/repositories/reservation_repository.dart';
+import 'package:spavation/features/reservation/domain/usecases/check_coupon.dart';
 import 'package:spavation/features/reservation/domain/usecases/get_reservations.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
 import 'package:spavation/features/salons/data/datasources/salons_remote_data_source.dart';
@@ -71,7 +72,8 @@ Future<void> init() async {
         getUserDetailsUseCase: sl(),
         deleteUserUseCase: sl(),
         updateUserUseCasez: sl()))
-    ..registerFactory(() => ReservationBloc(getReservationsUseCase: sl()))
+    ..registerFactory(() =>
+        ReservationBloc(getReservationsUseCase: sl(), checkCouponUseCase: sl()))
 
     // Use cases
     ..registerLazySingleton(() => RegisterUser(sl()))
@@ -87,6 +89,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => DeleteUserUseCase(sl()))
     ..registerLazySingleton(() => UpdateUserUseCase(sl()))
     ..registerLazySingleton(() => GetReservationsUseCase(sl()))
+    ..registerLazySingleton(() => CheckCouponUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
@@ -118,7 +121,7 @@ Future<void> init() async {
     ..registerLazySingleton<SettingsRemoteDataSource>(
         () => SettingsRemoteDataSrcImpl(sl()))
     ..registerLazySingleton<ReservationsRemoteDataSource>(
-            () => ReservationsRemoteDataSrcImpl(sl()))
+        () => ReservationsRemoteDataSrcImpl(sl()))
     // External Dependencies
     ..registerLazySingleton(() => http.Client());
 }
