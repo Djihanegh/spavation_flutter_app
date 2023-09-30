@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/core/utils/format_date.dart';
+import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
+import 'package:spavation/features/reservation/presentation/widgets/service_details_item.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import 'package:spavation/generated/assets.dart';
 
@@ -70,155 +71,48 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             10.heightXBox,
 
-                            for (ProductModel product
-                                in state.selectedProducts ?? [])
-                              Container(
-                                //  height: sh! * 0.28,
-                                width: sw! * 0.95,
-                                margin: paddingAll(10),
-                                padding: paddingAll(10),
-                                decoration: BoxDecoration(
-                                    boxShadow: boxShadow,
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    10.heightXBox,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                            Assets.iconsMaterialDetails),
-                                        10.widthXBox,
-                                        AutoSizeText(
-                                          'Services Details',
-                                          style: TextStyles.inter.copyWith(
-                                              color: appPrimaryColor,
-                                              fontSize: 20),
-                                        )
-                                      ],
-                                    ),
-                                    const Divider(
-                                      color: dividerColor,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText(
-                                          product.name,
-                                          style: TextStyles.inter.copyWith(
-                                              color: purple[1], fontSize: 15),
-                                        ),
-                                        AutoSizeText(
-                                          '${product.price} SR',
-                                          style: TextStyles.inter.copyWith(
-                                              color: appPrimaryColor,
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    ),
-                                    5.heightXBox,
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SvgPicture.asset(
-                                                Assets.iconsIonicIosCalendar),
-                                            5.widthXBox,
-                                            AutoSizeText(
-                                              getSelectedDate(
-                                                  state.selectedDate!),
-                                              style: TextStyles.inter.copyWith(
-                                                  color: purple[1],
-                                                  fontSize: 15),
-                                            )
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              Assets.iconsClock,
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                            5.widthXBox,
-                                            AutoSizeText(
-                                              state.selectedTime ?? '',
-                                              style: TextStyles.inter.copyWith(
-                                                  color: purple[1],
-                                                  fontSize: 15),
-                                            )
-                                          ],
-                                        )),
-                                    10.heightXBox,
-                                    AutoSizeText(
-                                      'Service For',
-                                      style: TextStyles.inter.copyWith(
-                                          color: appPrimaryColor, fontSize: 20),
-                                    ),
-                                    const Divider(
-                                      color: dividerColor,
-                                    ),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              Assets.iconsAwesomeMale,
-                                              color: appPrimaryColor,
-                                            ),
-                                            10.widthXBox,
-                                            AutoSizeText(
-                                              'Male',
-                                              style: TextStyles.inter.copyWith(
-                                                  color: purple[1],
-                                                  fontSize: 15),
-                                            ),
-                                            20.widthXBox,
-                                            Image.asset(
-                                              Assets.iconsAwesomeFemale,
-                                              color: appPrimaryColor,
-                                            ),
-                                            10.widthXBox,
-                                            AutoSizeText(
-                                              'Female',
-                                              style: TextStyles.inter.copyWith(
-                                                  color: purple[1],
-                                                  fontSize: 15),
-                                            )
-                                          ],
-                                        )),
-                                  ],
-                                ),
+                            Container(
+                              //  height: sh! * 0.28,
+                              width: sw! * 0.95,
+                              margin: paddingAll(10),
+                              padding: paddingAll(10),
+                              decoration: BoxDecoration(
+                                  boxShadow: boxShadow,
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  10.heightXBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                          Assets.iconsMaterialDetails),
+                                      10.widthXBox,
+                                      AutoSizeText(
+                                        'Services Details',
+                                        style: TextStyles.inter.copyWith(
+                                            color: appPrimaryColor,
+                                            fontSize: 20),
+                                      )
+                                    ],
+                                  ),
+                                  for (ProductModel product
+                                      in state.selectedProducts ?? [])
+                                    ServiceDetailsItem(
+                                        productName: product.name,
+                                        productPrice: product.price,
+                                        selectedDate: state.selectedDate!,
+                                        selectedTime: state.selectedTime ?? '')
+                                ],
                               ),
+                            ),
 
                             Container(
-                                // height: sh! * 0.15,
                                 width: sw! * 0.95,
                                 margin: paddingAll(10),
                                 padding: paddingAll(10),
@@ -301,7 +195,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     ])),
 
                             Container(
-                                //  height: sh! * 0.1,
                                 width: sw! * 0.95,
                                 margin: paddingAll(10),
                                 padding: paddingAll(10),
@@ -313,7 +206,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     child: CustomTextFormField(
                                   hintText: 'Discount code',
                                   controller: discountController,
-                                  onSaved: () {},
+                                  onSaved: () {
+                                    context.read<ReservationBloc>().add(
+                                        CheckCouponEvent(
+                                            '', discountController.text));
+                                  },
                                   padding: 0,
                                 ))),
                             10.heightXBox,

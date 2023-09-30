@@ -73,10 +73,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     prev.status != curr.status,
                 buildWhen: (prev, curr) =>
                     prev.selectedProducts != curr.selectedProducts ||
-                    prev.status != curr.status,
+                    prev.status != curr.status ||
+                    curr.selectedProducts == [] ||
+                    prev.selectedProducts == [],
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
+
+                  log('SELECTED PRODUCTS');
+
+                  log(state.selectedProducts.toString());
 
                   child = body(subChild);
 
@@ -374,10 +380,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                             width: sw! * 0.9,
                                             decoration: BoxDecoration(
                                                 color: state.selectedProducts !=
-                                                            null &&
-                                                        state.selectedProducts !=
-                                                            []
-                                                    ? green[0]
+                                                        null
+                                                    ? state.selectedProducts!
+                                                            .isNotEmpty
+                                                        ? green[0]
+                                                        : grey[0]
                                                     : grey[0],
                                                 borderRadius:
                                                     const BorderRadius.only(

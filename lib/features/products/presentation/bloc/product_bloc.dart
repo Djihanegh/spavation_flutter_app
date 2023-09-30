@@ -35,20 +35,25 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   void _onRemoveProduct(RemoveProduct event, Emitter<ProductState> emit) {
     List<ProductModel> products = state.selectedProducts ?? [];
+    emit(state.copyWith(status: FormzSubmissionStatus.initial));
 
     if (products.contains(event.product)) {
       products.remove(event.product);
     }
-    emit(state.copyWith(selectedProducts: products));
+    emit(state.copyWith(
+        selectedProducts: products, status: FormzSubmissionStatus.success));
   }
 
   void _onSelectProduct(SelectProduct event, Emitter<ProductState> emit) {
     List<ProductModel> products = state.selectedProducts ?? [];
 
+    emit(state.copyWith(status: FormzSubmissionStatus.initial));
+
     if (!products.contains(event.product)) {
       products.add(event.product);
     }
-    emit(state.copyWith(selectedProducts: products));
+    emit(state.copyWith(
+        selectedProducts: products, status: FormzSubmissionStatus.success));
   }
 
   Future<void> _getProductsHandler(
