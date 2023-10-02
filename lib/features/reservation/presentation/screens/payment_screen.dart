@@ -17,7 +17,9 @@ import '../../../products/data/models/product_model.dart';
 import '../../../products/presentation/bloc/product_bloc.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  const PaymentScreen({super.key, required this.salonId});
+
+  final String salonId;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();

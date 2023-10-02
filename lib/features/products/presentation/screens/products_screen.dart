@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:formz/formz.dart';
 import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/endpoint.dart';
+import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
 
@@ -68,10 +70,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
         body: SingleChildScrollView(
             child: BlocConsumer<ProductBloc, ProductState>(
                 listener: (context, state) {},
-                listenWhen: (prev, curr) =>
-                    prev.selectedProducts != curr.selectedProducts ||
-                    prev.status != curr.status,
                 buildWhen: (prev, curr) =>
+                    prev.reservations != curr.reservations ||
                     prev.selectedProducts != curr.selectedProducts ||
                     prev.status != curr.status ||
                     curr.selectedProducts == [] ||
@@ -79,10 +79,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
-
-                  log('SELECTED PRODUCTS');
-
-                  log(state.selectedProducts.toString());
 
                   child = body(subChild);
 
@@ -102,7 +98,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   if (state.status == FormzSubmissionStatus.success &&
                       state.data != [] &&
                       state.data != null) {
-                    ProductModel product = state.data![0];
+                    ProductModel product = ProductModel.empty();
+                    if (state.data!.isNotEmpty) {
+                      product = state.data![0];
+                    }
+
                     subChild = Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -363,18 +363,41 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   physics:
                                                       const AlwaysScrollableScrollPhysics(),
                                                   itemCount: state.data?.length,
-                                                  itemBuilder:
-                                                      (context, index) =>
-                                                          ProductItem(
-                                                            product: product,
-                                                          ))),
+                                                  itemBuilder: (context,
+                                                          index) =>
+                                                      ProductItem(
+                                                        product:
+                                                            state.data![index],
+                                                      ))),
                                         ],
                                       )),
                                   Positioned(
                                       bottom: 0,
                                       child: GestureDetector(
-                                          onTap: () => navigateToPage(
-                                              const PaymentScreen(), context),
+                                          onTap: () {
+                                            if (state.selectedTime == null ||
+                                                state.selectedTime!.isEmpty) {
+                                              openSnackBar(
+                                                  context,
+                                                  'Please select reservation time',
+                                                  AnimatedSnackBarType.warning);
+                                              return;
+                                            }
+
+                                            if (state.selectedDate == null) {
+                                              openSnackBar(
+                                                  context,
+                                                  'Please select reservation date',
+                                                  AnimatedSnackBarType.warning);
+                                              return;
+                                            }
+
+                                            navigateToPage(
+                                                PaymentScreen(
+                                                  salonId: widget.salonId,
+                                                ),
+                                                context);
+                                          },
                                           child: Container(
                                             height: 40,
                                             width: sw! * 0.9,

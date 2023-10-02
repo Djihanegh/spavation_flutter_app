@@ -23,6 +23,24 @@ class ProductModel extends Product {
 
   factory ProductModel.fromJson(DataMap source) => ProductModel.fromMap(source);
 
+  factory ProductModel.empty() => const ProductModel(
+        id: -1,
+        image: '',
+        name: '',
+        createdAt: '',
+        updatedAt: '',
+        status: '',
+        price: '',
+        salonId: ' ',
+        categoryId: '',
+        description: '',
+        timeFrom: '',
+        timeTo: '',
+        dateFrom: '',
+        dateTo: '',
+        discount: '',
+      );
+
   ProductModel.fromMap(DataMap json)
       : this(
             id: json["id"],

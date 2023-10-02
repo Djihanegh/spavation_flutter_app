@@ -8,26 +8,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
+import 'package:spavation/core/utils/typedef.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../../core/utils/format_date.dart';
+import '../../../data/models/product_model.dart';
 import '../../bloc/product_bloc.dart';
 import 'time_container.dart';
 
 class DateTimeWidget extends StatefulWidget {
-  const DateTimeWidget(
-      {super.key,
-      required this.timeTo,
-      required this.timeFrom,
-      required this.dateTo,
-      required this.dateFrom});
+  const DateTimeWidget({super.key, required this.product});
 
-  final String timeTo;
-  final String timeFrom;
-  final String dateTo;
-  final String dateFrom;
+  final ProductModel product;
 
   @override
   State<DateTimeWidget> createState() => _DateTimeWidgetState();
@@ -40,24 +34,53 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       dateTo = DateTime.now(),
       dateFrom = DateTime.now(),
       now = DateTime.now();
-
   DateTime? selectedDate = DateTime.now();
 
-  List<int> times = [];
   int days = 0;
-  String selectedTime = '';
-  String actualHour = '';
+  String selectedTime = '', actualHour = '', dayFrom = '', dayTo = '';
+
   List<DateTime> inactiveDates = [];
+  List<String> activeDays = [];
+  List<int> times = [];
+  List<String> daysOfWeek = [
+    'saturday',
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday'
+  ];
+
+  int daysInMonth(DateTime date) {
+    var firstDayThisMonth = DateTime(date.year, date.month, date.day);
+    var firstDayNextMonth = DateTime(firstDayThisMonth.year,
+        firstDayThisMonth.month + 1, firstDayThisMonth.day);
+    return firstDayNextMonth.difference(firstDayThisMonth).inDays;
+  }
 
   @override
   void initState() {
     actualHour = DateFormat('hh').format(DateFormat('hh').parse('${now.hour}'));
 
-    timeTo = convertStringToHourMnSec(widget.timeTo);
-    timeFrom = convertStringToHourMnSec(widget.timeFrom);
+    timeTo = convertStringToHourMnSec(widget.product.timeTo);
+    timeFrom = convertStringToHourMnSec(widget.product.timeFrom);
 
-    dateTo = convertStringToDateTime(widget.dateTo);
-    dateFrom = convertStringToDateTime(widget.dateFrom);
+    int lastDay = daysInMonth(dateFrom);
+
+    dateFrom = DateTime(now.year, now.month, 1);
+    dateTo = DateTime(now.year, now.month, lastDay);
+
+    dayFrom = widget.product.dateFrom.toLowerCase();
+    dayTo = widget.product.dateTo.toLowerCase();
+
+    int firstIndex = daysOfWeek.indexOf(dayFrom);
+    int lastIndex = daysOfWeek.indexOf(dayTo);
+
+    for (var i = firstIndex; i <= lastIndex; i++) {
+      activeDays.add(daysOfWeek[i]);
+    }
+
 
     for (var i = timeFrom.hour; i < timeTo.hour; i++) {
       times.add(i);
@@ -65,9 +88,13 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
 
     days = daysBetween(dateFrom, dateTo);
 
-    for (var i = 0; i < days + 1; i++) {
-      if (dateFrom.day + i < DateTime.now().day) {
-        // DateTime date = dateFrom.
+    for (var i = 0; i <= days + 1; i++) {
+      DateTime actual = DateTime.now().toUtc();
+      DateTime date = DateTime(actual.year, actual.month, i + 1);
+      String day = DateFormat('EEEE').format(date);
+
+      if (dateFrom.day + i < now.day ||
+          !activeDays.contains(day.toLowerCase())) {
         inactiveDates.add(dateFrom.add(Duration(days: i)));
       }
     }
@@ -80,24 +107,21 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     return SingleChildScrollView(
         child: BlocConsumer<ProductBloc, ProductState>(
             listener: (context, state) {},
-            listenWhen: (prev, curr) =>
-                prev.selectedDate != curr.selectedDate ||
-                prev.selectedTime != curr.selectedTime,
             buildWhen: (prev, curr) =>
                 prev.selectedDate != curr.selectedDate ||
-                prev.selectedTime != curr.selectedTime,
+                prev.selectedTime != curr.selectedTime ||
+                prev.reservations != curr.reservations,
             builder: (context, state) {
-              if (state.selectedDate != null) {
-                selectedDate = state.selectedDate;
-              }
-              if (state.selectedTime != '' && state.selectedTime != null) {
-                selectedTime = state.selectedTime ?? '';
-              }
+              getSelectedDateBySalon(state);
+              getSelectedTimeBySalon(state);
+
               return Column(mainAxisSize: MainAxisSize.min, children: [
                 Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: const Icon(
                         Icons.cancel,
                         color: appPrimaryColor,
@@ -130,7 +154,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                           deactivatedColor: grey[0],
                           width: 60,
                           onDateChange: (date) {
-                            if ((date.day > DateTime.now().day) ||
+                            String day = DateFormat('EEEE').format(date);
+                            if ((date.day > DateTime.now().day &&
+                                    activeDays.contains(day.toLowerCase())) ||
                                 date.day == DateTime.now().day) {
                               // New date selected
                               setState(() {
@@ -138,9 +164,10 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                               });
 
                               if (selectedDate != null) {
-                                context
-                                    .read<ProductBloc>()
-                                    .add(SelectDate(selectedDate!));
+                                context.read<ProductBloc>().add(SelectDate(
+                                    selectedDate!,
+                                    widget.product.id,
+                                    widget.product.salonId));
                               }
                             }
                           },
@@ -171,9 +198,10 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                   if (int.parse(actualHour) < times[i]) {
                                     selectedTime =
                                         '${times[i]} - ${times[i + 1]}';
-                                    context
-                                        .read<ProductBloc>()
-                                        .add(SelectTime(selectedTime));
+                                    context.read<ProductBloc>().add(SelectTime(
+                                        selectedTime,
+                                        widget.product.id,
+                                        widget.product.salonId));
                                   }
                                 },
                                 child: TimeContainer(
@@ -212,6 +240,48 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
           _pickerController.setDateAndAnimate(date);
           _pickerController.jumpToSelection();
         });
+      }
+    }
+  }
+
+  void getSelectedDateBySalon(ProductState state) {
+    if (state.reservations != null) {
+      bool exists = state.reservations!.containsKey(widget.product.salonId);
+      if (exists) {
+        List<DataMap>? products = state.reservations![widget.product.salonId];
+
+        DataMap? product;
+
+        if (products != null) {
+          product = products.firstWhere(
+              (element) => element['id'] == widget.product.id,
+              orElse: () => {});
+        }
+
+        if (product != null && product != {}) {
+          selectedDate = product['date'];
+        }
+      }
+    }
+  }
+
+  void getSelectedTimeBySalon(ProductState state) {
+    if (state.reservations != null) {
+      bool exists = state.reservations!.containsKey(widget.product.salonId);
+      if (exists) {
+        List<DataMap>? products = state.reservations![widget.product.salonId];
+
+        DataMap? product;
+
+        if (products != null) {
+          product = products.firstWhere(
+              (element) => element['id'] == widget.product.id,
+              orElse: () => {});
+        }
+
+        if (product != null && product != {}) {
+          selectedTime = product['time'] ?? '';
+        }
       }
     }
   }

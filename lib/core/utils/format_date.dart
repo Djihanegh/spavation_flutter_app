@@ -9,6 +9,8 @@ DateTime convertStringToHourMnSec(String time) {
 }
 
 DateTime convertStringToDateTime(String time) {
+
+  DateTime date = DateTime.now();
   return DateFormat("yyyy-MM-dd").parse(time);
 }
 

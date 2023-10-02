@@ -7,6 +7,8 @@ import 'package:formz/formz.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:spavation/features/products/domain/usecases/get_products.dart';
 
+import '../../../../core/utils/typedef.dart';
+
 part 'product_event.dart';
 
 part 'product_state.dart';
@@ -18,7 +20,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<GetProductsEvent>(_getProductsHandler);
     on<SelectProduct>(_onSelectProduct);
     on<RemoveProduct>(_onRemoveProduct);
-
     on<SelectDate>(_onSelectDate);
     on<SelectTime>(_onSelectTime);
   }
@@ -26,11 +27,58 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final GetProductsUseCase _getProductsUseCase;
 
   void _onSelectDate(SelectDate event, Emitter<ProductState> emit) {
-    emit(state.copyWith(selectedDate: event.date));
+    Map<String, List<DataMap>> dates = state.reservations ?? {};
+
+    List<DataMap> list = dates[event.salonId] ?? [];
+
+    emit(state.copyWith(
+        selectedDate: event.date, status: FormzSubmissionStatus.initial));
+
+    if (list.isNotEmpty) {
+      int index =
+          list.indexWhere((element) => element['id'] == event.productId);
+      if (index == -1) {
+        list.add({'id': event.productId, 'date': event.date});
+      } else {
+        list.removeAt(index);
+        list.insert(index, {'id': event.productId, 'date': event.date});
+      }
+    } else {
+      list.add({'id': event.productId, 'date': event.date});
+    }
+
+    dates[event.salonId] = list;
+    emit(state.copyWith(
+        reservations: dates, status: FormzSubmissionStatus.success));
   }
 
   void _onSelectTime(SelectTime event, Emitter<ProductState> emit) {
     emit(state.copyWith(selectedTime: event.time));
+
+    Map<String, List<DataMap>> dates = state.reservations ?? {};
+
+    List<DataMap> list = dates[event.salonId] ?? [];
+
+    emit(state.copyWith(
+        selectedTime: event.time, status: FormzSubmissionStatus.initial));
+
+    if (list.isNotEmpty) {
+      int index =
+          list.indexWhere((element) => element['id'] == event.productId);
+      if (index == -1) {
+        list.add({'id': event.productId, 'time': event.time});
+      } else {
+        DataMap data = list[index];
+        data['time'] = event.time;
+        list[index] = data;
+      }
+    } else {
+      list.add({'id': event.productId, 'time': event.time});
+    }
+
+    dates[event.salonId] = list;
+    emit(state.copyWith(
+        reservations: dates, status: FormzSubmissionStatus.success));
   }
 
   void _onRemoveProduct(RemoveProduct event, Emitter<ProductState> emit) {

@@ -8,7 +8,8 @@ final class ProductState extends Equatable {
       this.data,
       this.selectedProducts,
       this.selectedDate,
-      this.selectedTime});
+      this.selectedTime,
+       this.reservations });
 
   final FormzSubmissionStatus status;
 
@@ -18,6 +19,7 @@ final class ProductState extends Equatable {
   final List<ProductModel>? selectedProducts;
   final DateTime? selectedDate;
   final String? selectedTime;
+  final Map<String, List<DataMap>>? reservations;
 
   ProductState copyWith(
       {FormzSubmissionStatus? status,
@@ -26,7 +28,8 @@ final class ProductState extends Equatable {
       List<ProductModel>? data,
       List<ProductModel>? selectedProducts,
       DateTime? selectedDate,
-      String? selectedTime}) {
+      String? selectedTime,
+      Map<String, List<DataMap>>? reservations}) {
     return ProductState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
@@ -34,7 +37,8 @@ final class ProductState extends Equatable {
         data: data ?? this.data,
         selectedProducts: selectedProducts ?? this.selectedProducts,
         selectedDate: selectedDate ?? this.selectedDate,
-        selectedTime: selectedTime ?? this.selectedTime);
+        selectedTime: selectedTime ?? this.selectedTime,
+        reservations: reservations ?? this.reservations);
   }
 
   @override
@@ -44,7 +48,8 @@ final class ProductState extends Equatable {
         successMessage,
         data,
         selectedProducts,
+        selectedDate,
         selectedTime,
-        selectedDate
+        reservations
       ];
 }

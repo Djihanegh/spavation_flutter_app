@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,15 +28,18 @@ class _ProductItemState extends State<ProductItem> {
   Widget build(BuildContext context) {
     return BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {},
-        listenWhen: (prev, curr) =>
-            prev.selectedProducts != curr.selectedProducts,
         buildWhen: (prev, curr) =>
             prev.selectedProducts != curr.selectedProducts,
         builder: (context, state) {
           if (state.selectedProducts != null) {
             if (state.selectedProducts!.isNotEmpty) {
-              product = state.selectedProducts!
-                  .firstWhere((element) => element.id == widget.product.id);
+              product = state.selectedProducts!.firstWhere(
+                  (element) => element.id == widget.product.id,
+                  orElse: () => ProductModel.empty());
+
+              if (product?.id == -1) {
+                product = null;
+              }
             } else {
               product = null;
             }
@@ -69,17 +74,11 @@ class _ProductItemState extends State<ProductItem> {
                             product == null
                                 ? GestureDetector(
                                     onTap: () {
-                                      setState(() {
-                                        context
-                                            .read<ProductBloc>()
-                                            .add(SelectProduct(widget.product));
-                                      });
+                                      setState(() {});
                                       showDateTimeDialog(
-                                          context: context,
-                                          timeTo: widget.product.timeTo,
-                                          timeFrom: widget.product.timeFrom,
-                                          dateFrom: widget.product.dateFrom,
-                                          dateTo: widget.product.dateTo);
+                                        context: context,
+                                        product: widget.product,
+                                      );
                                     },
                                     child: Image.asset(Assets.iconsAdd))
                                 : GestureDetector(
