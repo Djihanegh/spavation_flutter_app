@@ -11,5 +11,6 @@ enum RequestType {
   getCategories,
   getSalons,
   getProducts,
+  checkCoupon,
   unknown,
 }

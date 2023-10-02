@@ -46,5 +46,5 @@ class Endpoints {
 
   static const String reservations = '/reservations/';
 
-  static const String coupon = '/check-coupon';
+  static const String coupon = '/check-copoun';
 }

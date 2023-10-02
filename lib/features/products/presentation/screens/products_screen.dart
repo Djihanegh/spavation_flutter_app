@@ -54,6 +54,7 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   late ProductBloc _productBloc;
+  int totalPrice = 0, totalTaxes = 10;
 
   @override
   void initState() {
@@ -79,6 +80,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
+                  totalPrice = 0;
 
                   child = body(subChild);
 
@@ -102,6 +104,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     if (state.data!.isNotEmpty) {
                       product = state.data![0];
                     }
+
+                    state.selectedProducts?.forEach((element) {
+                      totalPrice = totalPrice + int.parse(element.price);
+                    });
 
                     subChild = Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -434,7 +440,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                   Colors.white,
                                                               fontSize: 15),
                                                     ),
-                                                    AutoSizeText('Riyal',
+                                                    AutoSizeText(
+                                                        '$totalPrice Riyal',
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color: Colors

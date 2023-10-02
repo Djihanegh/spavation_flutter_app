@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/typedef.dart';
+import 'package:spavation/core/widgets/app_button.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
@@ -80,7 +81,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     for (var i = firstIndex; i <= lastIndex; i++) {
       activeDays.add(daysOfWeek[i]);
     }
-
 
     for (var i = timeFrom.hour; i < timeTo.hour; i++) {
       times.add(i);
@@ -215,7 +215,26 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                   startTime: times[i],
                                   endTime: times[i + 1],
                                 )),
-                        ]))
+                        ])),
+                20.heightXBox,
+                AppButton(
+                  title: 'Continue',
+                  color: appPrimaryColor,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    if (context.read<ProductBloc>().state.selectedTime !=
+                            null &&
+                        context.read<ProductBloc>().state.selectedDate !=
+                            null) {
+                      context
+                          .read<ProductBloc>()
+                          .add(SelectProduct(widget.product));
+                    }
+
+                    Navigator.pop(context);
+                  },
+                ),
+                20.heightXBox
               ]);
             }));
   }

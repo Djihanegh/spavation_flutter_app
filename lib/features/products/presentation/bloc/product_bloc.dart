@@ -40,8 +40,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (index == -1) {
         list.add({'id': event.productId, 'date': event.date});
       } else {
-        list.removeAt(index);
-        list.insert(index, {'id': event.productId, 'date': event.date});
+        DataMap data = list[index];
+        if (event.date != data['date']) {
+          data['date'] = event.date;
+
+          //  list.removeAt(index);
+          // list.insert(index, {'id': event.productId, 'date': event.date});
+        } else {
+          data['date'] = null;
+        }
       }
     } else {
       list.add({'id': event.productId, 'date': event.date});
@@ -69,7 +76,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         list.add({'id': event.productId, 'time': event.time});
       } else {
         DataMap data = list[index];
-        data['time'] = event.time;
+
+        if (event.time != data['time']) {
+          data['time'] = event.time;
+        } else {
+          data['time'] = null;
+        }
+
         list[index] = data;
       }
     } else {
@@ -83,13 +96,37 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   void _onRemoveProduct(RemoveProduct event, Emitter<ProductState> emit) {
     List<ProductModel> products = state.selectedProducts ?? [];
+
+    Map<String, List<DataMap>>? reservations = state.reservations;
+
     emit(state.copyWith(status: FormzSubmissionStatus.initial));
 
     if (products.contains(event.product)) {
       products.remove(event.product);
     }
+
+    if (reservations != null) {
+      if (reservations.containsKey(event.product.salonId)) {
+        List<DataMap>? data = reservations[event.product.salonId];
+        if (data != null) {
+          int index = data
+              .indexWhere((element) => element['id'] == event.product.id);
+
+          if (index != -1) {
+            data.removeAt(index);
+          }
+
+          reservations[event.product.salonId] = data;
+        }
+      }
+    }
+
     emit(state.copyWith(
-        selectedProducts: products, status: FormzSubmissionStatus.success));
+        selectedDate: null,
+        selectedTime: '',
+        selectedProducts: products,
+        reservations: reservations,
+        status: FormzSubmissionStatus.success));
   }
 
   void _onSelectProduct(SelectProduct event, Emitter<ProductState> emit) {

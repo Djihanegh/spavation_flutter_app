@@ -2,8 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
+import 'package:spavation/features/reservation/presentation/widgets/disocunt_code_widget.dart';
 import 'package:spavation/features/reservation/presentation/widgets/service_details_item.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import 'package:spavation/generated/assets.dart';
@@ -27,8 +30,6 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String paymentMethod = 'apple';
-
-  TextEditingController discountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +107,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   for (ProductModel product
                                       in state.selectedProducts ?? [])
                                     ServiceDetailsItem(
+                                        productId: "${product.id}",
+                                        salonId: product.salonId,
                                         productName: product.name,
                                         productPrice: product.price,
                                         selectedDate: state.selectedDate!,
@@ -196,25 +199,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       )
                                     ])),
 
-                            Container(
-                                width: sw! * 0.95,
-                                margin: paddingAll(10),
-                                padding: paddingAll(10),
-                                decoration: BoxDecoration(
-                                    boxShadow: boxShadow,
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Center(
-                                    child: CustomTextFormField(
-                                  hintText: 'Discount code',
-                                  controller: discountController,
-                                  onSaved: () {
-                                    context.read<ReservationBloc>().add(
-                                        CheckCouponEvent(
-                                            '', discountController.text));
-                                  },
-                                  padding: 0,
-                                ))),
+                            DiscountCodeWidget(
+                              salonId: widget.salonId,
+                            ),
+
                             10.heightXBox,
                             Container(
                                 //     height: sh! * 0.25,

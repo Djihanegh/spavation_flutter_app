@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:spavation/features/reservation/data/datasources/reservation_remote_data_source.dart';
 import 'package:spavation/features/reservation/domain/entities/check_coupon_response.dart';
@@ -45,7 +46,8 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
+        log(response.body.toString());
+        BaseResponse result = BaseResponse.fromJson(response.body);
         throw APIException(
             message: result.message, statusCode: response.statusCode);
       }

@@ -11,24 +11,24 @@ showDateTimeDialog({
   required ProductModel product,
 }) {
   showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            backgroundColor: Colors.white,
-            shadowColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            insetPadding: EdgeInsets.only(top: sh! * 0.35),
-            scrollable: true,
-            content: Container(
-                width: sw! * 0.7,
-                height: 320,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5)),
-                child: DateTimeWidget(
-                  product: product,
-                )));
-      }).then((value) async {
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                backgroundColor: Colors.white,
+                shadowColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                insetPadding: EdgeInsets.only(top: sh! * 0.35),
+                scrollable: true,
+                content: Container(
+                    width: sw! * 0.7,
+                    height: 320,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: DateTimeWidget(
+                      product: product,
+                    )));
+          }) /*.then((value) async {
     // Check if the value returned from showDialog is null
     if (value == null) {
       if (context.read<ProductBloc>().state.selectedTime != null &&
@@ -41,6 +41,6 @@ showDateTimeDialog({
       // Print the value for debugging purposes
       print('Dialog closed with value: $value');
     }
-  });
-  ;
+  });*/
+      ;
 }
