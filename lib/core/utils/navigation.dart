@@ -8,8 +8,17 @@ pushReplacement<T>(Widget page, BuildContext context) async {
   Navigator.of(context).pushReplacement(createRoute(page));
 }
 
-navigateAndRemoveUntil<T>(Widget page, BuildContext context) async {
-  Navigator.of(context).pushAndRemoveUntil(createRoute(page), (route) => false);
+navigateAndRemoveUntil<T>(Widget page, BuildContext context, bool type) async {
+  Navigator.of(context).pushAndRemoveUntil(createRoute(page), (route) => type);
+}
+
+pushAndRemoveUntil<T>(Widget page, BuildContext context) {
+  Navigator.of(context, rootNavigator: true)
+      .pushAndRemoveUntil(createRoute(page), (route) => false);
+}
+
+popWithRoot<T>(BuildContext context) {
+  Navigator.of(context, rootNavigator: true).pop();
 }
 
 Route createRoute(Widget page) {

@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
               token.isEmpty || !userExists
                   ? const AuthenticationScreen()
                   : const Home(),
-              context));
+              context, false));
     }
   }
 

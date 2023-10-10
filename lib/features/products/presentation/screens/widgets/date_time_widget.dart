@@ -195,14 +195,14 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                           for (var i = 0; i < (times.length / 2); i++)
                             GestureDetector(
                                 onTap: () {
-                                  if (int.parse(actualHour) < times[i]) {
-                                    selectedTime =
-                                        '${times[i]} - ${times[i + 1]}';
-                                    context.read<ProductBloc>().add(SelectTime(
-                                        selectedTime,
-                                        widget.product.id,
-                                        widget.product.salonId));
-                                  }
+                                  // if (int.parse(actualHour) < times[i]) {
+                                  selectedTime =
+                                      '${times[i]} - ${times[i + 1]}';
+                                  context.read<ProductBloc>().add(SelectTime(
+                                      selectedTime,
+                                      widget.product.id,
+                                      widget.product.salonId));
+                                  //    }
                                 },
                                 child: TimeContainer(
                                   isSelected: selectedTime ==
@@ -210,7 +210,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                       ? true
                                       : false,
                                   isDisabled: int.parse(actualHour) > times[i]
-                                      ? true
+                                      ? false
+
+                                      /// TRUE
                                       : false,
                                   startTime: times[i],
                                   endTime: times[i + 1],

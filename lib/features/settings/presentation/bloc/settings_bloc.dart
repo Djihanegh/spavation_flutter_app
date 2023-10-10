@@ -33,17 +33,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Future<void> _updateUserHandler(
       UpdateUserEvent event, Emitter<SettingsState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        customers: {},
+        action: RequestType.updateUser));
     await Future.delayed(const Duration(seconds: 2));
 
     final result = await _updateUserUseCase(event.body);
 
     result.fold(
         (l) => emit(state.copyWith(
+            customers: {},
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
             action: RequestType.updateUser)),
         (r) => emit(state.copyWith(
+            customers: {},
             action: RequestType.updateUser,
             status: FormzSubmissionStatus.success,
             successMessage: r.message)));

@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.status == FormzSubmissionStatus.success &&
                 state.action == RequestType.loginUser) {
               saveUserData(state.name);
-              navigateAndRemoveUntil(const Home(), context);
+              navigateAndRemoveUntil(const Home(), context , false);
             }
           }
         },

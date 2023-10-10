@@ -4,7 +4,7 @@ import '../../../../core/utils/typedef.dart';
 import '../../domain/entities/product.dart';
 
 class ProductModel extends Product {
-  const ProductModel(
+  ProductModel(
       {required super.id,
       required super.image,
       required super.name,
@@ -19,27 +19,30 @@ class ProductModel extends Product {
       required super.timeTo,
       required super.dateFrom,
       required super.dateTo,
-      required super.discount});
+      required super.discount,
+      required super.date,
+      required super.time});
 
   factory ProductModel.fromJson(DataMap source) => ProductModel.fromMap(source);
 
-  factory ProductModel.empty() => const ProductModel(
-        id: -1,
-        image: '',
-        name: '',
-        createdAt: '',
-        updatedAt: '',
-        status: '',
-        price: '',
-        salonId: ' ',
-        categoryId: '',
-        description: '',
-        timeFrom: '',
-        timeTo: '',
-        dateFrom: '',
-        dateTo: '',
-        discount: '',
-      );
+  factory ProductModel.empty() => ProductModel(
+      id: -1,
+      image: '',
+      name: '',
+      createdAt: '',
+      updatedAt: '',
+      status: '',
+      price: '',
+      salonId: ' ',
+      categoryId: '',
+      description: '',
+      timeFrom: '',
+      timeTo: '',
+      dateFrom: '',
+      dateTo: '',
+      discount: '',
+      date: DateTime.now(),
+      time: '');
 
   ProductModel.fromMap(DataMap json)
       : this(
@@ -57,7 +60,9 @@ class ProductModel extends Product {
             dateTo: json["date_to"],
             discount: json["discount"],
             createdAt: json["created_at"],
-            updatedAt: json["updated_at"]);
+            updatedAt: json["updated_at"],
+            date: DateTime.now(),
+            time: '');
 
   DataMap toMap() => {
         "id": id,
@@ -75,7 +80,17 @@ class ProductModel extends Product {
         "discount": discount,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "time": time,
+        "date": date
       };
 
   String toJson() => jsonEncode(toMap());
+
+  void setTime(String time) {
+    this.time = time;
+  }
+
+  void setDate(DateTime date) {
+    this.date = date;
+  }
 }

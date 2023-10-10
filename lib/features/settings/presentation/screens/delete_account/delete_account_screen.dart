@@ -43,7 +43,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                       state.action == RequestType.deleteUser) {
                     cancel();
                     clearUserData();
-                    navigateToPage(const AuthenticationScreen(), context);
+                    pushAndRemoveUntil(const AuthenticationScreen(), context);
                   }
                 },
                 listenWhen: (prev, curr) => prev.status != curr.status,
@@ -134,11 +134,10 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   }
 
   void delete() {
-
     context.read<SettingsBloc>().add(DeleteUserEvent(token));
   }
 
   void cancel() {
-    Navigator.pop(context);
+    popWithRoot(context);
   }
 }

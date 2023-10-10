@@ -45,8 +45,6 @@ class ServiceDetailsItem extends StatelessWidget {
             if (reservations.containsKey(salonId)) {
               List<DataMap>? data = reservations[salonId];
               if (data != null) {
-                log(data.toString());
-                log(data[1]['id'].toString());
                 int index = data.indexWhere(
                     (element) => element['id'] == int.parse(productId));
 

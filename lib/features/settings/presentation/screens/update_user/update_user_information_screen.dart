@@ -60,16 +60,17 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: BlocConsumer<SettingsBloc, SettingsState>(
             listener: (context, state) {
-              if (state.customers != {} &&
-                  state.customers != null &&
-                  state.action != RequestType.updateUser) {
-                user = state.customers!;
+              if (_settingsBloc.state.customers != {} &&
+                  _settingsBloc.state.customers != null &&
+                  _settingsBloc.state.action != RequestType.updateUser) {
+                user = _settingsBloc.state.customers!;
 
                 isMale = user['gender'] == 'Male' ? true : false;
 
                 mobileController.text = user['phone'] ?? '';
                 emailController.text = user['email'] ?? '';
                 nameController.text = user['fullname'] ?? '';
+                addressController.text = user['address'] ?? '';
               }
 
               if (state.action == RequestType.updateUser) {

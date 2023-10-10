@@ -7,6 +7,9 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
+import 'package:spavation/features/authentication/presentation/screens/splash/splash_screen.dart';
+import 'package:spavation/features/home/presentation/screens/home/home.dart';
+import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/bills/bills_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/call_center/call_center_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/delete_account/delete_account_screen.dart';
@@ -124,14 +127,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     scrollDirection: Axis.vertical,
                     controller: pageController,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [settingsItem(), const UpdateUserInfoScreen()],
+                    children: [
+                      settingsItem(context),
+                      const UpdateUserInfoScreen()
+                    ],
                   ))
             ],
           )),
     );
   }
 
-  Widget settingsItem() => ListView(
+  Widget settingsItem(BuildContext cxt) => ListView(
           scrollDirection: Axis.vertical,
           //  controller: pageController,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -164,7 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Assets.iconsMetroExit,
               name: 'Exit',
               onPressed: () => showExitDialog(
-                  context: context,
+                  context: cxt,
                   onCancel: () => cancel(),
                   onContinue: () => logOut()),
             )
@@ -179,12 +185,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ];
 
   void logOut() {
-    Navigator.pop(context);
+    popWithRoot(context);
     Prefs.setString(Prefs.TOKEN, '');
-    navigateToPage(const AuthenticationScreen(), context);
+    pushAndRemoveUntil(const AuthenticationScreen(), context);
   }
 
   void cancel() {
-    Navigator.pop(context);
+    popWithRoot(context);
   }
 }

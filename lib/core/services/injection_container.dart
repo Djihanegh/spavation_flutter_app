@@ -30,6 +30,7 @@ import 'package:spavation/features/products/domain/usecases/get_products.dart';
 import 'package:spavation/features/products/presentation/bloc/product_bloc.dart';
 import 'package:spavation/features/reservation/data/datasources/reservation_remote_data_source.dart';
 import 'package:spavation/features/reservation/domain/repositories/reservation_repository.dart';
+import 'package:spavation/features/reservation/domain/usecases/add_reservation.dart';
 import 'package:spavation/features/reservation/domain/usecases/check_coupon.dart';
 import 'package:spavation/features/reservation/domain/usecases/get_reservations.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
@@ -57,11 +58,12 @@ Future<void> init() async {
   // App Logic
   sl
     ..registerFactory(() => AuthenticationBloc(
-        registerUser: sl(),
-        loginUser: sl(),
-        checkOtpUseCase: sl(),
-        resendOtpUseCase: sl(),
-        getUserUseCase: sl()))
+          registerUser: sl(),
+          loginUser: sl(),
+          checkOtpUseCase: sl(),
+          resendOtpUseCase: sl(),
+          getUserUseCase: sl(),
+        ))
     ..registerFactory(() => CategoryBloc(getCategoriesUseCase: sl()))
     ..registerFactory(() => BannerBloc(
           getBannersUseCase: sl(),
@@ -72,8 +74,10 @@ Future<void> init() async {
         getUserDetailsUseCase: sl(),
         deleteUserUseCase: sl(),
         updateUserUseCasez: sl()))
-    ..registerFactory(() =>
-        ReservationBloc(getReservationsUseCase: sl(), checkCouponUseCase: sl()))
+    ..registerFactory(() => ReservationBloc(
+        getReservationsUseCase: sl(),
+        checkCouponUseCase: sl(),
+        addReservationUseCase: sl()))
 
     // Use cases
     ..registerLazySingleton(() => RegisterUser(sl()))
@@ -90,6 +94,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => UpdateUserUseCase(sl()))
     ..registerLazySingleton(() => GetReservationsUseCase(sl()))
     ..registerLazySingleton(() => CheckCouponUseCase(sl()))
+    ..registerLazySingleton(() => AddReservationUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(

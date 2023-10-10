@@ -22,3 +22,12 @@ class CheckCouponEvent extends ReservationEvent {
   @override
   List<Object?> get props => [salonId, code];
 }
+
+class AddReservationEvent extends ReservationEvent {
+  const AddReservationEvent(this.data);
+
+  final DataMap data;
+
+  @override
+  List<Object?> get props => [data];
+}

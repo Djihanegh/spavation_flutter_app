@@ -37,14 +37,12 @@ class _SalonsScreenState extends State<SalonsScreen> {
         builder: (context, state) {
           Widget? child;
 
-          if (state.status == FormzSubmissionStatus.inProgress) {
-            child = const SalonShimmer();
-          }
           if (state.status == FormzSubmissionStatus.failure) {
             child = const SalonErrorWidget();
           }
 
-          if (state.status == FormzSubmissionStatus.initial) {
+          if (state.status == FormzSubmissionStatus.initial ||
+              state.status == FormzSubmissionStatus.inProgress) {
             child = const SalonShimmer();
           }
 
@@ -62,7 +60,8 @@ class _SalonsScreenState extends State<SalonsScreen> {
                     itemBuilder: (context, index) {
                       SalonModel? salon = state.salons?[index];
 
-                      double distanceInMeters = Geolocator.distanceBetween(
+                      double distanceInMeters = 0.0;
+                      distanceInMeters = Geolocator.distanceBetween(
                           double.parse(salon!.latitude),
                           double.parse(salon.longitude),
                           widget.lat,

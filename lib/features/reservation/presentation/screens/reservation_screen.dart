@@ -6,6 +6,7 @@ import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/size_config.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/reservation/presentation/widgets/reservation_item.dart';
 
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
@@ -46,15 +47,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
               child = body(subChild);
 
-              if (state.status == FormzSubmissionStatus.inProgress) {
-                subChild = const SalonShimmer();
-              }
               if (state.status == FormzSubmissionStatus.failure) {
                 subChild = const SalonErrorWidget();
               }
 
-              if (state.status == FormzSubmissionStatus.initial) {
-                subChild = const SalonShimmer();
+              if (state.status == FormzSubmissionStatus.initial ||
+                  state.status == FormzSubmissionStatus.inProgress) {
+                subChild = const LoadingWidget();
               }
 
               if (state.reservations == []) {
