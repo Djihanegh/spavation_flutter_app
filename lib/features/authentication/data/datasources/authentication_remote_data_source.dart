@@ -1,6 +1,7 @@
 import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import '../../../../core/utils/base_response.dart';
+import '../../../../core/utils/typedef.dart';
 import '../../domain/entities/create_user_response.dart';
 
 import '../../domain/entities/resend_otp_response.dart';
@@ -18,5 +19,11 @@ abstract class AuthenticationRemoteDataSource {
 
   Future<GetUserResponse> getUser({required String token});
 
+  Future<DataMap> checkOtpForgotPassword(
+      {required String otp, required String email});
 
+  Future<DataMap> sendOtpForgotPassword({required String email});
+
+  Future<BaseResponse> updatePassword(
+      {required String otp, required String email});
 }

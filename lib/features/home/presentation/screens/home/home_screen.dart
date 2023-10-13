@@ -33,12 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Position? currentPosition;
   String countryName = '';
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  void _refresh() {
+    _salonBloc.add(const GetSalonsEvent());
+  }
+
   @override
   void initState() {
     getCurrentPosition();
     getCountryName();
     _salonBloc = BlocProvider.of(context);
-    _salonBloc.add(const GetSalonsEvent());
+
 
     super.initState();
   }
@@ -70,89 +77,100 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     return Scaffold(
-        body: SingleChildScrollView(
-            child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          fit: StackFit.loose,
-          children: [
-            //
-            Column(
+        body: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            color: Colors.white,
+            backgroundColor: Colors.red,
+            strokeWidth: 4.0,
+            onRefresh: () async => _refresh(),
+            // Pull from top to show refresh indicator.
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: sh! * 0.4,
-                  decoration: BoxDecoration(
-                      boxShadow: boxShadow,
-                      color: appPrimaryColor,
-                      borderRadius: appBottomCircularRadius(30)),
+                Stack(
+                  fit: StackFit.loose,
+                  children: [
+                    //
+                    Column(
+                      children: [
+                        Container(
+                          height: sh! * 0.4,
+                          decoration: BoxDecoration(
+                              boxShadow: boxShadow,
+                              color: appPrimaryColor,
+                              borderRadius: appBottomCircularRadius(30)),
+                        ),
+                        Container(
+                          height: sh! * 0.1,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                        top: -10,
+                        left: -25,
+                        child: Container(
+                          height: sh! * 0.17,
+                          width: sw! * 0.35,
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.35),
+                              borderRadius: appCircular),
+                        )),
+                    Positioned(
+                        top: 50,
+                        left: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.white,
+                            ),
+                            AutoSizeText(
+                              countryName,
+                              style: TextStyles.inter
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ],
+                        )),
+
+                    Positioned(
+                        top: 50,
+                        right: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const CustomIcon(
+                                icon: Icons.map_outlined, page: FilterScreen()),
+                            10.widthXBox,
+                            const CustomIcon(
+                              icon: Icons.filter_alt,
+                              page: FilterScreen(),
+                            ),
+                          ],
+                        )),
+
+                    const BannerScreen(),
+
+                    Positioned(
+                        top: sh! * 0.29,
+                        left: 5,
+                        right: 5,
+                        child: const SearchInput()),
+
+                    const CategoriesScreen()
+                  ],
                 ),
-                Container(
-                  height: sh! * 0.1,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
+                SalonsScreen(
+                  lat: currentPosition?.latitude ?? 0,
+                  long: currentPosition?.longitude ?? 0,
+                )
               ],
-            ),
-            Positioned(
-                top: -10,
-                left: -25,
-                child: Container(
-                  height: sh! * 0.17,
-                  width: sw! * 0.35,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.35),
-                      borderRadius: appCircular),
-                )),
-            Positioned(
-                top: 50,
-                left: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.white,
-                    ),
-                    AutoSizeText(
-                      countryName,
-                      style: TextStyles.inter.copyWith(color: Colors.white),
-                    ),
-                  ],
-                )),
-
-            Positioned(
-                top: 50,
-                right: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CustomIcon(
-                        icon: Icons.map_outlined, page: FilterScreen()),
-                    10.widthXBox,
-                    const CustomIcon(
-                      icon: Icons.filter_alt,
-                      page: FilterScreen(),
-                    ),
-                  ],
-                )),
-
-            const BannerScreen(),
-
-            Positioned(
-                top: sh! * 0.29, left: 5, right: 5, child: const SearchInput()),
-
-            const CategoriesScreen()
-          ],
-        ),
-        SalonsScreen(
-          lat: currentPosition?.latitude ?? 0,
-          long: currentPosition?.longitude ?? 0,
-        )
-      ],
-    )));
+            ))));
   }
 }

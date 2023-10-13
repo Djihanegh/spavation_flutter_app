@@ -47,4 +47,10 @@ class Endpoints {
   static const String reservations = '/reservations/';
 
   static const String coupon = '/check-copoun';
+
+  // Forgot Password
+
+  static const String forgetPasswordSendOtp = '/forgot-password/send-otp';
+  static const String updatePassword = '/forgot-password/update-password';
+  static const String forgetPasswordCheckOtp = '/forgot-password/check-otp';
 }

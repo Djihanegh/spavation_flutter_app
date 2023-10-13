@@ -5,6 +5,7 @@ import 'package:spavation/core/errors/exceptions.dart';
 import 'package:spavation/core/utils/base_response.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/endpoint.dart';
+import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
@@ -128,6 +129,74 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       }
 
       return GetUserResponse.fromJson(jsonDecode(response.body));
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
+
+  @override
+  Future<DataMap> checkOtpForgotPassword(
+      {required String otp, required String email}) async {
+    try {
+      final response = await _client.post(
+          Uri.parse(Endpoints.baseUrl + Endpoints.forgetPasswordCheckOtp),
+          headers: headers,
+          body: jsonEncode({'email': email, 'otp': otp}));
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        BaseResponse result = BaseResponse.fromJson(response.body);
+        throw APIException(
+            message: result.message, statusCode: response.statusCode);
+      }
+
+      return jsonDecode(response.body);
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
+
+  @override
+  Future<DataMap> sendOtpForgotPassword({required String email}) async {
+    try {
+      final response = await _client.post(
+          Uri.parse(Endpoints.baseUrl + Endpoints.forgetPasswordSendOtp),
+          headers: headers,
+          body: jsonEncode({'email': email}));
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        BaseResponse result = BaseResponse.fromJson(response.body);
+        throw APIException(
+            message: result.message, statusCode: response.statusCode);
+      }
+
+      return jsonDecode(response.body);
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
+
+  @override
+  Future<BaseResponse> updatePassword(
+      {required String otp, required String email}) async {
+    try {
+      final response = await _client.post(
+          Uri.parse(Endpoints.baseUrl + Endpoints.updatePassword),
+          headers: headers,
+          body: jsonEncode({'email': email, 'otp': otp}));
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        BaseResponse result = BaseResponse.fromJson(response.body);
+        throw APIException(
+            message: result.message, statusCode: response.statusCode);
+      }
+
+      return jsonDecode(response.body);
     } on APIException {
       rethrow;
     } catch (e) {

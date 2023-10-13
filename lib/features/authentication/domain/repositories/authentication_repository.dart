@@ -20,4 +20,11 @@ abstract class AuthenticationRepository {
 
   ResultFuture<GetUserResponse> getUser({required String token});
 
+  ResultFuture<DataMap> checkOtpForgotPassword(
+      {required String otp, required String email});
+
+  ResultFuture<DataMap> sendOtpForgotPassword({required String email});
+
+  ResultFuture<BaseResponse> updatePassword(
+      {required String otp, required String email});
 }

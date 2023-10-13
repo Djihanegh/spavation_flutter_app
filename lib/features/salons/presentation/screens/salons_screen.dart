@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
+import '../../../../app/theme.dart';
 import '../bloc/salon_bloc.dart';
 import 'widgets/salon_loadig_widget.dart';
 import 'widgets/salon_item.dart';
@@ -24,7 +26,9 @@ class _SalonsScreenState extends State<SalonsScreen> {
   @override
   void initState() {
     _salonBloc = BlocProvider.of(context);
-    _salonBloc.add(const GetSalonsEvent());
+    if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
+      _salonBloc.add(const GetSalonsEvent());
+    }
     super.initState();
   }
 
@@ -33,7 +37,8 @@ class _SalonsScreenState extends State<SalonsScreen> {
     return BlocConsumer<SalonBloc, SalonState>(
         listener: (context, state) {},
         listenWhen: (prev, curr) => prev.status != curr.status,
-        buildWhen: (prev, curr) => prev.status != curr.status,
+        buildWhen: (prev, curr) =>
+            prev.status != curr.status && curr.action == RequestType.getSalons,
         builder: (context, state) {
           Widget? child;
 

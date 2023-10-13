@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/domain/usecases/get_salons.dart';
 
@@ -29,12 +30,13 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            action: RequestType.getSalons)),
         (r) => emit(state.copyWith(
             status: FormzSubmissionStatus.success,
             salons: r.salons,
+            action: RequestType.getSalons,
             successMessage: '')));
   }
 }
