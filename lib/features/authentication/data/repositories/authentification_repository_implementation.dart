@@ -92,7 +92,7 @@ class AuthenticationRepositoryImplementation
   }
 
   @override
-  ResultFuture<BaseResponse> updatePassword(
+  ResultFuture<DataMap> updatePassword(
       {required String otp, required String email}) async {
     try {
       final result =

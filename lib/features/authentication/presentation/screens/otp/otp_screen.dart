@@ -8,12 +8,16 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
+import 'package:spavation/features/authentication/presentation/screens/forgetPassword/forget_password_screen.dart';
+import 'package:spavation/features/authentication/presentation/screens/forgetPassword/update_password_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../generated/assets.dart';
 import '../../bloc/authentication_bloc.dart';
@@ -32,7 +36,7 @@ class _OtpScreenState extends State<OtpScreen> {
   int _start = 60;
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
+    const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
@@ -86,6 +90,17 @@ class _OtpScreenState extends State<OtpScreen> {
                 openSnackBar(
                     context, state.errorMessage, AnimatedSnackBarType.error);
               }
+
+              if (state.action == RequestType.checkOtpForgetPass) {
+                if (state.status == FormzSubmissionStatus.success) {
+                  openSnackBar(context, state.successMessage,
+                      AnimatedSnackBarType.success);
+                  navigateToPage(UpdatePasswordScreen(otp: otp), context);
+                } else if (state.status == FormzSubmissionStatus.failure) {
+                  openSnackBar(
+                      context, state.errorMessage, AnimatedSnackBarType.error);
+                }
+              }
             },
             listenWhen: (prev, curr) => prev.status != curr.status,
             buildWhen: (prev, curr) =>
@@ -130,7 +145,9 @@ class _OtpScreenState extends State<OtpScreen> {
                                       children: [
                                         30.heightXBox,
                                         AutoSizeText(
-                                          'Enter the authentication code below we sent to ',
+                                          widget.key == forgetPasswordKey
+                                              ? 'Enter the forget password code we sent to'
+                                              : 'Enter the authentication code below we sent to ',
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0], fontSize: 15),
                                         ),
@@ -171,6 +188,11 @@ class _OtpScreenState extends State<OtpScreen> {
                                                 (String verificationCode) {
                                               setState(() {
                                                 otp = verificationCode;
+                                                context
+                                                    .read<AuthenticationBloc>()
+                                                    .add(OtpChanged(
+                                                      otp: otp,
+                                                    ));
                                               });
                                             }, // end onSubmit
                                           )),
@@ -182,11 +204,21 @@ class _OtpScreenState extends State<OtpScreen> {
                                             child: AppButton(
                                                 title: 'Verify',
                                                 onPressed: () {
-                                                  context
-                                                      .read<
-                                                          AuthenticationBloc>()
-                                                      .add(CheckOtpEvent(
-                                                          otp: otp));
+                                                  widget.key ==
+                                                          forgetPasswordKey
+                                                      ? context
+                                                          .read<
+                                                              AuthenticationBloc>()
+                                                          .add(
+                                                              CheckForgetPasswordOtp(
+                                                                  otp: otp,
+                                                                  email: state
+                                                                      .email))
+                                                      : context
+                                                          .read<
+                                                              AuthenticationBloc>()
+                                                          .add(CheckOtpEvent(
+                                                              otp: otp));
                                                 },
                                                 color: purple[2],
                                                 textColor: Colors.white)),
@@ -202,51 +234,59 @@ class _OtpScreenState extends State<OtpScreen> {
                                                   Navigator.pop(context),
                                             )),
                                         15.heightXBox,
-                                        _start != 0
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "Resend Code in",
-                                                    style: TextStyles.inter
-                                                        .copyWith(
+                                        widget.key == forgetPasswordKey
+                                            ? emptyWidget()
+                                            : _start != 0
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "Resend Code in",
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color:
+                                                                    purple[2],
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16),
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Text(
+                                                        _start.toString(),
+                                                        style: TextStyle(
                                                             color: purple[2],
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 16),
+                                                            fontSize: 20),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      context
+                                                          .read<
+                                                              AuthenticationBloc>()
+                                                          .add(ResendOtpEvent(
+                                                              email:
+                                                                  state.email));
+                                                    },
+                                                    child: Text(
+                                                      "Resend code ",
+                                                      style: TextStyles.inter
+                                                          .copyWith(
+                                                              color: purple[2],
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 16),
+                                                    ),
                                                   ),
-                                                  const SizedBox(width: 10),
-                                                  Text(
-                                                    _start.toString(),
-                                                    style: TextStyle(
-                                                        color: purple[2],
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20),
-                                                  ),
-                                                ],
-                                              )
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  context
-                                                      .read<
-                                                          AuthenticationBloc>()
-                                                      .add(ResendOtpEvent(
-                                                          email: state.email));
-                                                },
-                                                child: Text(
-                                                  "Resend code ",
-                                                  style: TextStyles.inter
-                                                      .copyWith(
-                                                          color: purple[2],
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16),
-                                                ),
-                                              ),
                                         10.heightXBox
                                       ]))
                             ]))

@@ -69,14 +69,17 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
       String token = Prefs.getString(Prefs.TOKEN) ?? '';
       var body = jsonEncode(data);
 
-      log(data.toString());
+      log(token.toString());
+
+      String encoded = jsonEncode(data);
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
-          headers: headersWithToken(token),
-          body: jsonEncode(data));
+          headers: headers,
+          body: encoded);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         log(response.body.toString());
+        log(response.statusCode.toString());
         BaseResponse result = BaseResponse.fromJson(response.body);
         throw APIException(
             message: result.message, statusCode: response.statusCode);

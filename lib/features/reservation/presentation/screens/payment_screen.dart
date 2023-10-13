@@ -34,6 +34,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   List<int> ids = [];
 
   List<DataMap> selectedProducts = [];
+  String products = '';
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 e.setDate(data[index]['date']);
                                 DataMap product = e.toMap();
                                 if (!selectedProducts.contains(product)) {
-
                                   selectedProducts.add(product);
 
-                                  log(selectedProducts.toString());
+                                  products = products.isNotEmpty
+                                      ? "$products,$product"
+                                      : "$product";
+
+                                  log(products.toString());
                                 }
                               }
                             }
@@ -359,9 +363,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onTap: () => context
                                     .read<ReservationBloc>()
                                     .add(AddReservationEvent({
-                                      'product_id': '$selectedProducts',
+                                      'products': products,
                                       'status': 'pending',
-                                      'quantity': '1',
                                       'payment_method': paymentMethod,
                                       'salon_id': widget.salonId,
                                       'tax': totalTaxes,

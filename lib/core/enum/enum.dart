@@ -13,5 +13,8 @@ enum RequestType {
   getProducts,
   checkCoupon,
   addReservation,
+  sendOtpForgetPass,
+  checkOtpForgetPass,
+  updatePass,
   unknown,
 }

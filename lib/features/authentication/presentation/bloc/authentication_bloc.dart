@@ -11,9 +11,12 @@ import 'package:spavation/features/authentication/data/models/user_model.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
 import 'package:spavation/features/authentication/domain/usecases/get_user.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
+import 'package:spavation/features/authentication/domain/usecases/send_otp_forget_password_usecase.dart';
+import 'package:spavation/features/authentication/domain/usecases/update_password_usecase.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/login_user_response.dart';
+import '../../domain/usecases/check_otp_forget_password.dart';
 import '../../domain/usecases/login_user_usecase.dart';
 import '../../domain/usecases/resend_otp.dart';
 
@@ -23,17 +26,23 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc(
-      {required RegisterUser registerUser,
-      required LoginUser loginUser,
-      required CheckOtpUseCase checkOtpUseCase,
-      required ResendOtpUseCase resendOtpUseCase,
-      required GetUserUseCase getUserUseCase})
-      : _registerUser = registerUser,
+  AuthenticationBloc({
+    required RegisterUser registerUser,
+    required LoginUser loginUser,
+    required CheckOtpUseCase checkOtpUseCase,
+    required ResendOtpUseCase resendOtpUseCase,
+    required GetUserUseCase getUserUseCase,
+    required UpdatePasswordUseCase updatePasswordUseCase,
+    required SendOtpForgetPasswordUseCase sendOtpForgetPasswordUseCase,
+    required CheckOtpForgetPasswordUseCase checkOtpForgetPasswordUseCase,
+  })  : _registerUser = registerUser,
         _loginUser = loginUser,
         _checkOtp = checkOtpUseCase,
         _resendOtp = resendOtpUseCase,
         _getUserUseCase = getUserUseCase,
+        _updatePasswordUseCase = updatePasswordUseCase,
+        _sendOtpForgetPasswordUseCase = sendOtpForgetPasswordUseCase,
+        _checkOtpForgetPasswordUseCase = checkOtpForgetPasswordUseCase,
         super(const AuthenticationState()) {
     on<CreateUserEvent>(_createUserHandler);
     on<LoginUserEvent>(_loginUserHandler);
@@ -48,6 +57,10 @@ class AuthenticationBloc
     on<ConfirmPasswordChanged>(_confirmPasswordChanged);
     on<GenderChanged>(_genderChanged);
     on<UserAddressChanged>(_userAddressChanged);
+    on<SendForgetPasswordOtp>(_onSendOtpForgetPassword);
+    on<CheckForgetPasswordOtp>(_onCheckOtpForgetPassword);
+    on<UpdatePassword>(_onUpdatePassword);
+    on<OtpChanged>(_onOtpChanged);
   }
 
   final RegisterUser _registerUser;
@@ -55,6 +68,78 @@ class AuthenticationBloc
   final CheckOtpUseCase _checkOtp;
   final ResendOtpUseCase _resendOtp;
   final GetUserUseCase _getUserUseCase;
+  final UpdatePasswordUseCase _updatePasswordUseCase;
+  final SendOtpForgetPasswordUseCase _sendOtpForgetPasswordUseCase;
+  final CheckOtpForgetPasswordUseCase _checkOtpForgetPasswordUseCase;
+
+  Future<void> _onOtpChanged(
+      OtpChanged event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+      otp: event.otp,
+    ));
+  }
+
+  Future<void> _onUpdatePassword(
+      UpdatePassword event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = await _updatePasswordUseCase(
+        {'password': event.password, 'otp': event.otp});
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            action: RequestType.updatePass,
+            status: FormzSubmissionStatus.failure,
+            errorMessage: l.message,
+            user: {})),
+        (r) => emit(state.copyWith(
+              action: RequestType.updatePass,
+              status: FormzSubmissionStatus.success,
+            )));
+  }
+
+  Future<void> _onCheckOtpForgetPassword(
+      CheckForgetPasswordOtp event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = await _checkOtpForgetPasswordUseCase(
+        {'email': event.email, 'otp': event.otp});
+
+    result.fold(
+        (l) => emit(state.copyWith(
+              action: RequestType.checkOtpForgetPass,
+              status: FormzSubmissionStatus.failure,
+              errorMessage: l.message,
+            )),
+        (r) => emit(state.copyWith(
+            action: RequestType.checkOtpForgetPass,
+            status: FormzSubmissionStatus.success,
+            successMessage: r['message'])));
+  }
+
+  Future<void> _onSendOtpForgetPassword(
+      SendForgetPasswordOtp event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(
+        action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = await _sendOtpForgetPasswordUseCase(event.email);
+
+    result.fold(
+        (l) => emit(state.copyWith(
+              action: RequestType.sendOtpForgetPass,
+              status: FormzSubmissionStatus.failure,
+              errorMessage: l.message,
+            )),
+        (r) => emit(state.copyWith(
+            action: RequestType.sendOtpForgetPass,
+            status: FormzSubmissionStatus.success,
+            successMessage: r['message'])));
+  }
 
   Future<void> _userAddressChanged(
       UserAddressChanged event, Emitter<AuthenticationState> emit) async {

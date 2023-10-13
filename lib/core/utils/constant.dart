@@ -19,3 +19,5 @@ Map<String, String> headersWithToken(String token) {
 
   return header;
 }
+
+const forgetPasswordKey = Key('forget-password');

@@ -25,6 +25,6 @@ abstract class AuthenticationRepository {
 
   ResultFuture<DataMap> sendOtpForgotPassword({required String email});
 
-  ResultFuture<BaseResponse> updatePassword(
+  ResultFuture<DataMap> updatePassword(
       {required String otp, required String email});
 }

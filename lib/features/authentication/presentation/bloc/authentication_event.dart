@@ -105,6 +105,17 @@ class PhoneChanged extends AuthenticationEvent {
   List<Object?> get props => [phone];
 }
 
+class OtpChanged extends AuthenticationEvent {
+  const OtpChanged({
+    required this.otp,
+  });
+
+  final String otp;
+
+  @override
+  List<Object?> get props => [otp];
+}
+
 class EmailChanged extends AuthenticationEvent {
   const EmailChanged({
     required this.email,
@@ -136,4 +147,41 @@ class ConfirmPasswordChanged extends AuthenticationEvent {
 
   @override
   List<Object?> get props => [confirmPassword];
+}
+
+class SendForgetPasswordOtp extends AuthenticationEvent {
+  const SendForgetPasswordOtp({
+    required this.email,
+  });
+
+  final String email;
+
+  @override
+  List<Object?> get props => [email];
+}
+
+class CheckForgetPasswordOtp extends AuthenticationEvent {
+  const CheckForgetPasswordOtp({
+    required this.email,
+    required this.otp,
+  });
+
+  final String email;
+  final String otp;
+
+  @override
+  List<Object?> get props => [email, otp];
+}
+
+class UpdatePassword extends AuthenticationEvent {
+  const UpdatePassword({
+    required this.password,
+    required this.otp,
+  });
+
+  final String password;
+  final String otp;
+
+  @override
+  List<Object?> get props => [password, otp];
 }

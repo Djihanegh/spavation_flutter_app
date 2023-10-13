@@ -4,10 +4,13 @@ import 'package:spavation/features/authentication/data/datasources/authenticatio
 import 'package:spavation/features/authentication/data/repositories/authentification_repository_implementation.dart';
 import 'package:spavation/features/authentication/domain/repositories/authentication_repository.dart';
 import 'package:spavation/features/authentication/domain/usecases/check_otp.dart';
+import 'package:spavation/features/authentication/domain/usecases/check_otp_forget_password.dart';
 import 'package:spavation/features/authentication/domain/usecases/get_user.dart';
 import 'package:spavation/features/authentication/domain/usecases/login_user_usecase.dart';
 import 'package:spavation/features/authentication/domain/usecases/register_user_usecase.dart';
 import 'package:spavation/features/authentication/domain/usecases/resend_otp.dart';
+import 'package:spavation/features/authentication/domain/usecases/send_otp_forget_password_usecase.dart';
+import 'package:spavation/features/authentication/domain/usecases/update_password_usecase.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:spavation/features/banners/data/datasources/banners_remote_data_source.dart';
@@ -58,12 +61,14 @@ Future<void> init() async {
   // App Logic
   sl
     ..registerFactory(() => AuthenticationBloc(
-          registerUser: sl(),
-          loginUser: sl(),
-          checkOtpUseCase: sl(),
-          resendOtpUseCase: sl(),
-          getUserUseCase: sl(),
-        ))
+        registerUser: sl(),
+        loginUser: sl(),
+        checkOtpUseCase: sl(),
+        resendOtpUseCase: sl(),
+        getUserUseCase: sl(),
+        updatePasswordUseCase: sl(),
+        checkOtpForgetPasswordUseCase: sl(),
+        sendOtpForgetPasswordUseCase: sl()))
     ..registerFactory(() => CategoryBloc(getCategoriesUseCase: sl()))
     ..registerFactory(() => BannerBloc(
           getBannersUseCase: sl(),
@@ -95,6 +100,9 @@ Future<void> init() async {
     ..registerLazySingleton(() => GetReservationsUseCase(sl()))
     ..registerLazySingleton(() => CheckCouponUseCase(sl()))
     ..registerLazySingleton(() => AddReservationUseCase(sl()))
+    ..registerLazySingleton(() => UpdatePasswordUseCase(sl()))
+    ..registerLazySingleton(() => CheckOtpForgetPasswordUseCase(sl()))
+    ..registerLazySingleton(() => SendOtpForgetPasswordUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(

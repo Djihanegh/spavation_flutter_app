@@ -10,6 +10,7 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:spavation/features/authentication/presentation/screens/forgetPassword/forget_password_screen.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/cache/cache.dart';
@@ -57,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.status == FormzSubmissionStatus.success &&
                 state.action == RequestType.loginUser) {
               saveUserData(state.name);
-              navigateAndRemoveUntil(const Home(), context , false);
+              navigateAndRemoveUntil(const Home(), context, false);
             }
           }
         },
@@ -172,11 +173,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     bottom: 10,
                     left: 25,
                   ),
-                  child: AutoSizeText(
-                    'Forgot password ?',
-                    style: TextStyles.inter
-                        .copyWith(color: purple[2], fontSize: 14),
-                  ))
+                  child: GestureDetector(
+                      onTap: () =>
+                          navigateToPage(const ForgetPasswordScreen(), context),
+                      child: AutoSizeText(
+                        'Forgot password ?',
+                        style: TextStyles.inter
+                            .copyWith(color: purple[2], fontSize: 14),
+                      )))
             ],
           );
         });

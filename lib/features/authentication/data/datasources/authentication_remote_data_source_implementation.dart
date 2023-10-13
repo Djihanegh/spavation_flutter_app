@@ -146,9 +146,9 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
           body: jsonEncode({'email': email, 'otp': otp}));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        BaseResponse result = BaseResponse.fromJson(response.body);
+        DataMap result = jsonDecode(response.body);
         throw APIException(
-            message: result.message, statusCode: response.statusCode);
+            message: result['message'], statusCode: response.statusCode);
       }
 
       return jsonDecode(response.body);
@@ -167,10 +167,13 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
           headers: headers,
           body: jsonEncode({'email': email}));
 
+      log(response.body.toString());
+
       if (response.statusCode != 200 && response.statusCode != 201) {
-        BaseResponse result = BaseResponse.fromJson(response.body);
+        DataMap result = jsonDecode(response.body);
         throw APIException(
-            message: result.message, statusCode: response.statusCode);
+            message: result['message'] + ' ' + result['error'],
+            statusCode: response.statusCode);
       }
 
       return jsonDecode(response.body);
@@ -182,13 +185,13 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse> updatePassword(
+  Future<DataMap> updatePassword(
       {required String otp, required String email}) async {
     try {
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.updatePassword),
           headers: headers,
-          body: jsonEncode({'email': email, 'otp': otp}));
+          body: jsonEncode({'password': email, 'otp': otp}));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);

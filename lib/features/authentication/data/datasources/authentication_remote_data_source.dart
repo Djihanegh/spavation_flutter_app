@@ -24,6 +24,6 @@ abstract class AuthenticationRemoteDataSource {
 
   Future<DataMap> sendOtpForgotPassword({required String email});
 
-  Future<BaseResponse> updatePassword(
+  Future<DataMap> updatePassword(
       {required String otp, required String email});
 }
