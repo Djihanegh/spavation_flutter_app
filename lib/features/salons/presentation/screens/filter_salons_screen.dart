@@ -97,7 +97,7 @@ class _FilterSalonsScreenState extends State<FilterSalonsScreen> {
                 child = const Center(child: Text('Null'));
               }
 
-              return child!;
+              return child;
             }));
   }
 }
