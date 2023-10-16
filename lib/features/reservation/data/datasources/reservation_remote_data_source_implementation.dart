@@ -68,10 +68,6 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     try {
       String token = Prefs.getString(Prefs.TOKEN) ?? '';
 
-      log(token.toString());
-
-      log(data.toString());
-
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
           headers: {

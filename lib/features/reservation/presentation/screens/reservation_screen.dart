@@ -67,16 +67,18 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: state.reservations?.length,
-                    itemBuilder: (context, index) {
-                      var body =
-                          jsonDecode(state.reservations![index].toString());
-                      log(body.toString());
-                      //  ProductModel product = ProductModel.fromStringJson(
-                      //       state.reservations![index].products);
-                      //    log(product.toString());
-                      return ReservationItem(
-                        reservation: state.reservations![index],
-                      );
+                    itemBuilder: (context, indexA) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount:
+                              state.reservations?[indexA].products.length,
+                          itemBuilder: (context, indexB) {
+                            return ReservationItem(
+                              reservation:
+                                  state.reservations?[indexA].products[indexB],
+                            );
+                          });
                     });
               }
 

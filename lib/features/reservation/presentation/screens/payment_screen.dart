@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
 import 'package:spavation/features/reservation/presentation/widgets/disocunt_code_widget.dart';
 import 'package:spavation/features/reservation/presentation/widgets/service_details_item.dart';
@@ -98,8 +99,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           'id': e.id,
                                           'name': e.name,
                                           'date':
-                                              "${e.date.day}/${e.date.month}/${e.date.year}",
-                                          'time': "${times[0]}:00pm"
+                                              "${e.date.day}-${e.date.month}-${e.date.year}",
+                                          'time': times[0],
+                                          'image': e.image,
+                                          'description': e.description
                                         });
                                       }
                                     }
@@ -443,12 +446,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                SvgPicture.asset(
-                                                    Assets.iconsApple,
-                                                    colorFilter:
-                                                        const ColorFilter.mode(
-                                                            Colors.white,
-                                                            BlendMode.srcIn)),
+                                                state.status ==
+                                                        FormzSubmissionStatus
+                                                            .inProgress
+                                                    ? const LoadingWidget()
+                                                    : SvgPicture.asset(
+                                                        Assets.iconsApple,
+                                                        colorFilter:
+                                                            const ColorFilter
+                                                                    .mode(
+                                                                Colors.white,
+                                                                BlendMode
+                                                                    .srcIn)),
                                                 5.widthXBox,
                                                 AutoSizeText('Pay',
                                                     style: TextStyles.inter
