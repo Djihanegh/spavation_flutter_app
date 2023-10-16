@@ -59,27 +59,32 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 subChild = const LoadingWidget();
               }
 
-              if (state.reservations == []) {
-                subChild = const Text('No salon found ');
-              }
-              if (state.reservations != null && state.reservations != []) {
-                subChild = ListView.builder(
-                    shrinkWrap: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: state.reservations?.length,
-                    itemBuilder: (context, indexA) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount:
-                              state.reservations?[indexA].products.length,
-                          itemBuilder: (context, indexB) {
-                            return ReservationItem(
-                              reservation:
-                                  state.reservations?[indexA].products[indexB],
-                            );
-                          });
-                    });
+              if (state.reservations != null) {
+                if (state.reservations!.isNotEmpty) {
+                  subChild = ListView.builder(
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: state.reservations?.length,
+                      itemBuilder: (context, indexA) {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount:
+                                state.reservations?[indexA].products.length,
+                            itemBuilder: (context, indexB) {
+                              return ReservationItem(
+                                reservation: state
+                                    .reservations?[indexA].products[indexB],
+                              );
+                            });
+                      });
+                } else {
+                  subChild = Center(
+                      child: AutoSizeText(
+                    'No reservation found ',
+                    style: TextStyles.inter.copyWith(color: Colors.white),
+                  ));
+                }
               }
 
               if (subChild != null) {

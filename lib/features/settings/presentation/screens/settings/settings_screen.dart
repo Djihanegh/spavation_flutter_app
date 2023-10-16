@@ -7,9 +7,6 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
-import 'package:spavation/features/authentication/presentation/screens/splash/splash_screen.dart';
-import 'package:spavation/features/home/presentation/screens/home/home.dart';
-import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/bills/bills_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/call_center/call_center_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/delete_account/delete_account_screen.dart';
@@ -42,98 +39,92 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     return Scaffold(
-      body: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              (sh! * 0.1).heightXBox,
-              Padding(
-                  padding: paddingAll(30),
-                  child: Row(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          (sh! * 0.1).heightXBox,
+          Padding(
+              padding: paddingAll(30),
+              child: Row(
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    padding: paddingAll(10),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: appPrimaryColor),
+                    child: SvgPicture.asset(
+                      Assets.iconsLogo,
+                      height: 20,
+                      width: 20,
+                    ),
+                  ),
+                  30.widthXBox,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        padding: paddingAll(10),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: appPrimaryColor),
-                        child: SvgPicture.asset(
-                          Assets.iconsLogo,
-                          height: 20,
-                          width: 20,
-                        ),
+                      AutoSizeText(
+                        firstName,
+                        style: TextStyles.inter.copyWith(
+                            color: appPrimaryColor,
+                            fontWeight: FontWeight.w700),
                       ),
-                      30.widthXBox,
-                      Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AutoSizeText(
-                            firstName,
-                            style: TextStyles.inter.copyWith(
+                          Container(
+                            decoration: BoxDecoration(
+                                color: lightWhite,
+                                borderRadius: BorderRadius.circular(13)),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 5, bottom: 5),
+                            child: AutoSizeText(
+                              'Ar',
+                              style:
+                                  TextStyles.inter.copyWith(color: lightPurple),
+                            ),
+                          ),
+                          10.widthXBox,
+                          Container(
+                            decoration: BoxDecoration(
                                 color: appPrimaryColor,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: lightWhite,
-                                    borderRadius: BorderRadius.circular(13)),
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 5, bottom: 5),
-                                child: AutoSizeText(
-                                  'Ar',
-                                  style: TextStyles.inter
-                                      .copyWith(color: lightPurple),
-                                ),
-                              ),
-                              10.widthXBox,
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: appPrimaryColor,
-                                    borderRadius: BorderRadius.circular(13)),
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 5, bottom: 5),
-                                child: AutoSizeText(
-                                  'En',
-                                  style: TextStyles.inter
-                                      .copyWith(color: Colors.white),
-                                ),
-                              )
-                            ],
-                          ),
+                                borderRadius: BorderRadius.circular(13)),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 5, bottom: 5),
+                            child: AutoSizeText(
+                              'En',
+                              style: TextStyles.inter
+                                  .copyWith(color: Colors.white),
+                            ),
+                          )
                         ],
-                      )
+                      ),
                     ],
-                  )),
-              Container(
-                  width: sw!,
-                  height: sh! * 0.8,
-                  margin: const EdgeInsets.only(bottom: 0),
-                  decoration: const BoxDecoration(
-                    //  boxShadow: boxShadow2,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                    color: appPrimaryColor,
-                  ),
-                  child: PageView(
-                    allowImplicitScrolling: true,
-                    scrollDirection: Axis.vertical,
-                    controller: pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      settingsItem(context),
-                      const UpdateUserInfoScreen()
-                    ],
-                  ))
-            ],
-          )),
+                  )
+                ],
+              )),
+          Container(
+              width: sw!,
+              height: sh! * 0.62,
+              margin: const EdgeInsets.only(bottom: 0),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25)),
+                color: appPrimaryColor,
+              ),
+              child: PageView(
+                allowImplicitScrolling: true,
+                scrollDirection: Axis.vertical,
+                controller: pageController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [settingsItem(context), const UpdateUserInfoScreen()],
+              ))
+        ],
+      ),
     );
   }
 

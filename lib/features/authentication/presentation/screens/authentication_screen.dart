@@ -34,9 +34,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-
-            },
+            listener: (context, state) {},
             listenWhen: (prev, curr) =>
                 prev.status != curr.status ||
                 prev.gender != curr.gender ||
@@ -48,7 +46,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 prev.password != curr.password ||
                 prev.confirmPassword != curr.confirmPassword,
             builder: (context, state) {
-                return SingleChildScrollView(
+              return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Center(
                       child: Stack(
@@ -82,7 +80,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                     color: Colors.white),
                               ),
                               AutoSizeText(
-                                isLoginVisible ? 'Create an account' : 'Login',
+                                isLoginVisible ? 'Login' : 'Create an account',
                                 style: TextStyles.inter.copyWith(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white),
@@ -100,11 +98,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
-                                            width:
-                                                !isLoginVisible ? 150 : 160,
+                                            width: !isLoginVisible ? 150 : 160,
                                             child: Stack(
                                               children: [
-
                                                 if (isLoginVisible)
                                                   GestureDetector(
                                                       onTap: () {
@@ -145,28 +141,28 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                     onTap: () {
                                                       setState(() {
                                                         isLoginVisible =
-                                                        !isLoginVisible;
+                                                            !isLoginVisible;
                                                       });
                                                     },
                                                     child: Container(
                                                       padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10,
-                                                          right: 50,
-                                                          top: 10,
-                                                          bottom: 10),
+                                                          const EdgeInsets.only(
+                                                              left: 10,
+                                                              right: 50,
+                                                              top: 10,
+                                                              bottom: 10),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(20),
+                                                              BorderRadius
+                                                                  .circular(20),
                                                           color: grey[0]),
                                                       child: AutoSizeText(
                                                         'Login',
                                                         style: TextStyles.inter
                                                             .copyWith(
-                                                            color:
-                                                            appPrimaryColor,
-                                                            fontSize: 14),
+                                                                color:
+                                                                    appPrimaryColor,
+                                                                fontSize: 14),
                                                       ),
                                                     ),
                                                   ),
@@ -179,40 +175,40 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                           onTap: () {
                                                             setState(() {
                                                               isLoginVisible =
-                                                              !isLoginVisible;
+                                                                  !isLoginVisible;
                                                             });
                                                           },
                                                           child: Container(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 20,
-                                                                right: 20,
-                                                                top: 10,
-                                                                bottom: 10),
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 20,
+                                                                    right: 20,
+                                                                    top: 10,
+                                                                    bottom: 10),
                                                             decoration: BoxDecoration(
                                                                 borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    20),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
                                                                 color:
-                                                                appPrimaryColor),
+                                                                    appPrimaryColor),
                                                             height: 50,
                                                             child: Center(
                                                                 child:
-                                                                AutoSizeText(
-                                                                  'Register',
-                                                                  style: TextStyles
-                                                                      .inter
-                                                                      .copyWith(
+                                                                    AutoSizeText(
+                                                              'Register',
+                                                              style: TextStyles
+                                                                  .inter
+                                                                  .copyWith(
                                                                       color: Colors
                                                                           .white,
                                                                       fontSize:
-                                                                      14),
-                                                                  textAlign:
+                                                                          14),
+                                                              textAlign:
                                                                   TextAlign
                                                                       .center,
-                                                                )),
+                                                            )),
                                                           ))),
                                                 if (isLoginVisible)
                                                   Positioned(
@@ -252,23 +248,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                                           14),
                                                             ),
                                                           ))),
-
                                               ],
                                             )),
-                                        if (isLoginVisible)
-                                          const LoginScreen(),
+                                        if (isLoginVisible) const LoginScreen(),
                                         if (!isLoginVisible)
                                           const RegisterScreen(),
-
                                         20.heightXBox,
-
-
-
                                       ])),
-
                               20.heightXBox,
                             ],
-
                           )),
                       Positioned(
                           top: -10,
