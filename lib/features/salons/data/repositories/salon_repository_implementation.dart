@@ -6,6 +6,7 @@ import 'package:spavation/features/salons/domain/repositories/salon_repository.d
 
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failure.dart';
+import '../models/salon_model.dart';
 
 class SalonRepositoryImplementation implements SalonRepository {
   final SalonRemoteDataSource _remoteDataSource;

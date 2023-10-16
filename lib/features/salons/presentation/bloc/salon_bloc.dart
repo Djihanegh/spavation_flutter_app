@@ -21,7 +21,6 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
         _getSalonsByCategoryUseCase = getSalonsByCategoryUseCase,
         super(const SalonState()) {
     on<GetSalonsEvent>(_getSalonsHandler);
-
     on<GetSalonsByCategoryEvent>(_getSalonsByCategoryHandler);
   }
 
@@ -31,7 +30,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
   Future<void> _getSalonsByCategoryHandler(
       GetSalonsByCategoryEvent event, Emitter<SalonState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _getSalonsByCategoryUseCase(event.id);
 
@@ -42,7 +41,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
             action: RequestType.getSalonsByCategory)),
         (r) => emit(state.copyWith(
             status: FormzSubmissionStatus.success,
-            salons: r.salons,
+            filteredSalons: r.salons,
             action: RequestType.getSalonsByCategory,
             successMessage: '')));
   }
@@ -50,7 +49,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
   Future<void> _getSalonsHandler(
       GetSalonsEvent event, Emitter<SalonState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _getSalonsUseCase();
 

@@ -10,6 +10,7 @@ import 'package:spavation/features/salons/domain/entities/get_salons_response.da
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/endpoint.dart';
+import '../../../../core/utils/typedef.dart';
 
 class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
   SalonRemoteDataSrcImpl(this._client);
@@ -53,12 +54,16 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
         throw APIException(message: '', statusCode: response.statusCode);
       }
 
-      List<dynamic> list = jsonDecode(response.body);
+      log(response.body.toString());
 
-      List<SalonModel> salons =
-          list.map((e) => SalonModel.fromJson(e)).toList();
+      DataMap list = jsonDecode(response.body);
 
-      return GetSalonsResponse(salons);
+      log(GetSalonsResponse.fromJson(jsonDecode(response.body)).toString());
+
+      //   List<SalonModel> salons =
+      //     list.map((e) => SalonModel.fromJson(e)).toList();
+
+      return GetSalonsResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {

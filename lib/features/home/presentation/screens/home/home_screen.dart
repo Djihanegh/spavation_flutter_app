@@ -163,7 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         right: 5,
                         child: const SearchInput()),
 
-                    const CategoriesScreen()
+                     CategoriesScreen(
+                      lat: currentPosition?.latitude ?? 0,
+                      long: currentPosition?.longitude ?? 0,
+                    )
                   ],
                 ),
                 SalonsScreen(

@@ -7,7 +7,10 @@ import '../../../../app/theme.dart';
 import '../../../../core/utils/size_config.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
+  const CategoriesScreen({super.key, required this.lat, required this.long});
+
+  final double lat;
+  final double long;
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
@@ -48,6 +51,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         itemCount: state.data?.length ?? 0,
                         itemBuilder: (context, index) => CategoryItem(
+                            lat: widget.lat,
+                            long: widget.long,
+                            categoryId: "${state.data?[index].id}",
                             image: state.data?[index].image ?? '',
                             title: state.data?[index].name ?? '',
                             color: Colors.transparent))),

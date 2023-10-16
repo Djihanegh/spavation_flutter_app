@@ -42,6 +42,7 @@ import 'package:spavation/features/salons/data/datasources/salons_remote_data_so
 import 'package:spavation/features/salons/data/repositories/salon_repository_implementation.dart';
 import 'package:spavation/features/salons/domain/repositories/salon_repository.dart';
 import 'package:spavation/features/salons/domain/usecases/get_salons.dart';
+import 'package:spavation/features/salons/domain/usecases/get_salons_by_category.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
 import 'package:spavation/features/settings/data/datasources/settings_remote_data_source.dart';
 import 'package:spavation/features/settings/data/datasources/settings_remote_data_source_implementation.dart';
@@ -104,6 +105,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => UpdatePasswordUseCase(sl()))
     ..registerLazySingleton(() => CheckOtpForgetPasswordUseCase(sl()))
     ..registerLazySingleton(() => SendOtpForgetPasswordUseCase(sl()))
+    ..registerLazySingleton(() => GetSalonsByCategoryUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(

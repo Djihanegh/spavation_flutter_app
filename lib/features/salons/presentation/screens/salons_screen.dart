@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -27,7 +25,8 @@ class _SalonsScreenState extends State<SalonsScreen> {
   @override
   void initState() {
     _salonBloc = BlocProvider.of(context);
-    if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
+    if (_salonBloc.state.salons == [] ||
+        _salonBloc.state.salons == null) {
       _salonBloc.add(const GetSalonsEvent());
     }
     super.initState();
@@ -44,7 +43,6 @@ class _SalonsScreenState extends State<SalonsScreen> {
           Widget? child;
 
           if (state.status == FormzSubmissionStatus.failure) {
-
             child = const SalonErrorWidget();
           }
 
