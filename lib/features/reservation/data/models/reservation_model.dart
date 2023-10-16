@@ -18,28 +18,29 @@ class ReservationModel extends Reservation {
       required super.date,
       required super.time,
       required super.salonId,
-      required super.customerId});
+      required super.customerId,
+      required super.products});
 
   factory ReservationModel.fromJson(DataMap source) =>
       ReservationModel.fromMap(source);
 
   ReservationModel.fromMap(DataMap json)
       : this(
-          id: json["id"],
-          reservationId: json["reservation_id"],
-          productId: json["product_id"],
-          quantity: json["quantity"],
-          paymentMethod: json["payment_method"],
-          tax: json["tax"],
-          total: json["total"],
-          status: json["status"],
-          date: json["date"],
-          time: json["time"],
-          salonId: json["salon_id"],
-          customerId: json["customer_id"],
-          createdAt: json["created_at"],
-          updatedAt: json["updated_at"],
-        );
+            id: json["id"],
+            reservationId: "",
+            productId: "",
+            quantity: "",
+            paymentMethod: json["payment_method"],
+            tax: json["tax"],
+            total: json["total"],
+            status: json["status"],
+            date: "",
+            time: "",
+            salonId: json["salon_id"],
+            customerId: json["customer_id"],
+            createdAt: json["created_at"],
+            updatedAt: json["updated_at"],
+            products: json['products']);
 
   DataMap toMap() => {
         "id": id,
@@ -56,6 +57,7 @@ class ReservationModel extends Reservation {
         "customer_id": customerId,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "products":products
       };
 
   String toJson() => jsonEncode(toMap());

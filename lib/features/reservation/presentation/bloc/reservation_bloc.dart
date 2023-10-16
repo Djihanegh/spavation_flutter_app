@@ -41,6 +41,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
     result.fold(
         (l) => emit(state.copyWith(
+
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
             action: RequestType.addReservation)),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -5,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
-import '../../../../app/theme.dart';
 import '../bloc/salon_bloc.dart';
 import 'widgets/salon_loadig_widget.dart';
 import 'widgets/salon_item.dart';
@@ -43,6 +44,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
           Widget? child;
 
           if (state.status == FormzSubmissionStatus.failure) {
+
             child = const SalonErrorWidget();
           }
 

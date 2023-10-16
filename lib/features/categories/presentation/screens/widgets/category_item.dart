@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/endpoint.dart';
+import '../../../../../core/utils/size_config.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
@@ -18,6 +21,8 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('ITEMMMMM');
+    log(image);
     return Padding(
         padding: const EdgeInsets.only(left: 0, right: 10),
         child: Column(
@@ -30,6 +35,10 @@ class CategoryItem extends StatelessWidget {
               child: Image.network(
                 Endpoints.storageUrl + image,
                 fit: BoxFit.contain,
+                errorBuilder: ((context, error, stackTrace) => CircleAvatar(
+                    radius: 30,
+                    backgroundColor: color,
+                    child: const Icon(Icons.error, color: Colors.black))),
               ),
             ),
             AutoSizeText(

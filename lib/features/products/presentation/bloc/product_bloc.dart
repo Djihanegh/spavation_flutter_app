@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:spavation/features/products/domain/usecases/get_products.dart';
 
@@ -43,9 +44,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         DataMap data = list[index];
         if (event.date != data['date']) {
           data['date'] = event.date;
-
-          //  list.removeAt(index);
-          // list.insert(index, {'id': event.productId, 'date': event.date});
         } else {
           data['date'] = null;
         }
@@ -109,8 +107,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (reservations.containsKey(event.product.salonId)) {
         List<DataMap>? data = reservations[event.product.salonId];
         if (data != null) {
-          int index = data
-              .indexWhere((element) => element['id'] == event.product.id);
+          int index =
+              data.indexWhere((element) => element['id'] == event.product.id);
 
           if (index != -1) {
             data.removeAt(index);

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +10,10 @@ import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
+import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:spavation/features/reservation/presentation/widgets/reservation_item.dart';
 
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
-import '../../../salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import '../bloc/reservation_bloc.dart';
 
 class ReservationScreen extends StatefulWidget {
@@ -64,7 +67,17 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: state.reservations?.length,
-                    itemBuilder: (context, item) => const ReservationItem());
+                    itemBuilder: (context, index) {
+                      var body =
+                          jsonDecode(state.reservations![index].toString());
+                      log(body.toString());
+                      //  ProductModel product = ProductModel.fromStringJson(
+                      //       state.reservations![index].products);
+                      //    log(product.toString());
+                      return ReservationItem(
+                        reservation: state.reservations![index],
+                      );
+                    });
               }
 
               if (subChild != null) {

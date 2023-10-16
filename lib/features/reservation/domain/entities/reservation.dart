@@ -1,26 +1,27 @@
 import 'package:equatable/equatable.dart';
 
 class Reservation extends Equatable {
-  const Reservation({
-    required this.id,
-    required this.productId,
-    required this.reservationId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.status,
-    required this.quantity,
-    required this.paymentMethod,
-    required this.tax,
-    required this.total,
-    required this.date,
-    required this.time,
-    required this.salonId,
-    required this.customerId,
-  });
+  const Reservation(
+      {required this.id,
+      required this.productId,
+      required this.reservationId,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.status,
+      required this.quantity,
+      required this.paymentMethod,
+      required this.tax,
+      required this.total,
+      required this.date,
+      required this.time,
+      required this.salonId,
+      required this.customerId,
+      required this.products});
 
   final int id;
   final String reservationId;
   final String productId;
+  final String products;
   final String createdAt;
   final String updatedAt;
   final String quantity;
@@ -49,5 +50,6 @@ class Reservation extends Equatable {
         time,
         salonId,
         customerId,
+        products
       ];
 }

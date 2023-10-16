@@ -4,9 +4,12 @@ import 'package:spavation/features/reservation/presentation/widgets/status_butto
 
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
+import '../../data/models/reservation_model.dart';
 
 class ReservationItem extends StatelessWidget {
-  const ReservationItem({super.key});
+  const ReservationItem({super.key, required this.reservation});
+
+  final ReservationModel reservation;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class ReservationItem extends StatelessWidget {
           radius: 30,
         ),
         title: AutoSizeText(
-          'Woman SPA',
+          'wOMEN sPA',
           style: TextStyles.inter.copyWith(
               color: whiteWithOpacity,
               fontWeight: FontWeight.w700,

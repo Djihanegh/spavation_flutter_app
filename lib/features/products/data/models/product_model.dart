@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert';
 
 import '../../../../core/utils/typedef.dart';
@@ -24,6 +26,9 @@ class ProductModel extends Product {
       required super.time});
 
   factory ProductModel.fromJson(DataMap source) => ProductModel.fromMap(source);
+
+  factory ProductModel.fromStringJson(String source) =>
+      ProductModel.fromMap(jsonDecode(source));
 
   factory ProductModel.empty() => ProductModel(
       id: -1,

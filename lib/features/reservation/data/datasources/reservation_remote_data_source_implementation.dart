@@ -67,15 +67,18 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
   Future<AddReservationResponse> addReservation({required DataMap data}) async {
     try {
       String token = Prefs.getString(Prefs.TOKEN) ?? '';
-      var body = jsonEncode(data);
 
       log(token.toString());
 
-      String encoded = jsonEncode(data);
+      log(data.toString());
+
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
-          headers: headers,
-          body: encoded);
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(data));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         log(response.body.toString());
