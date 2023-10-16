@@ -73,7 +73,8 @@ Future<void> init() async {
     ..registerFactory(() => BannerBloc(
           getBannersUseCase: sl(),
         ))
-    ..registerFactory(() => SalonBloc(getSalonsUseCase: sl()))
+    ..registerFactory(() =>
+        SalonBloc(getSalonsUseCase: sl(), getSalonsByCategoryUseCase: sl()))
     ..registerFactory(() => ProductBloc(getProductsUseCase: sl()))
     ..registerFactory(() => SettingsBloc(
         getUserDetailsUseCase: sl(),

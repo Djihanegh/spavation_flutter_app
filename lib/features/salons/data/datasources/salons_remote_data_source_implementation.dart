@@ -25,20 +25,38 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        GetSalonsResponse result =
-            GetSalonsResponse.fromJson(jsonDecode(response.body));
         throw APIException(message: '', statusCode: response.statusCode);
       }
 
-
-
-
       List<dynamic> list = jsonDecode(response.body);
-      log(list.toString());
+
       List<SalonModel> salons =
           list.map((e) => SalonModel.fromJson(e)).toList();
 
+      return GetSalonsResponse(salons);
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
+  }
 
+  @override
+  Future<GetSalonsResponse> getSalonsByCategory(String id) async {
+    try {
+      final response = await _client.get(
+        Uri.parse(Endpoints.baseUrl + Endpoints.salonsByCategory + id),
+        headers: headers,
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw APIException(message: '', statusCode: response.statusCode);
+      }
+
+      List<dynamic> list = jsonDecode(response.body);
+
+      List<SalonModel> salons =
+          list.map((e) => SalonModel.fromJson(e)).toList();
 
       return GetSalonsResponse(salons);
     } on APIException {

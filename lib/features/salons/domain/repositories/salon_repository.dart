@@ -6,4 +6,6 @@ abstract class SalonRepository {
   const SalonRepository();
 
   ResultFuture<GetSalonsResponse> getSalons();
+
+  ResultFuture<GetSalonsResponse> getSalonsByCategory(String id);
 }

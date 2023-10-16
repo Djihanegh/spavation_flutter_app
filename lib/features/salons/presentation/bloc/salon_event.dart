@@ -10,3 +10,12 @@ class GetSalonsEvent extends SalonEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetSalonsByCategoryEvent extends SalonEvent {
+  const GetSalonsByCategoryEvent(this.id);
+
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+}

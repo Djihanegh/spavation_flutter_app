@@ -10,6 +10,7 @@ enum RequestType {
   getBanners,
   getCategories,
   getSalons,
+  getSalonsByCategory,
   getProducts,
   checkCoupon,
   addReservation,
