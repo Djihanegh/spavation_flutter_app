@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     .read<AuthenticationBloc>()
                     .add(ResendOtpEvent(email: emailController.text));
 
-                navigateToPage(const OtpScreen(), context);
+                navigateToPage( OtpScreen(email: emailController.text,), context);
               }
             }
 

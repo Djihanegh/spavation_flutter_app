@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -23,7 +24,9 @@ import '../../../../../generated/assets.dart';
 import '../../bloc/authentication_bloc.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  const OtpScreen({super.key, required this.email});
+
+  final String email;
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -103,9 +106,9 @@ class _OtpScreenState extends State<OtpScreen> {
               }
             },
             listenWhen: (prev, curr) => prev.status != curr.status,
-            buildWhen: (prev, curr) =>
-                prev.status != curr.status || prev.email != curr.email,
+            buildWhen: (prev, curr) => prev.status != curr.status,
             builder: (context, state) {
+              log(widget.email);
               return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Center(
@@ -152,7 +155,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                               color: purple[0], fontSize: 15),
                                         ),
                                         AutoSizeText(
-                                          state.email,
+                                          widget.email,
                                           style: TextStyles.inter.copyWith(
                                               color: Colors.black,
                                               fontSize: 15),
@@ -274,7 +277,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                                               AuthenticationBloc>()
                                                           .add(ResendOtpEvent(
                                                               email:
-                                                                  state.email));
+                                                                  widget.email));
                                                     },
                                                     child: Text(
                                                       "Resend code ",

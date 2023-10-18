@@ -15,7 +15,7 @@ abstract class AuthenticationRemoteDataSource {
 
   Future<BaseResponse> checkOtp({required String otp});
 
-  Future<ResendOtpResponse> resendOtp({required String email});
+  Future<BaseResponse> resendOtp({required String email});
 
   Future<GetUserResponse> getUser({required String token});
 

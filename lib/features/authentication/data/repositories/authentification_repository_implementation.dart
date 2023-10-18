@@ -49,7 +49,7 @@ class AuthenticationRepositoryImplementation
   }
 
   @override
-  ResultFuture<ResendOtpResponse> resendOtp({required String email}) async {
+  ResultFuture<BaseResponse> resendOtp({required String email}) async {
     try {
       final result = await _remoteDataSource.resendOtp(email: email);
       return Right(result);

@@ -8,13 +8,12 @@ import 'package:formz/formz.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/utils/app_styles.dart';
+import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
-import 'package:spavation/features/products/data/models/product_model.dart';
-import 'package:spavation/features/reservation/presentation/widgets/reservation_item.dart';
-
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../bloc/reservation_bloc.dart';
+import '../widgets/reservation_item.dart';
 
 class ReservationScreen extends StatefulWidget {
   const ReservationScreen({super.key});
@@ -26,6 +25,8 @@ class ReservationScreen extends StatefulWidget {
 class _ReservationScreenState extends State<ReservationScreen> {
   late ReservationBloc _reservationBloc;
   String token = '';
+  bool showDetailsList = false;
+  int index = -1;
 
   @override
   void initState() {
@@ -40,66 +41,108 @@ class _ReservationScreenState extends State<ReservationScreen> {
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: Colors.white,
-        body: BlocConsumer<ReservationBloc, ReservationState>(
-            listener: (context, state) {},
-            listenWhen: (prev, curr) => prev.status != curr.status,
-            buildWhen: (prev, curr) => prev.status != curr.status,
-            builder: (context, state) {
-              Widget? child;
-              Widget? subChild;
+        body: SingleChildScrollView(
+            child: BlocConsumer<ReservationBloc, ReservationState>(
+                listener: (context, state) {},
+                listenWhen: (prev, curr) => prev.status != curr.status,
+                builder: (context, state) {
+                  Widget? child;
+                  Widget? subChild;
 
-              child = body(subChild);
+                  child = body(subChild);
 
-              if (state.status == FormzSubmissionStatus.failure) {
-                subChild = const SalonErrorWidget();
-              }
+                  if (state.status == FormzSubmissionStatus.failure) {
+                    subChild = const SalonErrorWidget();
+                  }
 
-              if (state.status == FormzSubmissionStatus.initial ||
-                  state.status == FormzSubmissionStatus.inProgress) {
-                subChild = const LoadingWidget();
-              }
+                  if (state.status == FormzSubmissionStatus.initial ||
+                      state.status == FormzSubmissionStatus.inProgress) {
+                    subChild = const LoadingWidget();
+                  }
 
-              if (state.reservations != null) {
-                if (state.reservations!.isNotEmpty) {
-                  subChild = ListView.builder(
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: state.reservations?.length,
-                      itemBuilder: (context, indexA) {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemCount:
-                                state.reservations?[indexA].products.length,
-                            itemBuilder: (context, indexB) {
-                              return ReservationItem(
-                                reservation: state
-                                    .reservations?[indexA].products[indexB],
-                              );
-                            });
-                      });
-                } else {
-                  subChild = Center(
-                      child: AutoSizeText(
-                    'No reservation found ',
-                    style: TextStyles.inter.copyWith(color: Colors.white),
-                  ));
-                }
-              }
+                  if (state.reservations != null) {
+                    if (state.reservations!.isNotEmpty) {
+                      subChild = ListView.builder(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: state.reservations?.length,
+                          itemBuilder: (context, indexA) {
+                            return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    showDetailsList = !showDetailsList;
+                                    index = indexA;
+                                  });
+                                },
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: AutoSizeText(
+                                        'Reservation ID:',
+                                        style: TextStyles.inter.copyWith(
+                                            color: whiteWithOpacity,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16),
+                                      ),
+                                      subtitle: AutoSizeText(
+                                        "${state.reservations![indexA].id}",
+                                        style: TextStyles.inter.copyWith(
+                                            color: whiteWithOpacity,
+                                            fontSize: 14),
+                                      ),
+                                      trailing: CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          radius: 30,
+                                          child: Icon(
+                                            showDetailsList && index == indexA
+                                                ? Icons.arrow_drop_up
+                                                : Icons.arrow_drop_down,
+                                            color: Colors.black,
+                                          )),
+                                    ),
+                                    showDetailsList && index == indexA
+                                        ? ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const AlwaysScrollableScrollPhysics(),
+                                            itemCount: state
+                                                .reservations?[indexA]
+                                                .products
+                                                .length,
+                                            itemBuilder: (context, indexB) {
+                                              return ReservationItem(
+                                                reservation: state
+                                                    .reservations?[indexA]
+                                                    .products[indexB],
+                                              );
+                                            })
+                                        : emptyWidget(),
 
-              if (subChild != null) {
-                child = body(subChild);
-              }
 
-              return child;
-            }));
+                                  ],
+                                ));
+                          });
+                    } else {
+                      subChild = Center(
+                          child: AutoSizeText(
+                        'No reservation found ',
+                        style: TextStyles.inter.copyWith(color: Colors.white),
+                      ));
+                    }
+                  }
+
+                  if (subChild != null) {
+                    child = body(subChild);
+                  }
+
+                  return child;
+                })));
   }
 
   Widget body(Widget? subChild) {
     return SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Stack(children: [
-          // (sh! * 0.8).heightXBox,
           Container(
             height: sh!,
             color: Colors.white,

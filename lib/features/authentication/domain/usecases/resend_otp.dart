@@ -12,6 +12,6 @@ class ResendOtpUseCase extends UseCaseWithParams<BaseResponse, String> {
   final AuthenticationRepository _repository;
 
   @override
-  ResultFuture<ResendOtpResponse> call(String params) async =>
+  ResultFuture<BaseResponse> call(String params) async =>
       _repository.resendOtp(email: params);
 }

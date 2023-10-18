@@ -107,7 +107,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               "${e.date.day}-${e.date.month}-${e.date.year}",
                                           'time': times[0],
                                           'image': e.image,
-                                          'description': e.description
+                                          'description': e.description,
+                                          'price': e.price,
+                                          'status': e.status
                                         });
                                       }
                                     }

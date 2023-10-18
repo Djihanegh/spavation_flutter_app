@@ -74,9 +74,7 @@ class AuthenticationBloc
 
   Future<void> _onOtpChanged(
       OtpChanged event, Emitter<AuthenticationState> emit) async {
-    emit(state.copyWith(
-      otp: event.otp,
-    ));
+    emit(state.copyWith(otp: event.otp, email: state.email));
   }
 
   Future<void> _onUpdatePassword(
@@ -104,7 +102,7 @@ class AuthenticationBloc
       CheckForgetPasswordOtp event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
         action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _checkOtpForgetPasswordUseCase(
         {'email': event.email, 'otp': event.otp});
@@ -125,7 +123,7 @@ class AuthenticationBloc
       SendForgetPasswordOtp event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
         action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _sendOtpForgetPasswordUseCase(event.email);
 
@@ -143,9 +141,7 @@ class AuthenticationBloc
 
   Future<void> _userAddressChanged(
       UserAddressChanged event, Emitter<AuthenticationState> emit) async {
-    emit(state.copyWith(
-      userAddress: event.address,
-    ));
+    emit(state.copyWith(userAddress: event.address, email: state.email));
   }
 
   Future<void> _getUserHandler(
@@ -173,7 +169,7 @@ class AuthenticationBloc
       ResendOtpEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
         action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 30));
 
     final result = await _resendOtp(event.email);
 
@@ -186,7 +182,7 @@ class AuthenticationBloc
         (r) => emit(state.copyWith(
             action: RequestType.resendOtp,
             status: FormzSubmissionStatus.success,
-            otp: '${r.otp}',
+            //  otp: '${r.otp}',
             successMessage: r.message)));
   }
 
@@ -194,7 +190,7 @@ class AuthenticationBloc
       CheckOtpEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
         action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 30));
 
     final result = await _checkOtp(event.otp);
 
@@ -247,7 +243,7 @@ class AuthenticationBloc
   Future<void> _genderChanged(
       GenderChanged event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(gender: event.gender, email: state.email));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 30));
   }
 
   Future<void> _createUserHandler(
@@ -256,7 +252,7 @@ class AuthenticationBloc
         action: RequestType.unknown,
         status: FormzSubmissionStatus.inProgress,
         gender: state.gender));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 30));
 
     final result = await _registerUser(event.user);
 

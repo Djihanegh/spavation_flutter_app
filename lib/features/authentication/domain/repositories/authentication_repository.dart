@@ -16,7 +16,7 @@ abstract class AuthenticationRepository {
 
   ResultFuture<BaseResponse> checkOtp({required String otp});
 
-  ResultFuture<ResendOtpResponse> resendOtp({required String email});
+  ResultFuture<BaseResponse> resendOtp({required String email});
 
   ResultFuture<GetUserResponse> getUser({required String token});
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
-import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/features/authentication/presentation/screens/otp/otp_screen.dart';
-
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/validators.dart';
@@ -65,8 +61,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (state.status == FormzSubmissionStatus.success) {
               openSnackBar(context, 'User Successfully created !',
                   AnimatedSnackBarType.success);
+
+              navigateToPage(
+                  OtpScreen(
+                    email: emailController.text,
+                  ),
+                  context);
               clearTextFields();
-              navigateToPage(const OtpScreen(), context);
             }
           }
         },

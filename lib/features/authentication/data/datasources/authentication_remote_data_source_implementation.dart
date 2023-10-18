@@ -93,7 +93,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
   }
 
   @override
-  Future<ResendOtpResponse> resendOtp({required String email}) async {
+  Future<BaseResponse> resendOtp({required String email}) async {
     try {
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.resendOtp),
@@ -106,7 +106,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
             message: result.message, statusCode: response.statusCode);
       }
 
-      return ResendOtpResponse.fromJson(jsonDecode(response.body));
+      return BaseResponse.fromJson(response.body);
     } on APIException {
       rethrow;
     } catch (e) {

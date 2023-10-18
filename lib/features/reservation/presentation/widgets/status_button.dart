@@ -18,7 +18,7 @@ class StatusButton extends StatelessWidget {
           border: Border.all(color: status ? greenColor : red[0]),
           borderRadius: BorderRadius.circular(10)),
       child: AutoSizeText(
-        status ? 'Done' : 'Cancel',
+        status ? 'Active' : 'Cancel',
         style: TextStyles.inter
             .copyWith(color: status ? greenColor : red[0], fontSize: 14),
       ),

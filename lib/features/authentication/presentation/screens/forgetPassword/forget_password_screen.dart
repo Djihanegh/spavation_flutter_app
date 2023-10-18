@@ -40,8 +40,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 openSnackBar(context, state.successMessage,
                     AnimatedSnackBarType.success);
                 navigateToPage(
-                    const OtpScreen(
+                    OtpScreen(
                       key: forgetPasswordKey,
+                      email: emailController.text,
                     ),
                     context);
               } else if (state.status == FormzSubmissionStatus.failure) {
