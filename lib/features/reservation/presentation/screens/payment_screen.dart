@@ -10,8 +10,10 @@ import 'package:formz/formz.dart';
 import 'package:intl/intl.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
+import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
 import 'package:spavation/features/reservation/presentation/widgets/disocunt_code_widget.dart';
 import 'package:spavation/features/reservation/presentation/widgets/service_details_item.dart';
@@ -56,9 +58,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         if (state.status == FormzSubmissionStatus.success) {
                           openSnackBar(context, state.successMessage,
                               AnimatedSnackBarType.success);
-                        } else {
-                          // openSnackBar(context, state.errorMessage,
-                          //    AnimatedSnackBarType.error);
+                          navigateAndRemoveUntil(
+                              const HomeScreen(), context, false);
+                        } else if (state.status ==
+                            FormzSubmissionStatus.failure) {
+                          openSnackBar(context, state.errorMessage,
+                              AnimatedSnackBarType.error);
                         }
                       }
                     },
