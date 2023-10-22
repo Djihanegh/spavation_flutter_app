@@ -1,8 +1,9 @@
+import 'package:spavation/features/salons/domain/entities/get_salons_by_category_response.dart';
+
 import '../../domain/entities/get_salons_response.dart';
-import '../models/salon_model.dart';
 
 abstract class SalonRemoteDataSource {
   Future<GetSalonsResponse> getSalons();
 
-  Future<GetSalonsResponse> getSalonsByCategory(String id);
+  Future<GetSalonsByCategoryResponse> getSalonsByCategory(String id);
 }

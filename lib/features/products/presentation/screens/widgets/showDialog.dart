@@ -17,11 +17,11 @@ showDateTimeDialog({
                 backgroundColor: Colors.white,
                 shadowColor: Colors.white,
                 surfaceTintColor: Colors.white,
-                insetPadding: EdgeInsets.only(top: sh! * 0.35),
+                insetPadding: EdgeInsets.only(top: sh! * 0.05),
                 scrollable: true,
                 content: Container(
                     width: sw! * 0.7,
-                    height: 320,
+                    height: 500,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),

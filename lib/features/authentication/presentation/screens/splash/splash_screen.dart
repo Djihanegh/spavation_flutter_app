@@ -4,12 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/home.dart';
-import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../../core/utils/navigation.dart';
@@ -43,9 +41,6 @@ class _SplashScreenState extends State<SplashScreen>
       _authenticationBloc.add(GetUserEvent(token: token));
     }
 
-    log('TOKENNNN');
-    log(token);
-
     _controller =
         VideoPlayerController.asset("assets/animation/splash-animation.mp4");
 
@@ -75,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen>
   void navigateToHome() {
     if (mounted) {
       Future.delayed(
-          const Duration(milliseconds: 20),
+          const Duration(milliseconds: 50),
           () => navigateAndRemoveUntil(
               token.isEmpty || !userExists
                   ? const AuthenticationScreen()

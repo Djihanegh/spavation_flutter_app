@@ -23,11 +23,9 @@ import '../../../../core/widgets/custom_back_button.dart';
 import '../../../../generated/assets.dart';
 import '../../../reservation/presentation/screens/payment_screen.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
-import '../../../salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import '../bloc/product_bloc.dart';
 import 'widgets/product_item.dart';
 import 'widgets/product_loading_widget.dart';
-import 'widgets/showDialog.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen(
@@ -74,9 +72,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 buildWhen: (prev, curr) =>
                     prev.reservations != curr.reservations ||
                     prev.selectedProducts != curr.selectedProducts ||
-                    prev.status != curr.status ||
-                    curr.selectedProducts == [] ||
-                    prev.selectedProducts == [],
+                    prev.status != curr.status,
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;

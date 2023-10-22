@@ -6,6 +6,7 @@ import 'package:spavation/features/salons/domain/repositories/salon_repository.d
 
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failure.dart';
+import '../../domain/entities/get_salons_by_category_response.dart';
 import '../models/salon_model.dart';
 
 class SalonRepositoryImplementation implements SalonRepository {
@@ -24,7 +25,7 @@ class SalonRepositoryImplementation implements SalonRepository {
   }
 
   @override
-  ResultFuture<GetSalonsResponse> getSalonsByCategory(String id) async {
+  ResultFuture<GetSalonsByCategoryResponse> getSalonsByCategory(String id) async {
     try {
       final result = await _remoteDataSource.getSalonsByCategory(id);
       return Right(result);

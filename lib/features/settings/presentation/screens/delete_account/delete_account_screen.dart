@@ -9,6 +9,7 @@ import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
+import '../../../../../core/widgets/custom_back_button.dart';
 import 'widgets/delete_account_dialog.dart';
 import '../../../../../core/cache/cache.dart';
 import '../../../../../core/utils/navigation.dart';
@@ -55,27 +56,52 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                         height: sh!,
                         color: Colors.white,
                       ),
-                      Padding(
-                          padding: EdgeInsets.only(top: sh! * 0.1),
-                          child: Container(
-                            width: sw!,
-                            height: sh! * 0.2,
-                            decoration: BoxDecoration(
-                              boxShadow: boxShadow2,
-                              borderRadius: BorderRadius.circular(25),
-                              color: appPrimaryColor.withOpacity(0.22),
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.only(top: sh! * 0.05),
-                                child: AutoSizeText(
-                                  'Setting',
-                                  style: TextStyles.inter.copyWith(
-                                      fontSize: 40,
-                                      color: appPrimaryColor,
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.center,
-                                )),
+                      Positioned(
+                          top: (sh! * 0.12),
+                          right: 0,
+                          child: GestureDetector(
+                            child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      CustomBackButton(),
+                                    ],
+                                  ),
+                                ]),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
                           )),
+                      GestureDetector(
+                        child: Padding(
+                            padding: EdgeInsets.only(top: sh! * 0.1),
+                            child: Container(
+                              width: sw!,
+                              height: sh! * 0.2,
+                              decoration: BoxDecoration(
+                                boxShadow: boxShadow2,
+                                borderRadius: BorderRadius.circular(25),
+                                color: appPrimaryColor.withOpacity(0.22),
+                              ),
+                              child: Padding(
+                                  padding: EdgeInsets.only(top: sh! * 0.05),
+                                  child: AutoSizeText(
+                                    'Setting',
+                                    style: TextStyles.inter.copyWith(
+                                        fontSize: 40,
+                                        color: appPrimaryColor,
+                                        fontWeight: FontWeight.w700),
+                                    textAlign: TextAlign.center,
+                                  )),
+                            )),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                       Positioned(
                           top: sh! * 0.25,
                           bottom: 0,

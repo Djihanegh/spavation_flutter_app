@@ -28,10 +28,12 @@ class _BillsScreenState extends State<BillsScreen> {
                   height: sh!,
                   color: Colors.white,
                 ),
-                Positioned(
-                    top: (sh! * 0.12),
-                    right: 0,
-                    child: const Column(
+                GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: sh! * 0.12, right: 0),
+                    // top: (sh! * 0.12),
+                    //  right: 0,
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -39,31 +41,61 @@ class _BillsScreenState extends State<BillsScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              CustomBackButton(),
+                              Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white),
+                                    child: const Center(
+                                        child: Icon(
+                                      //  splashRadius: 10,
+                                      //  iconSize: 20,
+                                      //   padding: paddingAll(0),
+
+                                      Icons.navigate_next,
+                                      color: appPrimaryColor,
+                                      size: 20,
+
+                                      //  onPressed: () => ,
+                                    )),
+                                  ))
                             ],
                           )
-                        ])),
-                Padding(
-                    padding: EdgeInsets.only(top: sh! * 0.1),
-                    child: Container(
-                      width: sw!,
-                      height: sh! * 0.2,
-                      decoration: BoxDecoration(
-                        boxShadow: boxShadow2,
-                        borderRadius: BorderRadius.circular(25),
-                        color: appPrimaryColor.withOpacity(0.22),
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.only(top: sh! * 0.05),
-                          child: AutoSizeText(
-                            'Bills',
-                            style: TextStyles.inter.copyWith(
-                                fontSize: 40,
-                                color: appPrimaryColor,
-                                fontWeight: FontWeight.w700),
-                            textAlign: TextAlign.center,
-                          )),
-                    )),
+                        ]),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                GestureDetector(
+                  child: Padding(
+                      padding: EdgeInsets.only(top: sh! * 0.1),
+                      child: Container(
+                        width: sw!,
+                        height: sh! * 0.2,
+                        decoration: BoxDecoration(
+                          boxShadow: boxShadow2,
+                          borderRadius: BorderRadius.circular(25),
+                          color: appPrimaryColor.withOpacity(0.22),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.only(top: sh! * 0.05),
+                            child: AutoSizeText(
+                              'Bills',
+                              style: TextStyles.inter.copyWith(
+                                  fontSize: 40,
+                                  color: appPrimaryColor,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            )),
+                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
                 Positioned(
                     top: sh! * 0.25,
                     bottom: 0,

@@ -59,7 +59,9 @@ dependencies:
   geolocator: ^10.0.1
   intl: ^0.18.1
 
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   json_serializable: ^6.7.1
   flutter_test:
     sdk: flutter
@@ -101,11 +103,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: 'Tahoma'
-       fonts:
-         - asset: lib/core/utils/fonts/tahoma/Tahoma Regular font.ttf
-         - asset: lib/core/utils/fonts/tahoma/TAHOMAB0.ttf
-           weight: 700
+    - family: 'Tahoma'
+      fonts:
+        - asset: lib/core/utils/fonts/tahoma/Tahoma Regular font.ttf
+        - asset: lib/core/utils/fonts/tahoma/TAHOMAB0.ttf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
@@ -116,3 +118,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/spavation-logo.png"
+  remove_alpha_ios: true

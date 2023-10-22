@@ -22,7 +22,9 @@ import '../../bloc/settings_bloc.dart';
 import 'widgets/update_user_info_loading_widget.dart';
 
 class UpdateUserInfoScreen extends StatefulWidget {
-  const UpdateUserInfoScreen({super.key});
+  const UpdateUserInfoScreen({super.key, required this.onPageChanged});
+
+  final Function onPageChanged;
 
   @override
   State<UpdateUserInfoScreen> createState() => _UpdateUserInfoScreenState();
@@ -322,7 +324,8 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                         },
                       ),
                       10.heightXBox,
-                      const AppButton(
+                      AppButton(
+                          onPressed: () => widget.onPageChanged(),
                           borderColor: appFilterCoLOR,
                           title: 'Cancel',
                           color: Colors.white,

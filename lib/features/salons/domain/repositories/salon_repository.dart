@@ -1,6 +1,6 @@
 import 'package:spavation/core/utils/typedef.dart';
 
-import '../../data/models/salon_model.dart';
+import '../entities/get_salons_by_category_response.dart';
 import '../entities/get_salons_response.dart';
 
 abstract class SalonRepository {
@@ -8,5 +8,5 @@ abstract class SalonRepository {
 
   ResultFuture<GetSalonsResponse> getSalons();
 
-  ResultFuture<GetSalonsResponse> getSalonsByCategory(String id);
+  ResultFuture<GetSalonsByCategoryResponse> getSalonsByCategory(String id);
 }

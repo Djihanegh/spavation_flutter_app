@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
+import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
@@ -14,6 +15,7 @@ import 'package:spavation/core/widgets/loading_widget.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../bloc/reservation_bloc.dart';
 import '../widgets/reservation_item.dart';
+import '../widgets/status_button.dart';
 
 class ReservationScreen extends StatefulWidget {
   const ReservationScreen({super.key});
@@ -67,6 +69,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: state.reservations?.length,
                           itemBuilder: (context, indexA) {
+                            log(state.reservations![indexA].status);
                             return GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -84,12 +87,19 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                             fontWeight: FontWeight.w700,
                                             fontSize: 16),
                                       ),
-                                      subtitle: AutoSizeText(
-                                        "${state.reservations![indexA].id}",
-                                        style: TextStyles.inter.copyWith(
-                                            color: whiteWithOpacity,
-                                            fontSize: 14),
-                                      ),
+                                      subtitle: Row(children: [
+                                        AutoSizeText(
+                                          "${state.reservations![indexA].id}",
+                                          style: TextStyles.inter.copyWith(
+                                              color: whiteWithOpacity,
+                                              fontSize: 14),
+                                        ),
+                                        10.widthXBox,
+                                        StatusButton(
+                                          status: state
+                                              .reservations![indexA].status,
+                                        )
+                                      ]),
                                       trailing: CircleAvatar(
                                           backgroundColor: Colors.white,
                                           radius: 30,
@@ -117,8 +127,6 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                               );
                                             })
                                         : emptyWidget(),
-
-
                                   ],
                                 ));
                           });

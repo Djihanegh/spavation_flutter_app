@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -97,11 +98,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     Map<String, List<DataMap>>? reservations = state.reservations;
 
-    emit(state.copyWith(status: FormzSubmissionStatus.initial));
+    int productIndex = 0;
 
-    if (products.contains(event.product)) {
-      products.remove(event.product);
+    for (ProductModel product in products) {
+      if (product.id == event.product.id) {
+        productIndex = products.indexOf(product);
+        //
+      }
     }
+
+    products.removeAt(productIndex);
 
     if (reservations != null) {
       if (reservations.containsKey(event.product.salonId)) {
@@ -118,6 +124,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         }
       }
     }
+
+    emit(state.copyWith(
+        selectedDate: null,
+        selectedTime: '',
+        selectedProducts: products,
+        reservations: reservations,
+        status: FormzSubmissionStatus.initial));
 
     emit(state.copyWith(
         selectedDate: null,

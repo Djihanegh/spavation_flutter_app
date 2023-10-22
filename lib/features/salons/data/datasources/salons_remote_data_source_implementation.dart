@@ -11,6 +11,7 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/endpoint.dart';
 import '../../../../core/utils/typedef.dart';
+import '../../domain/entities/get_salons_by_category_response.dart';
 
 class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
   SalonRemoteDataSrcImpl(this._client);
@@ -43,7 +44,7 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
   }
 
   @override
-  Future<GetSalonsResponse> getSalonsByCategory(String id) async {
+  Future<GetSalonsByCategoryResponse> getSalonsByCategory(String id) async {
     try {
       final response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.salonsByCategory + id),
@@ -54,16 +55,7 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
         throw APIException(message: '', statusCode: response.statusCode);
       }
 
-      log(response.body.toString());
-
-      DataMap list = jsonDecode(response.body);
-
-      log(GetSalonsResponse.fromJson(jsonDecode(response.body)).toString());
-
-      //   List<SalonModel> salons =
-      //     list.map((e) => SalonModel.fromJson(e)).toList();
-
-      return GetSalonsResponse.fromJson(jsonDecode(response.body));
+      return GetSalonsByCategoryResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {

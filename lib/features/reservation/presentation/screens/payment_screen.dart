@@ -94,7 +94,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                                     if (index != -1) {
                                       e.setTime(data[index]['time']);
-                                      e.setDate(data[index]['date']);
+                                      if (data[index]['date'] != null) {
+                                        e.setDate(data[index]['date']);
+                                      }
+
                                       if (!selectedProducts.contains(e)) {
                                         selectedProducts.add(e);
 

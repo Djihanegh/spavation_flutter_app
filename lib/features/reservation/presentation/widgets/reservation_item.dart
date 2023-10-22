@@ -55,9 +55,7 @@ class ReservationItem extends StatelessWidget {
               style: TextStyles.inter
                   .copyWith(color: whiteWithOpacity, fontSize: 14),
             ),
-            trailing: StatusButton(
-              status: reservation['status'] == 'active' ? true : false,
-            )),
+           ),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(

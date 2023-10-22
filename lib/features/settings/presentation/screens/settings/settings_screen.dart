@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,7 +41,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     return Scaffold(
-      body: Column(
+      body: SingleChildScrollView(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -121,10 +124,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 scrollDirection: Axis.vertical,
                 controller: pageController,
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: [settingsItem(context), const UpdateUserInfoScreen()],
+                children: [
+                  settingsItem(context),
+                  UpdateUserInfoScreen(
+                    onPageChanged: () {
+                      pageController.jumpToPage(0);
+                    },
+                  )
+                ],
               ))
         ],
-      ),
+      )),
     );
   }
 
@@ -167,12 +177,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             )
           ]);
 
-  List<Widget> pages = const [
-    UpdateUserInfoScreen(),
-    UpdateUserInfoScreen(),
-    BillsScreen(),
-    CallCenterScreen(),
-    DeleteAccountScreen()
+  List<Widget> pages = [
+    UpdateUserInfoScreen(
+      onPageChanged: () {},
+    ),
+    UpdateUserInfoScreen(
+      onPageChanged: () {},
+    ),
+    const BillsScreen(),
+    const CallCenterScreen(),
+    const DeleteAccountScreen()
   ];
 
   void logOut() {
