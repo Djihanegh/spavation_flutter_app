@@ -148,7 +148,7 @@ class AuthenticationBloc
       GetUserEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(
         action: RequestType.unknown, status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 2));
 
     final result = await _getUserUseCase(event.token);
 

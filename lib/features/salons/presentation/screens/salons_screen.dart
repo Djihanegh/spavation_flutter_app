@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -25,8 +27,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
   @override
   void initState() {
     _salonBloc = BlocProvider.of(context);
-    if (_salonBloc.state.salons == [] ||
-        _salonBloc.state.salons == null) {
+    if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
       _salonBloc.add(const GetSalonsEvent());
     }
     super.initState();
@@ -55,19 +56,36 @@ class _SalonsScreenState extends State<SalonsScreen> {
             child = const Text('No salon found ');
           }
           if (state.salons != null && state.salons != []) {
+            List<SalonModel> filteredSalons = [];
+            List<SalonModel> salons = state.salons ?? [];
+            for (var i = 0; i < salons.length; i++) {
+              double distanceInMetersA = 0.0;
+
+              distanceInMetersA = Geolocator.distanceBetween(
+                  double.parse(salons[i].latitude),
+                  double.parse(salons[i].longitude),
+                  widget.lat,
+                  widget.long);
+              distanceInMetersA = distanceInMetersA / 1000;
+
+              salons[i].setDistance(distanceInMetersA);
+            }
+
+            salons.sort((a, b) => a.distance.compareTo(b.distance));
+
             child = Flexible(
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
-                    itemCount: state.salons?.length,
+                    itemCount: salons.length,
                     itemBuilder: (context, index) {
-                      SalonModel? salon = state.salons?[index];
+                      SalonModel? salon = salons[index];
 
                       double distanceInMeters = 0.0;
                       distanceInMeters = Geolocator.distanceBetween(
-                          double.parse(salon!.latitude),
+                          double.parse(salon.latitude),
                           double.parse(salon.longitude),
                           widget.lat,
                           widget.long);

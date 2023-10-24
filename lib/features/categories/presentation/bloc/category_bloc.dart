@@ -22,7 +22,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Future<void> _getCategoriesHandler(
       GetCategoriesEvent event, Emitter<CategoryState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _getCategoriesUseCase();
 

@@ -4,7 +4,7 @@ import '../../../../core/utils/typedef.dart';
 import '../../domain/entities/salon.dart';
 
 class SalonModel extends Salon {
-  const SalonModel(
+  SalonModel(
       {required super.id,
       required super.image,
       required super.name,
@@ -26,35 +26,36 @@ class SalonModel extends Salon {
       required super.isForFemale,
       required super.isDiscount,
       required super.rate,
-      required super.discount});
+      required super.discount,
+      required super.distance});
 
   factory SalonModel.fromJson(DataMap source) => SalonModel.fromMap(source);
 
   SalonModel.fromMap(DataMap json)
       : this(
-          id: json["id"],
-          name: json["name"],
-          address: json["address"],
-          latitude: json["latitude"],
-          longitude: json["longitude"],
-          phone: json["phone"],
-          email: json["email"],
-          description: json["description"],
-          image: json["image"],
-          openTime: json["open_time"],
-          closeTime: json["close_time"],
-          openDay: json["open_day"] as String,
-          closeDay:json["close_day"] as String,
-          status: json["status"],
-          userId: json["user_id"],
-          isForMale: json["is_for_male"],
-          isForFemale: json["is_for_female"],
-          isDiscount: json["is_discount"],
-          discount: json["discount"],
-          rate: json["rate"],
-          createdAt: json["created_at"] as String,
-          updatedAt: json["updated_at"] as String,
-        );
+            id: json["id"],
+            name: json["name"],
+            address: json["address"],
+            latitude: json["latitude"],
+            longitude: json["longitude"],
+            phone: json["phone"],
+            email: json["email"],
+            description: json["description"],
+            image: json["image"],
+            openTime: json["open_time"],
+            closeTime: json["close_time"],
+            openDay: json["open_day"] as String,
+            closeDay: json["close_day"] as String,
+            status: json["status"],
+            userId: json["user_id"],
+            isForMale: json["is_for_male"],
+            isForFemale: json["is_for_female"],
+            isDiscount: json["is_discount"],
+            discount: json["discount"],
+            rate: json["rate"],
+            createdAt: json["created_at"] as String,
+            updatedAt: json["updated_at"] as String,
+            distance: 0.0);
 
   DataMap toMap() => {
         "id": id,
@@ -79,7 +80,12 @@ class SalonModel extends Salon {
         "rate": rate,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "distance": 0.0
       };
 
   String toJson() => jsonEncode(toMap());
+
+  void setDistance(double dist) {
+    distance = dist;
+  }
 }

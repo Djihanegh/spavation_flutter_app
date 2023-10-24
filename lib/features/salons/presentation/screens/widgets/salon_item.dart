@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
@@ -35,6 +37,7 @@ class SalonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(rate.toString());
     return GestureDetector(
         onTap: () => navigateToPage(
             ProductsScreen(
@@ -104,8 +107,13 @@ class SalonItem extends StatelessWidget {
                               style: TextStyles.inter
                                   .copyWith(color: headerTextColor),
                             ),
-                            AutoSizeText(subtitle,
-                                style: TextStyles.montserrat),
+                            SizedBox(
+                                width: 150,
+                                child: AutoSizeText(subtitle,
+                                    overflow: TextOverflow.ellipsis,
+                                    minFontSize: 12,
+                                    maxLines: 1,
+                                    style: TextStyles.montserrat)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -141,7 +149,9 @@ class SalonItem extends StatelessWidget {
                                           right: 10, top: 0),
 
                                       //padding: const EdgeInsets.only(left: 10, right: 10),
-                                      itemCount: stars.length,
+                                      itemCount: int.parse(rate) <= 5
+                                          ? int.parse(rate)
+                                          : 5,
                                       itemBuilder: (context, index) =>
                                           stars[index]))),
                           const Spacer(),
@@ -231,7 +241,7 @@ List<Widget> stars = const [
   ),
   Icon(
     Icons.star,
-    color: appStarGrey,
+    color: appYellowColor,
     size: 15,
   ),
 ];

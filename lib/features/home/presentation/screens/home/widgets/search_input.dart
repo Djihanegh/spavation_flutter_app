@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/utils/app_styles.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/utils/size_config.dart';
+import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
+
+import '../../../../../salons/presentation/screens/filter_salons_by_text_screen.dart';
 
 class SearchInput extends StatefulWidget {
   const SearchInput({super.key});
@@ -19,6 +24,10 @@ class _SearchInputState extends State<SearchInput> {
         width: sw! * 0.935,
         height: sh! * 0.05,
         child: TextField(
+          onSubmitted: (e) {
+            context.read<SalonBloc>().add(SearchSalonsEvent(e));
+            navigateToPage(const FilterSalonsByTextScreen(), context);
+          },
           textAlign: TextAlign.start,
           cursorColor: Colors.grey,
           decoration: InputDecoration(

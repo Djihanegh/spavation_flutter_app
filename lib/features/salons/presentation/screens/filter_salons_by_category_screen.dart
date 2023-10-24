@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:spavation/core/enum/enum.dart';
+import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../../../../core/widgets/custom_back_button.dart';
 import '../bloc/salon_bloc.dart';
-import 'widgets/salon_loadig_widget.dart';
 import 'widgets/salon_item.dart';
 
-class FilterSalonsScreen extends StatefulWidget {
-  const FilterSalonsScreen({
+class FilterSalonsByCategoryScreen extends StatefulWidget {
+  const FilterSalonsByCategoryScreen({
     super.key,
     required this.id,
     required this.lat,
@@ -27,10 +27,12 @@ class FilterSalonsScreen extends StatefulWidget {
   final double long;
 
   @override
-  State<FilterSalonsScreen> createState() => _FilterSalonsScreenState();
+  State<FilterSalonsByCategoryScreen> createState() =>
+      _FilterSalonsByCategoryScreenState();
 }
 
-class _FilterSalonsScreenState extends State<FilterSalonsScreen> {
+class _FilterSalonsByCategoryScreenState
+    extends State<FilterSalonsByCategoryScreen> {
   late SalonBloc _salonBloc;
 
   @override
@@ -81,10 +83,14 @@ class _FilterSalonsScreenState extends State<FilterSalonsScreen> {
 
                         if (state.status == FormzSubmissionStatus.initial ||
                             state.status == FormzSubmissionStatus.inProgress) {
-                          child = const SalonShimmer();
+                          child = const Center(
+                              child: LoadingWidget(
+                            color: appPrimaryColor,
+                          ));
                         }
 
-                        if (state.filteredSalons != null) {
+                        if (state.filteredSalons != null &&
+                            state.status != FormzSubmissionStatus.inProgress) {
                           if (state.filteredSalons!.isNotEmpty) {
                             child = ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
@@ -94,7 +100,8 @@ class _FilterSalonsScreenState extends State<FilterSalonsScreen> {
                                     left: 10, right: 10, top: 0),
                                 itemCount: state.filteredSalons?.length,
                                 itemBuilder: (context, index) {
-                                  SalonModel? salon = state.salons?[index];
+                                  SalonModel? salon =
+                                      state.filteredSalons?[index];
 
                                   double distanceInMeters = 0.0;
                                   distanceInMeters = Geolocator.distanceBetween(
@@ -119,7 +126,10 @@ class _FilterSalonsScreenState extends State<FilterSalonsScreen> {
                                 const Center(child: Text('No salon found '));
                           }
                         } else {
-                          child = const Center(child: Text('Null'));
+                          child = const Center(
+                              child: LoadingWidget(
+                            color: appPrimaryColor,
+                          ));
                         }
 
                         return child;

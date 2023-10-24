@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Salon extends Equatable {
-  const Salon({
+   Salon({
     required this.id,
     required this.image,
     required this.name,
@@ -24,6 +24,7 @@ class Salon extends Equatable {
     required this.isDiscount,
     required this.rate,
     required this.discount,
+    required this.distance
   });
 
   final int id;
@@ -48,6 +49,7 @@ class Salon extends Equatable {
   final String isDiscount;
   final String rate;
   final String discount;
+   double distance;
 
   @override
   List<Object> get props => [
@@ -73,5 +75,6 @@ class Salon extends Equatable {
         isDiscount,
         rate,
         discount,
+        distance
       ];
 }

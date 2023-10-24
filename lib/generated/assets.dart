@@ -11,6 +11,8 @@ class Assets {
   static const String iconsAwesomeMale = 'assets/icons/awesome-male.png';
   static const String iconsAwesomeUser = 'assets/icons/awesome-user.svg';
   static const String iconsClock = 'assets/icons/clock.png';
+  static const String iconsClockSvg = 'assets/icons/clockSvg.svg';
+  static const String iconsHomeSvg = 'assets/icons/homeSvg.svg';
   static const String iconsIonicIosBookmark = 'assets/icons/ionic-ios-bookmark.svg';
   static const String iconsIonicIosCalendar = 'assets/icons/ionic-ios-calendar.svg';
   static const String iconsIonicIosSettings = 'assets/icons/ionic-ios-settings.svg';
@@ -24,6 +26,7 @@ class Assets {
   static const String iconsPrevious = 'assets/icons/previous.svg';
   static const String iconsSettingsIcon = 'assets/icons/settings-icon.svg';
   static const String iconsSpaLogo = 'assets/icons/spa-logo.png';
+  static const String iconsSpavationLogo = 'assets/icons/spavation-logo.png';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
   static const String imagesGreyStar = 'assets/images/grey-star.png';
   static const String imagesSlider1 = 'assets/images/slider1.png';

@@ -5,7 +5,7 @@ import 'package:spavation/core/utils/navigation.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/endpoint.dart';
-import '../../../../salons/presentation/screens/filter_salons_screen.dart';
+import '../../../../salons/presentation/screens/filter_salons_by_category_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
@@ -27,13 +27,15 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => navigateToPage(
-            FilterSalonsScreen(
-              id: categoryId,
-              lat: lat,
-              long: long,
-            ),
-            context),
+        onTap: () {
+          navigateToPage(
+              FilterSalonsByCategoryScreen(
+                id: categoryId,
+                lat: lat,
+                long: long,
+              ),
+              context);
+        },
         child: Padding(
             padding: const EdgeInsets.only(left: 0, right: 10),
             child: Column(

@@ -192,6 +192,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                           .copyWith(
                                                               color:
                                                                   appPrimaryColor,
+                                                              fontSize: 25,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500),
@@ -214,39 +215,79 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   ],
                                                 )),
                                             Positioned(
-                                                left: sw! * 0.05,
-                                                top: sh! * 0.15,
+                                                left: sw! * 0,
+                                                top: sh! * 0.09,
                                                 child: SizedBox(
                                                     width: sw! * 0.8,
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceAround,
+                                                              .spaceBetween,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .start,
+                                                              .center,
                                                       children: [
-                                                        widget.isForFemale ==
-                                                                '1'
-                                                            ? Image.asset(
-                                                                Assets
-                                                                    .iconsAwesomeFemale,
-                                                                color:
-                                                                    appPrimaryColor)
-                                                            : emptyWidget(),
+                                                        Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const AutoSizeText(
+                                                                  ''),
+                                                              widget.isForFemale ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      Assets
+                                                                          .iconsAwesomeFemale,
+                                                                      color:
+                                                                          appPrimaryColor)
+                                                                  : emptyWidget(),
+                                                              const AutoSizeText(
+                                                                  '')
+                                                            ]),
                                                         5.widthXBox,
-                                                        widget.isForMale == '1'
-                                                            ? Image.asset(
-                                                                Assets
-                                                                    .iconsAwesomeMale,
-                                                                color:
-                                                                    appPrimaryColor)
-                                                            : emptyWidget(),
-                                                        const Icon(
-                                                          Icons.home_filled,
-                                                          color:
-                                                              appPrimaryColor,
-                                                        ),
+                                                        Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const AutoSizeText(
+                                                                  ''),
+                                                              widget.isForMale ==
+                                                                      '1'
+                                                                  ? Image.asset(
+                                                                      Assets
+                                                                          .iconsAwesomeMale,
+                                                                      height:
+                                                                          20,
+                                                                      color:
+                                                                          appPrimaryColor)
+                                                                  : emptyWidget(),
+                                                              const AutoSizeText(
+                                                                  '')
+                                                            ]),
+                                                        Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const AutoSizeText(
+                                                                  ''),
+                                                              SvgPicture.asset(
+                                                                  Assets
+                                                                      .iconsHomeSvg),
+                                                              const AutoSizeText(
+                                                                  ''),
+                                                            ]),
                                                         Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -257,10 +298,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                           children: [
                                                             const Icon(
                                                               Icons.location_on,
+                                                              size: 15,
                                                               color:
                                                                   appPrimaryColor,
                                                             ),
-                                                            AutoSizeText(
+                                                            Text(
                                                               widget.distance
                                                                           .length >
                                                                       6
@@ -270,7 +312,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                   .inter
                                                                   .copyWith(
                                                                       fontSize:
-                                                                          7,
+                                                                          10,
                                                                       color:
                                                                           appPrimaryColor),
                                                             ),
@@ -284,19 +326,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Image.asset(
-                                                              Assets.iconsClock,
-                                                              height: 20,
-                                                              width: 20,
-                                                            ),
-                                                            AutoSizeText(
-                                                              'Close At ${getHourMnSec(product.timeTo)}',
+                                                            SvgPicture.asset(Assets
+                                                                .iconsClockSvg),
+                                                            Text(
+                                                              'Close At ${getHourMnSec(product.timeTo).substring(1, 2)}${getHourMnSec(product.timeTo).substring(6, 8)}',
                                                               // Close At 11PM
                                                               style: TextStyles
                                                                   .inter
                                                                   .copyWith(
                                                                       fontSize:
-                                                                          6,
+                                                                          10,
                                                                       color:
                                                                           appPrimaryColor),
                                                             ),
@@ -306,7 +345,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                     ))),
                                             Positioned(
                                                 left: 0,
-                                                top: sh! * 0.205,
+                                                top: sh! * 0.17, //sh! * 0.205,
                                                 child: Container(
                                                   color: dividerColor,
                                                   width: sw!,

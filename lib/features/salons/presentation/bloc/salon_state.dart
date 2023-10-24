@@ -7,6 +7,7 @@ final class SalonState extends Equatable {
       this.successMessage = '',
       this.salons,
       this.filteredSalons,
+      this.filterOptions,
       this.action = RequestType.unknown});
 
   final FormzSubmissionStatus status;
@@ -15,6 +16,7 @@ final class SalonState extends Equatable {
   final String successMessage;
   final List<SalonModel>? salons;
   final List<SalonModel>? filteredSalons;
+  final DataMap? filterOptions;
   final RequestType action;
 
   SalonState copyWith(
@@ -23,17 +25,26 @@ final class SalonState extends Equatable {
       String? successMessage,
       List<SalonModel>? salons,
       final RequestType? action,
-      final List<SalonModel>? filteredSalons}) {
+      final List<SalonModel>? filteredSalons,
+      DataMap? filterOptions}) {
     return SalonState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         successMessage: successMessage ?? this.successMessage,
         salons: salons ?? this.salons,
         action: action ?? this.action,
-        filteredSalons: filteredSalons ?? this.filteredSalons);
+        filteredSalons: filteredSalons ?? this.filteredSalons,
+        filterOptions: filterOptions ?? this.filterOptions);
   }
 
   @override
-  List<Object?> get props =>
-      [status, errorMessage, successMessage, salons, action, filteredSalons];
+  List<Object?> get props => [
+        status,
+        errorMessage,
+        successMessage,
+        salons,
+        action,
+        filteredSalons,
+        filterOptions
+      ];
 }

@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
         VideoPlayerController.asset("assets/animation/splash-animation.mp4");
 
     _controller.initialize().then((value) => {
-          Timer(const Duration(milliseconds: 10), () {
+          Timer(const Duration(milliseconds: 20), () {
             setState(() {
               _controller.play();
             });
@@ -70,12 +70,13 @@ class _SplashScreenState extends State<SplashScreen>
   void navigateToHome() {
     if (mounted) {
       Future.delayed(
-          const Duration(milliseconds: 50),
+          const Duration(seconds: 1),
           () => navigateAndRemoveUntil(
               token.isEmpty || !userExists
                   ? const AuthenticationScreen()
                   : const Home(),
-              context, false));
+              context,
+              false));
     }
   }
 
@@ -91,16 +92,19 @@ class _SplashScreenState extends State<SplashScreen>
         backgroundColor: Colors.white,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              if (state.user != {} && state.user != null) {
-                setState(() {
-                  userExists = true;
-                  // navigateToHome();
-                });
+              if (state.user != null) {
+                if (state.user!.isNotEmpty) {
+                  setState(() {
+                    userExists = true;
+                    //  navigateToHome();
+                  });
+                }
               }
             },
-            listenWhen: (prev, curr) => prev.status != curr.status,
+            listenWhen: (prev, curr) => prev.user != curr.user,
             buildWhen: (prev, curr) => prev.status != curr.status,
             builder: (context, state) {
+              log(state.user.toString());
               return Center(
                   child: Container(
                       color: Colors.white,
