@@ -30,7 +30,7 @@ class _FilterScreenState extends State<FilterScreen> {
     filterOptions = _salonBloc.state.filterOptions ?? {};
 
     if (filterOptions == null || filterOptions.isEmpty) {
-      filterOptions = {'near_by': true, 'gender': 'men', 'open_now': true};
+      filterOptions = {'near_by': false, 'gender': '', 'open_now': false};
     }
 
     super.initState();
