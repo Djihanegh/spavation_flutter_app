@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/endpoint.dart';
-import 'package:spavation/generated/assets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -34,6 +33,8 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -73,7 +74,7 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                         child: Padding(
                             padding: EdgeInsets.only(top: sh! * 0.05),
                             child: AutoSizeText(
-                              'Bills',
+                              l10n.bills,
                               style: TextStyles.inter.copyWith(
                                   fontSize: 40,
                                   color: appPrimaryColor,
