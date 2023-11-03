@@ -84,9 +84,13 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       activeDays.add(daysOfWeek[i]);
     }
 
-    for (var i = timeFrom.hour; i < timeTo.hour; i++) {
+    log(timeTo.hour.toString());
+
+    for (var i = timeFrom.hour; i <= timeTo.hour; i++) {
       times.add(i);
     }
+
+    log(times.toString());
 
     days = daysBetween(dateFrom, dateTo);
 
@@ -205,10 +209,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                               spacing: 10,
                               runSpacing: 10,
                               children: [
-                                for (var i = 0; i < (times.length / 2); i++)
+                                for (var i = 0; i < times.length - 1; i++)
                                   GestureDetector(
                                       onTap: () {
-                                        // if (int.parse(actualHour) < times[i]) {
                                         selectedTime =
                                             '${times[i]} - ${times[i + 1]}';
                                         context.read<ProductBloc>().add(
@@ -216,7 +219,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                                 selectedTime,
                                                 widget.product.id,
                                                 widget.product.salonId));
-                                        //    }
                                       },
                                       child: TimeContainer(
                                         isSelected: selectedTime ==

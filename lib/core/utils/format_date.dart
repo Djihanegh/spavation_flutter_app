@@ -5,7 +5,7 @@ String getHourMnSec(String timeTo) {
 }
 
 DateTime convertStringToHourMnSec(String time) {
-  return DateFormat("hh:mm:ss").parse(time);
+  return DateFormat("HH:mm:ss").parse(time);
 }
 
 DateTime convertStringToDateTime(String time) {

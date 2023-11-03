@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/features/banners/presentation/bloc/banner_bloc.dart';
 
@@ -20,21 +23,44 @@ class BannerScreen extends StatefulWidget {
 class _BannerScreenState extends State<BannerScreen> {
   late BannerBloc _bannerBloc;
 
-  PageController sliderController =
-      PageController(initialPage: 0, keepPage: false);
+  final PageController sliderController = PageController(initialPage: 0);
+  int _currentPage = 0;
+
+  bool end = false;
 
   @override
   void initState() {
+    super.initState();
+
     _bannerBloc = BlocProvider.of(context);
     _bannerBloc.add(const GetBannersEvent());
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BannerBloc, BannerState>(
-        listener: (context, state) {},
-        listenWhen: (prev, curr) => prev.status != curr.status,
+        listener: (context, state) {
+          Timer.periodic(const Duration(seconds: 4), (Timer timer) {
+            if (_currentPage == 2) {
+              end = true;
+            } else if (_currentPage == 0) {
+              end = false;
+            }
+
+            if (end == false) {
+              _currentPage++;
+            } else {
+              _currentPage--;
+            }
+
+            sliderController.animateToPage(
+              _currentPage,
+              duration: const Duration(seconds: 2),
+              curve: Curves.easeIn,
+            );
+          });
+        },
+        listenWhen: (prev, curr) => prev.banners != curr.banners,
         buildWhen: (prev, curr) => prev.status != curr.status,
         builder: (context, state) {
           if (state.status == FormzSubmissionStatus.inProgress) {
@@ -60,13 +86,16 @@ class _BannerScreenState extends State<BannerScreen> {
                   ),
                   child: Center(
                       child: PageView.builder(
+                    allowImplicitScrolling: true,
                     onPageChanged: (value) {},
                     controller: sliderController,
                     itemCount: state.banners?.length ?? 0,
                     itemBuilder: (context, index) => CachedNetworkImage(
                         imageUrl:
                             Endpoints.storageUrl + state.banners![index].image,
-                        placeholder: (context, url) => const LoadingWidget(color: Colors.transparent,),
+                        placeholder: (context, url) => const LoadingWidget(
+                              color: Colors.transparent,
+                            ),
                         errorWidget: (context, url, error) => const SizedBox(
                             height: 60,
                             width: 60,
