@@ -23,13 +23,13 @@ class ReservationItem extends StatelessWidget {
         20.heightXBox,
         ListTile(
           leading: CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             radius: 30,
             child: reservation['image'] != null
                 ? reservation['image'].isNotEmpty
                     ? Image.network(
                         Endpoints.storageUrl + reservation['image'],
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                         errorBuilder: ((context, error, stackTrace) =>
                             const CircleAvatar(
                                 radius: 30,
