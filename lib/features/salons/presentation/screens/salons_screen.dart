@@ -28,6 +28,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
     _salonBloc = BlocProvider.of(context);
     if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
       _salonBloc.add(const GetSalonsEvent());
+
     }
     super.initState();
   }
@@ -40,8 +41,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
         listener: (context, state) {},
         listenWhen: (prev, curr) => prev.status != curr.status,
         buildWhen: (prev, curr) =>
-            prev.status != curr.status ||
-            curr.applyFilter != prev.applyFilter ,
+            prev.status != curr.status || curr.applyFilter != prev.applyFilter,
         builder: (context, state) {
           Widget? child;
 

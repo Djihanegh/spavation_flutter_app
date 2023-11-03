@@ -29,6 +29,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
     on<GetSalonsByCategoryEvent>(_getSalonsByCategoryHandler);
     on<SearchSalonsEvent>(_onSearchSalons);
     on<SelectFilterOptions>(_onSelectFilterOptions);
+    on<GetSalonsByCityEvent>(_getSalonsByCityHandler);
   }
 
   final GetSalonsUseCase _getSalonsUseCase;
@@ -123,8 +124,6 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
           filteredSalons = salons;
         }
       });
-    } else {
-      log('EMPTYYYYYYYY');
     }
 
     if (!genderIsEmpty) {
@@ -167,7 +166,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
       }
     }
 
-   /* if (filterOptions.isNotEmpty) {
+    /* if (filterOptions.isNotEmpty) {
       filterOptions.forEach((key, value) {
         if (key == 'gender') {
           if (value == 'men') {
@@ -261,6 +260,30 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
         }
       }
     }
+  }
+
+  Future<void> _getSalonsByCityHandler(
+      GetSalonsByCityEvent event, Emitter<SalonState> emit) async {
+    emit(state.copyWith(
+        status: FormzSubmissionStatus.inProgress, filteredSalons: null));
+    await Future.delayed(const Duration(milliseconds: 20));
+
+    List<SalonModel> salons = state.salons ?? [];
+    List<SalonModel> filteredSalons = [];
+
+    for (SalonModel salon in salons) {
+      if (int.parse(salon.city) == event.id) {
+        if (!filteredSalons.contains(salon)) {
+          filteredSalons.add(salon);
+        }
+      }
+    }
+
+    emit(state.copyWith(
+        applyFilter: true,
+        status: FormzSubmissionStatus.success,
+        filteredSalons: filteredSalons,
+        successMessage: ''));
   }
 
   Future<void> _getSalonsByCategoryHandler(

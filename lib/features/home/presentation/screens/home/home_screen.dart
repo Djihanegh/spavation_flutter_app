@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:spavation/app/theme.dart';
-import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/banners/presentation/screens/banners_screen.dart';
@@ -16,7 +14,6 @@ import 'package:spavation/features/home/presentation/screens/home/widgets/custom
 import 'package:http/http.dart' as http;
 
 import '../../../../../core/services/location_service.dart';
-import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../categories/presentation/screens/categories_screen.dart';
 import '../../../../salons/presentation/bloc/salon_bloc.dart';
@@ -48,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getCurrentPosition();
     getCountryName();
     _salonBloc = BlocProvider.of(context);
-    _cityBloc = BlocProvider.of(context)..add( const GetCitiesEvent());
+    _cityBloc = BlocProvider.of(context)..add(const GetCitiesEvent());
 
     super.initState();
   }
@@ -122,24 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white.withOpacity(0.35),
                               borderRadius: appCircular),
                         )),
-                  const   Positioned(
-                        top: 50,
-                        left: 20,
-                        child: /* Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.location_on_outlined,
-                              color: Colors.white,
-                            ),
-                            AutoSizeText(
-                              countryName,
-                              style: TextStyles.inter
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ],
-                        )*/  CitiesList()),
+                    const Positioned(top: 50, left: 20, child: CitiesList()),
 
                     const Positioned(
                       top: 50,

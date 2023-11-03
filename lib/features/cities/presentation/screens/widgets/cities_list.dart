@@ -8,6 +8,7 @@ import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../localization/domain/entities/language.dart';
 import '../../../../localization/presentation/bloc/language_bloc.dart';
+import '../../../../salons/presentation/bloc/salon_bloc.dart';
 import '../../../data/models/cities_model.dart';
 
 class CitiesList extends StatefulWidget {
@@ -28,6 +29,7 @@ class _CitiesListState extends State<CitiesList> {
     } else {
       dropdownValue = "الرياض";
     }
+
     super.initState();
   }
 
@@ -39,7 +41,21 @@ class _CitiesListState extends State<CitiesList> {
             prev.selectedLanguage != curr.selectedLanguage,
         builder: (context, language) {
           return BlocConsumer<CityBloc, CityState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                List<CitiesModel> cities =
+                    context.read<CityBloc>().state.cities ?? [];
+                CitiesModel? defaultCity;
+                if (cities.isNotEmpty) {
+                  defaultCity = cities
+                      .firstWhere((element) => element.nameAr == "الرياض");
+                }
+
+                if (defaultCity != null) {
+                  context
+                      .read<SalonBloc>()
+                      .add(GetSalonsByCityEvent(defaultCity.id));
+                }
+              },
               buildWhen: (prev, curr) => prev.cities != curr.cities,
               builder: (context, state) {
                 return Container(
@@ -68,6 +84,35 @@ class _CitiesListState extends State<CitiesList> {
                         setState(() {
                           dropdownValue = value!;
                         });
+
+                        if (language.selectedLanguage.value ==
+                            Language.english.value) {
+                          CitiesModel? city = state.cities != null
+                              ? state.cities!.isNotEmpty
+                                  ? state.cities!.firstWhere(
+                                      (element) => element.name == value)
+                                  : null
+                              : null;
+
+                          if (city != null) {
+                            context
+                                .read<SalonBloc>()
+                                .add(GetSalonsByCityEvent(city.id));
+                          }
+                        } else {
+                          CitiesModel? city = state.cities != null
+                              ? state.cities!.isNotEmpty
+                                  ? state.cities!.firstWhere(
+                                      (element) => element.nameAr == value)
+                                  : null
+                              : null;
+
+                          if (city != null) {
+                            context
+                                .read<SalonBloc>()
+                                .add(GetSalonsByCityEvent(city.id));
+                          }
+                        }
                       },
                       items: state.cities != null
                           ? state.cities!.isNotEmpty
