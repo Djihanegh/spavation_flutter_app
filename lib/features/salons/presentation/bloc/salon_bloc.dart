@@ -161,7 +161,13 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
     DateTime dateTime = DateTime.now();
 
-    if (filterOptions.isNotEmpty) {
+    for (SalonModel e in salons) {
+      if (!filteredSalons.contains(e) && e.name.contains(event.text)) {
+        filteredSalons.add(e);
+      }
+    }
+
+   /* if (filterOptions.isNotEmpty) {
       filterOptions.forEach((key, value) {
         if (key == 'gender') {
           if (value == 'men') {
@@ -220,7 +226,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
     if (genderIsEmpty == true && nearBy == false && openNow == false ||
         event.text.isEmpty) {
       filteredSalons = salons;
-    }
+    } */
 
     emit(state.copyWith(
         status: FormzSubmissionStatus.success, filteredSalons: filteredSalons));

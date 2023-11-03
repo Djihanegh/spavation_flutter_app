@@ -17,6 +17,8 @@ class SearchInput extends StatefulWidget {
 }
 
 class _SearchInputState extends State<SearchInput> {
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -26,13 +28,23 @@ class _SearchInputState extends State<SearchInput> {
         width: sw! * 0.935,
         height: sh! * 0.05,
         child: TextField(
+          controller: controller,
           onSubmitted: (e) {
-            context.read<SalonBloc>().add(SearchSalonsEvent(e));
-            navigateToPage(const FilterSalonsByTextScreen(), context);
+            //   context.read<SalonBloc>().add(SearchSalonsEvent(e));
+            //    navigateToPage(const FilterSalonsByTextScreen(), context);
           },
           textAlign: TextAlign.start,
           cursorColor: Colors.grey,
           decoration: InputDecoration(
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                context
+                    .read<SalonBloc>()
+                    .add(SearchSalonsEvent(controller.text));
+                navigateToPage(const FilterSalonsByTextScreen(), context);
+              },
+            ),
             contentPadding:
                 const EdgeInsets.only(left: 10, top: 0, right: 0, bottom: 0),
             fillColor: Colors.white,
