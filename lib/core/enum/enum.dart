@@ -17,5 +17,7 @@ enum RequestType {
   sendOtpForgetPass,
   checkOtpForgetPass,
   updatePass,
+  getCities,
   unknown,
+
 }

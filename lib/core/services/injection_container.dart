@@ -25,6 +25,11 @@ import 'package:spavation/features/categories/data/repositories/category_reposit
 import 'package:spavation/features/categories/domain/repositories/category_repository.dart';
 import 'package:spavation/features/categories/domain/usecases/get_categories.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
+import 'package:spavation/features/cities/data/datasources/cities_remote_data_source.dart';
+import 'package:spavation/features/cities/data/datasources/cities_remote_data_source_implementation.dart';
+import 'package:spavation/features/cities/data/repositories/salon_repository_implementation.dart';
+import 'package:spavation/features/cities/domain/repositories/cities_repository.dart';
+import 'package:spavation/features/cities/domain/usecases/get_cities.dart';
 import 'package:spavation/features/products/data/datasources/products_remote_data_source.dart';
 import 'package:spavation/features/products/data/datasources/products_remote_data_source_implementation.dart';
 import 'package:spavation/features/products/data/repositories/products_repository_implementation.dart';
@@ -53,6 +58,7 @@ import 'package:spavation/features/settings/domain/usecases/get_user_details.dar
 import 'package:spavation/features/settings/domain/usecases/update_user.dart';
 import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart';
 
+import '../../features/cities/presentation/bloc/cities_bloc.dart';
 import '../../features/reservation/data/datasources/reservation_remote_data_source_implementation.dart';
 import '../../features/reservation/data/repositories/reservation_repository_implementation.dart';
 
@@ -73,6 +79,9 @@ Future<void> init() async {
     ..registerFactory(() => CategoryBloc(getCategoriesUseCase: sl()))
     ..registerFactory(() => BannerBloc(
           getBannersUseCase: sl(),
+        ))
+    ..registerFactory(() => CityBloc(
+          getCitiesUseCase: sl(),
         ))
     ..registerFactory(() =>
         SalonBloc(getSalonsUseCase: sl(), getSalonsByCategoryUseCase: sl()))
@@ -106,6 +115,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => CheckOtpForgetPasswordUseCase(sl()))
     ..registerLazySingleton(() => SendOtpForgetPasswordUseCase(sl()))
     ..registerLazySingleton(() => GetSalonsByCategoryUseCase(sl()))
+    ..registerLazySingleton(() => GetCitiesUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(
@@ -122,6 +132,8 @@ Future<void> init() async {
         () => SettingsRepositoryImplementation(sl()))
     ..registerLazySingleton<ReservationsRepository>(
         () => ReservationRepositoryImplementation(sl()))
+    ..registerLazySingleton<CitiesRepository>(
+        () => CitiesRepositoryImplementation(sl()))
 
     // Data Sources
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
@@ -138,6 +150,8 @@ Future<void> init() async {
         () => SettingsRemoteDataSrcImpl(sl()))
     ..registerLazySingleton<ReservationsRemoteDataSource>(
         () => ReservationsRemoteDataSrcImpl(sl()))
+    ..registerLazySingleton<CitiesRemoteDataSource>(
+        () => CitiesRemoteDataSrcImpl(sl()))
     // External Dependencies
     ..registerLazySingleton(() => http.Client());
 }

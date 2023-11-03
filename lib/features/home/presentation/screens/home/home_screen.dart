@@ -9,6 +9,8 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/banners/presentation/screens/banners_screen.dart';
+import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
+import 'package:spavation/features/cities/presentation/screens/widgets/cities_list.dart';
 import 'package:spavation/features/home/presentation/screens/filter/filter_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/widgets/custom_icon.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late SalonBloc _salonBloc;
+  late CityBloc _cityBloc;
   Position? currentPosition;
   String countryName = '';
 
@@ -45,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getCurrentPosition();
     getCountryName();
     _salonBloc = BlocProvider.of(context);
+    _cityBloc = BlocProvider.of(context)..add( const GetCitiesEvent());
 
     super.initState();
   }
@@ -118,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white.withOpacity(0.35),
                               borderRadius: appCircular),
                         )),
-                    Positioned(
+                  const   Positioned(
                         top: 50,
-                        left: 30,
-                        child: Row(
+                        left: 20,
+                        child: /* Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -135,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .copyWith(color: Colors.white),
                             ),
                           ],
-                        )),
+                        )*/  CitiesList()),
 
                     const Positioned(
                       top: 50,

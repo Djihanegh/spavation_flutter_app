@@ -39,6 +39,10 @@ class Endpoints {
 
   static const String salonsByCategory = '/salons/category/';
 
+  // Cities
+
+  static const String cities = '/cities';
+
 
   // Products
 
