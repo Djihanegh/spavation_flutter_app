@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     getCountryName();
     _salonBloc = BlocProvider.of(context);
 
-
     super.initState();
   }
 
@@ -138,22 +137,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         )),
 
-                    Positioned(
-                        top: 50,
-                        right: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const CustomIcon(
-                                icon: Icons.map_outlined, page: FilterScreen()),
-                            10.widthXBox,
-                            const CustomIcon(
-                              icon: Icons.filter_alt,
-                              page: FilterScreen(),
-                            ),
-                          ],
-                        )),
+                    const Positioned(
+                      top: 50,
+                      right: 30,
+                      child: CustomIcon(
+                        icon: Icons.filter_alt,
+                        page: FilterScreen(),
+                      ),
+                    ),
 
                     const BannerScreen(),
 
@@ -163,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         right: 5,
                         child: const SearchInput()),
 
-                     CategoriesScreen(
+                    CategoriesScreen(
                       lat: currentPosition?.latitude ?? 0,
                       long: currentPosition?.longitude ?? 0,
                     )
