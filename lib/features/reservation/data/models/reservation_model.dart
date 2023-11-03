@@ -10,10 +10,15 @@ class ReservationModel extends Reservation {
       required super.updatedAt,
       required super.status,
       required super.paymentMethod,
-      required super.tax,
+      required super.taxRate,
+      required super.logo,
+      required super.serviceFee,
+      required super.taxNumber,
+      required super.totalTax,
       required super.total,
       required super.salonId,
       required super.customerId,
+      required super.salonName,
       required super.products});
 
   factory ReservationModel.fromJson(DataMap source) =>
@@ -22,8 +27,13 @@ class ReservationModel extends Reservation {
   ReservationModel.fromMap(DataMap json)
       : this(
             id: json["id"],
+            salonName: json["salon_name"] ?? "",
             paymentMethod: json["payment_method"],
-            tax: json["tax"],
+            taxRate: json["tax_rate"] ?? "",
+            taxNumber: json["tax_number"] ?? "",
+            logo: json["logo"] ?? "",
+            serviceFee: json["service_fee"] ?? "",
+            totalTax: json["total_tax"] ?? "",
             total: json["total"],
             status: json["status"],
             salonId: json["salon_id"],
@@ -35,14 +45,19 @@ class ReservationModel extends Reservation {
   DataMap toMap() => {
         "id": id,
         "payment_method": paymentMethod,
-        "tax": tax,
+        "taxRate": taxRate,
+        "taxNumber": taxNumber,
+        "logo": logo,
+        "serviceFee": serviceFee,
+        "totalTax": totalTax,
         "total": total,
         "status": status,
         "salon_id": salonId,
         "customer_id": customerId,
         "created_at": createdAt,
         "updated_at": updatedAt,
-        "products": products
+        "products": products,
+        "salon_name": salonName
       };
 
   String toJson() => jsonEncode(toMap());

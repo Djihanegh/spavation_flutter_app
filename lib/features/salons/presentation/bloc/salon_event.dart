@@ -37,3 +37,5 @@ class SelectFilterOptions extends SalonEvent {
   @override
   List<Object?> get props => [options];
 }
+
+

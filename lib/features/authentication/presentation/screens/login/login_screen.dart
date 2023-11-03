@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,7 @@ import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/authentication/presentation/screens/forgetPassword/forget_password_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/cache/cache.dart';
@@ -29,16 +28,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
-  String emailValidator = '', passwordValidator = '';
+  // TextEditingController passwordController = TextEditingController();
 
-  bool get canLogin =>
-      emailController.text.isNotEmpty && passwordController.text.isNotEmpty;
+  String emailValidator = ''; //,  passwordValidator = '';
+
+  bool get canLogin => phoneController.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state.action == RequestType.loginUser) {
@@ -49,16 +49,25 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state.errorMessage == 'Your account is not verified') {
                 context
                     .read<AuthenticationBloc>()
-                    .add(ResendOtpEvent(email: emailController.text));
+                    .add(ResendOtpEvent(email: phoneController.text));
 
-                navigateToPage( OtpScreen(email: emailController.text,), context);
+                navigateToPage(
+                    OtpScreen(
+                      email: phoneController.text,
+                    ),
+                    context);
               }
             }
 
             if (state.status == FormzSubmissionStatus.success &&
                 state.action == RequestType.loginUser) {
               saveUserData(state.name);
-              navigateAndRemoveUntil(const Home(), context, false);
+              navigateToPage(
+                  OtpScreen(
+                    email: phoneController.text,
+                  ),
+                  context);
+              //   navigateAndRemoveUntil(const Home(), context, false);
             }
           }
         },
@@ -79,30 +88,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Email :',
+                        '${l10n.phoneNumber} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: phoneController,
                         borderColor: purple[2],
                         onSaved: (e) {
                           context
                               .read<AuthenticationBloc>()
-                              .add(EmailChanged(email: e));
+                              .add(PhoneChanged(phone: e));
                         },
                         onEditingComplete: () {
                           context
                               .read<AuthenticationBloc>()
-                              .add(EmailChanged(email: emailController.text));
+                              .add(PhoneChanged(phone: phoneController.text));
                         },
                         onFieldSubmitted: () {
                           context
                               .read<AuthenticationBloc>()
-                              .add(EmailChanged(email: emailController.text));
+                              .add(PhoneChanged(phone: phoneController.text));
                         },
                         onChanged: (e) => validateEmail(e),
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.phone,
                       ),
                       emailValidator.isNotEmpty
                           ? Padding(
@@ -115,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           : const SizedBox(),
                     ],
                   )),
-              Padding(
+              /*  Padding(
                   padding:
                       const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                   child: Column(
@@ -123,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Password :',
+                        '${l10n.password} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
@@ -151,10 +160,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                           const TextStyle(color: Colors.red))))
                           : const SizedBox(),
                     ],
-                  )),
+                  )), */
               20.heightXBox,
               AppButton(
-                title: 'Login',
+                title: l10n.login,
                 color: canLogin ? purple[2] : grey[0],
                 borderColor: canLogin ? purple[2] : grey[0],
                 textColor:
@@ -162,13 +171,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   if (canLogin) {
                     context.read<AuthenticationBloc>().add(LoginUserEvent(
-                        password: passwordController.text,
-                        email: emailController.text));
+                          phone: phoneController.text,
+                        ));
                   }
                 },
               ),
               10.heightXBox,
-              Padding(
+              /*  Padding(
                   padding: const EdgeInsets.only(
                     bottom: 10,
                     left: 25,
@@ -177,10 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () =>
                           navigateToPage(const ForgetPasswordScreen(), context),
                       child: AutoSizeText(
-                        'Forgot password ?',
+                        l10n.forgetPassword,
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 14),
-                      )))
+                      ))) */
             ],
           );
         });
@@ -196,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void validatePassword(String password) {
+  /* void validatePassword(String password) {
     setState(() {
       if (Validators.isNotEmpty(password) != null) {
         passwordValidator = 'This field should not be empty';
@@ -204,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordValidator = '';
       }
     });
-  }
+  }*/
 
   void saveUserData(String name) {
     Prefs.setString(Prefs.FIRSTNAME, name);

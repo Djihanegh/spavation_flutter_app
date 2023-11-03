@@ -37,6 +37,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     token = Prefs.getString(Prefs.TOKEN) ?? '';
 
+    log(token);
+
     if (token != '') {
       _authenticationBloc.add(GetUserEvent(token: token));
     }

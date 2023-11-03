@@ -5,6 +5,7 @@ import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../salons/presentation/screens/filter_salons_by_text_screen.dart';
 
@@ -18,6 +19,7 @@ class SearchInput extends StatefulWidget {
 class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(left: sw! * 0.025, right: sw! * 0.025),
       child: SizedBox(
@@ -38,7 +40,7 @@ class _SearchInputState extends State<SearchInput> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
-            hintText: 'Search',
+            hintText: l10n.search,
             hintStyle:
                 TextStyles.inter.copyWith(color: appLightGrey, fontSize: 16),
           ),

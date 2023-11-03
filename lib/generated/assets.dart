@@ -4,6 +4,7 @@ class Assets {
 
   static const String animationSplashAnimation = 'assets/animation/splash-animation.mp4';
   static const String iconsAdd = 'assets/icons/add.png';
+  static const String iconsAddSvg = 'assets/icons/addSvg.svg';
   static const String iconsApple = 'assets/icons/apple.svg';
   static const String iconsAwesomeFemale = 'assets/icons/awesome-female.png';
   static const String iconsAwesomeFileInvoice = 'assets/icons/awesome-file-invoice.svg';

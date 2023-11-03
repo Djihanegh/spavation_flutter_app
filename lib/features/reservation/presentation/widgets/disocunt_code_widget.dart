@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
@@ -29,6 +30,8 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocConsumer<ReservationBloc, ReservationState>(
         listener: (context, state) {
           if (state.action == RequestType.checkCoupon) {
@@ -63,7 +66,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                       borderRadius: BorderRadius.circular(15)),
                   child: Center(
                       child: CustomTextFormField(
-                    hintText: 'Discount code',
+                    hintText: l10n.discountCode,
                     controller: discountController,
                     onSaved: () {
                       context
@@ -75,7 +78,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                         width: 100,
                         child: AppButton(
                             color: appPrimaryColor,
-                            title: 'Apply',
+                            title: l10n.apply,
                             textColor: Colors.white,
                             onPressed: () => checkCoupon())),
                   ))),

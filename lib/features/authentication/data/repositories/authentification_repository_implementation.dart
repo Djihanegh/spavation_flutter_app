@@ -3,6 +3,7 @@ import 'package:spavation/core/errors/failure.dart';
 import 'package:spavation/core/utils/base_response.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
+import 'package:spavation/features/authentication/domain/entities/check_otp_response.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
@@ -39,7 +40,7 @@ class AuthenticationRepositoryImplementation
   }
 
   @override
-  ResultFuture<BaseResponse> checkOtp({required String otp}) async {
+  ResultFuture<CheckOtpResponse> checkOtp({required String otp}) async {
     try {
       final result = await _remoteDataSource.checkOtp(otp: otp);
       return Right(result);

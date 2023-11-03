@@ -18,6 +18,7 @@ import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../generated/assets.dart';
 import '../../bloc/authentication_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -31,6 +32,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
@@ -92,7 +94,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                       children: [
                                         30.heightXBox,
                                         AutoSizeText(
-                                          'Enter your email below to send you otp code',
+                                          l10n.enterYourEmailBelowToSendYouOTP,
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0], fontSize: 15),
                                         ),
@@ -104,7 +106,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                                 .read<AuthenticationBloc>()
                                                 .add(EmailChanged(email: e));
                                           },
-                                          hintText: 'Email',
+                                          hintText: l10n.email,
                                           borderColor: appPrimaryColor,
                                           controller: emailController,
                                         ),
@@ -113,7 +115,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                                title: 'Send',
+                                                title: l10n.send,
                                                 onPressed: () {
                                                   context
                                                       .read<
@@ -129,7 +131,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                              title: 'Back',
+                                              title: l10n.back,
                                               color: Colors.white,
                                               textColor: appPrimaryColor,
                                               onPressed: () =>

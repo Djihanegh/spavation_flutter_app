@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
+import 'package:spavation/features/localization/domain/entities/language.dart';
+import 'package:spavation/features/localization/presentation/bloc/language_bloc.dart';
 import 'package:spavation/features/reservation/presentation/screens/reservation_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/settings/settings_screen.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../../../../core/utils/size_config.dart';
+import '../../../../localization/presentation/bloc/language_bloc.dart';
 import 'widgets/bottom_nav_bar_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -64,6 +69,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget _navBarWidget() {
+    final l10n = AppLocalizations.of(context)!;
+    Language language = context.read<LanguageBloc>().state.selectedLanguage;
     return Container(
         margin: const EdgeInsets.only(top: 0),
         height: 82,
@@ -80,7 +87,7 @@ class _HomeState extends State<Home> {
                 width: sw!,
                 color: appPrimaryColor,
               )),
-          if (_selectedIndex == 0)
+          if (_selectedIndex == 0 && language.value == Language.english.value)
             Positioned(
                 top: -20,
                 bottom: 10,
@@ -94,7 +101,21 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
-          if (_selectedIndex == 1)
+          if (_selectedIndex == 2 && language.value == Language.values[1].value)
+            Positioned(
+                top: -20,
+                bottom: 10,
+                left: sw! / 11.5,
+                child: Container(
+                  height: 80,
+                  width: sw! * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10))),
+                )),
+          if (_selectedIndex == 1 && language.value == Language.english.value )
             Positioned(
                 top: -20,
                 bottom: 10,
@@ -108,7 +129,22 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
-          if (_selectedIndex == 2)
+          if (_selectedIndex == 1 && language.value == Language.values[1].value)
+            Positioned(
+                top: -20,
+                bottom: 10,
+               // right: sw! / 0.8,
+                 left: sw! / 3,
+                child: Container(
+                  height: 80,
+                  width: sw! *  0.24,
+                  decoration: const BoxDecoration(
+                      color: Colors.white ,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10))),
+                )),
+          if (_selectedIndex == 2 && language.value == Language.english.value)
             Positioned(
                 top: -20,
                 bottom: 15,
@@ -122,27 +158,42 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
+          if (_selectedIndex == 0 && language.value == Language.values[1].value)
+            Positioned(
+                top: -20,
+                bottom: 10,
+                right: sw! / 8.3,
+                // left: sw! / ,
+                child: Container(
+                  height: 80,
+                  width: sw! * 0.25,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10))),
+                )),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 BottomNavBarItem(
                   icon: Assets.iconsLogo,
-                  title: 'Home',
+                  title: l10n.home,
                   onPressed: () => _onPressed(0),
                   index: 0,
                   navBarIndex: _selectedIndex,
                 ),
                 BottomNavBarItem(
                   icon: Assets.iconsList,
-                  title: 'Reservations',
+                  title: l10n.reservations,
                   onPressed: () => _onPressed(1),
                   index: 1,
                   navBarIndex: _selectedIndex,
                 ),
                 BottomNavBarItem(
                   icon: Assets.iconsSettingsIcon,
-                  title: 'Settings',
+                  title: l10n.settings,
                   onPressed: () => _onPressed(2),
                   index: 2,
                   navBarIndex: _selectedIndex,

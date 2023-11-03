@@ -2,18 +2,27 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/format_date.dart';
 import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/features/reservation/data/models/reservation_model.dart';
 
 import '../../../../../../core/utils/app_styles.dart';
 import '../bills_details_screen.dart';
 
 class BillsItem extends StatelessWidget {
-  const BillsItem({super.key});
+  const BillsItem({super.key, required this.reservationModel});
+
+  final ReservationModel reservationModel;
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = convertStringToDateTime(reservationModel.createdAt);
     return GestureDetector(
-        onTap: () => navigateToPage(const BillsDetailsScreen(), context),
+        onTap: () => navigateToPage(
+            BillsDetailsScreen(
+              reservationModel: reservationModel,
+            ),
+            context),
         child: Padding(
             padding: paddingAll(10),
             child: Column(
@@ -21,7 +30,9 @@ class BillsItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  'SPA Woman',
+                  reservationModel.salonName.isEmpty
+                      ? 'Undefined'
+                      : reservationModel.salonName,
                   style: TextStyles.montserrat.copyWith(
                       fontSize: 14,
                       color: Colors.white,
@@ -34,14 +45,14 @@ class BillsItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      '#100339',
+                      '#${reservationModel.id}',
                       style: TextStyles.montserrat.copyWith(
                           fontSize: 12,
                           color: Colors.white,
                           fontWeight: FontWeight.w100),
                     ),
                     AutoSizeText(
-                      '12/02/2023',
+                      '${date.day}/${date.month}/${date.year}',
                       style: TextStyles.montserrat.copyWith(
                           fontSize: 12,
                           color: Colors.white,

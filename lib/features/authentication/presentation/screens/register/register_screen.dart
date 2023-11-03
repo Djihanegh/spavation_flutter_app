@@ -16,6 +16,7 @@ import '../../../../settings/presentation/screens/update_user/widgets/custom_tex
 import '../../../data/models/user_model.dart';
 import '../../bloc/authentication_bloc.dart';
 import '../widgets/drop_down_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -50,6 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state.action == RequestType.createUser) {
@@ -96,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Full name :',
+                        '${l10n.fullName} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
@@ -126,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Phone number :',
+                        '${l10n.phoneNumber} :',
                         style: TextStyles.inter.copyWith(
                           color: purple[2],
                           fontSize: 16,
@@ -159,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Email :',
+                        '${l10n.email} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
@@ -204,7 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Password :',
+                        '${l10n.password} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
@@ -236,7 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        'Confirm password :',
+                        '${l10n.confirmPassword} :',
                         style: TextStyles.inter
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
@@ -271,7 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText(
-                          'Select gender :',
+                          '${l10n.selectGender} :',
                           style: TextStyles.inter
                               .copyWith(color: purple[2], fontSize: 16),
                         ),
@@ -289,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ])),
               20.heightXBox,
               AppButton(
-                title: 'Register',
+                title: l10n.register,
                 color: canRegister ? purple[2] : grey[0],
                 borderColor: canRegister ? purple[2] : grey[0],
                 textColor:

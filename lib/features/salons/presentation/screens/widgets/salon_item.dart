@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/products/presentation/screens/products_screen.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_loadig_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -24,7 +27,9 @@ class SalonItem extends StatelessWidget {
       required this.rate,
       required this.distance,
       required this.image,
-      required this.salonId});
+      required this.salonId,
+      required this.taxRate,
+      required this.taxNumber});
 
   final String title;
   final String subtitle;
@@ -34,10 +39,12 @@ class SalonItem extends StatelessWidget {
   final String distance;
   final String image;
   final String salonId;
+  final String taxRate;
+  final String taxNumber;
 
   @override
   Widget build(BuildContext context) {
-    log(rate.toString());
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
         onTap: () => navigateToPage(
             ProductsScreen(
@@ -48,6 +55,8 @@ class SalonItem extends StatelessWidget {
               name: title,
               description: subtitle,
               image: image,
+              taxRate: taxRate,
+              taxNumber: taxNumber,
             ),
             context),
         child: Padding(
@@ -70,14 +79,28 @@ class SalonItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       //  mainAxisSize: MainAxisSize.max,
                       children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          margin: paddingAll(3),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: Image.network(
+                        CachedNetworkImage(
+                            imageUrl: Endpoints.storageUrl + image,
+                            placeholder: (context, url) =>
+                                const LoadingWidget(),
+                            errorWidget: (context, url, error) =>
+                                const SizedBox(
+                                    height: 60,
+                                    width: 60,
+                                    child:
+                                        Icon(Icons.error, color: Colors.black)),
+                            imageBuilder: (context, imageProvider) => Container(
+                                  height: 60,
+                                  width: 60,
+                                  margin: paddingAll(3),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: imageProvider,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors
+                                          .grey), /* Image.network(
                                     Endpoints.storageUrl + image,
                                     loadingBuilder: (BuildContext context,
                                         Widget child,
@@ -93,10 +116,8 @@ class SalonItem extends StatelessWidget {
                                                 child: const Icon(Icons.error,
                                                     color: Colors.black))),
                                     fit: BoxFit.cover,
-                                  ).image),
-                              borderRadius: BorderRadius.circular(5),
-                              color: appDarkBlue),
-                        ),
+                                  ).image */
+                                )),
                         10.widthXBox,
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -157,8 +178,8 @@ class SalonItem extends StatelessWidget {
                           const Spacer(),
                           AutoSizeText(
                             distance.length > 6
-                                ? '${'${distance.split('.')[0]}.${distance.split('.')[1].substring(0, 2)}'} km'
-                                : '$distance k.m',
+                                ? '${'${distance.split('.')[0]}.${distance.split('.')[1].substring(0, 2)}'} ${l10n.km}'
+                                : '$distance ${l10n.km}',
                             style: TextStyles.inter
                                 .copyWith(fontSize: 18, color: headerTextColor),
                             softWrap: true,

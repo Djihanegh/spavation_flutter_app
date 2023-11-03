@@ -4,21 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/generated/assets.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
+import '../../../../../core/utils/format_date.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
+import '../../../../reservation/data/models/reservation_model.dart';
 
 class BillsDetailsScreen extends StatefulWidget {
-  const BillsDetailsScreen({super.key});
+  const BillsDetailsScreen({super.key, required this.reservationModel});
+
+  final ReservationModel reservationModel;
 
   @override
   State<BillsDetailsScreen> createState() => _BillsDetailsScreenState();
 }
 
 class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
+  DateTime date = DateTime.now();
+
+  @override
+  void initState() {
+    date = convertStringToDateTime(widget.reservationModel.createdAt);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,27 +59,32 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                             ],
                           )
                         ])),
-                Padding(
-                    padding: EdgeInsets.only(top: sh! * 0.1),
-                    child: Container(
-                      width: sw!,
-                      height: sh! * 0.2,
-                      decoration: BoxDecoration(
-                        boxShadow: boxShadow2,
-                        borderRadius: BorderRadius.circular(25),
-                        color: appPrimaryColor.withOpacity(0.22),
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.only(top: sh! * 0.05),
-                          child: AutoSizeText(
-                            'Bills',
-                            style: TextStyles.inter.copyWith(
-                                fontSize: 40,
-                                color: appPrimaryColor,
-                                fontWeight: FontWeight.w700),
-                            textAlign: TextAlign.center,
-                          )),
-                    )),
+                GestureDetector(
+                  child: Padding(
+                      padding: EdgeInsets.only(top: sh! * 0.1),
+                      child: Container(
+                        width: sw!,
+                        height: sh! * 0.2,
+                        decoration: BoxDecoration(
+                          boxShadow: boxShadow2,
+                          borderRadius: BorderRadius.circular(25),
+                          color: appPrimaryColor.withOpacity(0.22),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.only(top: sh! * 0.05),
+                            child: AutoSizeText(
+                              'Bills',
+                              style: TextStyles.inter.copyWith(
+                                  fontSize: 40,
+                                  color: appPrimaryColor,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            )),
+                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
                 Positioned(
                   top: sh! * 0.25,
                   bottom: 0,
@@ -92,10 +110,11 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                               Container(
                                 padding: paddingAll(10),
                                 decoration: BoxDecoration(
-                                    color: appPrimaryColor,
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(15)),
-                                child: SvgPicture.asset(
-                                  Assets.iconsLogo,
+                                child: Image.network(
+                                  Endpoints.storageUrl +
+                                      widget.reservationModel.logo,
                                   height: 100,
                                   width: 100,
                                 ),
@@ -114,18 +133,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                               20.heightXBox,
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '123456789',
-                                    style: TextStyle(
+                                    widget.reservationModel.taxNumber,
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -150,18 +169,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                               ///
                               ///
                               20.heightXBox,
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '100599',
-                                    style: TextStyle(
+                                    "${widget.reservationModel.id}",
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -186,18 +205,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                               ///
                               ///
                               20.heightXBox,
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '06/06/2023',
-                                    style: TextStyle(
+                                    '${date.day}/${date.month}/${date.year}',
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -240,18 +259,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                                           fontFamily: 'Tahoma',
                                           fontWeight: FontWeight.bold))),
 
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '10 SR',
-                                    style: TextStyle(
+                                    '${widget.reservationModel.serviceFee} SR',
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -274,18 +293,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
 
                               10.heightXBox,
 
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '15 %',
-                                    style: TextStyle(
+                                    '${widget.reservationModel.taxRate} %',
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -311,18 +330,18 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                               ///
                               10.heightXBox,
 
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    '1.5 SR',
-                                    style: TextStyle(
+                                    '${widget.reservationModel.totalTax} SR',
+                                    style: const TextStyle(
                                         fontFamily: 'Tahoma',
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Column(
+                                  const Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -373,7 +392,8 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                               RepaintBoundary(
                                   key: const Key('1'),
                                   child: QrImageView(
-                                    data: '12345',
+                                    data:
+                                        '{reservation status: ${widget.reservationModel.status} , reservation number: ${widget.reservationModel.id}, amount paid : ${widget.reservationModel.total} SR }',
                                     padding: const EdgeInsets.all(30),
                                     backgroundColor: Colors.white,
                                   ))

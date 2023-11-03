@@ -45,6 +45,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
             errorMessage: l.message,
             action: RequestType.addReservation)),
         (r) => emit(state.copyWith(
+
             status: FormzSubmissionStatus.success,
             successMessage: r.message,
             action: RequestType.addReservation)));

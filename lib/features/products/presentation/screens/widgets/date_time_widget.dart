@@ -10,11 +10,13 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/core/widgets/app_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../../core/utils/format_date.dart';
+import '../../../../localization/presentation/bloc/language_bloc.dart';
 import '../../../data/models/product_model.dart';
 import '../../bloc/product_bloc.dart';
 import 'time_container.dart';
@@ -104,140 +106,154 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
-        child: BlocConsumer<ProductBloc, ProductState>(
-            listener: (context, state) {},
+        child: BlocConsumer<LanguageBloc, LanguageState>(
+            listener: (context, language) {},
             buildWhen: (prev, curr) =>
-                prev.selectedDate != curr.selectedDate ||
-                prev.selectedTime != curr.selectedTime ||
-                prev.reservations != curr.reservations,
-            builder: (context, state) {
-              getSelectedDateBySalon(state);
-              getSelectedTimeBySalon(state);
+                prev.selectedLanguage != curr.selectedLanguage,
+            builder: (context, language) {
+              return BlocConsumer<ProductBloc, ProductState>(
+                  listener: (context, state) {},
+                  buildWhen: (prev, curr) =>
+                      prev.selectedDate != curr.selectedDate ||
+                      prev.selectedTime != curr.selectedTime ||
+                      prev.reservations != curr.reservations,
+                  builder: (context, state) {
+                    getSelectedDateBySalon(state);
+                    getSelectedTimeBySalon(state);
 
-              return Column(mainAxisSize: MainAxisSize.min, children: [
-                Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.cancel,
-                        color: appPrimaryColor,
+                    return Column(mainAxisSize: MainAxisSize.min, children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              color: appPrimaryColor,
+                            ),
+                          )),
+                      AutoSizeText(
+                        l10n.date,
+                        style: TextStyles.inter.copyWith(
+                            color: red[2], fontWeight: FontWeight.w700),
                       ),
-                    )),
-                AutoSizeText(
-                  'Date',
-                  style: TextStyles.inter
-                      .copyWith(color: red[2], fontWeight: FontWeight.w700),
-                ),
-                10.heightXBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                        onTap: () => setDateAndAnimateTo('-'),
-                        child: SvgPicture.asset(Assets.iconsPrevious)),
-                    SizedBox(
-                        height: 100,
-                        width: sw! * 0.5,
-                        child: DatePicker(
-                          dateFrom,
-                          controller: _pickerController,
-                          initialSelectedDate: selectedDate ?? DateTime.now(),
-                          selectionColor: appPrimaryColor,
-                          selectedTextColor: Colors.white,
-                          daysCount: days + 1,
-                          inactiveDates: inactiveDates,
-                          deactivatedColor: grey[0],
-                          width: 60,
-                          onDateChange: (date) {
-                            String day = DateFormat('EEEE').format(date);
-                            if ((date.day > DateTime.now().day &&
-                                    activeDays.contains(day.toLowerCase())) ||
-                                date.day == DateTime.now().day) {
-                              // New date selected
-                              setState(() {
-                                selectedDate = date;
-                              });
-
-                              if (selectedDate != null) {
-                                context.read<ProductBloc>().add(SelectDate(
-                                    selectedDate!,
-                                    widget.product.id,
-                                    widget.product.salonId));
-                              }
-                            }
-                          },
-                        )),
-                    GestureDetector(
-                        onTap: () => setDateAndAnimateTo('+'),
-                        child: SvgPicture.asset(Assets.iconsNext)),
-                  ],
-                ),
-                20.heightXBox,
-                AutoSizeText(
-                  'Time',
-                  style: TextStyles.inter
-                      .copyWith(color: red[2], fontWeight: FontWeight.w700),
-                ),
-                10.heightXBox,
-                SizedBox(
-                    width: sw!,
-                    child: Wrap(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.center,
-                        spacing: 10,
-                        runSpacing: 10,
+                      10.heightXBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          for (var i = 0; i < (times.length / 2); i++)
-                            GestureDetector(
-                                onTap: () {
-                                  // if (int.parse(actualHour) < times[i]) {
-                                  selectedTime =
-                                      '${times[i]} - ${times[i + 1]}';
-                                  context.read<ProductBloc>().add(SelectTime(
-                                      selectedTime,
-                                      widget.product.id,
-                                      widget.product.salonId));
-                                  //    }
+                          GestureDetector(
+                              onTap: () => setDateAndAnimateTo('-'),
+                              child: SvgPicture.asset(Assets.iconsPrevious)),
+                          SizedBox(
+                              height: 100,
+                              width: sw! * 0.5,
+                              child: DatePicker(
+                                dateFrom,
+                                controller: _pickerController,
+                                initialSelectedDate:
+                                    selectedDate ?? DateTime.now(),
+                                selectionColor: appPrimaryColor,
+                                selectedTextColor: Colors.white,
+                                daysCount: days + 1,
+                                inactiveDates: inactiveDates,
+                                deactivatedColor: grey[0],
+                                locale: language
+                                    .selectedLanguage.value.languageCode,
+                                width: 60,
+                                onDateChange: (date) {
+                                  String day = DateFormat('EEEE').format(date);
+                                  if ((date.day > DateTime.now().day &&
+                                          activeDays
+                                              .contains(day.toLowerCase())) ||
+                                      date.day == DateTime.now().day) {
+                                    // New date selected
+                                    setState(() {
+                                      selectedDate = date;
+                                    });
+
+                                    if (selectedDate != null) {
+                                      context.read<ProductBloc>().add(
+                                          SelectDate(
+                                              selectedDate!,
+                                              widget.product.id,
+                                              widget.product.salonId));
+                                    }
+                                  }
                                 },
-                                child: TimeContainer(
-                                  isSelected: selectedTime ==
-                                          '${times[i]} - ${times[i + 1]}'
-                                      ? true
-                                      : false,
-                                  isDisabled: int.parse(actualHour) > times[i]
-                                      ? false
+                              )),
+                          GestureDetector(
+                              onTap: () => setDateAndAnimateTo('+'),
+                              child: SvgPicture.asset(Assets.iconsNext)),
+                        ],
+                      ),
+                      20.heightXBox,
+                      AutoSizeText(
+                        l10n.time,
+                        style: TextStyles.inter.copyWith(
+                            color: red[2], fontWeight: FontWeight.w700),
+                      ),
+                      10.heightXBox,
+                      SizedBox(
+                          width: sw!,
+                          child: Wrap(
+                              direction: Axis.horizontal,
+                              alignment: WrapAlignment.center,
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: [
+                                for (var i = 0; i < (times.length / 2); i++)
+                                  GestureDetector(
+                                      onTap: () {
+                                        // if (int.parse(actualHour) < times[i]) {
+                                        selectedTime =
+                                            '${times[i]} - ${times[i + 1]}';
+                                        context.read<ProductBloc>().add(
+                                            SelectTime(
+                                                selectedTime,
+                                                widget.product.id,
+                                                widget.product.salonId));
+                                        //    }
+                                      },
+                                      child: TimeContainer(
+                                        isSelected: selectedTime ==
+                                                '${times[i]} - ${times[i + 1]}'
+                                            ? true
+                                            : false,
+                                        isDisabled:
+                                            int.parse(actualHour) > times[i]
+                                                ? false
 
-                                      /// TRUE
-                                      : false,
-                                  startTime: times[i],
-                                  endTime: times[i + 1],
-                                )),
-                        ])),
-                20.heightXBox,
-                AppButton(
-                  title: 'Continue',
-                  color: appPrimaryColor,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    if (context.read<ProductBloc>().state.selectedTime !=
-                            null &&
-                        context.read<ProductBloc>().state.selectedDate !=
-                            null) {
-                      context
-                          .read<ProductBloc>()
-                          .add(SelectProduct(widget.product));
-                    }
+                                                /// TRUE
+                                                : false,
+                                        startTime: times[i],
+                                        endTime: times[i + 1],
+                                      )),
+                              ])),
+                      20.heightXBox,
+                      AppButton(
+                        title: l10n.continueX,
+                        color: appPrimaryColor,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          if (context.read<ProductBloc>().state.selectedTime !=
+                                  null &&
+                              context.read<ProductBloc>().state.selectedDate !=
+                                  null) {
+                            context
+                                .read<ProductBloc>()
+                                .add(SelectProduct(widget.product));
+                          }
 
-                    Navigator.pop(context);
-                  },
-                ),
-                20.heightXBox
-              ]);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      20.heightXBox
+                    ]);
+                  });
             }));
   }
 

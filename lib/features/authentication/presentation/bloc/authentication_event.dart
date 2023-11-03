@@ -61,15 +61,13 @@ class ResendOtpEvent extends AuthenticationEvent {
 
 class LoginUserEvent extends AuthenticationEvent {
   const LoginUserEvent({
-    required this.email,
-    required this.password,
+    required this.phone,
   });
 
-  final String email;
-  final String password;
+  final String phone;
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [phone];
 }
 
 class GenderChanged extends AuthenticationEvent {

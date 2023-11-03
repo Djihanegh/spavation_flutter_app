@@ -1,31 +1,32 @@
 import 'package:equatable/equatable.dart';
 
 class Salon extends Equatable {
-   Salon({
-    required this.id,
-    required this.image,
-    required this.name,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.status,
-    required this.address,
-    required this.latitude,
-    required this.longitude,
-    required this.phone,
-    required this.email,
-    required this.description,
-    required this.openTime,
-    required this.closeTime,
-    required this.openDay,
-    required this.closeDay,
-    required this.userId,
-    required this.isForMale,
-    required this.isForFemale,
-    required this.isDiscount,
-    required this.rate,
-    required this.discount,
-    required this.distance
-  });
+  Salon(
+      {required this.id,
+      required this.image,
+      required this.name,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.status,
+      required this.address,
+      required this.latitude,
+      required this.longitude,
+      required this.phone,
+      required this.email,
+      required this.description,
+      required this.openTime,
+      required this.closeTime,
+      required this.openDay,
+      required this.closeDay,
+      required this.userId,
+      required this.isForMale,
+      required this.isForFemale,
+      required this.isDiscount,
+      required this.rate,
+      required this.discount,
+      required this.distance,
+      required this.taxNumber,
+      required this.taxRate});
 
   final int id;
   final String image;
@@ -49,7 +50,9 @@ class Salon extends Equatable {
   final String isDiscount;
   final String rate;
   final String discount;
-   double distance;
+  final String taxNumber;
+  final String taxRate;
+  double distance;
 
   @override
   List<Object> get props => [
@@ -75,6 +78,8 @@ class Salon extends Equatable {
         isDiscount,
         rate,
         discount,
-        distance
+        distance,
+        taxNumber,
+        taxRate
       ];
 }

@@ -13,6 +13,7 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../core/services/location_service.dart';
 import '../../../../../core/widgets/app_button.dart';
@@ -58,6 +59,8 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: BlocConsumer<SettingsBloc, SettingsState>(
@@ -101,7 +104,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
               }
 
               if (state.customers == {} && user == {}) {
-                child = const Text('Not found ');
+                child = Text(l10n.userNotFound);
               }
               if (state.customers != {} && state.customers != null) {
                 child = Column(
@@ -115,12 +118,13 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              'Name',
+                              l10n.name,
                               style: TextStyles.inter
                                   .copyWith(color: Colors.white, fontSize: 16),
                             ),
                             CustomTextFormField(
                               controller: nameController,
+
                               onSaved: (e) {},
                               onChanged: (e) {},
                             ),
@@ -135,7 +139,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              'Email',
+                              l10n.email,
                               style: TextStyles.inter
                                   .copyWith(color: Colors.white, fontSize: 16),
                             ),
@@ -157,7 +161,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              'Address',
+                              l10n.address,
                               style: TextStyles.inter
                                   .copyWith(color: Colors.white, fontSize: 16),
                             ),
@@ -179,7 +183,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              'Mobile',
+                              l10n.mobile,
                               style: TextStyles.inter
                                   .copyWith(color: Colors.white, fontSize: 16),
                             ),
@@ -248,7 +252,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              'Gender',
+                              l10n.gender,
                               style: TextStyles.inter
                                   .copyWith(color: Colors.white, fontSize: 16),
                             ),
@@ -263,7 +267,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                                       gender = 'male';
                                     });
                                   },
-                                  title: 'Male',
+                                  title: l10n.male,
                                   isSelected: isMale && gender.isEmpty
                                       ? true
                                       : gender == 'male'
@@ -277,7 +281,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                                       gender = 'female';
                                     });
                                   },
-                                  title: 'Female',
+                                  title: l10n.female,
                                   isSelected: !isMale && gender.isEmpty
                                       ? true
                                       : gender == 'female'
@@ -291,7 +295,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                     ...[
                       10.heightXBox,
                       AppButton(
-                        title: 'Update',
+                        title: l10n.update,
                         color: appFilterCoLOR,
                         borderColor: borderColor,
                         textColor: Colors.white,
@@ -327,7 +331,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                       AppButton(
                           onPressed: () => widget.onPageChanged(),
                           borderColor: appFilterCoLOR,
-                          title: 'Cancel',
+                          title: l10n.cancel,
                           color: Colors.white,
                           textColor: appPrimaryColor),
                     ]

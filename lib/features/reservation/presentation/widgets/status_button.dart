@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
 
@@ -11,6 +10,7 @@ class StatusButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: paddingAll(5),
       decoration: BoxDecoration(

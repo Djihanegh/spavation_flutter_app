@@ -38,7 +38,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
       SelectFilterOptions event, Emitter<SalonState> emit) async {
     emit(state.copyWith(
         status: FormzSubmissionStatus.inProgress, filteredSalons: null));
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(milliseconds: 20));
 
     DataMap options = state.filterOptions ?? {};
 
@@ -51,8 +51,96 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
     if (event.options['near_by'] != null) {
       options['near_by'] = event.options['near_by'];
     }
+
+    List<SalonModel> salons = state.salons ?? [];
+
+    List<SalonModel> filteredSalons = [];
+
+    DataMap filterOptions = options;
+
+    Position currentPosition = await Location().determinePosition();
+
+    bool genderIsEmpty = false,
+        nearBy = false,
+        openNow = false,
+        applyFilter = state.applyFilter;
+
+    DateTime dateTime = DateTime.now();
+
+    if (filterOptions.isNotEmpty) {
+      filterOptions.forEach((key, value) {
+        if (key == 'gender') {
+          if (value == 'men') {
+            filterByGender(salons, filteredSalons, 'men', '');
+          } else if (value == 'women') {
+            filterByGender(salons, filteredSalons, 'women', '');
+          } else if (value == 'both') {
+            filterByGender(salons, filteredSalons, 'both', '');
+          } else {
+            genderIsEmpty = true;
+          }
+        } else if (key == 'open_now') {
+          openNow = value;
+          if (openNow) {
+            for (SalonModel salon in salons) {
+              //   DateTime openDay = convertStringToDateTime(salon.openDay);
+              DateTime closeDay = convertStringToDateTime(salon.closeDay);
+
+              //   DateTime openTime = convertStringToHourMnSec(salon.openTime);
+              DateTime closeTime = convertStringToHourMnSec(salon.closeTime);
+
+              if (dateTime.isBefore(closeDay) &&
+                  dateTime.hour < closeTime.hour) {
+                if (!filteredSalons.contains(salon)) {
+                  filteredSalons.add(salon);
+                  applyFilter = true;
+                }
+              }
+            }
+          }
+        } else if (key == 'near_by') {
+          nearBy = value;
+
+          if (nearBy) {
+            for (SalonModel salon in salons) {
+              double distanceInMeters = 0.0;
+              distanceInMeters = Geolocator.distanceBetween(
+                  double.parse(salon.latitude),
+                  double.parse(salon.longitude),
+                  currentPosition.latitude,
+                  currentPosition.longitude);
+              distanceInMeters = distanceInMeters / 1000;
+
+              if (distanceInMeters < 10) {
+                if (!filteredSalons.contains(salon)) {
+                  filteredSalons.add(salon);
+                  applyFilter = true;
+                }
+              }
+            }
+          }
+        } else {
+          filteredSalons = salons;
+        }
+      });
+    } else {
+      log('EMPTYYYYYYYY');
+    }
+
+    if (!genderIsEmpty) {
+      applyFilter = true;
+    }
+
+    if (genderIsEmpty == true && nearBy == false && openNow == false) {
+      filteredSalons = salons;
+      applyFilter = false;
+    }
+
     emit(state.copyWith(
-        status: FormzSubmissionStatus.success, filterOptions: options));
+        status: FormzSubmissionStatus.success,
+        filterOptions: options,
+        filteredSalons: filteredSalons,
+        applyFilter: applyFilter));
   }
 
   Future<void> _onSearchSalons(
@@ -70,11 +158,6 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
     Position currentPosition = await Location().determinePosition();
 
     bool genderIsEmpty = false, nearBy = false, openNow = false;
-
-    log(salons[0].closeDay);
-    log(salons[0].openDay);
-    log(salons[0].closeTime);
-    log(salons[0].openTime);
 
     DateTime dateTime = DateTime.now();
 
@@ -164,8 +247,13 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
         }
       }
     } else if (gender == 'both') {
-      filterByGender(salons, filteredSalons, 'men', text);
-      filterByGender(salons, filteredSalons, 'women', text);
+      for (SalonModel e in salons) {
+        if (e.isForMale == '1' && e.isForFemale == '1') {
+          if (!filteredSalons.contains(e) && e.name.contains(text)) {
+            filteredSalons.add(e);
+          }
+        }
+      }
     }
   }
 
@@ -173,7 +261,16 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
       GetSalonsByCategoryEvent event, Emitter<SalonState> emit) async {
     emit(state.copyWith(
         status: FormzSubmissionStatus.inProgress, filteredSalons: null));
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 20));
+
+    bool applyFilter = false;
+    int categoryId = state.categoryId;
+
+    if (categoryId == int.parse(event.id)) {
+      applyFilter = false;
+    } else {
+      applyFilter = true;
+    }
 
     final result = await _getSalonsByCategoryUseCase(event.id);
 
@@ -183,6 +280,8 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
             errorMessage: l.message,
             action: RequestType.getSalonsByCategory)),
         (r) => emit(state.copyWith(
+            categoryId: int.parse(event.id),
+            applyFilter: applyFilter,
             status: FormzSubmissionStatus.success,
             filteredSalons: r.data,
             action: RequestType.getSalonsByCategory,

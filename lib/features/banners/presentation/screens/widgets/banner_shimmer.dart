@@ -11,7 +11,7 @@ class BannerShimmer extends StatelessWidget {
     screenSizeInit(context);
 
     return Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 20, right: 10),
         child: Center(
             child: Container(
           decoration: const BoxDecoration(
@@ -29,13 +29,13 @@ class BannerShimmer extends StatelessWidget {
 
   Widget _body() {
     return Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Container(
-            width: sw! * 0.97,
-            height: sh! * 0.15,
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-            )));
+        padding: const EdgeInsets.only(left: 20, right: 10),
+    child:Container(
+        width: sw! * 0.97,
+        height: sh! * 0.15,
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        )));
   }
 }

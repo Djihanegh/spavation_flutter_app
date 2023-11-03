@@ -6,10 +6,9 @@ part 'login_user_response.g.dart';
 
 @JsonSerializable()
 class LoginUserResponse extends BaseResponse {
-  LoginUserResponse(this.token, this.email, this.name,
+  LoginUserResponse(this.email, this.name,
       {required super.message, required super.status});
 
-  final String token;
   final String email;
   final String name;
 

@@ -8,6 +8,7 @@ class Prefs {
   static const String TOKEN = "spavation_token";
   static const String PASSWORD = 'password';
   static const String FIRSTNAME = "first_name";
+  static const String LANGUAGE = "app_language";
 
   static SharedPreferences? _prefs;
   static Map<String, dynamic> memoryPrefs = <String, dynamic>{};

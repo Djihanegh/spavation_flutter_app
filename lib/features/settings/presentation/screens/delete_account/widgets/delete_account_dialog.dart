@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/size_config.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 showDeleteAccountDialog(
     {required BuildContext context,
@@ -9,6 +10,8 @@ showDeleteAccountDialog(
   showDialog(
       context: context,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+
         return AlertDialog(
             backgroundColor: Colors.white,
             shadowColor: Colors.white,
@@ -17,11 +20,11 @@ showDeleteAccountDialog(
             scrollable: true,
             actions: [
               TextButton(
-                child: const Text("Cancel"),
+                child: Text(l10n.cancel),
                 onPressed: () => onCancel(),
               ),
               TextButton(
-                  child: const Text("Continue"), onPressed: () => onContinue())
+                  child: Text(l10n.continueX), onPressed: () => onContinue())
             ],
             content: Container(
               width: sw! * 0.5,
@@ -29,7 +32,7 @@ showDeleteAccountDialog(
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(5)),
               child: Text(
-                'Are you sure you want to delete your account ?',
+                l10n.areYouSureYouWantToDeleteYourAccount,
                 style: TextStyles.inter
                     .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
               ),

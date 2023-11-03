@@ -36,8 +36,7 @@ class UserModel extends User {
 
   UserModel.loginUserModel(UserModel user)
       : this(
-          password: user.password,
-          email: user.email,
+          phone: user.phone,
         );
 
   DataMap toMap() => {

@@ -21,7 +21,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   @override
   void initState() {
     navBarIndex = widget.navBarIndex;
-    log('WIDGET INDEX  $navBarIndex');
+
     super.initState();
   }
 

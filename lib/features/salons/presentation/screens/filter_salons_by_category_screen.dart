@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +46,8 @@ class _FilterSalonsByCategoryScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
         body: Padding(
             padding: const EdgeInsets.only(top: 60),
@@ -112,6 +114,8 @@ class _FilterSalonsByCategoryScreenState
                                   distanceInMeters = distanceInMeters / 1000;
                                   return SalonItem(
                                     salonId: "${salon.id}",
+                                    taxRate: salon.taxRate,
+                                    taxNumber: salon.taxNumber,
                                     title: salon.name,
                                     subtitle: salon.description,
                                     rate: salon.rate,
@@ -122,8 +126,7 @@ class _FilterSalonsByCategoryScreenState
                                   );
                                 });
                           } else {
-                            child =
-                                const Center(child: Text('No salon found '));
+                            child = Center(child: Text(l10n.noSalonFound));
                           }
                         } else {
                           child = const Center(

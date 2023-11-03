@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
-import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/features/salons/presentation/bloc/salon_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/size_config.dart';
@@ -39,6 +39,7 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     screenSizeInit(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: Center(
@@ -59,7 +60,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: Align(
                                 alignment: Alignment.center,
                                 child: AutoSizeText(
-                                  'Search Filter',
+                                  l10n.searchFilter,
                                   style: TextStyles.inter
                                       .copyWith(color: Colors.white),
                                 ))),
@@ -113,7 +114,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),*/
 
                           AutoSizeText(
-                            'Order By',
+                            l10n.orderBy,
                             style: TextStyles.inter
                                 .copyWith(color: appPrimaryColor),
                           ),
@@ -130,7 +131,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                     !filterOptions['near_by'];
                               });
                             },
-                            title: 'Near by',
+                            title: l10n.nearBy,
                             isSelected:
                                 filterOptions['near_by'] == true ? true : false,
                           ),
@@ -155,14 +156,14 @@ class _FilterScreenState extends State<FilterScreen> {
                                         : filterOptions['gender'] = 'men';
                                   });
                                 },
-                                title: 'Men',
+                                title: l10n.men,
                                 isSelected: filterOptions['gender'] == 'men'
                                     ? true
                                     : false,
                               ),
                               10.widthXBox,
                               FilterChoiceBox(
-                                title: 'Women',
+                                title: l10n.women,
                                 onChanged: () {
                                   setState(() {
                                     filterOptions['gender'] == 'women'
@@ -183,7 +184,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                         : filterOptions['gender'] = 'both';
                                   });
                                 },
-                                title: 'Men and Women',
+                                title: l10n.menAndWomen,
                                 isSelected: filterOptions['gender'] == 'both'
                                     ? true
                                     : false,
@@ -198,7 +199,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                     !filterOptions['open_now'];
                               });
                             },
-                            title: 'Open now',
+                            title: l10n.openNow,
                             isSelected: filterOptions['open_now'] == true
                                 ? true
                                 : false,
@@ -210,12 +211,14 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),
                           AppButton(
                               onPressed: () {
-                                context
-                                    .read<SalonBloc>()
-                                    .add(SelectFilterOptions(filterOptions));
-                                Navigator.pop(context);
+                                setState(() {
+                                  context
+                                      .read<SalonBloc>()
+                                      .add(SelectFilterOptions(filterOptions));
+                                  Navigator.pop(context);
+                                });
                               },
-                              title: 'Apply now',
+                              title: l10n.applyNow,
                               color: appFilterCoLOR,
                               textColor: Colors.white)
                         ],

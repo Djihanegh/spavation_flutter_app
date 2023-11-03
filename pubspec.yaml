@@ -30,6 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -57,7 +61,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_rating_bar: ^4.0.1
   geolocator: ^10.0.1
-  intl: ^0.18.1
+  intl: any
   cached_network_image: ^3.3.0
 
 
@@ -79,6 +83,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

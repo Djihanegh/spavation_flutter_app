@@ -12,8 +12,8 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
-import 'package:spavation/features/authentication/presentation/screens/forgetPassword/forget_password_screen.dart';
 import 'package:spavation/features/authentication/presentation/screens/forgetPassword/update_password_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/enum/enum.dart';
@@ -21,6 +21,7 @@ import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../generated/assets.dart';
+import '../../../../home/presentation/screens/home/home.dart';
 import '../../bloc/authentication_bloc.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -71,6 +72,8 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
@@ -83,7 +86,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     AnimatedSnackBarType.success);
                 if (state.action == RequestType.checkOtp &&
                     state.status == FormzSubmissionStatus.success) {
-                  Navigator.pop(context);
+                  navigateAndRemoveUntil(const Home(), context, false);
                 }
               }
 
@@ -149,8 +152,9 @@ class _OtpScreenState extends State<OtpScreen> {
                                         30.heightXBox,
                                         AutoSizeText(
                                           widget.key == forgetPasswordKey
-                                              ? 'Enter the forget password code we sent to'
-                                              : 'Enter the authentication code below we sent to ',
+                                              ? l10n
+                                                  .enterTheForgetPasswordCodeWeSentTo
+                                              : l10n.enterTheAuthCode,
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0], fontSize: 15),
                                         ),
@@ -205,7 +209,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                                title: 'Verify',
+                                                title: l10n.verify,
                                                 onPressed: () {
                                                   widget.key ==
                                                           forgetPasswordKey
@@ -230,7 +234,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                              title: 'Back',
+                                              title: l10n.back,
                                               color: Colors.white,
                                               textColor: appPrimaryColor,
                                               onPressed: () =>
@@ -249,7 +253,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        "Resend Code in",
+                                                        l10n.resendCodeIn,
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -276,11 +280,11 @@ class _OtpScreenState extends State<OtpScreen> {
                                                           .read<
                                                               AuthenticationBloc>()
                                                           .add(ResendOtpEvent(
-                                                              email:
-                                                                  widget.email));
+                                                              email: widget
+                                                                  .email));
                                                     },
                                                     child: Text(
-                                                      "Resend code ",
+                                                      "${l10n.resendCode} ",
                                                       style: TextStyles.inter
                                                           .copyWith(
                                                               color: purple[2],

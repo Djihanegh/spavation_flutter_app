@@ -6,7 +6,8 @@ class Endpoints {
       'http://admin.spavation.co/public/api'; //'https://spa.esayway.com/public/api';
 
   // Storage Url
-  static const storageUrl = 'https://spa.esayway.com/public/storage/';
+  static const storageUrl = 'http://admin.spavation.co/public/storage/'; // 'https://spa.esayway.com/public/storage/';
+
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(seconds: 15000);

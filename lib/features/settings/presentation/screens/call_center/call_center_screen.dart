@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:spavation/core/widgets/navigate_next_btn.dart';
 import 'package:spavation/features/settings/presentation/screens/call_center/widgets/call_center_item.dart';
 import 'package:spavation/generated/assets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -20,6 +22,8 @@ class CallCenterScreen extends StatefulWidget {
 class _CallCenterScreenState extends State<CallCenterScreen> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: Colors.white,
@@ -31,26 +35,7 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                   height: sh!,
                   color: Colors.white,
                 ),
-                Positioned(
-                    top: (sh! * 0.12),
-                    right: 0,
-                    child: GestureDetector(
-                      child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                CustomBackButton(),
-                              ],
-                            ),
-                          ]),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    )),
+                const NavigateNextButton(),
                 GestureDetector(
                   child: Padding(
                       padding: EdgeInsets.only(top: sh! * 0.1),
@@ -65,7 +50,7 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                         child: Padding(
                             padding: EdgeInsets.only(top: sh! * 0.05),
                             child: AutoSizeText(
-                              'Call Center',
+                              l10n.callCenter,
                               style: TextStyles.inter.copyWith(
                                   fontSize: 40,
                                   color: appPrimaryColor,
@@ -97,21 +82,23 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                           children: [
                             CallCenterItem(
                                 icon: Assets.iconsAwesomeHeadset,
-                                name: 'Contact us',
-                                onPressed: () {}),
-                            CallCenterItem(
-                                icon: null, name: 'Question', onPressed: () {}),
-                            CallCenterItem(
-                                icon: null,
-                                name: 'Technical Question',
+                                name: l10n.contactUs,
                                 onPressed: () {}),
                             CallCenterItem(
                                 icon: null,
-                                name: 'About Spavation',
+                                name: l10n.question,
                                 onPressed: () {}),
                             CallCenterItem(
                                 icon: null,
-                                name: 'Terms of Service',
+                                name: l10n.technicalQuestion,
+                                onPressed: () {}),
+                            CallCenterItem(
+                                icon: null,
+                                name: l10n.aboutSpavation,
+                                onPressed: () {}),
+                            CallCenterItem(
+                                icon: null,
+                                name: l10n.termsOfService,
                                 onPressed: () {})
                           ]),
                     )),

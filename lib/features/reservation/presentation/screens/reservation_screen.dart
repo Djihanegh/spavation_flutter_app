@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
   @override
   Widget build(BuildContext context) {
     screenSizeInit(context);
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -81,7 +84,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                   children: [
                                     ListTile(
                                       title: AutoSizeText(
-                                        'Reservation ID:',
+                                        '${l10n.reservation} ${l10n.id}:',
                                         style: TextStyles.inter.copyWith(
                                             color: whiteWithOpacity,
                                             fontWeight: FontWeight.w700,
@@ -133,7 +136,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     } else {
                       subChild = Center(
                           child: AutoSizeText(
-                        'No reservation found ',
+                        l10n.noReservationFound,
                         style: TextStyles.inter.copyWith(color: Colors.white),
                       ));
                     }
@@ -148,6 +151,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
   }
 
   Widget body(Widget? subChild) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Stack(children: [
@@ -168,7 +172,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 child: Padding(
                     padding: EdgeInsets.only(top: sh! * 0.05),
                     child: AutoSizeText(
-                      'Reservations',
+                      l10n.reservations,
                       style: TextStyles.inter.copyWith(
                           fontSize: 40,
                           color: appPrimaryColor,

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:spavation/core/utils/typedef.dart';
 
-List<String> categories = <String>['Body Care', 'Massage', 'Hair', 'Nails'];
+//List<String> categories = <String>['Body Care', 'Massage', 'Hair', 'Nails'];
 
-const List<String> gender = <String>['Male', 'Female'];
+const List<String> genderEn = <String>['Male', 'Female'];
+const List<String> genderAr = <String>['ذكر', 'أنثى'];
 
 emptyWidget() => const SizedBox.shrink();
 

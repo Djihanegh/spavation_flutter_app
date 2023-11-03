@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
@@ -32,6 +33,8 @@ class ServiceDetailsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {},
         buildWhen: (prev, curr) => prev.reservations != curr.reservations,
@@ -70,7 +73,7 @@ class ServiceDetailsItem extends StatelessWidget {
                         .copyWith(color: purple[1], fontSize: 15),
                   ),
                   AutoSizeText(
-                    '$productPrice SR',
+                    '$productPrice ${l10n.sr}',
                     style: TextStyles.inter
                         .copyWith(color: appPrimaryColor, fontSize: 15),
                   )

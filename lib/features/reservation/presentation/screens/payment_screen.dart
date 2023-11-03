@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
-import 'package:intl/intl.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
@@ -27,11 +26,18 @@ import '../../../../core/widgets/custom_back_button.dart';
 import '../../../home/presentation/screens/filter/widgets/filter_choice_box.dart';
 import '../../../products/data/models/product_model.dart';
 import '../../../products/presentation/bloc/product_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key, required this.salonId});
+  const PaymentScreen(
+      {super.key,
+      required this.salonId,
+      required this.taxRate,
+      required this.taxNumber});
 
   final String salonId;
+  final String taxRate;
+  final String taxNumber;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -46,6 +52,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
@@ -56,6 +63,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     listener: (context, state) {
                       if (state.action == RequestType.addReservation) {
                         if (state.status == FormzSubmissionStatus.success) {
+                          context
+                              .read<ProductBloc>()
+                              .add(const RemoveReservation());
                           openSnackBar(context, state.successMessage,
                               AnimatedSnackBarType.success);
                           navigateAndRemoveUntil(
@@ -77,13 +87,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           buildWhen: (prev, curr) => prev.status != curr.status,
                           builder: (context, state) {
                             double totalPrice = 0.0;
-                            String totalTaxes = '15';
+                            String totalTaxes = '0';
                             Map<String, List<DataMap>>? reservations =
                                 state.reservations;
                             for (ProductModel e
                                 in state.selectedProducts ?? []) {
                               totalPrice = totalPrice + double.parse(e.price);
-                              totalTaxes = totalTaxes;
 
                               if (reservations != null) {
                                 if (reservations.containsKey(e.salonId)) {
@@ -120,6 +129,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 }
                               }
                             }
+                            totalTaxes = ((totalPrice / 1.15) - totalPrice)
+                                .abs()
+                                .toStringAsFixed(2);
+
                             return Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +149,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             color: Colors.white, fontSize: 15),
                                       ),
                                       AutoSizeText(
-                                        'Request Review',
+                                        l10n.requestReview,
                                         style: TextStyles.inter.copyWith(
                                             color: Colors.white, fontSize: 20),
                                       ),
@@ -174,7 +187,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 Assets.iconsMaterialDetails),
                                             10.widthXBox,
                                             AutoSizeText(
-                                              'Services Details',
+                                              l10n.servicesDetails,
                                               style: TextStyles.inter.copyWith(
                                                   color: appPrimaryColor,
                                                   fontSize: 20),
@@ -219,7 +232,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                       BlendMode.srcIn)),
                                               10.widthXBox,
                                               AutoSizeText(
-                                                'Payment Type',
+                                                l10n.paymentType,
                                                 style: TextStyles.inter
                                                     .copyWith(
                                                         color: appPrimaryColor,
@@ -249,7 +262,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 ),
                                                 5.widthXBox,
                                                 AutoSizeText(
-                                                  'Pay with Apple',
+                                                  l10n.payWithApple,
                                                   style: TextStyles.inter
                                                       .copyWith(
                                                           color: purple[1],
@@ -277,7 +290,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                     Assets.iconsVisaCard),
                                                 5.widthXBox,
                                                 AutoSizeText(
-                                                  'Credit or Debit Card',
+                                                  l10n.creditOrDebitCard,
                                                   style: TextStyles.inter
                                                       .copyWith(
                                                           color: purple[1],
@@ -319,7 +332,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                     .iconsAwesomeFileInvoice),
                                                 10.widthXBox,
                                                 AutoSizeText(
-                                                  'Invoicement Details:',
+                                                  '${l10n.invoicementDetails}:',
                                                   style: TextStyles.inter
                                                       .copyWith(
                                                           color:
@@ -342,7 +355,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    AutoSizeText('Price',
+                                                    AutoSizeText(l10n.price,
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -350,8 +363,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                                 fontSize: 15)),
                                                     AutoSizeText(
                                                         totalPrice == 0.0
-                                                            ? '0 SR'
-                                                            : '$totalPrice SR',
+                                                            ? '0 ${l10n.sr}'
+                                                            : '$totalPrice ${l10n.sr}',
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -370,7 +383,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    AutoSizeText('TAX',
+                                                    AutoSizeText(l10n.tax,
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -378,8 +391,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                                 fontSize: 15)),
                                                     AutoSizeText(
                                                         totalTaxes.isEmpty
-                                                            ? '0 SR'
-                                                            : '$totalTaxes SR',
+                                                            ? '0 ${l10n.sr}'
+                                                            : '$totalTaxes ${l10n.sr}',
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -403,7 +416,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  AutoSizeText('Total',
+                                                  AutoSizeText(l10n.total,
                                                       style: TextStyles.inter
                                                           .copyWith(
                                                               color: purple[1],
@@ -412,7 +425,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                                   FontWeight
                                                                       .bold)),
                                                   AutoSizeText(
-                                                      '${int.parse(totalTaxes) + totalPrice} SR',
+                                                      '$totalPrice ${l10n.sr}',
                                                       style: TextStyles.inter
                                                           .copyWith(
                                                               color: purple[4],
@@ -429,8 +442,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                                   GestureDetector(
                                       onTap: () {
-                                        // for (var e in selectedProducts) {}
-
                                         context
                                             .read<ReservationBloc>()
                                             .add(AddReservationEvent({
@@ -438,7 +449,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               'status': 'pending',
                                               'payment_method': paymentMethod,
                                               'salon_id': widget.salonId,
-                                              'tax': totalTaxes,
+                                              'total_tax': totalTaxes,
                                               'total': '$totalPrice'
                                             }));
                                       },
@@ -469,7 +480,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                                 BlendMode
                                                                     .srcIn)),
                                                 5.widthXBox,
-                                                AutoSizeText('Pay',
+                                                AutoSizeText(l10n.pay,
                                                     style: TextStyles.inter
                                                         .copyWith(
                                                       color: Colors.white,

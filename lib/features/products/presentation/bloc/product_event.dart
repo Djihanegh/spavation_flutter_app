@@ -52,3 +52,10 @@ class SelectTime extends ProductEvent {
   @override
   List<Object?> get props => [time, productId, salonId];
 }
+
+class RemoveReservation extends ProductEvent {
+  const RemoveReservation();
+
+  @override
+  List<Object?> get props => [];
+}

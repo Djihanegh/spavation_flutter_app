@@ -7,6 +7,7 @@ import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/data/datasources/authentication_remote_data_source.dart';
+import 'package:spavation/features/authentication/domain/entities/check_otp_response.dart';
 import 'package:spavation/features/authentication/domain/entities/create_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
@@ -51,6 +52,8 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
           headers: headers,
           body: UserModel.loginUserModel(user).toJson());
 
+      log(response.body.toString());
+
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);
         throw APIException(
@@ -60,7 +63,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       LoginUserResponse result =
           LoginUserResponse.fromJson(jsonDecode(response.body));
 
-      Prefs.setString(Prefs.TOKEN, result.token);
+      //
       return result;
     } on APIException {
       rethrow;
@@ -70,12 +73,14 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse> checkOtp({required String otp}) async {
+  Future<CheckOtpResponse> checkOtp({required String otp}) async {
     try {
       final response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.checkOtp),
           headers: headers,
           body: jsonEncode({'otp': otp}));
+
+      log(response.body.toString());
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);
@@ -83,11 +88,14 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
             message: result.message, statusCode: response.statusCode);
       }
 
-      return BaseResponse.fromMap(jsonDecode(response.body));
+      CheckOtpResponse result =
+          CheckOtpResponse.fromJson(jsonDecode(response.body));
+      Prefs.setString(Prefs.TOKEN, result.token);
+
+      return result;
     } on APIException {
       rethrow;
     } catch (e) {
-      log(e.toString());
       throw APIException(message: e.toString(), statusCode: 505);
     }
   }

@@ -24,9 +24,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<RemoveProduct>(_onRemoveProduct);
     on<SelectDate>(_onSelectDate);
     on<SelectTime>(_onSelectTime);
+    on<RemoveReservation>(_onRemoveReservation);
   }
 
   final GetProductsUseCase _getProductsUseCase;
+
+  void _onRemoveReservation(
+      RemoveReservation event, Emitter<ProductState> emit) {
+    emit(state.copyWith(
+        selectedDate: null,
+        selectedProducts: [],
+        reservations: {},
+        selectedTime: null));
+  }
 
   void _onSelectDate(SelectDate event, Emitter<ProductState> emit) {
     Map<String, List<DataMap>> dates = state.reservations ?? {};

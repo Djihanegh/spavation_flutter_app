@@ -9,13 +9,10 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
-import 'package:spavation/features/authentication/presentation/screens/login/login_screen.dart';
-import 'package:spavation/features/authentication/presentation/screens/otp/otp_screen.dart';
 import 'package:spavation/features/settings/presentation/screens/update_user/widgets/custom_text_field.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
-import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../generated/assets.dart';
@@ -35,6 +32,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
@@ -92,7 +91,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                       children: [
                                         30.heightXBox,
                                         AutoSizeText(
-                                          'Reset your password',
+                                          l10n.resetYourPassword,
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0], fontSize: 15),
                                         ),
@@ -100,7 +99,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                         CustomTextFormField(
                                           onSaved: (e) {},
                                           onChanged: (e) {},
-                                          hintText: 'Password',
+                                          hintText: l10n.password,
                                           borderColor: appPrimaryColor,
                                           controller: passwordController,
                                           obscureText: true,
@@ -110,7 +109,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                                title: 'Send',
+                                                title: l10n.send,
                                                 onPressed: () {
                                                   context
                                                       .read<
@@ -128,7 +127,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
-                                              title: 'Back',
+                                              title: l10n.back,
                                               color: Colors.white,
                                               textColor: appPrimaryColor,
                                               onPressed: () =>

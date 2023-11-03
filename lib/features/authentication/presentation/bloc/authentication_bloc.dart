@@ -284,8 +284,9 @@ class AuthenticationBloc
 
     await Future.delayed(const Duration(seconds: 2));
 
-    failureOrSuccess = await _loginUser(UserModel.loginUserModel(
-        UserModel(password: event.password, email: event.email)));
+    failureOrSuccess = await _loginUser(UserModel.loginUserModel(UserModel(
+      phone: event.phone,
+    )));
 
     failureOrSuccess.fold(
         (l) => emit(state.copyWith(
@@ -298,7 +299,7 @@ class AuthenticationBloc
               action: RequestType.loginUser,
               gender: state.gender,
               status: FormzSubmissionStatus.success,
-              token: r.token,
+            //  token: r.token,
               email: r.email,
               name: r.name,
               successMessage: r.message,
