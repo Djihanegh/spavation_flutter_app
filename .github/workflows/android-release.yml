@@ -5,7 +5,6 @@ name: Flutter CI
 on:
   push:
     branches:
-      - main
       - deploy-production
 
 # on: push    # Default will running for every branch.
