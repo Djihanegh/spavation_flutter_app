@@ -22,3 +22,13 @@ Map<String, String> headersWithToken(String token) {
 }
 
 const forgetPasswordKey = Key('forget-password');
+
+List<String> daysOfWeek = [
+  'saturday',
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday'
+];

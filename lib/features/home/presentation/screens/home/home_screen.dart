@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       GlobalKey<RefreshIndicatorState>();
 
   void _refresh() {
-    _salonBloc.add(const GetSalonsEvent());
+   // _salonBloc.add( const GetSalonsEvent({}));
   }
 
   @override
@@ -55,11 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getCountryName() async {
-    Uri url = Uri.parse('http://ip-api.com/json');
+   /* Uri url = Uri.parse('http://ip-api.com/json');
     Response data = await http.get(url);
     Map<String, dynamic> result = jsonDecode(data.body);
 
-    saveUserAddress(result);
+    saveUserAddress(result);*/
   }
 
   void saveUserAddress(DataMap result) {

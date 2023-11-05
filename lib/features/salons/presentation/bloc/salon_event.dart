@@ -5,13 +5,15 @@ abstract class SalonEvent extends Equatable {
 }
 
 class GetSalonsEvent extends SalonEvent {
-  const GetSalonsEvent();
+  const GetSalonsEvent(this.queryParameters);
+
+  final DataMap queryParameters;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [queryParameters];
 }
 
-class GetSalonsByCategoryEvent extends SalonEvent {
+/*class GetSalonsByCategoryEvent extends SalonEvent {
   const GetSalonsByCategoryEvent(this.id);
 
   final String id;
@@ -28,7 +30,7 @@ class GetSalonsByCityEvent extends SalonEvent {
   @override
   List<Object?> get props => [id];
 }
-
+*/
 class SearchSalonsEvent extends SalonEvent {
   const SearchSalonsEvent(this.text);
 
@@ -46,5 +48,3 @@ class SelectFilterOptions extends SalonEvent {
   @override
   List<Object?> get props => [options];
 }
-
-

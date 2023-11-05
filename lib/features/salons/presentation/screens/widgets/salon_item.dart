@@ -124,7 +124,7 @@ class SalonItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText(
-                              title,
+                              title.toLowerCase(),
                               style: TextStyles.inter
                                   .copyWith(color: headerTextColor),
                             ),

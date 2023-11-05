@@ -6,7 +6,7 @@ import '../entities/get_salons_response.dart';
 abstract class SalonRepository {
   const SalonRepository();
 
-  ResultFuture<GetSalonsResponse> getSalons();
+  ResultFuture<GetSalonsResponse> getSalons(DataMap data);
 
   ResultFuture<GetSalonsByCategoryResponse> getSalonsByCategory(String id);
 }

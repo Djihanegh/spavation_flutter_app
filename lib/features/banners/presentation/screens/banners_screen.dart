@@ -37,6 +37,11 @@ class _BannerScreenState extends State<BannerScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<BannerBloc, BannerState>(
         listener: (context, state) {

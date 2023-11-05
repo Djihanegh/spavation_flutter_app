@@ -28,6 +28,7 @@ class SalonModel extends Salon {
       required super.rate,
       required super.discount,
       required super.distance,
+      required super.categoryId,
       required super.taxNumber,
       required super.taxRate,
       required super.city});
@@ -61,6 +62,7 @@ class SalonModel extends Salon {
             taxNumber: json['tax_number'],
             taxRate: json['tax_rate'],
             city: json["city"],
+            categoryId: json["category_id"],
             distance: 0.0);
 
   DataMap toMap() => {
@@ -87,7 +89,8 @@ class SalonModel extends Salon {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "distance": 0.0,
-        "city": city
+        "city": city,
+        "category_id": categoryId
       };
 
   String toJson() => jsonEncode(toMap());

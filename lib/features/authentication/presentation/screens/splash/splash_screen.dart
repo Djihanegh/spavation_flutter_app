@@ -8,9 +8,11 @@ import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:spavation/features/authentication/presentation/screens/authentication_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/home.dart';
+import 'package:spavation/features/localization/presentation/bloc/language_bloc.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../../core/utils/navigation.dart';
+import '../../../../localization/domain/entities/language.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,10 +24,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late VideoPlayerController _controller;
-  bool userExists = false;
   late AuthenticationBloc _authenticationBloc;
+  late LanguageBloc _languageBloc;
 
-  String token = '';
+  String token = '', language = '';
+  bool userExists = false;
 
   @override
   void initState() {
@@ -36,6 +39,12 @@ class _SplashScreenState extends State<SplashScreen>
     ]);
 
     token = Prefs.getString(Prefs.TOKEN) ?? '';
+
+    language = Prefs.getString(Prefs.LANGUAGE) ?? '';
+    _languageBloc = BlocProvider.of(context)
+      ..add(ChangeLanguage(
+          selectedLanguage:
+              language == 'en' ? Language.english : Language.arabic));
 
     log(token);
 

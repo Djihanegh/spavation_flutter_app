@@ -27,6 +27,7 @@ class Salon extends Equatable {
       required this.distance,
       required this.taxNumber,
       required this.taxRate,
+      required this.categoryId,
       required this.city});
 
   final int id;
@@ -54,6 +55,7 @@ class Salon extends Equatable {
   final String taxNumber;
   final String taxRate;
   final String city;
+  final String categoryId;
   double distance;
 
   @override
@@ -83,6 +85,7 @@ class Salon extends Equatable {
         distance,
         taxNumber,
         taxRate,
-        city
+        city,
+        categoryId
       ];
 }

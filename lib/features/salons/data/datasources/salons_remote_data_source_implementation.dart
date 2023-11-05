@@ -19,10 +19,43 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
   final http.Client _client;
 
   @override
-  Future<GetSalonsResponse> getSalons() async {
+  Future<GetSalonsResponse> getSalons(DataMap data) async {
+    DataMap queryParams = {};
     try {
+      if (data.isNotEmpty) {
+        if (data['open_now'] != null) {
+          queryParams['is_open'] = data['open_now'].toString();
+        }
+
+        if (data['city'] != null) {
+          queryParams['city'] = data['city'];
+        }
+        if (data['category_id'] != null) {
+          queryParams['category_id'] = data['category_id'];
+        }
+
+        if (data['gender'] != null) {
+          if (data['gender'] == 'men') {
+            queryParams['is_for_male'] = "1";
+            queryParams['is_for_female'] = "2";
+          } else if (data['gender'] == 'women') {
+            queryParams['is_for_male'] = "2";
+          } else if (data['gender'] == 'both') {
+            queryParams['is_for_female'] = "1";
+            queryParams['is_for_male'] = "1";
+          }
+        }
+
+        log(queryParams.toString());
+
+        //   data['gender'] = null ;
+        //   data['open_now'] = null;
+        //   data['near_by'] = null;
+      }
+      final uri = Uri.parse(Endpoints.baseUrl + Endpoints.salons)
+          .replace(queryParameters: queryParams);
       final response = await _client.get(
-        Uri.parse(Endpoints.baseUrl + Endpoints.salons),
+        uri,
         headers: headers,
       );
 
@@ -32,13 +65,21 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
 
       List<dynamic> list = jsonDecode(response.body);
 
-      List<SalonModel> salons =
-          list.map((e) => SalonModel.fromJson(e)).toList();
+      List<SalonModel> salons = [];
+      try {
+        salons = list.map((e) => SalonModel.fromJson(e)).toList();
+      } catch (e) {
+        log(e.toString());
+      }
 
       return GetSalonsResponse(salons);
     } on APIException {
+      log('EXCEPTION');
       rethrow;
     } catch (e) {
+      log('EXCEPTION 2');
+      log(e.toString());
+
       throw APIException(message: e.toString(), statusCode: 505);
     }
   }

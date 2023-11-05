@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -13,6 +14,7 @@ import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
+import '../../../../core/utils/typedef.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../bloc/reservation_bloc.dart';
 import '../widgets/reservation_item.dart';
@@ -69,10 +71,18 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     if (state.reservations!.isNotEmpty) {
                       subChild = ListView.builder(
                           shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
+                        //  physics: const ClampingScrollPhysics(),
                           itemCount: state.reservations?.length,
                           itemBuilder: (context, indexA) {
-                            log(state.reservations![indexA].status);
+                            double totalPrice = 0.0;
+                            double totalTax = 0.0;
+
+                            totalPrice =
+                                double.parse(state.reservations![indexA].total);
+
+                            totalTax = double.parse(
+                                state.reservations![indexA].totalTax);
+
                             return GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -114,21 +124,103 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                           )),
                                     ),
                                     showDetailsList && index == indexA
-                                        ? ListView.builder(
+                                        ?  SingleChildScrollView(
+                                        child:  ListView.builder(
                                             shrinkWrap: true,
                                             physics:
-                                                const AlwaysScrollableScrollPhysics(),
+                                                const ClampingScrollPhysics(),
                                             itemCount: state
                                                 .reservations?[indexA]
                                                 .products
                                                 .length,
                                             itemBuilder: (context, indexB) {
+                                              DataMap reservation = state
+                                                  .reservations?[indexA]
+                                                  .products[indexB];
+
                                               return ReservationItem(
-                                                reservation: state
-                                                    .reservations?[indexA]
-                                                    .products[indexB],
+                                                reservation: reservation,
                                               );
-                                            })
+                                            }))
+                                        : emptyWidget(),
+                                    showDetailsList && index == indexA
+                                        ? const DottedLine(
+                                            dashLength: 5,
+                                            dashGapLength: 5,
+                                            lineThickness: 1,
+                                            dashColor: lightPurple,
+                                          )
+                                        : emptyWidget(),
+                                    showDetailsList && index == indexA
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10,
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                  l10n.total,
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 16),
+                                                ),
+                                                AutoSizeText(
+                                                  "$totalPrice ${l10n.sr}",
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : emptyWidget(),
+                                    showDetailsList && index == indexA
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                  l10n.tax,
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 16),
+                                                ),
+                                                AutoSizeText(
+                                                  "$totalTax ${l10n.sr}",
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          )
                                         : emptyWidget(),
                                   ],
                                 ));

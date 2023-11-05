@@ -124,7 +124,6 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                             ),
                             CustomTextFormField(
                               controller: nameController,
-
                               onSaved: (e) {},
                               onChanged: (e) {},
                             ),
@@ -303,13 +302,6 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           if (nameController.text.isNotEmpty &&
                               addressController.text.isNotEmpty &&
                               mobileController.text.isNotEmpty) {
-                            log(nameController.text);
-                            log(mobileController.text);
-                            log(addressController.text);
-                            log(currentPosition!.latitude.toString());
-                            log(currentPosition!.longitude.toString());
-                            log(gender);
-
                             context.read<SettingsBloc>().add(UpdateUserEvent({
                                   'fullname': nameController.text,
                                   'phone': mobileController.text,
@@ -334,6 +326,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           title: l10n.cancel,
                           color: Colors.white,
                           textColor: appPrimaryColor),
+                      20.heightXBox,
                     ]
                   ],
                 );

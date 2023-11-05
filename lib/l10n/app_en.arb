@@ -80,6 +80,8 @@
   "menAndWomen": "Men and Women",
   "openNow": "Open now",
   "applyNow": "Apply now",
-  "men": "Men"
+  "men": "Men",
+  "am": "AM",
+  "pm": "PM"
 
 }

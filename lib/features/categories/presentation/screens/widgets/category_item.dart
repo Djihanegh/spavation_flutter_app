@@ -1,13 +1,14 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spavation/core/utils/navigation.dart';
-
+import 'package:intl/number_symbols_data.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/endpoint.dart';
+import '../../../../../core/utils/typedef.dart';
 import '../../../../salons/presentation/bloc/salon_bloc.dart';
-import '../../../../salons/presentation/screens/filter_salons_by_category_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
@@ -30,13 +31,18 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SalonBloc, SalonState>(
         listener: (context, state) {},
-        listenWhen: (prev, curr) => prev.status != curr.status,
+        listenWhen: (prev, curr) => prev.categoryId != curr.categoryId,
+     //   buildWhen: (prev, curr) => prev.categoryId != curr.categoryId,
         builder: (context, state) {
+          log(state.categoryId.toString());
+          log(int.parse(categoryId).toString());
           return GestureDetector(
               onTap: () {
-                context
-                    .read<SalonBloc>()
-                    .add(GetSalonsByCategoryEvent(categoryId));
+                DataMap query =
+                    context.read<SalonBloc>().state.filterOptions ?? {};
+                query['category_id'] = categoryId;
+
+                context.read<SalonBloc>().add(GetSalonsEvent(query));
               },
               child: Padding(
                   padding: const EdgeInsets.only(

@@ -18,8 +18,11 @@ class SpavationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String language = Prefs.getString(Prefs.LANGUAGE) ?? '';
-    log('LANGUAGEEEE');
+    log('LANGUAGE');
     log(language);
+    String token = Prefs.getString(Prefs.TOKEN) ?? '';
+    log('TOKEN');
+    log(token);
     return BlocProvider(
         create: (context) => LanguageBloc(),
         child:
@@ -27,19 +30,21 @@ class SpavationApp extends StatelessWidget {
           return MaterialApp(
               supportedLocales: AppLocalizations.supportedLocales,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
-              locale: state.selectedLanguage.value,
+              locale: language == 'en'
+                  ? Language.english.value
+                  : Language.arabic.value,
               theme: ThemeData(
                 useMaterial3: true,
               ),
               home: Directionality(
-                  textDirection: /*language.isNotEmpty
+                  textDirection: language.isNotEmpty
                       ? language == 'en'
                           ? TextDirection.ltr
                           : TextDirection.rtl
-                      :*/
-                      state.selectedLanguage.value == Language.english.value
+                      : TextDirection.ltr,
+                  /*  state.selectedLanguage.value == Language.english.value
                           ? TextDirection.ltr
-                          : TextDirection.rtl, // set this property
+                          : TextDirection.rtl,*/ // set this property
                   child: const SplashScreen()));
         }));
   }

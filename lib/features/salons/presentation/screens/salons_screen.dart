@@ -27,8 +27,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
   void initState() {
     _salonBloc = BlocProvider.of(context);
     if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
-      _salonBloc.add(const GetSalonsEvent());
-
+     // _salonBloc.add(const GetSalonsEvent({}));
     }
     super.initState();
   }
@@ -58,7 +57,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
             child = Text(l10n.noSalonFound);
           }
 
-          if (state.applyFilter) {
+          /*  if (state.applyFilter) {
             if (state.filteredSalons != null && state.filteredSalons != []) {
               List<SalonModel> salons = state.filteredSalons ?? [];
               for (var i = 0; i < salons.length; i++) {
@@ -112,59 +111,70 @@ class _SalonsScreenState extends State<SalonsScreen> {
                 child = Center(child: Text(l10n.noSalonFound));
               }
             }
-          } else {
-            if (state.salons != null && state.salons != []) {
-              List<SalonModel> salons = state.salons ?? [];
-              for (var i = 0; i < salons.length; i++) {
-                double distanceInMetersA = 0.0;
+          } else { */
+          if (state.salons != null && state.salons != []) {
+            List<SalonModel> salons = state.salons ?? [];
+            //  List<SalonModel> filteredSalons = [];
 
-                distanceInMetersA = Geolocator.distanceBetween(
-                    double.parse(salons[i].latitude),
-                    double.parse(salons[i].longitude),
-                    widget.lat,
-                    widget.long);
-                distanceInMetersA = distanceInMetersA / 1000;
+            for (var i = 0; i < salons.length; i++) {
+              double distanceInMetersA = 0.0;
 
-                salons[i].setDistance(distanceInMetersA);
-              }
+              distanceInMetersA = Geolocator.distanceBetween(
+                  double.parse(salons[i].latitude),
+                  double.parse(salons[i].longitude),
+                  widget.lat,
+                  widget.long);
+              distanceInMetersA = distanceInMetersA / 1000;
 
-              salons.sort((a, b) => a.distance.compareTo(b.distance));
-
-              child = Flexible(
-                  child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 0),
-                      itemCount: salons.length,
-                      itemBuilder: (context, index) {
-                        SalonModel? salon = salons[index];
-
-                        double distanceInMeters = 0.0;
-                        distanceInMeters = Geolocator.distanceBetween(
-                            double.parse(salon.latitude),
-                            double.parse(salon.longitude),
-                            widget.lat,
-                            widget.long);
-                        distanceInMeters = distanceInMeters / 1000;
-                        return SalonItem(
-                          taxRate: salon.taxRate,
-                          taxNumber: salon.taxNumber,
-                          salonId: "${salon.id}",
-                          title: salon.name,
-                          subtitle: salon.description,
-                          rate: salon.rate,
-                          distance: '$distanceInMeters',
-                          image: salon.image,
-                          isForFemale: salon.isForFemale,
-                          isForMale: salon.isForMale,
-                        );
-                      }));
+              salons[i].setDistance(distanceInMetersA);
             }
-          }
 
-          return child!;
+            salons.sort((a, b) => a.distance.compareTo(b.distance));
+
+            /* for (SalonModel e in salons) {
+                if (int.parse(e.city) == state.cityId) {
+                  if (!filteredSalons.contains(e)) {
+                    filteredSalons.add(e);
+                  }
+                }
+              } */
+
+            child = Flexible(
+                child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
+                    itemCount: salons.length,
+                    itemBuilder: (context, index) {
+                      SalonModel? salon = salons[index];
+
+                      double distanceInMeters = 0.0;
+                      distanceInMeters = Geolocator.distanceBetween(
+                          double.parse(salon.latitude),
+                          double.parse(salon.longitude),
+                          widget.lat,
+                          widget.long);
+                      distanceInMeters = distanceInMeters / 1000;
+                      return SalonItem(
+                        taxRate: salon.taxRate,
+                        taxNumber: salon.taxNumber,
+                        salonId: "${salon.id}",
+                        title: salon.name,
+                        subtitle: salon.description,
+                        rate: salon.rate,
+                        distance: '$distanceInMeters',
+                        image: salon.image,
+                        isForFemale: salon.isForFemale,
+                        isForMale: salon.isForMale,
+                      );
+                    }));
+          } else {
+            child = Center(child: Text(l10n.noSalonFound));
+          }
+          // }
+
+          return child;
         });
   }
 }

@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
+import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/format_date.dart';
 import '../../../../localization/presentation/bloc/language_bloc.dart';
 import '../../../data/models/product_model.dart';
@@ -45,15 +46,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   List<DateTime> inactiveDates = [];
   List<String> activeDays = [];
   List<int> times = [];
-  List<String> daysOfWeek = [
-    'saturday',
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday'
-  ];
+
 
   int daysInMonth(DateTime date) {
     var firstDayThisMonth = DateTime(date.year, date.month, date.day);

@@ -9,6 +9,7 @@ final class SalonState extends Equatable {
       this.filteredSalons,
       this.filterOptions,
       this.categoryId = -1,
+      this.cityId = 1,
       this.action = RequestType.unknown,
       this.applyFilter = false});
 
@@ -22,6 +23,7 @@ final class SalonState extends Equatable {
   final RequestType action;
   final bool applyFilter;
   final int categoryId;
+  final int cityId;
 
   SalonState copyWith(
       {FormzSubmissionStatus? status,
@@ -32,6 +34,7 @@ final class SalonState extends Equatable {
       final List<SalonModel>? filteredSalons,
       DataMap? filterOptions,
       int? categoryId,
+      int? cityId,
       bool? applyFilter}) {
     return SalonState(
         status: status ?? this.status,
@@ -39,6 +42,7 @@ final class SalonState extends Equatable {
         successMessage: successMessage ?? this.successMessage,
         salons: salons ?? this.salons,
         action: action ?? this.action,
+        cityId: cityId ?? this.cityId,
         filteredSalons: filteredSalons ?? this.filteredSalons,
         filterOptions: filterOptions ?? this.filterOptions,
         applyFilter: applyFilter ?? this.applyFilter,
@@ -55,6 +59,7 @@ final class SalonState extends Equatable {
         filteredSalons,
         filterOptions,
         applyFilter,
-        categoryId
+        categoryId,
+        cityId
       ];
 }

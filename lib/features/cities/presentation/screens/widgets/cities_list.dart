@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 
 import '../../../../../app/theme.dart';
@@ -42,6 +44,8 @@ class _CitiesListState extends State<CitiesList> {
         builder: (context, language) {
           return BlocConsumer<CityBloc, CityState>(
               listener: (context, state) {
+                DataMap query =
+                    context.read<SalonBloc>().state.filterOptions ?? {};
                 List<CitiesModel> cities =
                     context.read<CityBloc>().state.cities ?? [];
                 CitiesModel? defaultCity;
@@ -51,18 +55,19 @@ class _CitiesListState extends State<CitiesList> {
                 }
 
                 if (defaultCity != null) {
-                  context
-                      .read<SalonBloc>()
-                      .add(GetSalonsByCityEvent(defaultCity.id));
+                  query['city'] = "${defaultCity.id}";
+                  context.read<SalonBloc>().add(GetSalonsEvent(query));
                 }
               },
               buildWhen: (prev, curr) => prev.cities != curr.cities,
               builder: (context, state) {
+                DataMap query =
+                    context.read<SalonBloc>().state.filterOptions ?? {};
                 return Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.white)),
+                      borderRadius: BorderRadius.circular(0),
+                      color: Colors.transparent,
+                    ),
                     padding: const EdgeInsets.only(left: 10),
                     width: sw! / 2,
                     child: DropdownButton<String>(
@@ -70,7 +75,7 @@ class _CitiesListState extends State<CitiesList> {
                       value: dropdownValue,
                       icon: const Icon(
                         Icons.arrow_drop_down_sharp,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                       underline: Container(
                         height: 0,
@@ -78,7 +83,11 @@ class _CitiesListState extends State<CitiesList> {
                       ),
                       borderRadius: BorderRadius.circular(10),
                       elevation: 16,
-                      style: TextStyles.inter.copyWith(fontSize: 14),
+                      iconEnabledColor: Colors.white,
+                      iconDisabledColor: Colors.white,
+                      dropdownColor: appPrimaryColor.withOpacity(0.9),
+                      style: TextStyles.inter
+                          .copyWith(fontSize: 14, color: Colors.white),
                       onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
@@ -95,9 +104,10 @@ class _CitiesListState extends State<CitiesList> {
                               : null;
 
                           if (city != null) {
+                            query['city'] = "${city.id}";
                             context
                                 .read<SalonBloc>()
-                                .add(GetSalonsByCityEvent(city.id));
+                                .add(GetSalonsEvent(query));
                           }
                         } else {
                           CitiesModel? city = state.cities != null
@@ -108,9 +118,10 @@ class _CitiesListState extends State<CitiesList> {
                               : null;
 
                           if (city != null) {
+                            query['city'] = "${city.id}";
                             context
                                 .read<SalonBloc>()
-                                .add(GetSalonsByCityEvent(city.id));
+                                .add(GetSalonsEvent(query));
                           }
                         }
                       },
@@ -122,17 +133,19 @@ class _CitiesListState extends State<CitiesList> {
                                       (CitiesModel value) {
                                       return DropdownMenuItem<String>(
                                           value: value.name,
-                                          child: Text(value.name,
-                                              style: TextStyles.inter
-                                                  .copyWith(fontSize: 14)));
+                                          child: AutoSizeText(value.name,
+                                              style: TextStyles.inter.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.white)));
                                     }).toList()
                                   : state.cities!.map<DropdownMenuItem<String>>(
                                       (CitiesModel value) {
                                       return DropdownMenuItem<String>(
                                           value: value.nameAr,
-                                          child: Text(value.nameAr,
-                                              style: TextStyles.inter
-                                                  .copyWith(fontSize: 14)));
+                                          child: AutoSizeText(value.nameAr,
+                                              style: TextStyles.inter.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.white)));
                                     }).toList()
                               : []
                           : [],
