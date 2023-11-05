@@ -13,24 +13,6 @@ class GetSalonsEvent extends SalonEvent {
   List<Object?> get props => [queryParameters];
 }
 
-/*class GetSalonsByCategoryEvent extends SalonEvent {
-  const GetSalonsByCategoryEvent(this.id);
-
-  final String id;
-
-  @override
-  List<Object?> get props => [id];
-}
-
-class GetSalonsByCityEvent extends SalonEvent {
-  const GetSalonsByCityEvent(this.id);
-
-  final int id;
-
-  @override
-  List<Object?> get props => [id];
-}
-*/
 class SearchSalonsEvent extends SalonEvent {
   const SearchSalonsEvent(this.text);
 

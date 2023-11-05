@@ -6,5 +6,5 @@ import '../../domain/entities/get_salons_response.dart';
 abstract class SalonRemoteDataSource {
   Future<GetSalonsResponse> getSalons(DataMap data);
 
-  Future<GetSalonsByCategoryResponse> getSalonsByCategory(String id);
+  Future<GetSalonsResponse> searchSalons(String name);
 }

@@ -28,7 +28,7 @@ class FilterSalonsByTextScreen extends StatefulWidget {
 
 class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
   late SalonBloc _salonBloc;
-  Position? currentPosition; //= Position(latitude: 0 , longitude: 0);
+  Position? currentPosition;
 
   @override
   void initState() {

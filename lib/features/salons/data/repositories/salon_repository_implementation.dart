@@ -25,9 +25,9 @@ class SalonRepositoryImplementation implements SalonRepository {
   }
 
   @override
-  ResultFuture<GetSalonsByCategoryResponse> getSalonsByCategory(String id) async {
+  ResultFuture<GetSalonsResponse> searchSalons(String name) async {
     try {
-      final result = await _remoteDataSource.getSalonsByCategory(id);
+      final result = await _remoteDataSource.searchSalons(name);
       return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fomException(e));

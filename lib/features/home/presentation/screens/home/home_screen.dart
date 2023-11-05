@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -11,11 +9,11 @@ import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 import 'package:spavation/features/cities/presentation/screens/widgets/cities_list.dart';
 import 'package:spavation/features/home/presentation/screens/filter/filter_screen.dart';
 import 'package:spavation/features/home/presentation/screens/home/widgets/custom_icon.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../categories/presentation/screens/categories_screen.dart';
+import '../../../../localization/domain/entities/language.dart';
 import '../../../../salons/presentation/bloc/salon_bloc.dart';
 import '../../../../salons/presentation/screens/salons_screen.dart';
 import 'widgets/search_input.dart';
@@ -37,13 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
       GlobalKey<RefreshIndicatorState>();
 
   void _refresh() {
-   // _salonBloc.add( const GetSalonsEvent({}));
+    // _salonBloc.add( const GetSalonsEvent({}));
   }
 
   @override
   void initState() {
-    getCurrentPosition();
-    getCountryName();
+    //getCurrentPosition();
+    // getCountryName();
     _salonBloc = BlocProvider.of(context);
     _cityBloc = BlocProvider.of(context)..add(const GetCitiesEvent());
 
@@ -55,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getCountryName() async {
-   /* Uri url = Uri.parse('http://ip-api.com/json');
+    /* Uri url = Uri.parse('http://ip-api.com/json');
     Response data = await http.get(url);
     Map<String, dynamic> result = jsonDecode(data.body);
 
@@ -75,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     screenSizeInit(context);
     return Scaffold(
         body: RefreshIndicator(
@@ -119,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white.withOpacity(0.35),
                               borderRadius: appCircular),
                         )),
-                    const Positioned(top: 50, left: 20, child: CitiesList()),
+                    const Positioned(
+                            top: 50, left: 20, child: CitiesList()),
+
 
                     const Positioned(
                       top: 50,

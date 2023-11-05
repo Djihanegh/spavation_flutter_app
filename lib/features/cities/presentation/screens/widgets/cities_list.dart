@@ -6,7 +6,6 @@ import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
-import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../localization/domain/entities/language.dart';
 import '../../../../localization/presentation/bloc/language_bloc.dart';
@@ -39,8 +38,8 @@ class _CitiesListState extends State<CitiesList> {
   Widget build(BuildContext context) {
     return BlocConsumer<LanguageBloc, LanguageState>(
         listener: (context, language) {},
-        buildWhen: (prev, curr) =>
-            prev.selectedLanguage != curr.selectedLanguage,
+     //   buildWhen: (prev, curr) =>
+       //     prev.selectedLanguage != curr.selectedLanguage,
         builder: (context, language) {
           return BlocConsumer<CityBloc, CityState>(
               listener: (context, state) {
@@ -60,6 +59,7 @@ class _CitiesListState extends State<CitiesList> {
                 }
               },
               buildWhen: (prev, curr) => prev.cities != curr.cities,
+            //  listenWhen: (prev, curr) => prev.cities != curr.cities,
               builder: (context, state) {
                 DataMap query =
                     context.read<SalonBloc>().state.filterOptions ?? {};

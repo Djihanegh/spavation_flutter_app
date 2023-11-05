@@ -127,6 +127,9 @@ class _FilterScreenState extends State<FilterScreen> {
                           FilterChoiceBox(
                             onChanged: () {
                               setState(() {
+                                if (filterOptions['near_by'] == null) {
+                                  filterOptions['near_by'] = false;
+                                }
                                 filterOptions['near_by'] =
                                     !filterOptions['near_by'];
                               });
@@ -198,12 +201,15 @@ class _FilterScreenState extends State<FilterScreen> {
                           FilterChoiceBox(
                             onChanged: () {
                               setState(() {
+                                if (filterOptions['open_now'] == null) {
+                                  filterOptions['open_now'] = false;
+                                }
                                 filterOptions['open_now'] =
                                     !filterOptions['open_now'];
                               });
                             },
                             title: l10n.openNow,
-                            isSelected: filterOptions['near_by'] != null
+                            isSelected: filterOptions['open_now'] != null
                                 ? filterOptions['open_now'] == true
                                     ? true
                                     : false
@@ -222,9 +228,17 @@ class _FilterScreenState extends State<FilterScreen> {
                                           .state
                                           .filterOptions ??
                                       {};
-                                  query['open_now'] = filterOptions['open_now'];
-                                  query['near_by'] = filterOptions['near_by'];
-                                  query['gender'] = filterOptions['gender'];
+                                  if (filterOptions['open_now'] != null) {
+                                    query['open_now'] =
+                                        filterOptions['open_now'];
+                                  }
+                                  if (filterOptions['near_by'] != null) {
+                                    query['near_by'] = filterOptions['near_by'];
+                                  }
+                                  if (filterOptions['gender'] != '') {
+                                    query['gender'] = filterOptions['gender'];
+                                  }
+
                                   context
                                       .read<SalonBloc>()
                                       .add(SelectFilterOptions(query));

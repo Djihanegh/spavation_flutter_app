@@ -24,7 +24,9 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
     try {
       if (data.isNotEmpty) {
         if (data['open_now'] != null) {
-          queryParams['is_open'] = data['open_now'].toString();
+          if (data['open_now'].toString() == "true") {
+            queryParams['is_open'] = "1";
+          }
         }
 
         if (data['city'] != null) {
@@ -47,10 +49,6 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
         }
 
         log(queryParams.toString());
-
-        //   data['gender'] = null ;
-        //   data['open_now'] = null;
-        //   data['near_by'] = null;
       }
       final uri = Uri.parse(Endpoints.baseUrl + Endpoints.salons)
           .replace(queryParameters: queryParams);
@@ -85,10 +83,10 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
   }
 
   @override
-  Future<GetSalonsByCategoryResponse> getSalonsByCategory(String id) async {
+  Future<GetSalonsResponse> searchSalons(String name) async {
     try {
       final response = await _client.get(
-        Uri.parse(Endpoints.baseUrl + Endpoints.salonsByCategory + id),
+        Uri.parse(Endpoints.baseUrl + Endpoints.salonsByCategory + name),
         headers: headers,
       );
 
@@ -96,7 +94,7 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
         throw APIException(message: '', statusCode: response.statusCode);
       }
 
-      return GetSalonsByCategoryResponse.fromJson(jsonDecode(response.body));
+      return GetSalonsResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;
     } catch (e) {
