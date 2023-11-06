@@ -12,7 +12,6 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
-import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import 'package:spavation/features/reservation/presentation/bloc/reservation_bloc.dart';
 import 'package:spavation/features/reservation/presentation/widgets/disocunt_code_widget.dart';
@@ -60,39 +59,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
         body: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.only(top: sh! * 0.15),
-                child: BlocConsumer<ReservationBloc, ReservationState>(
-                    listener: (context, state) {
-                      if (state.action == RequestType.addReservation) {
-                        if (state.status == FormzSubmissionStatus.success) {
-                          context
-                              .read<ProductBloc>()
-                              .add(const RemoveReservation());
-                          openSnackBar(context, state.successMessage,
-                              AnimatedSnackBarType.success);
-                          navigateAndRemoveUntil(
-                              const HomeScreen(), context, false);
-                        } else if (state.status ==
-                            FormzSubmissionStatus.failure) {
-                          openSnackBar(context, state.errorMessage,
-                              AnimatedSnackBarType.error);
-                        }
-                      }
-                    },
+                child: BlocConsumer<ProductBloc, ProductState>(
+                    listener: (context, state) {},
                     listenWhen: (prev, curr) => prev.status != curr.status,
                     buildWhen: (prev, curr) => prev.status != curr.status,
-                    builder: (context, state) {
-                      return BlocConsumer<ProductBloc, ProductState>(
-                          listener: (context, state) {},
+                    builder: (context, productState) {
+                      return BlocConsumer<ReservationBloc, ReservationState>(
+                          listener: (context, state) {
+                            if (state.action == RequestType.addReservation) {
+                              if (state.status ==
+                                  FormzSubmissionStatus.success) {
+                                context
+                                    .read<ProductBloc>()
+                                    .add(const RemoveReservation());
+                                openSnackBar(context, state.successMessage,
+                                    AnimatedSnackBarType.success);
+                                navigateAndRemoveUntil(
+                                    const HomeScreen(), context, false);
+                              } else if (state.status ==
+                                  FormzSubmissionStatus.failure) {
+                                openSnackBar(context, state.errorMessage,
+                                    AnimatedSnackBarType.error);
+                              }
+                            }
+                          },
                           listenWhen: (prev, curr) =>
                               prev.status != curr.status,
                           buildWhen: (prev, curr) => prev.status != curr.status,
-                          builder: (context, state) {
+                          builder: (context, reservationState) {
                             double totalPrice = 0.0;
                             String totalTaxes = '0';
+                            double discount = 10.0;
                             Map<String, List<DataMap>>? reservations =
-                                state.reservations;
+                                productState.reservations;
                             for (ProductModel e
-                                in state.selectedProducts ?? []) {
+                                in productState.selectedProducts ?? []) {
                               totalPrice = totalPrice + double.parse(e.price);
 
                               if (reservations != null) {
@@ -202,15 +203,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           ],
                                         ),
                                         for (ProductModel product
-                                            in state.selectedProducts ?? [])
+                                            in productState.selectedProducts ??
+                                                [])
                                           ServiceDetailsItem(
                                               productId: "${product.id}",
                                               salonId: product.salonId,
                                               productName: product.name,
                                               productPrice: product.price,
-                                              selectedDate: state.selectedDate!,
+                                              selectedDate:
+                                                  productState.selectedDate!,
                                               selectedTime:
-                                                  state.selectedTime ?? '')
+                                                  productState.selectedTime ??
+                                                      '')
                                       ],
                                     ),
                                   ),
@@ -390,6 +394,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
+                                                    AutoSizeText(l10n.discount,
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color:
+                                                                    purple[1],
+                                                                fontSize: 15)),
+                                                    AutoSizeText(
+                                                        '$discount ${l10n.sr}',
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color:
+                                                                    purple[4],
+                                                                fontSize: 15)),
+                                                  ],
+                                                )),
+                                            10.heightXBox,
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20, right: 20),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
                                                     AutoSizeText(l10n.tax,
                                                         style: TextStyles.inter
                                                             .copyWith(
@@ -432,7 +462,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                                   FontWeight
                                                                       .bold)),
                                                   AutoSizeText(
-                                                      '$totalPrice ${l10n.sr}',
+                                                      '${totalPrice - discount} ${l10n.sr}',
                                                       style: TextStyles.inter
                                                           .copyWith(
                                                               color: purple[4],
@@ -455,71 +485,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: AppButton(
+                                        isLoading: reservationState.status ==
+                                                FormzSubmissionStatus.inProgress
+                                            ? true
+                                            : false,
                                         borderColor: Colors.black,
                                         title: l10n.pay,
                                         color: Colors.black,
                                         textColor: Colors.white,
                                         onPressed: () {
-                                          context
-                                              .read<ReservationBloc>()
-                                              .add(AddReservationEvent({
-                                                'products': products,
-                                                'status': 'pending',
-                                                'payment_method': paymentMethod,
-                                                'salon_id': widget.salonId,
-                                                'total_tax': totalTaxes,
-                                                'total': '$totalPrice'
-                                              }));
+                                          setState(() {
+                                            context
+                                                .read<ReservationBloc>()
+                                                .add(AddReservationEvent({
+                                                  'products': products,
+                                                  'status': 'pending',
+                                                  'payment_method':
+                                                      paymentMethod,
+                                                  'salon_id': widget.salonId,
+                                                  'total_tax': totalTaxes,
+                                                  'total':
+                                                      '${totalPrice - discount}'
+                                                }));
+                                          });
                                         },
                                       )),
 
-                                  /* GestureDetector(
-                                      onTap: () {
-                                        context
-                                            .read<ReservationBloc>()
-                                            .add(AddReservationEvent({
-                                              'products': products,
-                                              'status': 'pending',
-                                              'payment_method': paymentMethod,
-                                              'salon_id': widget.salonId,
-                                              'total_tax': totalTaxes,
-                                              'total': '$totalPrice'
-                                            }));
-                                      },
-                                      child: Container(
-                                          width: sw! * 0.95,
-                                          padding: paddingAll(10),
-                                          decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                state.status ==
-                                                        FormzSubmissionStatus
-                                                            .inProgress
-                                                    ? const LoadingWidget()
-                                                    : SvgPicture.asset(
-                                                        Assets.iconsApple,
-                                                        colorFilter:
-                                                            const ColorFilter
-                                                                    .mode(
-                                                                Colors.white,
-                                                                BlendMode
-                                                                    .srcIn)),
-                                                5.widthXBox,
-                                                AutoSizeText(l10n.pay,
-                                                    style: TextStyles.inter
-                                                        .copyWith(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    )),
-                                              ]))),*/
                                   20.heightXBox,
 
                                   ///

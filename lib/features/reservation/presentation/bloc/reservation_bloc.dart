@@ -34,8 +34,10 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
   Future<void> _addReservation(
       AddReservationEvent event, Emitter<ReservationState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(milliseconds: 50));
+    emit(state.copyWith(
+        status: FormzSubmissionStatus.inProgress,
+        action: RequestType.addReservation));
+    await Future.delayed(const Duration(seconds: 3));
 
     final result = await _addReservationUseCase(event.data);
 

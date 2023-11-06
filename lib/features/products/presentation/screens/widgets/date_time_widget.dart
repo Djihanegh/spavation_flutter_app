@@ -5,6 +5,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
@@ -142,9 +143,13 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                              onTap: () => setDateAndAnimateTo('-'),
-                              child: SvgPicture.asset(Assets.iconsPrevious)),
+                          l10n.localeName == 'en'
+                              ? GestureDetector(
+                                  onTap: () => setDateAndAnimateTo('-'),
+                                  child: SvgPicture.asset(Assets.iconsPrevious))
+                              : GestureDetector(
+                                  onTap: () => setDateAndAnimateTo('-'),
+                                  child: SvgPicture.asset(Assets.iconsNext)),
                           SizedBox(
                               height: 100,
                               width: sw! * 0.5,
@@ -169,7 +174,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                       date.day == DateTime.now().day) {
                                     // New date selected
 
-
                                     setState(() {
                                       selectedDate = date;
                                     });
@@ -184,9 +188,14 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                   }
                                 },
                               )),
-                          GestureDetector(
-                              onTap: () => setDateAndAnimateTo('+'),
-                              child: SvgPicture.asset(Assets.iconsNext)),
+                          l10n.localeName == 'en'
+                              ? GestureDetector(
+                                  onTap: () => setDateAndAnimateTo('+'),
+                                  child: SvgPicture.asset(Assets.iconsNext))
+                              : GestureDetector(
+                                  onTap: () => setDateAndAnimateTo('+'),
+                                  child:
+                                      SvgPicture.asset(Assets.iconsPrevious)),
                         ],
                       ),
                       20.heightXBox,
@@ -207,14 +216,16 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                 for (var i = 0; i < times.length - 1; i++)
                                   GestureDetector(
                                       onTap: () {
-                                        selectedTime = getStartAndEndTime(
-                                            times[i], times[i + 1], l10n);
-                                        //'${times[i]} - ${times[i + 1]}';
-                                        context.read<ProductBloc>().add(
-                                            SelectTime(
-                                                selectedTime,
-                                                widget.product.id,
-                                                widget.product.salonId));
+                                        setState(() {
+                                          selectedTime = getStartAndEndTime(
+                                              times[i], times[i + 1], l10n);
+                                          //'${times[i]} - ${times[i + 1]}';
+                                          context.read<ProductBloc>().add(
+                                              SelectTime(
+                                                  selectedTime,
+                                                  widget.product.id,
+                                                  widget.product.salonId));
+                                        });
                                       },
                                       child: TimeContainer(
                                         isSelected: selectedTime ==
@@ -235,6 +246,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                               ])),
                       20.heightXBox,
                       AppButton(
+                        isLoading: false,
                         title: l10n.continueX,
                         color: appPrimaryColor,
                         textColor: Colors.white,
@@ -277,16 +289,24 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
 
           selectedDate = date;
 
-          _pickerController.setDateAndAnimate(date);
-          _pickerController.jumpToSelection();
+          Future.delayed(const Duration(milliseconds: 20), () {
+            _pickerController.setDateAndAnimate(date);
+          });
+          Future.delayed(const Duration(milliseconds: 20), () {
+            _pickerController.jumpToSelection();
+          });
         });
       } else {
         setState(() {
           DateTime date = DateTime(
               selectedDate!.year, selectedDate!.month, selectedDate!.day - 1);
           selectedDate = date;
-          _pickerController.setDateAndAnimate(date);
-          _pickerController.jumpToSelection();
+          Future.delayed(const Duration(milliseconds: 20), () {
+            _pickerController.setDateAndAnimate(date);
+          });
+          Future.delayed(const Duration(milliseconds: 20), () {
+            _pickerController.jumpToSelection();
+          });
         });
       }
     }

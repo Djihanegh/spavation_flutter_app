@@ -221,6 +221,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             color: dividerColor,
                           ),
                           AppButton(
+                              isLoading:  false,
                               onPressed: () {
                                 setState(() {
                                   DataMap query = context

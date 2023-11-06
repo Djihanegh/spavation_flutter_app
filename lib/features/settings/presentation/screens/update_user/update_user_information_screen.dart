@@ -301,6 +301,10 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                     ...[
                       10.heightXBox,
                       AppButton(
+                        isLoading: state.status ==
+                            FormzSubmissionStatus.inProgress
+                            ? true
+                            : false,
                         title: l10n.update,
                         color: appFilterCoLOR,
                         borderColor: borderColor,
@@ -328,6 +332,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                       ),
                       10.heightXBox,
                       AppButton(
+                          isLoading: false,
                           onPressed: () => widget.onPageChanged(),
                           borderColor: appFilterCoLOR,
                           title: l10n.cancel,

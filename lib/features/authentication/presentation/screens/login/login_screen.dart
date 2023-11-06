@@ -159,6 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   )), */
               20.heightXBox,
               AppButton(
+                isLoading: state.status ==
+                    FormzSubmissionStatus.inProgress
+                    ? true
+                    : false,
                 title: l10n.login,
                 color: canLogin ? purple[2] : grey[0],
                 borderColor: canLogin ? purple[2] : grey[0],

@@ -72,6 +72,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                     suffixIcon: SizedBox(
                         width: 100,
                         child: AppButton(
+                            isLoading: false,
                             color: appPrimaryColor,
                             title: l10n.apply,
                             textColor: Colors.white,

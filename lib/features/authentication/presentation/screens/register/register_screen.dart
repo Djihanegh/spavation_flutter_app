@@ -291,6 +291,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ])),
               20.heightXBox,
               AppButton(
+                isLoading: state.status ==
+                    FormzSubmissionStatus.inProgress
+                    ? true
+                    : false,
                 title: l10n.register,
                 color: canRegister ? purple[2] : grey[0],
                 borderColor: canRegister ? purple[2] : grey[0],

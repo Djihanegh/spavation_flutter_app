@@ -115,6 +115,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
+                                                isLoading: state.status ==
+                                                    FormzSubmissionStatus.inProgress
+                                                    ? true
+                                                    : false,
                                                 title: l10n.send,
                                                 onPressed: () {
                                                   context
@@ -131,6 +135,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
                                             child: AppButton(
+                                              isLoading: false,
                                               title: l10n.back,
                                               color: Colors.white,
                                               textColor: appPrimaryColor,

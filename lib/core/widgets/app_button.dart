@@ -19,23 +19,25 @@ class AppButton extends StatelessWidget {
       required this.color,
       required this.textColor,
       this.borderColor,
-      this.onPressed});
+      this.onPressed, required this.isLoading});
 
   final String title;
   final Color color;
   final Color textColor;
   final Color? borderColor;
   final Function? onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+    return /*BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {},
         listenWhen: (prev, curr) => prev.status != curr.status,
         buildWhen: (prev, curr) => prev.status != curr.status,
         builder: (context, state) {
+          log(state.status.toString());
 
-          return GestureDetector(
+          return */ GestureDetector(
               onTap: () => onPressed!(),
               child: Center(
                   child: Container(
@@ -46,7 +48,7 @@ class AppButton extends StatelessWidget {
                     color: color,
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: borderColor ?? appFilterCoLOR)),
-                child: state.status == FormzSubmissionStatus.inProgress
+                child: isLoading
                     ? const LoadingWidget()
                     : AutoSizeText(
                         title,
@@ -55,6 +57,6 @@ class AppButton extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
               )));
-        });
+      //  });
   }
 }
