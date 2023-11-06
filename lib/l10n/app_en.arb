@@ -82,6 +82,7 @@
   "applyNow": "Apply now",
   "men": "Men",
   "am": "AM",
-  "pm": "PM"
-
+  "pm": "PM",
+  "tryAgain": "TRY AGAIN",
+  "discount": "discount"
 }

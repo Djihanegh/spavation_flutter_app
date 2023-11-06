@@ -1,4 +1,3 @@
-
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -58,7 +57,10 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child = body(subChild);
 
                   if (state.status == FormzSubmissionStatus.failure) {
-                    subChild = const SalonErrorWidget();
+                    subChild = SalonErrorWidget(
+                      onRefresh: () => _refresh(),
+                      errorMessage: state.errorMessage,
+                    );
                   }
 
                   if (state.status == FormzSubmissionStatus.initial ||
@@ -70,14 +72,18 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     if (state.reservations!.isNotEmpty) {
                       subChild = ListView.builder(
                           shrinkWrap: true,
-                        //  physics: const ClampingScrollPhysics(),
+                          //  physics: const ClampingScrollPhysics(),
                           itemCount: state.reservations?.length,
                           itemBuilder: (context, indexA) {
                             double totalPrice = 0.0;
                             double totalTax = 0.0;
+                            double discount = 0.0;
 
                             totalPrice =
                                 double.parse(state.reservations![indexA].total);
+
+                            //     discount =
+                            //       double.parse(state.reservations![indexA].products[0);
 
                             totalTax = double.parse(
                                 state.reservations![indexA].totalTax);
@@ -123,24 +129,24 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                           )),
                                     ),
                                     showDetailsList && index == indexA
-                                        ?  SingleChildScrollView(
-                                        child:  ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const ClampingScrollPhysics(),
-                                            itemCount: state
-                                                .reservations?[indexA]
-                                                .products
-                                                .length,
-                                            itemBuilder: (context, indexB) {
-                                              DataMap reservation = state
-                                                  .reservations?[indexA]
-                                                  .products[indexB];
+                                        ? SingleChildScrollView(
+                                            child: ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const ClampingScrollPhysics(),
+                                                itemCount: state
+                                                    .reservations?[indexA]
+                                                    .products
+                                                    .length,
+                                                itemBuilder: (context, indexB) {
+                                                  DataMap reservation = state
+                                                      .reservations?[indexA]
+                                                      .products[indexB];
 
-                                              return ReservationItem(
-                                                reservation: reservation,
-                                              );
-                                            }))
+                                                  return ReservationItem(
+                                                    reservation: reservation,
+                                                  );
+                                                }))
                                         : emptyWidget(),
                                     showDetailsList && index == indexA
                                         ? const DottedLine(
@@ -154,41 +160,6 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                         ? Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 10,
-                                                left: 20,
-                                                right: 20,
-                                                bottom: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AutoSizeText(
-                                                  l10n.total,
-                                                  style: TextStyles.inter
-                                                      .copyWith(
-                                                          color:
-                                                              whiteWithOpacity,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 16),
-                                                ),
-                                                AutoSizeText(
-                                                  "$totalPrice ${l10n.sr}",
-                                                  style: TextStyles.inter
-                                                      .copyWith(
-                                                          color:
-                                                              whiteWithOpacity,
-                                                          fontSize: 14),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : emptyWidget(),
-                                    showDetailsList && index == indexA
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
                                                 left: 20,
                                                 right: 20,
                                                 bottom: 10),
@@ -221,6 +192,76 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                             ),
                                           )
                                         : emptyWidget(),
+                                    showDetailsList && index == indexA
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                  l10n.discount,
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 16),
+                                                ),
+                                                AutoSizeText(
+                                                  "$discount ${l10n.sr}",
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : emptyWidget(),
+                                    showDetailsList && index == indexA
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                  l10n.total,
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 16),
+                                                ),
+                                                AutoSizeText(
+                                                  "$totalPrice ${l10n.sr}",
+                                                  style: TextStyles.inter
+                                                      .copyWith(
+                                                          color:
+                                                              whiteWithOpacity,
+                                                          fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : emptyWidget(),
                                   ],
                                 ));
                           });
@@ -239,6 +280,10 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
                   return child;
                 })));
+  }
+
+  void _refresh() {
+    _reservationBloc.add(GetReservationsEvent(token));
   }
 
   Widget body(Widget? subChild) {

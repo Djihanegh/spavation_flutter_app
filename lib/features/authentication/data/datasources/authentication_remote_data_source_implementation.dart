@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:spavation/core/errors/exceptions.dart';
 import 'package:spavation/core/utils/base_response.dart';
 import 'package:spavation/core/utils/constant.dart';
@@ -12,10 +11,9 @@ import 'package:spavation/features/authentication/domain/entities/create_user_re
 import 'package:spavation/features/authentication/domain/entities/get_user_response.dart';
 import 'package:spavation/features/authentication/domain/entities/login_user_response.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../core/cache/cache.dart';
-import '../../domain/entities/resend_otp_response.dart';
 import '../models/user_model.dart';
+import '../../../../core/errors/api_message_handler.dart';
 
 class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
   AuthRemoteDataSrcImpl(this._client);
@@ -24,11 +22,13 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
 
   @override
   Future<CreateUserResponse> createUser({required UserModel user}) async {
+    http.Response? response;
+
     try {
-      final response = await _client.post(
-          Uri.parse(Endpoints.baseUrl + Endpoints.register),
-          headers: headers,
-          body: user.toJson());
+      response = await _client
+          .post(Uri.parse(Endpoints.baseUrl + Endpoints.register),
+              headers: headers, body: user.toJson())
+          .timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);
@@ -40,19 +40,21 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<LoginUserResponse> loginUser({required UserModel user}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
-          Uri.parse(Endpoints.baseUrl + Endpoints.login),
-          headers: headers,
-          body: UserModel.loginUserModel(user).toJson());
-
-      log(response.body.toString());
+      response = await _client
+          .post(Uri.parse(Endpoints.baseUrl + Endpoints.login),
+              headers: headers, body: UserModel.loginUserModel(user).toJson())
+          .timeout(timeOutDuration);
+      ;
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);
@@ -63,22 +65,25 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       LoginUserResponse result =
           LoginUserResponse.fromJson(jsonDecode(response.body));
 
-      //
       return result;
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<CheckOtpResponse> checkOtp({required String otp}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
-          Uri.parse(Endpoints.baseUrl + Endpoints.checkOtp),
-          headers: headers,
-          body: jsonEncode({'otp': otp}));
+      response = await _client
+          .post(Uri.parse(Endpoints.baseUrl + Endpoints.checkOtp),
+              headers: headers, body: jsonEncode({'otp': otp}))
+          .timeout(timeOutDuration);
+      ;
 
       log(response.body.toString());
 
@@ -96,14 +101,17 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<BaseResponse> resendOtp({required String email}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
+      response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.resendOtp),
           headers: headers,
           body: jsonEncode({'email': email}));
@@ -118,14 +126,17 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<GetUserResponse> getUser({required String token}) async {
+    http.Response? response;
     try {
-      final response = await _client.get(
+      response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.getUser),
         headers: headersWithToken(token),
       );
@@ -140,15 +151,18 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<DataMap> checkOtpForgotPassword(
       {required String otp, required String email}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
+      response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.forgetPasswordCheckOtp),
           headers: headers,
           body: jsonEncode({'email': email, 'otp': otp}));
@@ -163,14 +177,17 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<DataMap> sendOtpForgotPassword({required String email}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
+      response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.forgetPasswordSendOtp),
           headers: headers,
           body: jsonEncode({'email': email}));
@@ -188,15 +205,18 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<DataMap> updatePassword(
       {required String otp, required String email}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
+      response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.updatePassword),
           headers: headers,
           body: jsonEncode({'password': email, 'otp': otp}));
@@ -211,7 +231,9 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 }

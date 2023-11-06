@@ -5,6 +5,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
@@ -46,7 +47,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   List<DateTime> inactiveDates = [];
   List<String> activeDays = [];
   List<int> times = [];
-
 
   int daysInMonth(DateTime date) {
     var firstDayThisMonth = DateTime(date.year, date.month, date.day);
@@ -168,6 +168,8 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                               .contains(day.toLowerCase())) ||
                                       date.day == DateTime.now().day) {
                                     // New date selected
+
+
                                     setState(() {
                                       selectedDate = date;
                                     });
@@ -205,8 +207,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                 for (var i = 0; i < times.length - 1; i++)
                                   GestureDetector(
                                       onTap: () {
-                                        selectedTime =
-                                            '${times[i]} - ${times[i + 1]}';
+                                        selectedTime = getStartAndEndTime(
+                                            times[i], times[i + 1], l10n);
+                                        //'${times[i]} - ${times[i + 1]}';
                                         context.read<ProductBloc>().add(
                                             SelectTime(
                                                 selectedTime,
@@ -215,7 +218,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                       },
                                       child: TimeContainer(
                                         isSelected: selectedTime ==
-                                                '${times[i]} - ${times[i + 1]}'
+                                                getStartAndEndTime(times[i],
+                                                    times[i + 1], l10n)
+                                            // '${times[i]} ${l10n.pm} - ${times[i + 1]}'
                                             ? true
                                             : false,
                                         isDisabled:
@@ -250,6 +255,17 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                     ]);
                   });
             }));
+  }
+
+  String getStartAndEndTime(int startTime, int endTime, var l10n) {
+    String timeA =
+        '${startTime <= 12 ? "$startTime ${l10n.am}" : "$startTime ${l10n.pm}"} ';
+    String timeB =
+        '${endTime <= 12 ? "$endTime ${l10n.am}" : "$endTime ${l10n.pm}"} ';
+
+    String selectedTime = "$timeA - $timeB";
+
+    return selectedTime;
   }
 
   void setDateAndAnimateTo(String operator) {

@@ -17,18 +17,19 @@ class CategoryRemoteDataSrcImpl implements CategoryRemoteDataSource {
   @override
   Future<GetCategoryResponse> getCategory() async {
     try {
-      final response = await _client.get(
-        Uri.parse(Endpoints.baseUrl + Endpoints.categories),
-        headers: headers,
-      );
+      final response = await _client
+          .get(
+            Uri.parse(Endpoints.baseUrl + Endpoints.categories),
+            headers: headers,
+          )
+          .timeout(timeOutDuration);
+      ;
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         GetCategoryResponse result =
             GetCategoryResponse.fromJson(jsonDecode(response.body));
-        throw APIException(
-            message: '', statusCode: response.statusCode);
+        throw APIException(message: '', statusCode: response.statusCode);
       }
-
 
       return GetCategoryResponse.fromJson(jsonDecode(response.body));
     } on APIException {

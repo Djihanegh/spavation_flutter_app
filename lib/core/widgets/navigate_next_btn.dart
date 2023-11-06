@@ -33,10 +33,10 @@ class NavigateNextButton extends StatelessWidget {
                             padding: language.selectedLanguage.value ==
                                     Language.english.value
                                 ? const EdgeInsets.only(
-                                    right: 10,
+                                    right: 20,
                                   )
                                 : const EdgeInsets.only(
-                                    left: 10,
+                                    left: 20,
                                   ),
                             child: Container(
                               height: 20,
@@ -47,7 +47,7 @@ class NavigateNextButton extends StatelessWidget {
                                   child: Icon(
                                 Icons.navigate_next,
                                 color: appPrimaryColor,
-                                size: 20,
+                                size: 40,
 
                                 //  onPressed: () => ,
                               )),

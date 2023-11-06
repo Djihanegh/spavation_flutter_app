@@ -10,6 +10,7 @@ import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
+import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
@@ -111,13 +112,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         selectedProducts.add(e);
 
                                         List<String> times = e.time.split('-');
-                                        log(times[0].toString());
+                                        List<String> startTime =
+                                            times[0].split(' ');
+
+                                        List<String> endTime =
+                                            times[1].split(' ');
+
                                         products.add({
                                           'id': e.id,
                                           'name': e.name,
                                           'date':
                                               "${e.date.day}-${e.date.month}-${e.date.year}",
-                                          'time': times[0],
+                                          'time':
+                                              "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
                                           'image': e.image,
                                           'description': e.description,
                                           'price': e.price,
@@ -440,7 +447,33 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                                   20.heightXBox,
 
-                                  GestureDetector(
+                                  Container(
+                                      width: sw! * 0.95,
+                                      padding: paddingAll(0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: AppButton(
+                                        borderColor: Colors.black,
+                                        title: l10n.pay,
+                                        color: Colors.black,
+                                        textColor: Colors.white,
+                                        onPressed: () {
+                                          context
+                                              .read<ReservationBloc>()
+                                              .add(AddReservationEvent({
+                                                'products': products,
+                                                'status': 'pending',
+                                                'payment_method': paymentMethod,
+                                                'salon_id': widget.salonId,
+                                                'total_tax': totalTaxes,
+                                                'total': '$totalPrice'
+                                              }));
+                                        },
+                                      )),
+
+                                  /* GestureDetector(
                                       onTap: () {
                                         context
                                             .read<ReservationBloc>()
@@ -486,7 +519,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                       color: Colors.white,
                                                       fontSize: 18,
                                                     )),
-                                              ]))),
+                                              ]))),*/
                                   20.heightXBox,
 
                                   ///

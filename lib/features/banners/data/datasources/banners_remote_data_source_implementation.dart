@@ -19,7 +19,7 @@ class BannersRemoteDataSrcImpl implements BannersRemoteDataSource {
       final response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.banners),
         headers: headers,
-      );
+      ).timeout(timeOutDuration);;
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         GetBannersResponse result =

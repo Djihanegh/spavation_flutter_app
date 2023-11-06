@@ -57,6 +57,10 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
     super.initState();
   }
 
+  void _refresh() {
+    _settingsBloc.add(GetUserDetailsEvent(token));
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -100,7 +104,10 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                 child = const UpdateUserInfoLoadingWidget();
               }
               if (state.status == FormzSubmissionStatus.failure) {
-                child = const SalonErrorWidget();
+                child = SalonErrorWidget(
+                  onRefresh: () => _refresh(),
+                  errorMessage: state.errorMessage,
+                );
               }
 
               if (state.customers == {} && user == {}) {

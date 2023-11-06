@@ -67,6 +67,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
     super.initState();
   }
 
+  void _refresh() {
+    _productBloc.add(GetProductsEvent(widget.salonId));
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -97,7 +101,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           subChild = const ProductLoadingWidget();
                         }
                         if (state.status == FormzSubmissionStatus.failure) {
-                          subChild = const SalonErrorWidget();
+                          subChild = SalonErrorWidget(
+                            onRefresh: () => _refresh(),
+                            errorMessage: state.errorMessage,
+                          );
+                          ;
                         }
 
                         if (state.status == FormzSubmissionStatus.success &&

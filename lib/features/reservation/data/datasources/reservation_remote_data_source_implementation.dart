@@ -7,6 +7,7 @@ import 'package:spavation/features/reservation/data/datasources/reservation_remo
 import 'package:spavation/features/reservation/domain/entities/add_reservation_response.dart';
 import 'package:spavation/features/reservation/domain/entities/check_coupon_response.dart';
 import 'package:spavation/features/reservation/domain/entities/get_reservations_response.dart';
+import '../../../../core/errors/api_message_handler.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/base_response.dart';
 import '../../../../core/utils/constant.dart';
@@ -19,11 +20,14 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
 
   @override
   Future<GetReservationsResponse> getReservations({required String id}) async {
+    http.Response? response;
     try {
-      final response = await _client.get(
-        Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
-        headers: headersWithToken(id),
-      );
+      response = await _client
+          .get(
+            Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
+            headers: headersWithToken(id),
+          )
+          .timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -35,18 +39,23 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<CheckCouponResponse> checkCoupon(
       {required String code, required String salonId}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
-        Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
-        headers: headers,
-      );
+      response = await _client
+          .post(
+            Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
+            headers: headers,
+          )
+          .timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         log(response.body.toString());
@@ -59,22 +68,26 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<AddReservationResponse> addReservation({required DataMap data}) async {
+    http.Response? response;
     try {
       String token = Prefs.getString(Prefs.TOKEN) ?? '';
 
-      final response = await _client.post(
-          Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode(data));
+      response = await _client
+          .post(Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
+              headers: {
+                'Authorization': 'Bearer $token',
+                'Content-Type': 'application/json',
+              },
+              body: jsonEncode(data))
+          .timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         log(response.body.toString());
@@ -88,7 +101,9 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 }

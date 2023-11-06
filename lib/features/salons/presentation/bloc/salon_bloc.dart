@@ -71,14 +71,14 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
         (l) => emit(state.copyWith(
             status: FormzSubmissionStatus.failure,
             errorMessage: l.message,
-            action: RequestType.getSalons)),
+            action: RequestType.searchSalons)),
         (r) => emit(state.copyWith(
             filterOptions: state.filterOptions,
             categoryId: state.categoryId,
             applyFilter: state.applyFilter,
             status: FormzSubmissionStatus.success,
             filteredSalons: r.salons,
-            action: RequestType.getSalons,
+            action: RequestType.searchSalons,
             successMessage: '')));
   }
 

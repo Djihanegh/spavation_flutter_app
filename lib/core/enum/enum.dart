@@ -18,6 +18,7 @@ enum RequestType {
   checkOtpForgetPass,
   updatePass,
   getCities,
+  searchSalons,
   unknown,
 
 }

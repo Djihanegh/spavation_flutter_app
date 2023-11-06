@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:spavation/features/products/data/datasources/products_remote_data_source.dart';
 import 'package:spavation/features/products/domain/entities/get_products_response.dart';
 
+import '../../../../core/errors/api_message_handler.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/endpoint.dart';
@@ -15,11 +16,15 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
 
   @override
   Future<GetProductsResponse> getProducts({required String id}) async {
+    http.Response? response;
     try {
-      final response = await _client.get(
-        Uri.parse(Endpoints.baseUrl + Endpoints.products + id),
-        headers: headers,
-      );
+      response = await _client
+          .get(
+            Uri.parse(Endpoints.baseUrl + Endpoints.products + id),
+            headers: headers,
+          )
+          .timeout(timeOutDuration);
+      ;
 
       log(response.body.toString());
 
@@ -33,7 +38,9 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 }

@@ -88,6 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 GestureDetector(
                                     onTap: () {
+                                      Prefs.setString(Prefs.LANGUAGE, 'ar');
                                       context.read<LanguageBloc>().add(
                                             ChangeLanguage(
                                               selectedLanguage:
@@ -121,8 +122,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 10.widthXBox,
                                 GestureDetector(
                                     onTap: () {
+                                      Prefs.setString(Prefs.LANGUAGE, 'en');
                                       context.read<LanguageBloc>().add(
-                                            ChangeLanguage(
+                                          const  ChangeLanguage(
                                               selectedLanguage:
                                                   Language.english,
                                             ),

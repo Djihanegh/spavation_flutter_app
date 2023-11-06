@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
@@ -19,9 +20,10 @@ class TimeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.only(top: 5, bottom: 5),
-      width: 70,
+      //width: 150,
       decoration: BoxDecoration(
           color: isSelected
               ? appPrimaryColor
@@ -40,7 +42,7 @@ class TimeContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AutoSizeText(
-            '$startTime',
+            '${startTime <= 12 ? "$startTime ${l10n.am}" : "$startTime ${l10n.pm}"} ',
             style: TextStyles.inter.copyWith(
                 color: isSelected
                     ? Colors.white
@@ -60,7 +62,7 @@ class TimeContainer extends StatelessWidget {
                 fontWeight: FontWeight.w700),
           ),
           AutoSizeText(
-            '$endTime',
+            ' ${endTime <= 12 ? "$endTime ${l10n.am}" : "$endTime ${l10n.pm}"} ',
             style: TextStyles.inter.copyWith(
                 color: isSelected
                     ? Colors.white

@@ -32,14 +32,14 @@ class CategoryItem extends StatelessWidget {
     return BlocConsumer<SalonBloc, SalonState>(
         listener: (context, state) {},
         listenWhen: (prev, curr) => prev.categoryId != curr.categoryId,
-     //   buildWhen: (prev, curr) => prev.categoryId != curr.categoryId,
+        //   buildWhen: (prev, curr) => prev.categoryId != curr.categoryId,
         builder: (context, state) {
           log(state.categoryId.toString());
           log(int.parse(categoryId).toString());
           return GestureDetector(
               onTap: () {
                 DataMap query =
-                    context.read<SalonBloc>().state.filterOptions ?? {};
+                    Map.of(context.read<SalonBloc>().state.filterOptions ?? {});
                 query['category_id'] = categoryId;
 
                 context.read<SalonBloc>().add(GetSalonsEvent(query));
@@ -55,7 +55,8 @@ class CategoryItem extends StatelessWidget {
                         top: 5,
                       ),
                       decoration: BoxDecoration(
-                          color: state.categoryId == int.parse(categoryId) && state.applyFilter
+                          color: state.categoryId == int.parse(categoryId) &&
+                                  state.applyFilter
                               ? appPrimaryColor.withOpacity(0.5)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(5)),

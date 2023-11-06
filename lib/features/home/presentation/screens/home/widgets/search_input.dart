@@ -42,7 +42,7 @@ class _SearchInputState extends State<SearchInput> {
                 context
                     .read<SalonBloc>()
                     .add(SearchSalonsEvent(controller.text));
-                navigateToPage(const FilterSalonsByTextScreen(), context);
+                navigateToPage( FilterSalonsByTextScreen(text:controller.text), context);
               },
             ),
             contentPadding:

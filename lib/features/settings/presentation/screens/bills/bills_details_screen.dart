@@ -11,6 +11,7 @@ import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/format_date.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
+import '../../../../../core/widgets/navigate_next_btn.dart';
 import '../../../../reservation/data/models/reservation_model.dart';
 
 class BillsDetailsScreen extends StatefulWidget {
@@ -45,21 +46,7 @@ class _BillsDetailsScreenState extends State<BillsDetailsScreen> {
                   height: sh!,
                   color: Colors.white,
                 ),
-                Positioned(
-                    top: (sh! * 0.12),
-                    right: 0,
-                    child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              CustomBackButton(),
-                            ],
-                          )
-                        ])),
+                const NavigateNextButton(),
                 GestureDetector(
                   child: Padding(
                       padding: EdgeInsets.only(top: sh! * 0.1),

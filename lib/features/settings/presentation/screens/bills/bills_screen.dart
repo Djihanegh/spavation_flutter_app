@@ -20,6 +20,10 @@ class BillsScreen extends StatefulWidget {
 }
 
 class _BillsScreenState extends State<BillsScreen> {
+  void _refresh() {
+    // _settingsBloc.add(GetUserDetailsEvent(token));
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -92,7 +96,10 @@ class _BillsScreenState extends State<BillsScreen> {
 
                                   if (state.status ==
                                       FormzSubmissionStatus.failure) {
-                                    subChild = const SalonErrorWidget();
+                                    subChild = SalonErrorWidget(
+                                      onRefresh: () => _refresh(),
+                                      errorMessage: state.errorMessage,
+                                    );
                                   }
 
                                   if (state.status ==

@@ -1,19 +1,15 @@
-/*import 'dart:io';
+import 'dart:io';
 
-import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 
-import 'api_error.dart';
+import 'errors.dart';
 
-mixin HttpHandlerMixin {
-  String catchExceptions(Response? response, error) {
+//mixin HttpHandlerMixin {
+  String catchExceptions(http.Response? response, error) {
     String? msg;
     if (error is Exception) {
       try {
-        //  bool isConnected = await checkInternetConnection();
-        if (error.toString() == "Failed host lookup: 'maps.googleapis.com'") {
-          msg = NoInternetConnexion().toString();
-        }
         if (error is HttpException) {
           switch (response?.statusCode) {
             case 400:
@@ -32,62 +28,62 @@ mixin HttpHandlerMixin {
               msg = Http404().toString();
               break;
             case 405:
-              msg = MethodNotAllowed(response?.error).toString();
+              msg = MethodNotAllowed(response?.body).toString();
               break;
             case 406:
-              msg = NotAcceptable(response?.error).toString();
+              msg = NotAcceptable(response?.body).toString();
               break;
             case 407:
-              msg = ProxyAuthenticationRequired(response?.error).toString();
+              msg = ProxyAuthenticationRequired(response?.body).toString();
               break;
             case 408:
               msg = RequestTimeOut().toString();
               break;
             case 409:
-              msg = Conflict(response?.error).toString();
+              msg = Conflict(response?.body).toString();
               break;
             case 410:
-              msg = Gone(response?.error).toString();
+              msg = Gone(response?.body).toString();
               break;
             case 413:
-              msg = PayloadTooLarge(response?.error).toString();
+              msg = PayloadTooLarge(response?.body).toString();
               break;
             case 429:
-              msg = TooManyRequests(response?.error).toString();
+              msg = TooManyRequests(response?.body).toString();
               break;
             case 500:
-              msg = InternalServerError(response?.error).toString();
+              msg = InternalServerError(response?.body).toString();
               break;
             case 501:
-              msg = NotImplemented(response?.error).toString();
+              msg = NotImplemented(response?.body).toString();
               break;
             case 502:
-              msg = BadGateway(response?.error).toString();
+              msg = BadGateway(response?.body).toString();
               break;
             case 503:
-              msg = ServiceUnavailable(response?.error).toString();
+              msg = ServiceUnavailable(response?.body).toString();
               break;
             case 504:
-              msg = GatewayTimeOut(response?.error).toString();
+              msg = GatewayTimeOut(response?.body).toString();
               break;
             case 505:
-              msg = HttpVersionNotSupported(response?.error).toString();
+              msg = HttpVersionNotSupported(response?.body).toString();
               break;
             case 506:
-              msg = VariantsAlsoNegotiates(response?.error).toString();
+              msg = VariantsAlsoNegotiates(response?.body).toString();
               break;
             case 507:
-              msg = InsufficientStorage(response?.error).toString();
+              msg = InsufficientStorage(response?.body).toString();
               break;
             case 508:
-              msg = LoopDetected(response?.error).toString();
+              msg = LoopDetected(response?.body).toString();
               break;
 
             case 510:
-              msg = NotExtended(response?.error).toString();
+              msg = NotExtended(response?.body).toString();
               break;
             case 511:
-              msg = NetworkAuthRequired(response?.error).toString();
+              msg = NetworkAuthRequired(response?.body).toString();
               break;
           }
         } else if (error is SocketException) {
@@ -96,21 +92,16 @@ mixin HttpHandlerMixin {
           msg = UnexpectedError().toString();
         }
       } on FormatException catch (_) {
-        return FormatException(response?.error).toString();
+        return FormatException(response?.body).toString();
       } on PlatformException catch (_) {
         return UnexpectedError().toString();
       } catch (_) {
         msg = UnexpectedError().toString();
       }
     } else {
-      if (error.toString().contains("is not a subtype of")) {
-        msg = UnexpectedError().toString();
-      } else {
-        msg = UnexpectedError().toString();
-      }
+      msg = UnexpectedError().toString();
     }
 
     return msg ?? "";
   }
-}
-*/
+

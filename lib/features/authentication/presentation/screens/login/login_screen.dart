@@ -8,15 +8,12 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/bloc/authentication_bloc.dart';
-import 'package:spavation/features/authentication/presentation/screens/forgetPassword/forget_password_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../../../app/theme.dart';
 import '../../../../../core/cache/cache.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/validators.dart';
 import '../../../../../core/widgets/app_button.dart';
-import '../../../../home/presentation/screens/home/home.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 import '../otp/otp_screen.dart';
 
@@ -30,9 +27,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneController = TextEditingController();
 
-  // TextEditingController passwordController = TextEditingController();
 
-  String emailValidator = ''; //,  passwordValidator = '';
+  String emailValidator = '';
 
   bool get canLogin => phoneController.text.isNotEmpty;
 

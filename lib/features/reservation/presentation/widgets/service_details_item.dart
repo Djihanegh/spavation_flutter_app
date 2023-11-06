@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spavation/features/localization/presentation/bloc/language_bloc.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
@@ -14,7 +15,7 @@ import '../../../../core/utils/typedef.dart';
 import '../../../../generated/assets.dart';
 import '../../../products/presentation/bloc/product_bloc.dart';
 
-class ServiceDetailsItem extends StatelessWidget {
+class ServiceDetailsItem extends StatefulWidget {
   const ServiceDetailsItem(
       {super.key,
       required this.productName,
@@ -32,6 +33,52 @@ class ServiceDetailsItem extends StatelessWidget {
   final String salonId;
 
   @override
+  State<ServiceDetailsItem> createState() => _ServiceDetailsItemState();
+}
+
+class _ServiceDetailsItemState extends State<ServiceDetailsItem> {
+  String formattedDate = '';
+  String time = '';
+  DateTime? date;
+
+  void getDate() {
+    Future<String> localDate = getLocalDate(date ?? DateTime.now(),
+        context.read<LanguageBloc>().state.selectedLanguage.value.languageCode);
+
+    localDate.then((String result) {
+      setState(() {
+        formattedDate = result;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    Map<String, List<DataMap>>? reservations =
+        context.read<ProductBloc>().state.reservations;
+
+    if (reservations != null) {
+      if (reservations.containsKey(widget.salonId)) {
+        List<DataMap>? data = reservations[widget.salonId];
+        if (data != null) {
+          int index = data.indexWhere(
+              (element) => element['id'] == int.parse(widget.productId));
+
+          if (index != -1) {
+            time = data[index]['time'];
+            date = data[index]['date'];
+          }
+        }
+      }
+    }
+
+    getDate();
+    //formattedDate = getSelectedDate(date ?? DateTime.now(),
+    //  context.read<LanguageBloc>().state.selectedLanguage.value.languageCode);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -39,25 +86,6 @@ class ServiceDetailsItem extends StatelessWidget {
         listener: (context, state) {},
         buildWhen: (prev, curr) => prev.reservations != curr.reservations,
         builder: (context, state) {
-          String time = '';
-          DateTime? date;
-
-          Map<String, List<DataMap>>? reservations = state.reservations;
-
-          if (reservations != null) {
-            if (reservations.containsKey(salonId)) {
-              List<DataMap>? data = reservations[salonId];
-              if (data != null) {
-                int index = data.indexWhere(
-                    (element) => element['id'] == int.parse(productId));
-
-                if (index != -1) {
-                  time = data[index]['time'];
-                  date = data[index]['date'];
-                }
-              }
-            }
-          }
           return Column(
             children: [
               const Divider(
@@ -68,12 +96,12 @@ class ServiceDetailsItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    productName,
+                    widget.productName,
                     style: TextStyles.inter
                         .copyWith(color: purple[1], fontSize: 15),
                   ),
                   AutoSizeText(
-                    '$productPrice ${l10n.sr}',
+                    '${widget.productPrice} ${l10n.sr}',
                     style: TextStyles.inter
                         .copyWith(color: appPrimaryColor, fontSize: 15),
                   )
@@ -89,7 +117,9 @@ class ServiceDetailsItem extends StatelessWidget {
                       SvgPicture.asset(Assets.iconsIonicIosCalendar),
                       5.widthXBox,
                       AutoSizeText(
-                        getSelectedDate(date ?? DateTime.now()),
+                        formattedDate,
+                        // getSelectedDate(
+                        //   date ?? DateTime.now(), l10n.localeName),
                         style: TextStyles.inter
                             .copyWith(color: purple[1], fontSize: 15),
                       )

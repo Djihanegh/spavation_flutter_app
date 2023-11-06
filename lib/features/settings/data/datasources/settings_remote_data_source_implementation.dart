@@ -4,6 +4,7 @@ import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/settings/data/datasources/settings_remote_data_source.dart';
 import 'package:spavation/features/settings/domain/entities/get_user_details_response.dart';
 
+import '../../../../core/errors/api_message_handler.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/base_response.dart';
 import '../../../../core/utils/constant.dart';
@@ -16,11 +17,12 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
 
   @override
   Future<BaseResponse> deleteUser({required String token}) async {
+    http.Response? response;
     try {
-      final response = await _client.delete(
+      response = await _client.delete(
         Uri.parse(Endpoints.baseUrl + Endpoints.customer),
         headers: headersWithToken(token),
-      );
+      ).timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -32,17 +34,20 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<GetUserDetailsResponse> getUserDetails({required String token}) async {
+    http.Response? response;
     try {
-      final response = await _client.get(
+      response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.customer),
         headers: headers,
-      );
+      ).timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -54,18 +59,20 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 
   @override
   Future<BaseResponse> updateUser({required DataMap body}) async {
+    http.Response? response;
     try {
-      final response = await _client.post(
+      response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.customer),
-          headers: headersWithToken(
-              '66|xako7MgGxzKFZfrqA66ma8SE783spNyB9lm4GIiuafe8db24'),
-          body: jsonEncode(body));
+          headers: headers,
+          body: jsonEncode(body)).timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -77,7 +84,9 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      throw APIException(message: e.toString(), statusCode: 505);
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
     }
   }
 }

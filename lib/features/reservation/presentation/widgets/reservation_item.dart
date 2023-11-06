@@ -19,8 +19,21 @@ class ReservationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
+    List<String> times = [];
+    String time = '';
     log(reservation.toString());
+    if (reservation['time'] != null && reservation['time'] != '') {
+      times = reservation['time'].split("-");
+
+      if (times.isNotEmpty) {
+        try {
+          time =
+              '${int.parse(times[0]) <= 12 ? "${times[0]} ${l10n.am}" : "${times[0]}${l10n.pm}"} -${int.parse(times[1]) <= 12 ? "${times[1]} ${l10n.am}" : "${times[1]} ${l10n.pm}"}';
+        } catch (e) {
+          time = 'ERROR';
+        }
+      }
+    }
 
     return Column(
       children: [
@@ -40,8 +53,8 @@ class ReservationItem extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 child: Icon(Icons.error, color: Colors.black))),
                       )
-                    : const SalonErrorWidget()
-                : const SalonErrorWidget(),
+                    : const Icon(Icons.error, color: Colors.black)
+                : const Icon(Icons.error, color: Colors.black),
           ),
           title: AutoSizeText(
             reservation['name'],
@@ -112,7 +125,9 @@ class ReservationItem extends StatelessWidget {
                     fontSize: 16),
               ),
               AutoSizeText(
-                "${reservation['time']} ${int.parse(reservation['time']) <= 12 ? l10n.am : l10n.pm}",
+                time,
+                //"${reservation['time']}"
+                //${int.parse(reservation['time']) <= 12 ? l10n.am : l10n.pm
                 style: TextStyles.inter
                     .copyWith(color: whiteWithOpacity, fontSize: 14),
               ),

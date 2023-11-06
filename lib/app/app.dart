@@ -17,7 +17,7 @@ class SpavationApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String language = Prefs.getString(Prefs.LANGUAGE) ?? '';
+    String language = Prefs.getString(Prefs.LANGUAGE) ?? '';;
     log('LANGUAGE');
     log(language);
     String token = Prefs.getString(Prefs.TOKEN) ?? '';
@@ -25,27 +25,39 @@ class SpavationApp extends StatelessWidget {
     log(token);
     return BlocProvider(
         create: (context) => LanguageBloc(),
-        child:
-            BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
-          return MaterialApp(
-              supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              locale: language == 'en'
-                  ? Language.english.value
-                  : Language.arabic.value,
-              theme: ThemeData(
-                useMaterial3: true,
-              ),
-              home: Directionality(
-                  textDirection: language.isNotEmpty
-                      ? language == 'en'
-                          ? TextDirection.ltr
-                          : TextDirection.rtl
-                      : TextDirection.ltr,
-                  /*  state.selectedLanguage.value == Language.english.value
+        child: BlocListener<LanguageBloc, LanguageState>(
+            listener: (context, state) {
+              reloadPrefs();
+              language = Prefs.getString(Prefs.LANGUAGE) ?? '';
+            },
+            listenWhen: (prev, curr) =>
+                prev.selectedLanguage != curr.selectedLanguage,
+            child: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+              return MaterialApp(
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  locale: language == 'en'
+                      ? Language.english.value
+                      : Language.arabic.value,
+                  theme: ThemeData(
+                    useMaterial3: true,
+                  ),
+                  home: Directionality(
+                      textDirection: language.isNotEmpty
+                          ? language == 'en'
+                              ? TextDirection.ltr
+                              : TextDirection.rtl
+                          : TextDirection.rtl,
+                      /*  state.selectedLanguage.value == Language.english.value
                           ? TextDirection.ltr
                           : TextDirection.rtl,*/ // set this property
-                  child: const SplashScreen()));
-        }));
+                      child: const SplashScreen()));
+            })));
+  }
+
+  void reloadPrefs() async {
+    await Prefs.load();
   }
 }

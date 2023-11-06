@@ -13,13 +13,18 @@ import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/widgets/custom_back_button.dart';
+import '../../../cities/data/models/cities_model.dart';
+import '../../../cities/presentation/bloc/cities_bloc.dart';
 import '../bloc/salon_bloc.dart';
 import 'widgets/salon_item.dart';
 
 class FilterSalonsByTextScreen extends StatefulWidget {
   const FilterSalonsByTextScreen({
     super.key,
+    required this.text,
   });
+
+  final String text;
 
   @override
   State<FilterSalonsByTextScreen> createState() =>
@@ -40,6 +45,10 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
 
   void _getCurrentPosition() async {
     currentPosition = await Location().determinePosition();
+  }
+
+  void _refresh() {
+    _salonBloc.add(SearchSalonsEvent(widget.text));
   }
 
   @override
@@ -76,61 +85,81 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
                         Widget? child;
 
                         if (state.status == FormzSubmissionStatus.failure) {
-                          child = const SalonErrorWidget();
-                        }
-
-                        if (state.status == FormzSubmissionStatus.initial ||
+                          child = SalonErrorWidget(
+                            onRefresh: () => _refresh(),
+                            errorMessage: state.errorMessage,
+                          );
+                        } else if (state.status ==
+                                FormzSubmissionStatus.initial ||
                             state.status == FormzSubmissionStatus.inProgress ||
                             currentPosition == null) {
                           child = const Center(
                               child: LoadingWidget(
                             color: appPrimaryColor,
                           ));
-                        }
+                        } else if (state.filteredSalons != null &&
+                            state.filteredSalons != []) {
+                          child = ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 0),
+                              itemCount: state.filteredSalons?.length,
+                              itemBuilder: (context, index) {
+                                SalonModel? salon =
+                                    state.filteredSalons?[index];
 
-                        if (state.filteredSalons != null &&
-                            state.status != FormzSubmissionStatus.inProgress) {
-                          if (state.filteredSalons!.isNotEmpty &&
-                              currentPosition != null) {
-                            child = ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 0),
-                                itemCount: state.filteredSalons?.length,
-                                itemBuilder: (context, index) {
-                                  SalonModel? salon =
-                                      state.filteredSalons?[index];
+                                double distanceInMeters = 0.0;
 
-                                  double distanceInMeters = 0.0;
+                                if (currentPosition == null ||
+                                    currentPosition?.latitude == 0.0 &&
+                                        currentPosition?.longitude == 0.0) {
+                                  int cityId = state.cityId;
+                                  List<CitiesModel> cities =
+                                      context.read<CityBloc>().state.cities ??
+                                          [];
+                                  if (cities != null) {
+                                    CitiesModel? selectedCity =
+                                        cities.firstWhere(
+                                            (element) => element.id == cityId);
+                                    if (selectedCity != null) {
+                                      distanceInMeters =
+                                          Geolocator.distanceBetween(
+                                              double.parse(salon!.latitude),
+                                              double.parse(salon.longitude),
+                                              double.parse(
+                                                  selectedCity.latitude),
+                                              double.parse(
+                                                  selectedCity.longitude));
+                                      distanceInMeters =
+                                          distanceInMeters / 1000;
+                                    }
+                                  }
+                                } else {
                                   distanceInMeters = Geolocator.distanceBetween(
                                       double.parse(salon!.latitude),
                                       double.parse(salon.longitude),
                                       currentPosition!.latitude,
                                       currentPosition!.longitude);
                                   distanceInMeters = distanceInMeters / 1000;
-                                  return SalonItem(
-                                    taxRate: salon.taxRate,
-                                    taxNumber: salon.taxNumber,
-                                    salonId: "${salon.id}",
-                                    title: salon.name,
-                                    subtitle: salon.description,
-                                    rate: salon.rate,
-                                    distance: '$distanceInMeters',
-                                    image: salon.image,
-                                    isForFemale: salon.isForFemale,
-                                    isForMale: salon.isForMale,
-                                  );
-                                });
-                          } else {
-                            child = Center(child: Text(l10n.noSalonFound));
-                          }
+                                }
+
+                                return SalonItem(
+                                  taxRate: salon!.taxRate,
+                                  taxNumber: salon.taxNumber,
+                                  salonId: "${salon.id}",
+                                  title: salon.name,
+                                  subtitle: salon.description,
+                                  rate: salon.rate,
+                                  distance: '$distanceInMeters',
+                                  image: salon.image,
+                                  isForFemale: salon.isForFemale,
+                                  isForMale: salon.isForMale,
+                                );
+                              });
                         } else {
-                          child = const Center(
-                              child: LoadingWidget(
-                            color: appPrimaryColor,
-                          ));
+                          child = Center(child: Text(l10n.noSalonFound));
                         }
 
                         return child;
