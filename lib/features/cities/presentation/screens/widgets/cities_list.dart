@@ -38,8 +38,8 @@ class _CitiesListState extends State<CitiesList> {
   Widget build(BuildContext context) {
     return BlocConsumer<LanguageBloc, LanguageState>(
         listener: (context, language) {},
-     //   buildWhen: (prev, curr) =>
-       //     prev.selectedLanguage != curr.selectedLanguage,
+        //   buildWhen: (prev, curr) =>
+        //     prev.selectedLanguage != curr.selectedLanguage,
         builder: (context, language) {
           return BlocConsumer<CityBloc, CityState>(
               listener: (context, state) {
@@ -59,7 +59,6 @@ class _CitiesListState extends State<CitiesList> {
                 }
               },
               buildWhen: (prev, curr) => prev.cities != curr.cities,
-            //  listenWhen: (prev, curr) => prev.cities != curr.cities,
               builder: (context, state) {
                 DataMap query =
                     context.read<SalonBloc>().state.filterOptions ?? {};
@@ -69,7 +68,6 @@ class _CitiesListState extends State<CitiesList> {
                       color: Colors.transparent,
                     ),
                     padding: const EdgeInsets.only(left: 10),
-                    width: sw! / 2,
                     child: DropdownButton<String>(
                       alignment: Alignment.centerLeft,
                       value: dropdownValue,

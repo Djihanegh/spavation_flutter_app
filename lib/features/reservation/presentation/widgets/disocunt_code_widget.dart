@@ -38,16 +38,11 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
             if (state.status == FormzSubmissionStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);
-
-              setState(() {
-                codeStatus = false;
-              });
             }
 
             if (state.status == FormzSubmissionStatus.success) {
-              setState(() {
-                codeStatus = true;
-              });
+              openSnackBar(
+                  context, state.successMessage, AnimatedSnackBarType.success);
             }
           }
         },
@@ -82,7 +77,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                             textColor: Colors.white,
                             onPressed: () => checkCoupon())),
                   ))),
-              codeStatus != null
+              /* codeStatus != null
                   ? codeStatus!
                       ? AutoSizeText(
                           state.successMessage,
@@ -96,17 +91,24 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                               .copyWith(color: red[0], fontSize: 15),
                           textAlign: TextAlign.start,
                         )
-                  : emptyWidget()
+                  : emptyWidget()*/
             ],
           );
         });
   }
 
   void checkCoupon() {
-    if (widget.salonId.isNotEmpty && discountController.text.isNotEmpty) {
-      context
-          .read<ReservationBloc>()
-          .add(CheckCouponEvent(widget.salonId, discountController.text));
+    if (widget.salonId.isNotEmpty) {
+      if (discountController.text.isNotEmpty) {
+        context
+            .read<ReservationBloc>()
+            .add(CheckCouponEvent(widget.salonId, discountController.text));
+      } else {
+        setState(() {
+          openSnackBar(context, "coupon code shouldn't be empty",
+              AnimatedSnackBarType.warning);
+        });
+      }
     }
   }
 }
