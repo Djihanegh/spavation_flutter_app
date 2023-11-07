@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'dart:developer';
-
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:spavation/features/reservation/presentation/bloc/reservation_blo
 import 'package:spavation/features/reservation/presentation/widgets/disocunt_code_widget.dart';
 import 'package:spavation/features/reservation/presentation/widgets/service_details_item.dart';
 import 'package:spavation/generated/assets.dart';
-
 import '../../../../app/theme.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
@@ -51,8 +49,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
   List<DataMap> products = [];
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
@@ -89,7 +94,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           builder: (context, reservationState) {
                             double totalPrice = 0.0;
                             String totalTaxes = '0';
-                            double discount = 10.0;
+                            log(reservationState.discount);
+                            double discount = 0.0;
+                            try {
+                              discount =
+                                  double.parse(reservationState.discount);
+                            } catch (e) {
+                              log(e.toString());
+                            }
+
                             Map<String, List<DataMap>>? reservations =
                                 productState.reservations;
                             for (ProductModel e

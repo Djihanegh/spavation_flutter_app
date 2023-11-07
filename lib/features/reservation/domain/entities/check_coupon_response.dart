@@ -10,10 +10,10 @@ class CheckCouponResponse extends BaseResponse {
   CheckCouponResponse({
     required super.message,
     required super.status,
-    required this.coupon,
+    required this.copoun,
   });
 
-  final CouponModel coupon;
+  final CouponModel copoun;
 
   factory CheckCouponResponse.fromJson(DataMap json) =>
       _$CheckCouponResponseFromJson(json);

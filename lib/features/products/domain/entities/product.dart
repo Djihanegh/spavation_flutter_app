@@ -5,6 +5,7 @@ class Product extends Equatable {
       {required this.id,
       required this.image,
       required this.name,
+      required this.nameAr,
       required this.createdAt,
       required this.updatedAt,
       required this.status,
@@ -23,6 +24,7 @@ class Product extends Equatable {
   final int id;
   final String image;
   final String name;
+  final String nameAr;
   final String createdAt;
   final String updatedAt;
   final String status;
@@ -43,6 +45,7 @@ class Product extends Equatable {
         id,
         image,
         name,
+        nameAr,
         createdAt,
         updatedAt,
         status,

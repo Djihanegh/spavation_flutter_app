@@ -63,11 +63,8 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                       child: CustomTextFormField(
                     hintText: l10n.discountCode,
                     controller: discountController,
-                    onSaved: () {
-                      context
-                          .read<ReservationBloc>()
-                          .add(CheckCouponEvent('', discountController.text));
-                    },
+                    onSaved: (e) {},
+                    onChanged: (e) {},
                     padding: 0,
                     suffixIcon: SizedBox(
                         width: 100,
@@ -78,21 +75,6 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                             textColor: Colors.white,
                             onPressed: () => checkCoupon())),
                   ))),
-              /* codeStatus != null
-                  ? codeStatus!
-                      ? AutoSizeText(
-                          state.successMessage,
-                          style: TextStyles.inter
-                              .copyWith(color: Colors.white, fontSize: 15),
-                          textAlign: TextAlign.start,
-                        )
-                      : AutoSizeText(
-                          state.errorMessage,
-                          style: TextStyles.inter
-                              .copyWith(color: red[0], fontSize: 15),
-                          textAlign: TextAlign.start,
-                        )
-                  : emptyWidget()*/
             ],
           );
         });

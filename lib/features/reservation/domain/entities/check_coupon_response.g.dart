@@ -10,7 +10,7 @@ CheckCouponResponse _$CheckCouponResponseFromJson(Map<String, dynamic> json) =>
     CheckCouponResponse(
       message: json['message'] as String,
       status: json['status'] as bool,
-      coupon: CouponModel.fromJson(json['coupon'] as Map<String, dynamic>),
+      copoun: CouponModel.fromJson(json['copoun'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CheckCouponResponseToJson(
@@ -18,5 +18,5 @@ Map<String, dynamic> _$CheckCouponResponseToJson(
     <String, dynamic>{
       'message': instance.message,
       'status': instance.status,
-      'coupon': instance.coupon,
+      'copoun': instance.copoun,
     };

@@ -8,6 +8,7 @@ class Category extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.status,
+    required this.nameAr
   });
 
   final int id;
@@ -16,7 +17,8 @@ class Category extends Equatable {
   final String createdAt;
   final String updatedAt;
   final String status;
+  final String nameAr;
 
   @override
-  List<Object?> get props => [id, image, name, updatedAt, createdAt, status];
+  List<Object?> get props => [id, image, name, updatedAt, createdAt, status, nameAr];
 }

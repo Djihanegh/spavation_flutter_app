@@ -51,14 +51,13 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     http.Response? response;
     try {
       response = await _client
-          .post(
-            Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
-            headers: headers,
-          )
+          .post(Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
+              headers: headers,
+              body: jsonEncode({"code": code, "salon_id": salonId}))
           .timeout(timeOutDuration);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        log(response.body.toString());
+       log(response.body.toString());
         BaseResponse result = BaseResponse.fromJson(response.body);
         throw APIException(
             message: result.message, statusCode: response.statusCode);
@@ -68,6 +67,7 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw APIException(
           message: catchExceptions(response, e),
           statusCode: response != null ? response.statusCode : 505);

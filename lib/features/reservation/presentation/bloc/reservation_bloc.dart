@@ -26,11 +26,18 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     on<GetReservationsEvent>(_getReservationsHandler);
     on<CheckCouponEvent>(_onCheckCoupon);
     on<AddReservationEvent>(_addReservation);
+    on<InitializeDiscount>(_onInitializeDiscount);
   }
 
   final GetReservationsUseCase _getReservationsUseCase;
   final CheckCouponUseCase _checkCouponUseCase;
   final AddReservationUseCase _addReservationUseCase;
+
+  Future<void> _onInitializeDiscount(
+      InitializeDiscount event, Emitter<ReservationState> emit) async {
+    emit(state.copyWith(discount: "0.0", status: FormzSubmissionStatus.canceled));
+    emit(state.copyWith(discount: "0.0", status: FormzSubmissionStatus.initial));
+  }
 
   Future<void> _addReservation(
       AddReservationEvent event, Emitter<ReservationState> emit) async {
@@ -66,6 +73,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
             errorMessage: l.message,
             action: RequestType.checkCoupon)),
         (r) => emit(state.copyWith(
+            discount: r.copoun.discount,
             status: FormzSubmissionStatus.success,
             successMessage: r.message,
             action: RequestType.checkCoupon)));

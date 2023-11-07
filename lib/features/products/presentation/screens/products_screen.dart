@@ -23,6 +23,7 @@ import '../../../../core/widgets/custom_back_button.dart';
 import '../../../../generated/assets.dart';
 import '../../../localization/domain/entities/language.dart';
 import '../../../localization/presentation/bloc/language_bloc.dart';
+import '../../../reservation/presentation/bloc/reservation_bloc.dart';
 import '../../../reservation/presentation/screens/payment_screen.dart';
 import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
 import '../bloc/product_bloc.dart';
@@ -64,6 +65,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   void initState() {
     _productBloc = BlocProvider.of(context);
     _productBloc.add(GetProductsEvent(widget.salonId));
+    context.read<ReservationBloc>().add(const InitializeDiscount());
     super.initState();
   }
 

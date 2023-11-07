@@ -6,6 +6,7 @@ final class ReservationState extends Equatable {
       this.errorMessage = '',
       this.successMessage = '',
       this.reservations,
+      this.discount = '',
       this.action = RequestType.unknown});
 
   final FormzSubmissionStatus status;
@@ -14,14 +15,17 @@ final class ReservationState extends Equatable {
   final String successMessage;
   final List<ReservationModel>? reservations;
   final RequestType action;
+  final String discount;
 
   ReservationState copyWith(
       {FormzSubmissionStatus? status,
       String? errorMessage,
       String? successMessage,
       List<ReservationModel>? reservations,
-      RequestType? action}) {
+      RequestType? action,
+      String? discount}) {
     return ReservationState(
+        discount: discount ?? this.discount,
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         successMessage: successMessage ?? this.successMessage,
@@ -31,5 +35,5 @@ final class ReservationState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [status, errorMessage, successMessage, reservations, action];
+      [status, errorMessage, successMessage, reservations, action, discount];
 }

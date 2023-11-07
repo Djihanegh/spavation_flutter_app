@@ -23,6 +23,13 @@ class CheckCouponEvent extends ReservationEvent {
   List<Object?> get props => [salonId, code];
 }
 
+class InitializeDiscount extends ReservationEvent {
+  const InitializeDiscount();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class AddReservationEvent extends ReservationEvent {
   const AddReservationEvent(this.data);
 

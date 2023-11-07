@@ -277,7 +277,7 @@ class UnexpectedError implements Exception {
   UnexpectedError();
   @override
   String toString() {
-    return "oops... the servers are under maintenance at the moment, Please come back later!";
+    return "oops... Unexpected error occurred !";
   }
 }
 

@@ -10,6 +10,7 @@ class CategoryModel extends Category {
       required super.name,
       required super.createdAt,
       required super.updatedAt,
+      required super.nameAr,
       required super.status});
 
   factory CategoryModel.fromJson(DataMap source) =>
@@ -18,6 +19,7 @@ class CategoryModel extends Category {
   CategoryModel.fromMap(DataMap map)
       : this(
             name: map['name'] as String,
+            nameAr: map['name_ar'] as String,
             id: map['id'] as int,
             image: map['image'] as String,
             updatedAt: map['updated_at'] as String,
@@ -26,6 +28,7 @@ class CategoryModel extends Category {
 
   DataMap toMap() => {
         'name': name,
+        'name_ar': nameAr,
         'image': image,
         'id': id,
         'updated_at': updatedAt,

@@ -14,7 +14,7 @@ class Coupon extends Equatable {
   final int id;
   final String code;
   final String discount;
-  final DateTime expireDate;
+  final String expireDate;
   final String salonId;
   final String status;
   final String createdAt;

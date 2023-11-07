@@ -15,6 +15,7 @@ class ProductModel extends Product {
       required super.status,
       required super.price,
       required super.salonId,
+      required super.nameAr,
       required super.categoryId,
       required super.description,
       required super.timeFrom,
@@ -43,6 +44,7 @@ class ProductModel extends Product {
       description: '',
       timeFrom: '',
       timeTo: '',
+      nameAr: '',
       dateFrom: '',
       dateTo: '',
       discount: '',
@@ -53,6 +55,7 @@ class ProductModel extends Product {
       : this(
             id: json["id"],
             name: json["name"],
+            nameAr: json['name_ar'],
             image: json["image"],
             price: json["price"],
             status: json["status"],
@@ -86,6 +89,7 @@ class ProductModel extends Product {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "time": time,
+        "name_ar": nameAr,
         "date": date
       };
 

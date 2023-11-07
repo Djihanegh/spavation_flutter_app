@@ -51,6 +51,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         itemCount: state.data?.length ?? 0,
                         itemBuilder: (context, index) => CategoryItem(
+                            nameAr: state.data?[index].nameAr ?? '',
                             lat: widget.lat,
                             long: widget.long,
                             categoryId: "${state.data?[index].id}",
