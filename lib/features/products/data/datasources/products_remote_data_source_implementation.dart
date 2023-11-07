@@ -24,7 +24,6 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
             headers: headers,
           )
           .timeout(timeOutDuration);
-      ;
 
       log(response.body.toString());
 
@@ -38,6 +37,7 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw APIException(
           message: catchExceptions(response, e),
           statusCode: response != null ? response.statusCode : 505);

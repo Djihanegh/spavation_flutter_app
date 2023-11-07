@@ -79,7 +79,10 @@ class _ProductItemState extends State<ProductItem> {
                                     left: sw! * 0.025, top: 20, bottom: 0)
                                 : EdgeInsets.only(
                                     right: sw! * 0.038, top: 20, bottom: 0),
-                            child: AutoSizeText(widget.product.name,
+                            child: AutoSizeText(
+                                l10n.localeName == 'en'
+                                    ? widget.product.name
+                                    : widget.product.nameAr,
                                 style: TextStyles.inter
                                     .copyWith(color: red[2], fontSize: 15))),
                         Padding(

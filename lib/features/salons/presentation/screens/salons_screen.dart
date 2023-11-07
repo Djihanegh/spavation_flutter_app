@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:spavation/core/enum/enum.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
@@ -57,9 +56,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
         buildWhen: (prev, curr) =>
             prev.status != curr.status || curr.applyFilter != prev.applyFilter,
         builder: (context, state) {
-          log(widget.lat.toString());
-          log(widget.long.toString());
-          Widget? child;
+             Widget? child;
 
           if (state.status == FormzSubmissionStatus.failure) {
             child = SalonErrorWidget(

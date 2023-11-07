@@ -26,19 +26,6 @@ showDateTimeDialog({
                     child: DateTimeWidget(
                       product: product,
                     )));
-          }) /*.then((value) async {
-    // Check if the value returned from showDialog is null
-    if (value == null) {
-      if (context.read<ProductBloc>().state.selectedTime != null &&
-          context.read<ProductBloc>().state.selectedDate != null) {
-        context.read<ProductBloc>().add(SelectProduct(product));
-      }
-      print('Dialog closed by tapping outside');
-    } else {
-      // If value is not null, it means that the dialog was closed with a value
-      // Print the value for debugging purposes
-      print('Dialog closed with value: $value');
-    }
-  });*/
+          })
       ;
 }

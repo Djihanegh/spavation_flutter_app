@@ -154,7 +154,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                               height: 100,
                               width: sw! * 0.5,
                               child: DatePicker(
-                                dateFrom,
+                                DateTime.now(),
                                 controller: _pickerController,
                                 initialSelectedDate:
                                     selectedDate ?? DateTime.now(),

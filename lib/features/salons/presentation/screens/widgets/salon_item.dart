@@ -33,8 +33,8 @@ class SalonItem extends StatelessWidget {
 
   final String title;
   final String subtitle;
-  final String isForFemale;
-  final String isForMale;
+  final bool isForFemale;
+  final bool isForMale;
   final String rate;
   final String distance;
   final String image;

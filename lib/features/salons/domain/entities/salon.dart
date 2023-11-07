@@ -47,15 +47,15 @@ class Salon extends Equatable {
   final String openDay;
   final String closeDay;
   final String userId;
-  final String isForMale;
-  final String isForFemale;
+  final bool isForMale;
+  final bool isForFemale;
   final String isDiscount;
   final String rate;
   final String discount;
   final String taxNumber;
   final String taxRate;
   final String city;
-  final String categoryId;
+  final int categoryId;
   double distance;
 
   @override

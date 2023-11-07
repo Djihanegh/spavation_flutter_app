@@ -55,7 +55,7 @@ class ProductModel extends Product {
       : this(
             id: json["id"],
             name: json["name"],
-            nameAr: json['name_ar'],
+            nameAr: json['name_ar'] ?? "",
             image: json["image"],
             price: json["price"],
             status: json["status"],

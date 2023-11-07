@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
@@ -50,7 +51,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -90,7 +90,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           },
                           listenWhen: (prev, curr) =>
                               prev.status != curr.status,
-                          buildWhen: (prev, curr) => prev.status != curr.status,
+                          //   buildWhen: (prev, curr) => prev.status != curr.status,
                           builder: (context, reservationState) {
                             double totalPrice = 0.0;
                             String totalTaxes = '0';
@@ -107,43 +107,47 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 productState.reservations;
                             for (ProductModel e
                                 in productState.selectedProducts ?? []) {
-                              totalPrice = totalPrice + double.parse(e.price);
+                              if (widget.salonId == e.salonId) {
+                                totalPrice = totalPrice + double.parse(e.price);
 
-                              if (reservations != null) {
-                                if (reservations.containsKey(e.salonId)) {
-                                  List<DataMap>? data = reservations[e.salonId];
-                                  if (data != null) {
-                                    int index = data.indexWhere(
-                                        (element) => element['id'] == e.id);
+                                if (reservations != null) {
+                                  if (reservations.containsKey(e.salonId)) {
+                                    List<DataMap>? data =
+                                        reservations[e.salonId];
+                                    if (data != null) {
+                                      int index = data.indexWhere(
+                                          (element) => element['id'] == e.id);
 
-                                    if (index != -1) {
-                                      e.setTime(data[index]['time']);
-                                      if (data[index]['date'] != null) {
-                                        e.setDate(data[index]['date']);
-                                      }
+                                      if (index != -1) {
+                                        e.setTime(data[index]['time']);
+                                        if (data[index]['date'] != null) {
+                                          e.setDate(data[index]['date']);
+                                        }
 
-                                      if (!selectedProducts.contains(e)) {
-                                        selectedProducts.add(e);
+                                        if (!selectedProducts.contains(e)) {
+                                          selectedProducts.add(e);
 
-                                        List<String> times = e.time.split('-');
-                                        List<String> startTime =
-                                            times[0].split(' ');
+                                          List<String> times =
+                                              e.time.split('-');
+                                          List<String> startTime =
+                                              times[0].split(' ');
 
-                                        List<String> endTime =
-                                            times[1].split(' ');
+                                          List<String> endTime =
+                                              times[1].split(' ');
 
-                                        products.add({
-                                          'id': e.id,
-                                          'name': e.name,
-                                          'date':
-                                              "${e.date.day}-${e.date.month}-${e.date.year}",
-                                          'time':
-                                              "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
-                                          'image': e.image,
-                                          'description': e.description,
-                                          'price': e.price,
-                                          'status': e.status
-                                        });
+                                          products.add({
+                                            'id': e.id,
+                                            'name': e.name,
+                                            'date':
+                                                "${e.date.day}-${e.date.month}-${e.date.year}",
+                                            'time':
+                                                "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
+                                            'image': e.image,
+                                            'description': e.description,
+                                            'price': e.price,
+                                            'status': e.status
+                                          });
+                                        }
                                       }
                                     }
                                   }
@@ -218,16 +222,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         for (ProductModel product
                                             in productState.selectedProducts ??
                                                 [])
-                                          ServiceDetailsItem(
-                                              productId: "${product.id}",
-                                              salonId: product.salonId,
-                                              productName: product.name,
-                                              productPrice: product.price,
-                                              selectedDate:
-                                                  productState.selectedDate!,
-                                              selectedTime:
-                                                  productState.selectedTime ??
+                                          widget.salonId == product.salonId
+                                              ? ServiceDetailsItem(
+                                                  productId: "${product.id}",
+                                                  salonId: product.salonId,
+                                                  productName: product.name,
+                                                  productPrice: product.price,
+                                                  selectedDate: productState
+                                                      .selectedDate!,
+                                                  selectedTime: productState
+                                                          .selectedTime ??
                                                       '')
+                                              : emptyWidget()
                                       ],
                                     ),
                                   ),
