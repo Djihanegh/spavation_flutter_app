@@ -1,9 +1,11 @@
 part of 'authentication_bloc.dart';
 
+enum AuthenticationStatus { initial, inProgress, failure, success }
+
 final class AuthenticationState extends Equatable {
   const AuthenticationState(
       {this.action = RequestType.unknown,
-      this.status = FormzSubmissionStatus.initial,
+      this.status = AuthenticationStatus.initial,
       this.name = '',
       this.phone = '',
       this.email = '',
@@ -17,7 +19,7 @@ final class AuthenticationState extends Equatable {
       this.user,
       this.userAddress});
 
-  final FormzSubmissionStatus status;
+  final AuthenticationStatus status;
   final String name;
   final String phone;
   final String email;
@@ -33,7 +35,7 @@ final class AuthenticationState extends Equatable {
   final Map<String, dynamic>? userAddress;
 
   AuthenticationState copyWith(
-      {FormzSubmissionStatus? status,
+      {AuthenticationStatus? status,
       String? name,
       String? phone,
       String? email,
