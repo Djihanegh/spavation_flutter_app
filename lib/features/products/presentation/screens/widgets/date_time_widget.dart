@@ -82,7 +82,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                 prev.reservations != curr.reservations,
             builder: (context, state) {
               return Column(mainAxisSize: MainAxisSize.min, children: [
-                CancelIcon(),
+                const CancelIcon(),
                 AutoSizeText(
                   l10n.date,
                   style: TextStyles.inter
@@ -201,9 +201,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   }
 
   void _onStateListenHandler({required ProductState state}) {
-    if (state is GetProductTimesLoadDataSuccessState) {
+    if (state.timeIntervals != null ) {
       setState(() {
-        timeIntervals = state.timeIntervals;
+        timeIntervals = state.timeIntervals ?? [];
       });
     }
   }

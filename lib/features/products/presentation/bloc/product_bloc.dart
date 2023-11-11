@@ -5,6 +5,7 @@ import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:spavation/features/products/domain/usecases/get_product_times_usecase.dart';
 import 'package:spavation/features/products/domain/usecases/get_products.dart';
 
+import '../../../../core/enum/enum.dart';
 import '../../../../core/utils/typedef.dart';
 
 part 'product_event.dart';
@@ -35,11 +36,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     final result =
         await _getProductTimesUseCase({"id": event.id, "date": event.date});
 
-    result.fold(
-        (l) => emit
-            .call(GetProductTimesLoadDataFailureState(errorMessage: l.message)),
-        (r) => emit.call(GetProductTimesLoadDataSuccessState(
-            timeIntervals: r.timeIntervals ?? [])));
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message, status: ProductStatus.failure)),
+        (r) => emit(state.copyWith(timeIntervals: r.timeIntervals ?? [], status: ProductStatus.success)));
   }
 
   void _onRemoveReservation(
@@ -169,20 +167,22 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       products.add(event.product);
     }
     emit(state.copyWith(
-        selectedProducts: products, status: ProductStatus.success));
+      selectedProducts: products,
+      status: ProductStatus.success,
+    ));
   }
 
   Future<void> _getProductsHandler(
       GetProductsEvent event, Emitter<ProductState> emit) async {
-    emit.call(GetProductsInProgressState());
+    emit(state.copyWith(status: ProductStatus.inProgress));
     await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _getProductsUseCase(event.salonId);
 
     result.fold(
-        (l) =>
-            emit.call(GetProductsLoadDataFailureState(errorMessage: l.message)),
-        (r) =>
-            emit.call(GetProductsLoadDataSuccessState(data: r.products ?? [])));
+        (l) => emit(state.copyWith(
+            errorMessage: l.message, status: ProductStatus.failure)),
+        (r) => emit(state.copyWith(
+            data: r.products ?? [], status: ProductStatus.success)));
   }
 }

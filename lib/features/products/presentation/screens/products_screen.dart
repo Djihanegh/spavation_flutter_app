@@ -40,12 +40,11 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   late ProductBloc _productBloc;
-  int totalPrice = 0, totalTaxes = 0;
-  bool isNotEmpty = false;
 
   @override
   void initState() {
     _productBloc = BlocProvider.of(context);
+    _productBloc.add(const RemoveReservation());
     _productBloc.add(GetProductsEvent(widget.salonId));
     context.read<ReservationBloc>().add(const InitializeDiscount());
     super.initState();
@@ -72,32 +71,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
-                  totalPrice = 0;
 
                   child = body(subChild);
 
-                  if (state is GetProductsInProgressState) {
+                  if (state.status == ProductStatus.inProgress ||
+                      state.status == ProductStatus.initial) {
                     subChild = const ProductLoadingWidget();
                   }
-
-                  if (state is GetProductsLoadDataFailureState) {
+                  if (state.status == ProductStatus.failure) {
                     subChild = CustomErrorWidget(
                       onRefresh: () => _refresh(),
                       errorMessage: state.errorMessage,
                     );
                   }
 
-                  if (state is GetProductsLoadDataSuccessState) {
-                    if (state.data == []) {
+                  if (state.status == ProductStatus.success) {
+                    if (state.data == [] || state.data == null) {
                       subChild = const ProductsEmptyWidget();
-                    }
-                  }
-
-                  if (state is GetProductsLoadDataSuccessState) {
-                    if (state.data.isNotEmpty) {
+                    } else {
                       ///// NEED TO BE REFACTORED
                       subChild = ProductsView(
-                        reservations: state.reservations ?? {},
                         name: widget.name,
                         description: widget.description,
                         image: widget.image,
@@ -107,11 +100,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         isForMale: widget.isForMale,
                         isForFemale: widget.isForFemale,
                         distance: widget.distance,
-                        data: state.data,
-                        selectedProducts: state.selectedProducts ?? [],
                       );
-                    } else {
-                      subChild = const ProductsEmptyWidget();
                     }
                   }
 

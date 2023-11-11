@@ -1,9 +1,9 @@
 part of 'product_bloc.dart';
 
 enum ProductStatus { initial, inProgress, failure, success, unknown }
-/*final class ProductState extends Equatable {
+final class ProductState extends Equatable {
   const ProductState(
-      {this.status = FormzSubmissionStatus.initial,
+      {this.status = ProductStatus.initial,
       this.errorMessage = '',
       this.successMessage = '',
       this.data,
@@ -14,7 +14,7 @@ enum ProductStatus { initial, inProgress, failure, success, unknown }
       this.timeIntervals,
       this.action = RequestType.unknown});
 
-  final FormzSubmissionStatus status;
+  final ProductStatus status;
   final String errorMessage;
   final String successMessage;
   final List<ProductModel>? data;
@@ -26,7 +26,7 @@ enum ProductStatus { initial, inProgress, failure, success, unknown }
   final RequestType action;
 
   ProductState copyWith(
-      {FormzSubmissionStatus? status,
+      {ProductStatus? status,
       String? errorMessage,
       String? successMessage,
       List<ProductModel>? data,
@@ -63,14 +63,15 @@ enum ProductStatus { initial, inProgress, failure, success, unknown }
         action
       ];
 }
-*/
 
-class ProductState extends Equatable {
+
+/*class ProductState extends Equatable {
   const ProductState(
       {this.selectedProducts,
       this.selectedDate,
       this.selectedTime,
       this.reservations,
+      this.data,
       this.status = ProductStatus.initial});
 
   final List<ProductModel>? selectedProducts;
@@ -78,6 +79,7 @@ class ProductState extends Equatable {
   final String? selectedTime;
   final Map<String, List<DataMap>>? reservations;
   final ProductStatus status;
+  final List<ProductModel>? data;
 
   ProductState copyWith({
     List<ProductModel>? selectedProducts,
@@ -85,12 +87,14 @@ class ProductState extends Equatable {
     String? selectedTime,
     Map<String, List<DataMap>>? reservations,
     ProductStatus? status,
+    List<ProductModel>? data,
   }) {
     return ProductState(
         selectedProducts: selectedProducts ?? this.selectedProducts,
         selectedDate: selectedDate ?? this.selectedDate,
         selectedTime: selectedTime ?? this.selectedTime,
         reservations: reservations ?? this.reservations,
+        data: data ?? this.data,
         status: status ?? this.status);
   }
 
@@ -101,6 +105,7 @@ class ProductState extends Equatable {
         selectedDate,
         selectedTime,
         reservations,
+        data
       ];
 }
 
@@ -110,16 +115,15 @@ class GetProductsInitialState extends ProductState {}
 class GetProductsInProgressState extends ProductState {}
 
 class GetProductsLoadDataSuccessState extends ProductState {
-  final List<ProductModel> data;
+  final List<ProductModel> products;
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [products];
 
   const GetProductsLoadDataSuccessState({
-    required this.data,
+    required this.products,
   });
 }
-
 
 class GetProductsLoadDataFailureState extends ProductState {
   final String errorMessage;
@@ -157,4 +161,4 @@ class GetProductTimesLoadDataFailureState extends ProductState {
   const GetProductTimesLoadDataFailureState({
     required this.errorMessage,
   });
-}
+} */

@@ -37,6 +37,8 @@ class TimeContainer extends StatelessWidget {
                       : appPrimaryColor)),
       child: AutoSizeText(
         time,
+        textDirection:
+            l10n.localeName == 'en' ? TextDirection.ltr : TextDirection.rtl,
         style: TextStyles.inter.copyWith(
             color: isSelected
                 ? Colors.white
