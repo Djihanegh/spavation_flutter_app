@@ -3,7 +3,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
@@ -39,11 +38,11 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state.action == RequestType.updatePass) {
-                if (state.status == FormzSubmissionStatus.success) {
+                if (state.status == AuthenticationStatus.success) {
                   openSnackBar(context, state.successMessage,
                       AnimatedSnackBarType.success);
                   navigateToPage(const AuthenticationScreen(), context);
-                } else if (state.status == FormzSubmissionStatus.failure) {
+                } else if (state.status == AuthenticationStatus.failure) {
                   openSnackBar(
                       context, state.errorMessage, AnimatedSnackBarType.error);
                 }
@@ -110,7 +109,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                                 left: 20, right: 20),
                                             child: AppButton(
                                                 isLoading: state.status ==
-                                                    FormzSubmissionStatus.inProgress
+                                                    AuthenticationStatus.inProgress
                                                     ? true
                                                     : false,
                                                 title: l10n.send,

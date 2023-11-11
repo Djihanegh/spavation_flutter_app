@@ -2,7 +2,6 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state.action == RequestType.loginUser) {
-            if (state.status == FormzSubmissionStatus.failure) {
+            if (state.status == AuthenticationStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);
 
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             }
 
-            if (state.status == FormzSubmissionStatus.success &&
+            if (state.status == AuthenticationStatus.success &&
                 state.action == RequestType.loginUser) {
               saveUserData(state.name);
               navigateToPage(
@@ -160,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
               20.heightXBox,
               AppButton(
                 isLoading: state.status ==
-                    FormzSubmissionStatus.inProgress
+                    AuthenticationStatus.inProgress
                     ? true
                     : false,
                 title: l10n.login,

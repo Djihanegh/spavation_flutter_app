@@ -5,7 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/constant.dart';
@@ -73,7 +72,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           listener: (context, state) {
                             if (state.action == RequestType.addReservation) {
                               if (state.status ==
-                                  FormzSubmissionStatus.success) {
+                                  ReservationStatus.success) {
                                 context
                                     .read<ProductBloc>()
                                     .add(const RemoveReservation());
@@ -82,7 +81,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 navigateAndRemoveUntil(
                                     const HomeScreen(), context, false);
                               } else if (state.status ==
-                                  FormzSubmissionStatus.failure) {
+                                  ReservationStatus.failure) {
                                 openSnackBar(context, state.errorMessage,
                                     AnimatedSnackBarType.error);
                               }
@@ -507,7 +506,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       ),
                                       child: AppButton(
                                         isLoading: reservationState.status ==
-                                                FormzSubmissionStatus.inProgress
+                                                ReservationStatus.inProgress
                                             ? true
                                             : false,
                                         borderColor: Colors.black,

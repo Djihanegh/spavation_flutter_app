@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
@@ -62,13 +61,13 @@ class _SalonsScreenState extends State<SalonsScreen> {
               builder: (context, state) {
                 Widget? child;
 
-                if (state.status == FormzSubmissionStatus.failure) {
+                if (state.status == SalonsStatus.failure) {
                   child = CustomErrorWidget(
                     onRefresh: () => _refresh(),
                     errorMessage: state.errorMessage,
                   );
-                } else if (state.status == FormzSubmissionStatus.initial ||
-                    state.status == FormzSubmissionStatus.inProgress) {
+                } else if (state.status == SalonsStatus.initial ||
+                    state.status == SalonsStatus.inProgress) {
                   child = const SalonShimmer();
                 } else if (state.salons != null) {
                   if (state.salons!.isNotEmpty) {

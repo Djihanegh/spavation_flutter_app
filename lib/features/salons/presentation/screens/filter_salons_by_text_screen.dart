@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
@@ -90,15 +88,15 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
                               Widget? child;
 
                               if (state.status ==
-                                  FormzSubmissionStatus.failure) {
+                                  SalonsStatus.failure) {
                                 child = CustomErrorWidget(
                                   onRefresh: () => _refresh(),
                                   errorMessage: state.errorMessage,
                                 );
                               } else if (state.status ==
-                                      FormzSubmissionStatus.initial ||
+                                      SalonsStatus.initial ||
                                   state.status ==
-                                      FormzSubmissionStatus.inProgress ||
+                                      SalonsStatus.inProgress ||
                                   currentPosition == null) {
                                 child = const Center(
                                     child: LoadingWidget(

@@ -2,7 +2,6 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
@@ -55,12 +54,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state.action == RequestType.createUser) {
-            if (state.status == FormzSubmissionStatus.failure) {
+            if (state.status == AuthenticationStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);
             }
 
-            if (state.status == FormzSubmissionStatus.success) {
+            if (state.status == AuthenticationStatus.success) {
               openSnackBar(context, 'User Successfully created !',
                   AnimatedSnackBarType.success);
 
@@ -292,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               20.heightXBox,
               AppButton(
                 isLoading: state.status ==
-                    FormzSubmissionStatus.inProgress
+                    AuthenticationStatus.inProgress
                     ? true
                     : false,
                 title: l10n.register,

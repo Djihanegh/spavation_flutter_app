@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../core/widgets/navigate_next_btn.dart';
 import '../../../../reservation/presentation/bloc/reservation_bloc.dart';
@@ -95,7 +94,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                   // child = subChild;
 
                                   if (state.status ==
-                                      FormzSubmissionStatus.failure) {
+                                      ReservationStatus.failure) {
                                     subChild = CustomErrorWidget(
                                       onRefresh: () => _refresh(),
                                       errorMessage: state.errorMessage,
@@ -103,9 +102,9 @@ class _BillsScreenState extends State<BillsScreen> {
                                   }
 
                                   if (state.status ==
-                                          FormzSubmissionStatus.initial ||
+                                          ReservationStatus.initial ||
                                       state.status ==
-                                          FormzSubmissionStatus.inProgress) {
+                                          ReservationStatus.inProgress) {
                                     subChild = const LoadingWidget();
                                   }
 

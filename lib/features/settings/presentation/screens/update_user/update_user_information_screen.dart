@@ -1,10 +1,8 @@
-import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
@@ -83,12 +81,12 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
               }
 
               if (state.action == RequestType.updateUser) {
-                if (state.status == FormzSubmissionStatus.success) {
+                if (state.status == SettingsStatus.success) {
                   openSnackBar(context, state.successMessage,
                       AnimatedSnackBarType.success);
                 }
 
-                if (state.status == FormzSubmissionStatus.failure) {
+                if (state.status == SettingsStatus.failure) {
                   openSnackBar(
                       context, state.errorMessage, AnimatedSnackBarType.error);
                 }
@@ -99,11 +97,11 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
             builder: (context, state) {
               Widget? child;
 
-              if (state.status == FormzSubmissionStatus.inProgress ||
-                  state.status == FormzSubmissionStatus.initial) {
+              if (state.status == SettingsStatus.inProgress ||
+                  state.status == SettingsStatus.initial) {
                 child = const UpdateUserInfoLoadingWidget();
               }
-              if (state.status == FormzSubmissionStatus.failure) {
+              if (state.status == SettingsStatus.failure) {
                 child = CustomErrorWidget(
                   onRefresh: () => _refresh(),
                   errorMessage: state.errorMessage,
@@ -302,7 +300,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                       10.heightXBox,
                       AppButton(
                         isLoading: state.status ==
-                            FormzSubmissionStatus.inProgress
+                            SettingsStatus.inProgress
                             ? true
                             : false,
                         title: l10n.update,

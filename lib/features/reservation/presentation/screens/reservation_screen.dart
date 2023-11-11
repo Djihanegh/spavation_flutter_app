@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
@@ -56,15 +55,15 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
                   child = body(subChild);
 
-                  if (state.status == FormzSubmissionStatus.failure) {
+                  if (state.status == ReservationStatus.failure) {
                     subChild = CustomErrorWidget(
                       onRefresh: () => _refresh(),
                       errorMessage: state.errorMessage,
                     );
                   }
 
-                  if (state.status == FormzSubmissionStatus.initial ||
-                      state.status == FormzSubmissionStatus.inProgress) {
+                  if (state.status == ReservationStatus.initial ||
+                      state.status == ReservationStatus.inProgress) {
                     subChild = const LoadingWidget();
                   }
 

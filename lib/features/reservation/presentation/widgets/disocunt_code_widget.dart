@@ -1,15 +1,11 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
-import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../app/theme.dart';
-import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
@@ -35,12 +31,12 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
     return BlocConsumer<ReservationBloc, ReservationState>(
         listener: (context, state) {
           if (state.action == RequestType.checkCoupon) {
-            if (state.status == FormzSubmissionStatus.failure) {
+            if (state.status == ReservationStatus.failure) {
               openSnackBar(
                   context, state.errorMessage, AnimatedSnackBarType.error);
             }
 
-            if (state.status == FormzSubmissionStatus.success) {
+            if (state.status == ReservationStatus.success) {
               openSnackBar(
                   context, state.successMessage, AnimatedSnackBarType.success);
             }

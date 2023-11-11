@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/features/localization/domain/entities/language.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/size_config.dart';
-import '../../../../../core/widgets/custom_back_button.dart';
 import '../../../../../core/widgets/navigate_next_btn.dart';
 import '../../../../localization/presentation/bloc/language_bloc.dart';
 import 'widgets/delete_account_dialog.dart';
@@ -51,7 +49,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   child: BlocConsumer<SettingsBloc, SettingsState>(
                       listener: (context, state) {
-                        if (state.status == FormzSubmissionStatus.success &&
+                        if (state.status == SettingsStatus.success &&
                             state.action == RequestType.deleteUser) {
                           cancel();
                           clearUserData();

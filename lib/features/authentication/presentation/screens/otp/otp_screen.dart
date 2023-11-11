@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
@@ -81,28 +80,28 @@ class _OtpScreenState extends State<OtpScreen> {
             listener: (context, state) {
               if ((state.action == RequestType.resendOtp ||
                       state.action == RequestType.checkOtp) &&
-                  state.status == FormzSubmissionStatus.success) {
+                  state.status == AuthenticationStatus.success) {
                 openSnackBar(context, state.successMessage,
                     AnimatedSnackBarType.success);
                 if (state.action == RequestType.checkOtp &&
-                    state.status == FormzSubmissionStatus.success) {
+                    state.status == AuthenticationStatus.success) {
                   navigateAndRemoveUntil(const Home(), context, false);
                 }
               }
 
               if ((state.action == RequestType.resendOtp ||
                       state.action == RequestType.checkOtp) &&
-                  state.status == FormzSubmissionStatus.failure) {
+                  state.status == AuthenticationStatus.failure) {
                 openSnackBar(
                     context, state.errorMessage, AnimatedSnackBarType.error);
               }
 
               if (state.action == RequestType.checkOtpForgetPass) {
-                if (state.status == FormzSubmissionStatus.success) {
+                if (state.status == AuthenticationStatus.success) {
                   openSnackBar(context, state.successMessage,
                       AnimatedSnackBarType.success);
                   navigateToPage(UpdatePasswordScreen(otp: otp), context);
-                } else if (state.status == FormzSubmissionStatus.failure) {
+                } else if (state.status == AuthenticationStatus.failure) {
                   openSnackBar(
                       context, state.errorMessage, AnimatedSnackBarType.error);
                 }
@@ -210,7 +209,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                                 left: 20, right: 20),
                                             child: AppButton(
                                                 isLoading: state.status ==
-                                                    FormzSubmissionStatus.inProgress
+                                                    AuthenticationStatus.inProgress
                                                     ? true
                                                     : false,
                                                 title: l10n.verify,
