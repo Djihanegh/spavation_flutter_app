@@ -35,14 +35,14 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
   Future<void> _onInitializeDiscount(
       InitializeDiscount event, Emitter<ReservationState> emit) async {
-    emit(state.copyWith(discount: "0.0", status: FormzSubmissionStatus.canceled));
-    emit(state.copyWith(discount: "0.0", status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(discount: "0.0", status: ReservationStatus.canceled));
+    emit(state.copyWith(discount: "0.0", status: ReservationStatus.initial));
   }
 
   Future<void> _addReservation(
       AddReservationEvent event, Emitter<ReservationState> emit) async {
     emit(state.copyWith(
-        status: FormzSubmissionStatus.inProgress,
+        status: ReservationStatus.inProgress,
         action: RequestType.addReservation));
     await Future.delayed(const Duration(seconds: 3));
 
@@ -50,18 +50,18 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
+            status: ReservationStatus.failure,
             errorMessage: l.message,
             action: RequestType.addReservation)),
         (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
+            status: ReservationStatus.success,
             successMessage: r.message,
             action: RequestType.addReservation)));
   }
 
   Future<void> _onCheckCoupon(
       CheckCouponEvent event, Emitter<ReservationState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(status: ReservationStatus.inProgress));
     await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _checkCouponUseCase(
@@ -69,30 +69,30 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
+            status: ReservationStatus.failure,
             errorMessage: l.message,
             action: RequestType.checkCoupon)),
         (r) => emit(state.copyWith(
             discount: r.copoun.discount,
-            status: FormzSubmissionStatus.success,
+            status: ReservationStatus.success,
             successMessage: r.message,
             action: RequestType.checkCoupon)));
   }
 
   Future<void> _getReservationsHandler(
       GetReservationsEvent event, Emitter<ReservationState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(status: ReservationStatus.inProgress));
     await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _getReservationsUseCase(event.id);
 
     result.fold(
         (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
+              status: ReservationStatus.failure,
               errorMessage: l.message,
             )),
         (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
+            status: ReservationStatus.success,
             reservations: r.data,
             successMessage: r.message)));
   }

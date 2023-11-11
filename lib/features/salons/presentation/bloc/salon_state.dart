@@ -1,8 +1,10 @@
 part of 'salon_bloc.dart';
 
+enum SalonsStatus { initial, inProgress, failure, success }
+
 final class SalonState extends Equatable {
   const SalonState(
-      {this.status = FormzSubmissionStatus.initial,
+      {this.status = SalonsStatus.initial,
       this.errorMessage = '',
       this.successMessage = '',
       this.salons,
@@ -13,7 +15,7 @@ final class SalonState extends Equatable {
       this.action = RequestType.unknown,
       this.applyFilter = false});
 
-  final FormzSubmissionStatus status;
+  final SalonsStatus status;
 
   final String errorMessage;
   final String successMessage;
@@ -26,7 +28,7 @@ final class SalonState extends Equatable {
   final int cityId;
 
   SalonState copyWith(
-      {FormzSubmissionStatus? status,
+      {SalonsStatus? status,
       String? errorMessage,
       String? successMessage,
       List<SalonModel>? salons,

@@ -1,15 +1,17 @@
 part of 'reservation_bloc.dart';
 
+enum ReservationStatus { initial, inProgress, failure, success, canceled }
+
 final class ReservationState extends Equatable {
   const ReservationState(
-      {this.status = FormzSubmissionStatus.initial,
+      {this.status = ReservationStatus.initial,
       this.errorMessage = '',
       this.successMessage = '',
       this.reservations,
       this.discount = '',
       this.action = RequestType.unknown});
 
-  final FormzSubmissionStatus status;
+  final ReservationStatus status;
 
   final String errorMessage;
   final String successMessage;
@@ -18,7 +20,7 @@ final class ReservationState extends Equatable {
   final String discount;
 
   ReservationState copyWith(
-      {FormzSubmissionStatus? status,
+      {ReservationStatus? status,
       String? errorMessage,
       String? successMessage,
       List<ReservationModel>? reservations,

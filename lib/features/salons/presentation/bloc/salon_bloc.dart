@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/features/salons/domain/usecases/get_salons.dart';
@@ -31,7 +30,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
       SelectFilterOptions event, Emitter<SalonState> emit) async {
     int categoryId = state.categoryId;
     emit(state.copyWith(
-        status: FormzSubmissionStatus.inProgress, filteredSalons: null));
+        status: SalonsStatus.inProgress, filteredSalons: null));
 
     DataMap options = state.filterOptions ?? {};
 
@@ -54,7 +53,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
     emit(state.copyWith(
       categoryId: categoryId,
-      status: FormzSubmissionStatus.success,
+      status: SalonsStatus.success,
       filterOptions: options,
     ));
   }
@@ -62,21 +61,21 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
   Future<void> _onSearchSalons(
       SearchSalonsEvent event, Emitter<SalonState> emit) async {
     emit(state.copyWith(
-        status: FormzSubmissionStatus.inProgress, filteredSalons: null));
+        status: SalonsStatus.inProgress, filteredSalons: null));
     await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _searchSalonsUseCase(event.text);
 
     result.fold(
         (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
+            status: SalonsStatus.failure,
             errorMessage: l.message,
             action: RequestType.searchSalons)),
         (r) => emit(state.copyWith(
             filterOptions: state.filterOptions,
             categoryId: state.categoryId,
             applyFilter: state.applyFilter,
-            status: FormzSubmissionStatus.success,
+            status: SalonsStatus.success,
             filteredSalons: r.salons,
             action: RequestType.searchSalons,
             successMessage: '')));
@@ -84,7 +83,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
   Future<void> _getSalonsHandler(
       GetSalonsEvent event, Emitter<SalonState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(status: SalonsStatus.inProgress));
     await Future.delayed(const Duration(milliseconds: 50));
 
     int categoryId = state.categoryId;
@@ -106,14 +105,14 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
+            status: SalonsStatus.failure,
             errorMessage: l.message,
             action: RequestType.getSalons)),
         (r) => emit(state.copyWith(
             filterOptions: queryParams,
             categoryId: categoryId,
             applyFilter: applyFilter,
-            status: FormzSubmissionStatus.success,
+            status: SalonsStatus.success,
             salons: r.salons,
             action: RequestType.getSalons,
             successMessage: '')));

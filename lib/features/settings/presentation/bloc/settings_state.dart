@@ -1,21 +1,23 @@
 part of 'settings_bloc.dart';
 
+enum SettingsStatus { initial, inProgress, failure, success }
+
 final class SettingsState extends Equatable {
   const SettingsState(
-      {this.status = FormzSubmissionStatus.initial,
+      {this.status = SettingsStatus.initial,
       this.errorMessage = '',
       this.successMessage = '',
       this.customers,
       this.action = RequestType.unknown});
 
-  final FormzSubmissionStatus status;
+  final SettingsStatus status;
   final String errorMessage;
   final String successMessage;
   final DataMap? customers;
   final RequestType action;
 
   SettingsState copyWith({
-    FormzSubmissionStatus? status,
+    SettingsStatus? status,
     String? errorMessage,
     String? successMessage,
     DataMap? customers,

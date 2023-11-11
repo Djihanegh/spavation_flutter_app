@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/settings/domain/usecases/delete_user.dart';
@@ -34,7 +33,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _updateUserHandler(
       UpdateUserEvent event, Emitter<SettingsState> emit) async {
     emit(state.copyWith(
-        status: FormzSubmissionStatus.inProgress,
+        status: SettingsStatus.inProgress,
         customers: {},
         action: RequestType.updateUser));
     await Future.delayed(const Duration(seconds: 2));
@@ -44,49 +43,49 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     result.fold(
         (l) => emit(state.copyWith(
             customers: {},
-            status: FormzSubmissionStatus.failure,
+            status: SettingsStatus.failure,
             errorMessage: l.message,
             action: RequestType.updateUser)),
         (r) => emit(state.copyWith(
             customers: {},
             action: RequestType.updateUser,
-            status: FormzSubmissionStatus.success,
+            status: SettingsStatus.success,
             successMessage: r.message)));
   }
 
   Future<void> _deleteUserHandler(
       DeleteUserEvent event, Emitter<SettingsState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(status: SettingsStatus.inProgress));
     await Future.delayed(const Duration(seconds: 2));
 
     final result = await _deleteUserUseCase(event.token);
 
     result.fold(
         (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
+            status: SettingsStatus.failure,
             errorMessage: l.message,
             action: RequestType.deleteUser)),
         (r) => emit(state.copyWith(
             action: RequestType.deleteUser,
-            status: FormzSubmissionStatus.success,
+            status: SettingsStatus.success,
             successMessage: r.message)));
   }
 
   Future<void> _getUserHandler(
       GetUserDetailsEvent event, Emitter<SettingsState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit(state.copyWith(status: SettingsStatus.inProgress));
     await Future.delayed(const Duration(seconds: 1));
 
     final result = await _getUserDetailsUseCase(event.token);
 
     result.fold(
         (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
+              status: SettingsStatus.failure,
               errorMessage: l.message,
               action: RequestType.getUserDetails,
             )),
         (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
+            status: SettingsStatus.success,
             action: RequestType.getUserDetails,
             customers: r.Customers,
             successMessage: r.message)));
