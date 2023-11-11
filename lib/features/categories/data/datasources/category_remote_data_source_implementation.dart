@@ -22,7 +22,7 @@ class CategoryRemoteDataSrcImpl implements CategoryRemoteDataSource {
             Uri.parse(Endpoints.baseUrl + Endpoints.categories),
             headers: headers,
           )
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
       ;
 
       if (response.statusCode != 200 && response.statusCode != 201) {

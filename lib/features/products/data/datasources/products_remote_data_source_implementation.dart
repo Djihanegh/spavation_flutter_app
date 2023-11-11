@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:spavation/features/products/data/datasources/products_remote_data_source.dart';
+import 'package:spavation/features/products/domain/entities/get_product_times_response.dart';
 import 'package:spavation/features/products/domain/entities/get_products_response.dart';
 
 import '../../../../core/errors/api_message_handler.dart';
@@ -23,13 +24,9 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
             Uri.parse(Endpoints.baseUrl + Endpoints.products + id),
             headers: headers,
           )
-          .timeout(timeOutDuration);
-
-      log(response.body.toString());
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        GetProductsResponse result =
-            GetProductsResponse.fromJson(jsonDecode(response.body));
         throw APIException(message: '', statusCode: response.statusCode);
       }
 
@@ -37,7 +34,35 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
     } on APIException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      throw APIException(
+          message: catchExceptions(response, e),
+          statusCode: response != null ? response.statusCode : 505);
+    }
+  }
+
+  @override
+  Future<GetProductTimesResponse> getProductTimes(
+      {required String date, required int id}) async {
+    http.Response? response;
+    try {
+      response = await _client
+          .get(
+            Uri.parse(
+                "${Endpoints.baseUrl}${Endpoints.productTimes}$id/$date"),
+            headers: headers,
+          )
+          .timeout(Endpoints.connectionTimeout);
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw APIException(message: '', statusCode: response.statusCode);
+      }
+
+      log(response.body.toString());
+
+      return GetProductTimesResponse.fromJson(jsonDecode(response.body));
+    } on APIException {
+      rethrow;
+    } catch (e) {
       throw APIException(
           message: catchExceptions(response, e),
           statusCode: response != null ? response.statusCode : 505);

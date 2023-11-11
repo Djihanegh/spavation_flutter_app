@@ -18,7 +18,7 @@ class CitiesRemoteDataSrcImpl implements CitiesRemoteDataSource {
       final response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.cities),
         headers: headers,
-      ).timeout(timeOutDuration);;
+      ).timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(message: '', statusCode: response.statusCode);

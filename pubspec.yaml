@@ -111,8 +111,8 @@ flutter:
   fonts:
     - family: 'Tahoma'
       fonts:
-        - asset: lib/core/utils/fonts/tahoma/Tahoma Regular font.ttf
-        - asset: lib/core/utils/fonts/tahoma/TAHOMAB0.ttf
+        - asset: assets/fonts/tahoma/TahomaRegularfont.ttf
+        - asset: assets/fonts/tahoma/TAHOMAB0.ttf
           weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

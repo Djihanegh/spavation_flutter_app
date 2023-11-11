@@ -6,24 +6,22 @@ import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
 
 class TimeContainer extends StatelessWidget {
-  const TimeContainer(
-      {super.key,
-      required this.isDisabled,
-      required this.isSelected,
-      required this.startTime,
-      required this.endTime});
+  const TimeContainer({
+    super.key,
+    required this.isDisabled,
+    required this.isSelected,
+    required this.time,
+  });
 
   final bool isDisabled;
   final bool isSelected;
-  final int startTime;
-  final int endTime;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
-      //width: 150,
+      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
       decoration: BoxDecoration(
           color: isSelected
               ? appPrimaryColor
@@ -37,41 +35,15 @@ class TimeContainer extends StatelessWidget {
                   : isDisabled
                       ? appPrimaryColor.withOpacity(0.3)
                       : appPrimaryColor)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          AutoSizeText(
-            '${startTime <= 12 ? "$startTime ${l10n.am}" : "$startTime ${l10n.pm}"} ',
-            style: TextStyles.inter.copyWith(
-                color: isSelected
-                    ? Colors.white
-                    : isDisabled
-                        ? appPrimaryColor.withOpacity(0.3)
-                        : appPrimaryColor,
-                fontWeight: FontWeight.w700),
-          ),
-          AutoSizeText(
-            '-',
-            style: TextStyles.inter.copyWith(
-                color: isSelected
-                    ? Colors.white
-                    : isDisabled
-                        ? appPrimaryColor.withOpacity(0.3)
-                        : appPrimaryColor,
-                fontWeight: FontWeight.w700),
-          ),
-          AutoSizeText(
-            ' ${endTime <= 12 ? "$endTime ${l10n.am}" : "$endTime ${l10n.pm}"} ',
-            style: TextStyles.inter.copyWith(
-                color: isSelected
-                    ? Colors.white
-                    : isDisabled
-                        ? appPrimaryColor.withOpacity(0.3)
-                        : appPrimaryColor,
-                fontWeight: FontWeight.w700),
-          )
-        ],
+      child: AutoSizeText(
+        time,
+        style: TextStyles.inter.copyWith(
+            color: isSelected
+                ? Colors.white
+                : isDisabled
+                    ? appPrimaryColor.withOpacity(0.3)
+                    : appPrimaryColor,
+            fontWeight: FontWeight.w700),
       ),
     );
   }

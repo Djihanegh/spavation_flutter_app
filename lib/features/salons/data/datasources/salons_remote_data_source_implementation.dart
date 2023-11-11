@@ -56,7 +56,7 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
             uri,
             headers: headers,
           )
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(message: '', statusCode: response.statusCode);
@@ -90,7 +90,7 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
             Uri.parse(Endpoints.baseUrl + Endpoints.searchSalons + name),
             headers: headers,
           )
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(message: '', statusCode: response.statusCode);

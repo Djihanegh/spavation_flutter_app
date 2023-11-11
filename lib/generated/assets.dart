@@ -35,5 +35,8 @@ class Assets {
   static const String imagesSpa = 'assets/images/spa.png';
   static const String imagesSpa2 = 'assets/images/spa2.png';
   static const String imagesYellowStar = 'assets/images/yellow-star.png';
+  static const String tahomaTAHOMA0 = 'assets/fonts/tahoma/TAHOMA_0.TTF';
+  static const String tahomaTAHOMAB0 = 'assets/fonts/tahoma/TAHOMAB0.TTF';
+  static const String tahomaTAHOMABD = 'assets/fonts/tahoma/TAHOMABD.TTF';
 
 }

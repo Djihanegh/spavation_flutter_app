@@ -140,8 +140,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             'name': e.name,
                                             'date':
                                                 "${e.date.day}-${e.date.month}-${e.date.year}",
-                                            'time':
-                                                "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
+                                            'time': e.time,
+                                            //  "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
                                             'image': e.image,
                                             'description': e.description,
                                             'price': e.price,
@@ -154,6 +154,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 }
                               }
                             }
+                            log(products.toString());
+
                             totalTaxes = ((totalPrice / 1.15) - totalPrice)
                                 .abs()
                                 .toStringAsFixed(2);
@@ -514,6 +516,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         textColor: Colors.white,
                                         onPressed: () {
                                           setState(() {
+                                            log(widget.salonId.toString());
                                             context
                                                 .read<ReservationBloc>()
                                                 .add(AddReservationEvent({

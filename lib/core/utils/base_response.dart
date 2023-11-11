@@ -12,8 +12,6 @@ class BaseResponse {
     return BaseResponse.fromMap(jsonDecode(json) as DataMap);
   }
 
-
-
   BaseResponse.fromMap(DataMap map)
       : this(
           message: map['message'] as String,

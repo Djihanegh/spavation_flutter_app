@@ -27,7 +27,7 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
             Uri.parse(Endpoints.baseUrl + Endpoints.reservations),
             headers: headersWithToken(id),
           )
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -54,7 +54,7 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
           .post(Uri.parse(Endpoints.baseUrl + Endpoints.coupon),
               headers: headers,
               body: jsonEncode({"code": code, "salon_id": salonId}))
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
        log(response.body.toString());
@@ -87,7 +87,7 @@ class ReservationsRemoteDataSrcImpl implements ReservationsRemoteDataSource {
                 'Content-Type': 'application/json',
               },
               body: jsonEncode(data))
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         log(response.body.toString());

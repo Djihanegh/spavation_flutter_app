@@ -140,11 +140,11 @@ class SalonItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 50.widthXBox,
-                                isForFemale == '1'
+                                isForFemale == true
                                     ? Image.asset(Assets.iconsAwesomeFemale)
                                     : emptyWidget(),
                                 5.widthXBox,
-                                isForMale == '1'
+                                isForMale == true
                                     ? Image.asset(Assets.iconsAwesomeMale)
                                     : emptyWidget(),
                               ],

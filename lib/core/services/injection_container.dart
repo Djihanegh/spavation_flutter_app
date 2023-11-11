@@ -59,6 +59,7 @@ import 'package:spavation/features/settings/domain/usecases/update_user.dart';
 import 'package:spavation/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../features/cities/presentation/bloc/cities_bloc.dart';
+import '../../features/products/domain/usecases/get_product_times_usecase.dart';
 import '../../features/reservation/data/datasources/reservation_remote_data_source_implementation.dart';
 import '../../features/reservation/data/repositories/reservation_repository_implementation.dart';
 
@@ -83,9 +84,10 @@ Future<void> init() async {
     ..registerFactory(() => CityBloc(
           getCitiesUseCase: sl(),
         ))
+    ..registerFactory(
+        () => SalonBloc(getSalonsUseCase: sl(), searchSalonsUseCase: sl()))
     ..registerFactory(() =>
-        SalonBloc(getSalonsUseCase: sl(), searchSalonsUseCase: sl()))
-    ..registerFactory(() => ProductBloc(getProductsUseCase: sl()))
+        ProductBloc(getProductsUseCase: sl(), getProductTimesUseCase: sl()))
     ..registerFactory(() => SettingsBloc(
         getUserDetailsUseCase: sl(),
         deleteUserUseCase: sl(),
@@ -116,6 +118,7 @@ Future<void> init() async {
     ..registerLazySingleton(() => SendOtpForgetPasswordUseCase(sl()))
     ..registerLazySingleton(() => SearchSalonsUseCase(sl()))
     ..registerLazySingleton(() => GetCitiesUseCase(sl()))
+    ..registerLazySingleton(() => GetProductTimesUseCase(sl()))
 
     // Repositories
     ..registerLazySingleton<AuthenticationRepository>(

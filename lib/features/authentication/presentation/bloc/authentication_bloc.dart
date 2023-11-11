@@ -182,7 +182,6 @@ class AuthenticationBloc
         (r) => emit(state.copyWith(
             action: RequestType.resendOtp,
             status: FormzSubmissionStatus.success,
-            //  otp: '${r.otp}',
             successMessage: r.message)));
   }
 
@@ -299,7 +298,7 @@ class AuthenticationBloc
               action: RequestType.loginUser,
               gender: state.gender,
               status: FormzSubmissionStatus.success,
-            //  token: r.token,
+              //  token: r.token,
               email: r.email,
               name: r.name,
               successMessage: r.message,

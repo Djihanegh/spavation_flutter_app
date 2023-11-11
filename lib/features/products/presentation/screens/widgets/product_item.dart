@@ -78,7 +78,7 @@ class _ProductItemState extends State<ProductItem> {
                                 ? EdgeInsets.only(
                                     left: sw! * 0.025, top: 20, bottom: 0)
                                 : EdgeInsets.only(
-                                    right: sw! * 0.038, top: 20, bottom: 0),
+                                    right: sw! * 0.015, top: 20, bottom: 0),
                             child: AutoSizeText(
                                 l10n.localeName == 'en'
                                     ? widget.product.name
@@ -88,8 +88,8 @@ class _ProductItemState extends State<ProductItem> {
                         Padding(
                             padding: language.selectedLanguage.value ==
                                     Language.english.value
-                                ? EdgeInsets.only(left: sw! * 0.025, bottom: 0)
-                                : EdgeInsets.only(right: sw! * 0.02, bottom: 0),
+                                ? EdgeInsets.only(left: sw! * 0.025, bottom: 0, )
+                                : EdgeInsets.only(right: sw! * 0.015, bottom: 0, ),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +97,9 @@ class _ProductItemState extends State<ProductItem> {
                                   SizedBox(
                                       width: sw! * 0.75,
                                       child: AutoSizeText(
-                                          widget.product.description,
+                                          l10n.localeName == 'en'
+                                              ? widget.product.description
+                                              : widget.product.descriptionAr,
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0].withOpacity(0.8),
                                               fontSize: 12))),

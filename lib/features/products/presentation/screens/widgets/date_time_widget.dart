@@ -48,6 +48,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   List<DateTime> inactiveDates = [];
   List<String> activeDays = [];
   List<int> times = [];
+  List<String> timeIntervals = [];
 
   int daysInMonth(DateTime date) {
     var firstDayThisMonth = DateTime(date.year, date.month, date.day);
@@ -60,8 +61,12 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   void initState() {
     actualHour = DateFormat('hh').format(DateFormat('hh').parse('${now.hour}'));
 
-    timeTo = convertStringToHourMnSec(widget.product.timeTo);
-    timeFrom = convertStringToHourMnSec(widget.product.timeFrom);
+    // timeTo = convertStringToHourMnSec(widget.product.timeTo);
+    // timeFrom = convertStringToHourMnSec(widget.product.timeFrom);
+
+    /* for (var i = timeFrom.hour; i <= timeTo.hour; i++) {
+      times.add(i);
+    }*/
 
     int lastDay = daysInMonth(dateFrom);
 
@@ -78,14 +83,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       activeDays.add(daysOfWeek[i]);
     }
 
-    log(timeTo.hour.toString());
-
-    for (var i = timeFrom.hour; i <= timeTo.hour; i++) {
-      times.add(i);
-    }
-
-    log(times.toString());
-
     days = daysBetween(dateFrom, dateTo);
 
     for (var i = 0; i <= days + 1; i++) {
@@ -99,6 +96,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       }
     }
 
+    getSelectedDateBySalon(context.read<ProductBloc>().state);
+    getSelectedTimeBySalon(context.read<ProductBloc>().state);
+
     super.initState();
   }
 
@@ -106,167 +106,170 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
-        child: BlocConsumer<LanguageBloc, LanguageState>(
+        child: /*BlocConsumer<LanguageBloc, LanguageState>(
             listener: (context, language) {},
             buildWhen: (prev, curr) =>
                 prev.selectedLanguage != curr.selectedLanguage,
             builder: (context, language) {
-              return BlocConsumer<ProductBloc, ProductState>(
-                  listener: (context, state) {},
-                  buildWhen: (prev, curr) =>
-                      prev.selectedDate != curr.selectedDate ||
-                      prev.selectedTime != curr.selectedTime ||
-                      prev.reservations != curr.reservations,
-                  builder: (context, state) {
-                    getSelectedDateBySalon(state);
-                    getSelectedTimeBySalon(state);
+              return */
+            BlocConsumer<ProductBloc, ProductState>(
+                listener: (context, state) {
+                  if (state.timeIntervals != null) {
+                    setState(() {
+                      timeIntervals = state.timeIntervals ?? [];
+                    });
+                  }
+                },
+                buildWhen: (prev, curr) =>
+                    prev.selectedDate != curr.selectedDate ||
+                    prev.selectedTime != curr.selectedTime ||
+                    prev.reservations != curr.reservations ||
+                    prev.timeIntervals != curr.timeIntervals,
+                builder: (context, state) {
+                  return Column(mainAxisSize: MainAxisSize.min, children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.cancel,
+                            color: appPrimaryColor,
+                          ),
+                        )),
+                    AutoSizeText(
+                      l10n.date,
+                      style: TextStyles.inter
+                          .copyWith(color: red[2], fontWeight: FontWeight.w700),
+                    ),
+                    10.heightXBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        l10n.localeName == 'en'
+                            ? GestureDetector(
+                                onTap: () => setDateAndAnimateTo('-'),
+                                child: SvgPicture.asset(Assets.iconsPrevious))
+                            : GestureDetector(
+                                onTap: () => setDateAndAnimateTo('-'),
+                                child: SvgPicture.asset(Assets.iconsNext)),
+                        SizedBox(
+                            height: 100,
+                            width: sw! * 0.5,
+                            child: DatePicker(
+                              DateTime.now(),
+                              controller: _pickerController,
+                              // initialSelectedDate:
+                              //   selectedDate ?? DateTime.now(),
+                              selectionColor: appPrimaryColor,
+                              selectedTextColor: Colors.white,
+                              daysCount: days + 1,
+                              inactiveDates: inactiveDates,
+                              deactivatedColor: grey[0],
+                              locale: l10n.localeName,
+                              width: 60,
+                              onDateChange: (date) {
+                                String day = DateFormat('EEEE').format(date);
+                                if ((date.day > DateTime.now().day &&
+                                        activeDays
+                                            .contains(day.toLowerCase())) ||
+                                    date.day == DateTime.now().day) {
+                                  // New date selected
 
-                    return Column(mainAxisSize: MainAxisSize.min, children: [
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.cancel,
-                              color: appPrimaryColor,
-                            ),
-                          )),
-                      AutoSizeText(
-                        l10n.date,
-                        style: TextStyles.inter.copyWith(
-                            color: red[2], fontWeight: FontWeight.w700),
-                      ),
-                      10.heightXBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          l10n.localeName == 'en'
-                              ? GestureDetector(
-                                  onTap: () => setDateAndAnimateTo('-'),
-                                  child: SvgPicture.asset(Assets.iconsPrevious))
-                              : GestureDetector(
-                                  onTap: () => setDateAndAnimateTo('-'),
-                                  child: SvgPicture.asset(Assets.iconsNext)),
-                          SizedBox(
-                              height: 100,
-                              width: sw! * 0.5,
-                              child: DatePicker(
-                                DateTime.now(),
-                                controller: _pickerController,
-                                initialSelectedDate:
-                                    selectedDate ?? DateTime.now(),
-                                selectionColor: appPrimaryColor,
-                                selectedTextColor: Colors.white,
-                                daysCount: days + 1,
-                                inactiveDates: inactiveDates,
-                                deactivatedColor: grey[0],
-                                locale: language
-                                    .selectedLanguage.value.languageCode,
-                                width: 60,
-                                onDateChange: (date) {
-                                  String day = DateFormat('EEEE').format(date);
-                                  if ((date.day > DateTime.now().day &&
-                                          activeDays
-                                              .contains(day.toLowerCase())) ||
-                                      date.day == DateTime.now().day) {
-                                    // New date selected
+                                  setState(() {
+                                    selectedDate = date;
+                                  });
 
-                                    setState(() {
-                                      selectedDate = date;
-                                    });
+                                  if (selectedDate != null) {
+                                    context.read<ProductBloc>().add(
+                                        GetProductTimesEvent(
+                                            "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}",
+                                            widget.product.id));
 
-                                    if (selectedDate != null) {
-                                      context.read<ProductBloc>().add(
-                                          SelectDate(
-                                              selectedDate!,
-                                              widget.product.id,
-                                              widget.product.salonId));
-                                    }
+                                    context.read<ProductBloc>().add(SelectDate(
+                                        selectedDate!,
+                                        widget.product.id,
+                                        widget.product.salonId));
                                   }
-                                },
-                              )),
-                          l10n.localeName == 'en'
-                              ? GestureDetector(
-                                  onTap: () => setDateAndAnimateTo('+'),
-                                  child: SvgPicture.asset(Assets.iconsNext))
-                              : GestureDetector(
-                                  onTap: () => setDateAndAnimateTo('+'),
-                                  child:
-                                      SvgPicture.asset(Assets.iconsPrevious)),
-                        ],
-                      ),
-                      20.heightXBox,
-                      AutoSizeText(
-                        l10n.time,
-                        style: TextStyles.inter.copyWith(
-                            color: red[2], fontWeight: FontWeight.w700),
-                      ),
-                      10.heightXBox,
-                      SizedBox(
-                          width: sw!,
-                          child: Wrap(
-                              direction: Axis.horizontal,
-                              alignment: WrapAlignment.center,
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: [
-                                for (var i = 0; i < times.length - 1; i++)
-                                  GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedTime = getStartAndEndTime(
-                                              times[i], times[i + 1], l10n);
-                                          //'${times[i]} - ${times[i + 1]}';
-                                          context.read<ProductBloc>().add(
-                                              SelectTime(
-                                                  selectedTime,
-                                                  widget.product.id,
-                                                  widget.product.salonId));
-                                        });
-                                      },
-                                      child: TimeContainer(
-                                        isSelected: selectedTime ==
-                                                getStartAndEndTime(times[i],
-                                                    times[i + 1], l10n)
-                                            // '${times[i]} ${l10n.pm} - ${times[i + 1]}'
-                                            ? true
-                                            : false,
-                                        isDisabled:
-                                            int.parse(actualHour) > times[i]
-                                                ? false
+                                }
+                              },
+                            )),
+                        l10n.localeName == 'en'
+                            ? GestureDetector(
+                                onTap: () => setDateAndAnimateTo('+'),
+                                child: SvgPicture.asset(Assets.iconsNext))
+                            : GestureDetector(
+                                onTap: () => setDateAndAnimateTo('+'),
+                                child: SvgPicture.asset(Assets.iconsPrevious)),
+                      ],
+                    ),
+                    20.heightXBox,
+                    AutoSizeText(
+                      l10n.time,
+                      style: TextStyles.inter
+                          .copyWith(color: red[2], fontWeight: FontWeight.w700),
+                    ),
+                    10.heightXBox,
+                    SizedBox(
+                        width: sw!,
+                        child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              for (var i = 0; i < timeIntervals.length - 1; i++)
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedTime = timeIntervals[i];
+                                        //'${times[i]} - ${times[i + 1]}';
+                                        context.read<ProductBloc>().add(
+                                            SelectTime(
+                                                selectedTime,
+                                                widget.product.id,
+                                                widget.product.salonId));
+                                      });
+                                    },
+                                    child: TimeContainer(
+                                      isSelected:
+                                          selectedTime == timeIntervals[i],
+                                      // '${times[i]} ${l10n.pm} - ${times[i + 1]}'
+                                      //? true
+                                      // : false,
+                                      isDisabled:
+                                          // int.parse(actualHour) > times[i]
+                                          false,
 
-                                                /// TRUE
-                                                : false,
-                                        startTime: times[i],
-                                        endTime: times[i + 1],
-                                      )),
-                              ])),
-                      20.heightXBox,
-                      AppButton(
-                        isLoading: false,
-                        title: l10n.continueX,
-                        color: appPrimaryColor,
-                        textColor: Colors.white,
-                        onPressed: () {
-                          if (context.read<ProductBloc>().state.selectedTime !=
-                                  null &&
-                              context.read<ProductBloc>().state.selectedDate !=
-                                  null) {
-                            context
-                                .read<ProductBloc>()
-                                .add(SelectProduct(widget.product));
-                          }
+                                      /// TRUE
+                                      //   : false,
+                                      time: timeIntervals[i],
+                                    )),
+                            ])),
+                    20.heightXBox,
+                    AppButton(
+                      isLoading: false,
+                      title: l10n.continueX,
+                      color: appPrimaryColor,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        if (context.read<ProductBloc>().state.selectedTime !=
+                                null &&
+                            context.read<ProductBloc>().state.selectedDate !=
+                                null) {
+                          context
+                              .read<ProductBloc>()
+                              .add(SelectProduct(widget.product));
+                        }
 
-                          Navigator.pop(context);
-                        },
-                      ),
-                      20.heightXBox
-                    ]);
-                  });
-            }));
+                        Navigator.pop(context);
+                      },
+                    ),
+                    20.heightXBox
+                  ]);
+                }));
   }
 
   String getStartAndEndTime(int startTime, int endTime, var l10n) {
@@ -280,32 +283,34 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     return selectedTime;
   }
 
+  DateTime scrolledTime = DateTime.now();
+
   void setDateAndAnimateTo(String operator) {
     if (selectedDate != null) {
       if (operator == '+') {
         setState(() {
-          DateTime date = DateTime(
-              selectedDate!.year, selectedDate!.month, selectedDate!.day + 1);
+          DateTime date = DateTime(scrolledTime.year, scrolledTime.month,
+              scrolledTime.day + 1); //DateTime(
+          //  selectedDate!.year, selectedDate!.month, selectedDate!.day + 3);
 
-          selectedDate = date;
+          //  selectedDate = date;
 
-          Future.delayed(const Duration(milliseconds: 20), () {
-            _pickerController.setDateAndAnimate(date);
-          });
-          Future.delayed(const Duration(milliseconds: 20), () {
-            _pickerController.jumpToSelection();
+          scrolledTime = date;
+
+          Future.delayed(const Duration(milliseconds: 2), () {
+            _pickerController.animateToDate(date);
+            //setDateAndAnimate(date);
           });
         });
       } else {
         setState(() {
           DateTime date = DateTime(
-              selectedDate!.year, selectedDate!.month, selectedDate!.day - 1);
-          selectedDate = date;
-          Future.delayed(const Duration(milliseconds: 20), () {
-            _pickerController.setDateAndAnimate(date);
-          });
-          Future.delayed(const Duration(milliseconds: 20), () {
-            _pickerController.jumpToSelection();
+              scrolledTime.year, scrolledTime.month, scrolledTime.day - 1);
+          scrolledTime = date;
+          Future.delayed(const Duration(milliseconds: 2), () {
+            // _pickerController.setDateAndAnimate(date);
+
+            _pickerController.animateToDate(date);
           });
         });
       }

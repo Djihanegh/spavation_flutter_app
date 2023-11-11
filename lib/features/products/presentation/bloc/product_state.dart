@@ -10,6 +10,7 @@ final class ProductState extends Equatable {
       this.selectedDate,
       this.selectedTime,
       this.reservations,
+      this.timeIntervals,
       this.action = RequestType.unknown});
 
   final FormzSubmissionStatus status;
@@ -19,6 +20,7 @@ final class ProductState extends Equatable {
   final List<ProductModel>? selectedProducts;
   final DateTime? selectedDate;
   final String? selectedTime;
+  final List<String>? timeIntervals;
   final Map<String, List<DataMap>>? reservations;
   final RequestType action;
 
@@ -30,10 +32,12 @@ final class ProductState extends Equatable {
       List<ProductModel>? selectedProducts,
       DateTime? selectedDate,
       String? selectedTime,
+      List<String>? timeIntervals,
       Map<String, List<DataMap>>? reservations,
       RequestType? action}) {
     return ProductState(
         status: status ?? this.status,
+        timeIntervals: timeIntervals ?? this.timeIntervals,
         errorMessage: errorMessage ?? this.errorMessage,
         successMessage: successMessage ?? this.successMessage,
         data: data ?? this.data,
@@ -51,6 +55,7 @@ final class ProductState extends Equatable {
         successMessage,
         data,
         selectedProducts,
+        timeIntervals,
         selectedDate,
         selectedTime,
         reservations,

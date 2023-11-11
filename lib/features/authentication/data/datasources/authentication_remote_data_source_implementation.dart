@@ -28,7 +28,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       response = await _client
           .post(Uri.parse(Endpoints.baseUrl + Endpoints.register),
               headers: headers, body: user.toJson())
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);
@@ -53,7 +53,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       response = await _client
           .post(Uri.parse(Endpoints.baseUrl + Endpoints.login),
               headers: headers, body: UserModel.loginUserModel(user).toJson())
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
       ;
 
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -82,7 +82,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       response = await _client
           .post(Uri.parse(Endpoints.baseUrl + Endpoints.checkOtp),
               headers: headers, body: jsonEncode({'otp': otp}))
-          .timeout(timeOutDuration);
+          .timeout(Endpoints.connectionTimeout);
       ;
 
       log(response.body.toString());

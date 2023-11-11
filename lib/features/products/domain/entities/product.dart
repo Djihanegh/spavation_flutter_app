@@ -13,6 +13,7 @@ class Product extends Equatable {
       required this.salonId,
       required this.categoryId,
       required this.description,
+      required this.descriptionAr,
       required this.timeFrom,
       required this.timeTo,
       required this.dateFrom,
@@ -32,6 +33,8 @@ class Product extends Equatable {
   final String salonId;
   final String categoryId;
   final String description;
+  final String descriptionAr;
+
   final String timeFrom;
   final String timeTo;
   final String dateFrom;
@@ -53,6 +56,7 @@ class Product extends Equatable {
         salonId,
         categoryId,
         description,
+        descriptionAr,
         timeFrom,
         timeTo,
         dateFrom,

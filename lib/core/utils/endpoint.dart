@@ -13,7 +13,7 @@ class Endpoints {
   static const Duration receiveTimeout = Duration(seconds: 15000);
 
   // connectTimeout
-  static const Duration connectionTimeout = Duration(seconds: 15000);
+  static const Duration connectionTimeout = Duration(seconds: 30);
 
   // Auth
 
@@ -24,6 +24,10 @@ class Endpoints {
   static const String checkOtp = '/auth/otp';
 
   static const String resendOtp = '/auth/resend-otp';
+
+  static const String customer = '/auth/customer';
+
+  static const String getUser = '/auth/user';
 
   // Categories
 
@@ -43,16 +47,17 @@ class Endpoints {
 
   static const String cities = '/cities';
 
-
   // Products
 
   static const String products = '/products/salon/';
 
-  static const String customer = '/auth/customer';
+  static const String productTimes = '/products/time-intervals/';
 
-  static const String getUser = '/auth/user';
+  // Reservations
 
   static const String reservations = '/reservations';
+
+  // Coupons
 
   static const String coupon = '/check-copoun';
 

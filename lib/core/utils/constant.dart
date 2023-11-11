@@ -23,8 +23,6 @@ Map<String, String> headersWithToken(String token) {
 
 const forgetPasswordKey = Key('forget-password');
 
-const timeOutDuration = Duration(seconds: 30);
-
 List<String> daysOfWeek = [
   'saturday',
   'sunday',

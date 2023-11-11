@@ -7,6 +7,7 @@ enum RequestType {
   getUserDetails,
   checkOtp,
   resendOtp,
+  getIntervalTimes,
   getBanners,
   getCategories,
   getSalons,
@@ -20,5 +21,4 @@ enum RequestType {
   getCities,
   searchSalons,
   unknown,
-
 }

@@ -78,91 +78,108 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
                     ],
                   ),
                   10.heightXBox,
-                  BlocConsumer<SalonBloc, SalonState>(
-                      listener: (context, state) {},
-                      listenWhen: (prev, curr) => prev.status != curr.status,
-                      builder: (context, state) {
-                        Widget? child;
+                  BlocConsumer<CityBloc, CityState>(
+                      listener: (context, cityState) {},
+                      //listenWhen: (prev, curr) => prev.status != curr.status,
+                      builder: (context, cityState) {
+                        return BlocConsumer<SalonBloc, SalonState>(
+                            listener: (context, state) {},
+                            listenWhen: (prev, curr) =>
+                                prev.status != curr.status,
+                            builder: (context, state) {
+                              Widget? child;
 
-                        if (state.status == FormzSubmissionStatus.failure) {
-                          child = SalonErrorWidget(
-                            onRefresh: () => _refresh(),
-                            errorMessage: state.errorMessage,
-                          );
-                        } else if (state.status ==
-                                FormzSubmissionStatus.initial ||
-                            state.status == FormzSubmissionStatus.inProgress ||
-                            currentPosition == null) {
-                          child = const Center(
-                              child: LoadingWidget(
-                            color: appPrimaryColor,
-                          ));
-                        } else if (state.filteredSalons != null &&
-                            state.filteredSalons != []) {
-                          child = ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 10, top: 0),
-                              itemCount: state.filteredSalons?.length,
-                              itemBuilder: (context, index) {
-                                SalonModel? salon =
-                                    state.filteredSalons?[index];
-
-                                double distanceInMeters = 0.0;
-
-                                if (currentPosition == null ||
-                                    currentPosition?.latitude == 0.0 &&
-                                        currentPosition?.longitude == 0.0) {
-                                  int cityId = state.cityId;
-                                  List<CitiesModel> cities =
-                                      context.read<CityBloc>().state.cities ??
-                                          [];
-                                  if (cities != null) {
-                                    CitiesModel? selectedCity =
-                                        cities.firstWhere(
-                                            (element) => element.id == cityId);
-                                    if (selectedCity != null) {
-                                      distanceInMeters =
-                                          Geolocator.distanceBetween(
-                                              double.parse(salon!.latitude),
-                                              double.parse(salon.longitude),
-                                              double.parse(
-                                                  selectedCity.latitude),
-                                              double.parse(
-                                                  selectedCity.longitude));
-                                      distanceInMeters =
-                                          distanceInMeters / 1000;
-                                    }
-                                  }
-                                } else {
-                                  distanceInMeters = Geolocator.distanceBetween(
-                                      double.parse(salon!.latitude),
-                                      double.parse(salon.longitude),
-                                      currentPosition!.latitude,
-                                      currentPosition!.longitude);
-                                  distanceInMeters = distanceInMeters / 1000;
-                                }
-
-                                return SalonItem(
-                                  taxRate: salon!.taxRate,
-                                  taxNumber: salon.taxNumber,
-                                  salonId: "${salon.id}",
-                                  title: salon.name,
-                                  subtitle: salon.description,
-                                  rate: salon.rate,
-                                  distance: '$distanceInMeters',
-                                  image: salon.image,
-                                  isForFemale: salon.isForFemale,
-                                  isForMale: salon.isForMale,
+                              if (state.status ==
+                                  FormzSubmissionStatus.failure) {
+                                child = SalonErrorWidget(
+                                  onRefresh: () => _refresh(),
+                                  errorMessage: state.errorMessage,
                                 );
-                              });
-                        } else {
-                          child = Center(child: Text(l10n.noSalonFound));
-                        }
+                              } else if (state.status ==
+                                      FormzSubmissionStatus.initial ||
+                                  state.status ==
+                                      FormzSubmissionStatus.inProgress ||
+                                  currentPosition == null) {
+                                child = const Center(
+                                    child: LoadingWidget(
+                                  color: appPrimaryColor,
+                                ));
+                              } else if (state.filteredSalons != null &&
+                                  state.filteredSalons != []) {
+                                child = ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 0),
+                                    itemCount: state.filteredSalons?.length,
+                                    itemBuilder: (context, index) {
+                                      SalonModel? salon =
+                                          state.filteredSalons?[index];
 
-                        return child;
+                                      double distanceInMeters = 0.0;
+
+                                      if (currentPosition == null ||
+                                          currentPosition?.latitude == 0.0 &&
+                                              currentPosition?.longitude ==
+                                                  0.0) {
+                                        int cityId = state.cityId;
+                                        if (cityState
+                                            is CityLoadDataSuccessState) {
+                                          List<CitiesModel> cities =
+                                              cityState.cities;
+
+                                          if (cities != null) {
+                                            CitiesModel? selectedCity =
+                                                cities.firstWhere((element) =>
+                                                    element.id == cityId);
+                                            if (selectedCity != null) {
+                                              distanceInMeters =
+                                                  Geolocator.distanceBetween(
+                                                      double.parse(
+                                                          salon!.latitude),
+                                                      double.parse(
+                                                          salon.longitude),
+                                                      double.parse(selectedCity
+                                                          .latitude),
+                                                      double.parse(selectedCity
+                                                          .longitude));
+                                              distanceInMeters =
+                                                  distanceInMeters / 1000;
+                                            }
+                                          }
+                                        }
+                                      } else {
+                                        distanceInMeters =
+                                            Geolocator.distanceBetween(
+                                                double.parse(salon!.latitude),
+                                                double.parse(salon.longitude),
+                                                currentPosition!.latitude,
+                                                currentPosition!.longitude);
+                                        distanceInMeters =
+                                            distanceInMeters / 1000;
+                                      }
+
+                                      return SalonItem(
+                                        taxRate: salon!.taxRate,
+                                        taxNumber: salon.taxNumber,
+                                        salonId: "${salon.id}",
+                                        title: salon.name,
+                                        subtitle: salon.description,
+                                        rate: salon.rate,
+                                        distance: '$distanceInMeters',
+                                        image: salon.image,
+                                        isForFemale: salon.isForFemale,
+                                        isForMale: salon.isForMale,
+                                      );
+                                    });
+                              } else {
+                                child = Center(child: Text(l10n.noSalonFound));
+                              }
+
+                              return child;
+                            });
                       })
                 ])));
   }

@@ -89,9 +89,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 builder: (context, language) {
                   return */
                 BlocConsumer<ProductBloc, ProductState>(
-                    listener: (context, state) {
-                      log('HELLO');
-                    },
+                    listener: (context, state) {},
                     listenWhen: (prev, curr) =>
                         prev.reservations != curr.reservations,
                     buildWhen: (prev, curr) =>
@@ -99,6 +97,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         prev.selectedProducts != curr.selectedProducts ||
                         prev.status != curr.status,
                     builder: (context, state) {
+
                       Widget? child;
                       Widget? subChild;
                       totalPrice = 0;
@@ -151,7 +150,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               isNotEmpty = true;
                               totalPrice =
                                   totalPrice + int.parse(element.price);
-                            }else {
+                            } else {
                               isNotEmpty = false;
                             }
                           });
@@ -273,17 +272,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                       ],
                                                     )),
                                                 Positioned(
-                                                    left: //language
-                                                        //  .selectedLanguage
-                                                        //   .value ==
-                                                        // Language.values[0]
-                                                        //   .value
+                                                    left:
                                                         l10n.localeName == 'en'
-                                                            ? sw! * 0
+                                                            ? sw! * 0.14
                                                             : sw! * 0.14,
                                                     top: sh! * 0.09,
                                                     child: SizedBox(
-                                                        width: sw! * 0.8,
+                                                        width: sw! * 0.65,
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -302,18 +297,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                 children: [
                                                                   const AutoSizeText(
                                                                       ''),
-                                                                  widget.isForFemale ==
-                                                                          true
-                                                                      ? Image.asset(
-                                                                          Assets
-                                                                              .iconsAwesomeFemale,
-                                                                          color:
-                                                                              appPrimaryColor)
-                                                                      : emptyWidget(),
+                                                                  if (widget
+                                                                      .isForFemale)
+                                                                    Image.asset(
+                                                                        Assets
+                                                                            .iconsAwesomeFemale,
+                                                                        color:
+                                                                            appPrimaryColor),
                                                                   const AutoSizeText(
                                                                       '')
                                                                 ]),
-                                                            5.widthXBox,
+                                                            //  5.widthXBox,
                                                             Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
@@ -324,16 +318,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                                 children: [
                                                                   const AutoSizeText(
                                                                       ''),
-                                                                  widget.isForMale ==
-                                                                          true
-                                                                      ? Image.asset(
-                                                                          Assets
-                                                                              .iconsAwesomeMale,
-                                                                          height:
-                                                                              20,
-                                                                          color:
-                                                                              appPrimaryColor)
-                                                                      : emptyWidget(),
+                                                                  if (widget
+                                                                      .isForMale)
+                                                                    Image.asset(
+                                                                        Assets
+                                                                            .iconsAwesomeMale,
+                                                                        height:
+                                                                            20,
+                                                                        color:
+                                                                            appPrimaryColor),
                                                                   const AutoSizeText(
                                                                       '')
                                                                 ]),
@@ -506,8 +499,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                             widget.salonId]
                                                         .isNotEmpty) {
                                                       if (reservations[widget
-                                                                      .salonId]
-                                                              [0]['date'] ==
+                                                                  .salonId][0]
+                                                              ['date'] ==
                                                           null) {
                                                         openSnackBar(
                                                             context,
@@ -519,7 +512,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                       }
 
                                                       if (reservations[widget
-                                                                      .salonId][0]
+                                                                  .salonId][0]
                                                               ['time'] ==
                                                           null) {
                                                         openSnackBar(

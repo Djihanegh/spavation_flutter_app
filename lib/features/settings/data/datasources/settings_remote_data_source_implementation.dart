@@ -22,7 +22,7 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
       response = await _client.delete(
         Uri.parse(Endpoints.baseUrl + Endpoints.customer),
         headers: headersWithToken(token),
-      ).timeout(timeOutDuration);
+      ).timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -47,7 +47,7 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
       response = await _client.get(
         Uri.parse(Endpoints.baseUrl + Endpoints.customer),
         headers: headers,
-      ).timeout(timeOutDuration);
+      ).timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
@@ -72,7 +72,7 @@ class SettingsRemoteDataSrcImpl implements SettingsRemoteDataSource {
       response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.customer),
           headers: headers,
-          body: jsonEncode(body)).timeout(timeOutDuration);
+          body: jsonEncode(body)).timeout(Endpoints.connectionTimeout);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(jsonDecode(response.body));
