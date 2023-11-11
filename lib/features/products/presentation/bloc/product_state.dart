@@ -1,6 +1,7 @@
 part of 'product_bloc.dart';
 
-final class ProductState extends Equatable {
+enum ProductStatus { initial, inProgress, failure, success, unknown }
+/*final class ProductState extends Equatable {
   const ProductState(
       {this.status = FormzSubmissionStatus.initial,
       this.errorMessage = '',
@@ -61,4 +62,99 @@ final class ProductState extends Equatable {
         reservations,
         action
       ];
+}
+*/
+
+class ProductState extends Equatable {
+  const ProductState(
+      {this.selectedProducts,
+      this.selectedDate,
+      this.selectedTime,
+      this.reservations,
+      this.status = ProductStatus.initial});
+
+  final List<ProductModel>? selectedProducts;
+  final DateTime? selectedDate;
+  final String? selectedTime;
+  final Map<String, List<DataMap>>? reservations;
+  final ProductStatus status;
+
+  ProductState copyWith({
+    List<ProductModel>? selectedProducts,
+    DateTime? selectedDate,
+    String? selectedTime,
+    Map<String, List<DataMap>>? reservations,
+    ProductStatus? status,
+  }) {
+    return ProductState(
+        selectedProducts: selectedProducts ?? this.selectedProducts,
+        selectedDate: selectedDate ?? this.selectedDate,
+        selectedTime: selectedTime ?? this.selectedTime,
+        reservations: reservations ?? this.reservations,
+        status: status ?? this.status);
+  }
+
+  @override
+  List<Object?> get props => [
+        selectedProducts,
+        status,
+        selectedDate,
+        selectedTime,
+        reservations,
+      ];
+}
+
+// GET PRODUCTS STATE
+class GetProductsInitialState extends ProductState {}
+
+class GetProductsInProgressState extends ProductState {}
+
+class GetProductsLoadDataSuccessState extends ProductState {
+  final List<ProductModel> data;
+
+  @override
+  List<Object> get props => [data];
+
+  const GetProductsLoadDataSuccessState({
+    required this.data,
+  });
+}
+
+
+class GetProductsLoadDataFailureState extends ProductState {
+  final String errorMessage;
+
+  @override
+  List<Object> get props => [errorMessage];
+
+  const GetProductsLoadDataFailureState({
+    required this.errorMessage,
+  });
+}
+// GET PRODUCT TIMES STATE
+
+class GetProductTimesInitialState extends ProductState {}
+
+class GetProductTimesInProgressState extends ProductState {}
+
+class GetProductTimesLoadDataSuccessState extends ProductState {
+  final List<String> timeIntervals;
+
+  @override
+  List<Object> get props => [timeIntervals];
+
+  const GetProductTimesLoadDataSuccessState({
+    required this.timeIntervals,
+  });
+}
+
+class GetProductTimesLoadDataFailureState extends ProductState {
+  final String errorMessage;
+
+  @override
+  List<Object> get props => [errorMessage];
+
+  const GetProductTimesLoadDataFailureState({
+    required this.errorMessage,
+  });
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
 import 'package:spavation/features/categories/data/models/category_model.dart';
 import 'package:spavation/features/categories/domain/usecases/get_categories.dart';
 
@@ -13,7 +12,7 @@ part 'category_state.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc({required GetCategoriesUseCase getCategoriesUseCase})
       : _getCategoriesUseCase = getCategoriesUseCase,
-        super(const CategoryState()) {
+        super(CategoryInitialState()) {
     on<GetCategoriesEvent>(_getCategoriesHandler);
   }
 
@@ -21,21 +20,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   Future<void> _getCategoriesHandler(
       GetCategoriesEvent event, Emitter<CategoryState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit.call(CategoryInProgressState());
     await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _getCategoriesUseCase();
 
-
-
     result.fold(
-        (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
-        (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
-            data: r.categories,
-            successMessage: '')));
+        (l) => emit.call(CategoryLoadDataFailureState(errorMessage: l.message)),
+        (r) => emit.call(
+            CategoryLoadDataSuccessState(categories: r.categories ?? [])));
   }
 }

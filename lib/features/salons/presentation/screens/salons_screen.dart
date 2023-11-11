@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
-import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
+import 'package:spavation/core/widgets/error_widget.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../cities/data/models/cities_model.dart';
 import '../bloc/salon_bloc.dart';
@@ -63,7 +63,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
                 Widget? child;
 
                 if (state.status == FormzSubmissionStatus.failure) {
-                  child = SalonErrorWidget(
+                  child = CustomErrorWidget(
                     onRefresh: () => _refresh(),
                     errorMessage: state.errorMessage,
                   );

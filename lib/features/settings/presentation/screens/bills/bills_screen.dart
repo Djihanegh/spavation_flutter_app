@@ -5,7 +5,7 @@ import 'package:formz/formz.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../core/widgets/navigate_next_btn.dart';
 import '../../../../reservation/presentation/bloc/reservation_bloc.dart';
-import '../../../../salons/presentation/screens/widgets/salon_error_widget.dart';
+import '../../../../../core/widgets/error_widget.dart';
 import 'widgets/bills_item.dart';
 import '../../../../../app/theme.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -96,7 +96,7 @@ class _BillsScreenState extends State<BillsScreen> {
 
                                   if (state.status ==
                                       FormzSubmissionStatus.failure) {
-                                    subChild = SalonErrorWidget(
+                                    subChild = CustomErrorWidget(
                                       onRefresh: () => _refresh(),
                                       errorMessage: state.errorMessage,
                                     );

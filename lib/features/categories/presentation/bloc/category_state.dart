@@ -1,31 +1,36 @@
 part of 'category_bloc.dart';
 
-final class CategoryState extends Equatable {
-  const CategoryState(
-      {this.status = FormzSubmissionStatus.initial,
-      this.errorMessage = '',
-      this.successMessage = '',
-      this.data});
 
-  final FormzSubmissionStatus status;
-
-  final String errorMessage;
-  final String successMessage;
-  final List<CategoryModel>? data;
-
-  CategoryState copyWith({
-    FormzSubmissionStatus? status,
-    String? errorMessage,
-    String? successMessage,
-    List<CategoryModel>? data,
-  }) {
-    return CategoryState(
-        status: status ?? this.status,
-        errorMessage: errorMessage ?? this.errorMessage,
-        successMessage: successMessage ?? this.successMessage,
-        data: data ?? this.data);
-  }
+abstract class CategoryState extends Equatable {
+  const CategoryState();
 
   @override
-  List<Object?> get props => [status, errorMessage, successMessage, data];
+  List<Object> get props => [];
 }
+
+class CategoryInitialState extends CategoryState {}
+
+class CategoryInProgressState extends CategoryState {}
+
+class CategoryLoadDataSuccessState extends CategoryState {
+  final List<CategoryModel> categories;
+
+  @override
+  List<Object> get props => [categories];
+
+  const CategoryLoadDataSuccessState({
+    required this.categories,
+  });
+}
+
+class CategoryLoadDataFailureState extends CategoryState {
+  final String errorMessage;
+
+  @override
+  List<Object> get props => [errorMessage];
+
+  const CategoryLoadDataFailureState({
+    required this.errorMessage,
+  });
+}
+

@@ -4,8 +4,8 @@ import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonErrorWidget extends StatelessWidget {
-  const SalonErrorWidget(
+class CustomErrorWidget extends StatelessWidget {
+  const CustomErrorWidget(
       {super.key, required this.onRefresh, required this.errorMessage});
 
   final VoidCallback onRefresh;

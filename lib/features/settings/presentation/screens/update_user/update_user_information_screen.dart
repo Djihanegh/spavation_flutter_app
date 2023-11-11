@@ -18,7 +18,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/services/location_service.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../home/presentation/screens/filter/widgets/filter_choice_box.dart';
-import '../../../../salons/presentation/screens/widgets/salon_error_widget.dart';
+import '../../../../../core/widgets/error_widget.dart';
 import '../../bloc/settings_bloc.dart';
 import 'widgets/update_user_info_loading_widget.dart';
 
@@ -104,7 +104,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                 child = const UpdateUserInfoLoadingWidget();
               }
               if (state.status == FormzSubmissionStatus.failure) {
-                child = SalonErrorWidget(
+                child = CustomErrorWidget(
                   onRefresh: () => _refresh(),
                   errorMessage: state.errorMessage,
                 );

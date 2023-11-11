@@ -1,11 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
-import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:spavation/features/products/domain/usecases/get_product_times_usecase.dart';
 import 'package:spavation/features/products/domain/usecases/get_products.dart';
@@ -37,23 +32,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   Future<void> _getProductTimesHandler(
       GetProductTimesEvent event, Emitter<ProductState> emit) async {
-    //  emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    //  await Future.delayed(const Duration(milliseconds: 50));
-
     final result =
         await _getProductTimesUseCase({"id": event.id, "date": event.date});
 
     result.fold(
-        (l) => emit(state.copyWith(
-              action: RequestType.getIntervalTimes,
-              //  status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
-        (r) => emit(state.copyWith(
-            action: RequestType.getIntervalTimes,
-            //status: FormzSubmissionStatus.success,
-            timeIntervals: r.timeIntervals,
-            successMessage: '')));
+        (l) => emit
+            .call(GetProductTimesLoadDataFailureState(errorMessage: l.message)),
+        (r) => emit.call(GetProductTimesLoadDataSuccessState(
+            timeIntervals: r.timeIntervals ?? [])));
   }
 
   void _onRemoveReservation(
@@ -71,7 +57,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     List<DataMap> list = dates[event.salonId] ?? [];
 
     emit(state.copyWith(
-        selectedDate: event.date, status: FormzSubmissionStatus.initial));
+        selectedDate: event.date, status: ProductStatus.initial));
 
     if (list.isNotEmpty) {
       int index =
@@ -91,8 +77,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
 
     dates[event.salonId] = list;
-    emit(state.copyWith(
-        reservations: dates, status: FormzSubmissionStatus.success));
+    emit(state.copyWith(reservations: dates, status: ProductStatus.success));
   }
 
   void _onSelectTime(SelectTime event, Emitter<ProductState> emit) {
@@ -103,7 +88,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     List<DataMap> list = dates[event.salonId] ?? [];
 
     emit(state.copyWith(
-        selectedTime: event.time, status: FormzSubmissionStatus.initial));
+        selectedTime: event.time, status: ProductStatus.initial));
 
     if (list.isNotEmpty) {
       int index =
@@ -126,8 +111,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
 
     dates[event.salonId] = list;
-    emit(state.copyWith(
-        reservations: dates, status: FormzSubmissionStatus.success));
+    emit(state.copyWith(reservations: dates, status: ProductStatus.success));
   }
 
   void _onRemoveProduct(RemoveProduct event, Emitter<ProductState> emit) {
@@ -166,43 +150,39 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedTime: '',
         selectedProducts: products,
         reservations: reservations,
-        status: FormzSubmissionStatus.initial));
+        status: ProductStatus.initial));
 
     emit(state.copyWith(
         selectedDate: null,
         selectedTime: '',
         selectedProducts: products,
         reservations: reservations,
-        status: FormzSubmissionStatus.success));
+        status: ProductStatus.success));
   }
 
   void _onSelectProduct(SelectProduct event, Emitter<ProductState> emit) {
     List<ProductModel> products = state.selectedProducts ?? [];
 
-    emit(state.copyWith(status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(status: ProductStatus.initial));
 
     if (!products.contains(event.product)) {
       products.add(event.product);
     }
     emit(state.copyWith(
-        selectedProducts: products, status: FormzSubmissionStatus.success));
+        selectedProducts: products, status: ProductStatus.success));
   }
 
   Future<void> _getProductsHandler(
       GetProductsEvent event, Emitter<ProductState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    emit.call(GetProductsInProgressState());
     await Future.delayed(const Duration(milliseconds: 50));
 
     final result = await _getProductsUseCase(event.salonId);
 
     result.fold(
-        (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              errorMessage: l.message,
-            )),
-        (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
-            data: r.products,
-            successMessage: '')));
+        (l) =>
+            emit.call(GetProductsLoadDataFailureState(errorMessage: l.message)),
+        (r) =>
+            emit.call(GetProductsLoadDataSuccessState(data: r.products ?? [])));
   }
 }

@@ -13,7 +13,7 @@ import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import '../../../../core/utils/typedef.dart';
-import '../../../salons/presentation/screens/widgets/salon_error_widget.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../bloc/reservation_bloc.dart';
 import '../widgets/reservation_item.dart';
 import '../widgets/status_button.dart';
@@ -57,7 +57,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child = body(subChild);
 
                   if (state.status == FormzSubmissionStatus.failure) {
-                    subChild = SalonErrorWidget(
+                    subChild = CustomErrorWidget(
                       onRefresh: () => _refresh(),
                       errorMessage: state.errorMessage,
                     );

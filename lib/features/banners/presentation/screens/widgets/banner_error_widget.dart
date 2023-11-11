@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/size_config.dart';
 
-class BannerErrorWidget extends StatelessWidget {
-  const BannerErrorWidget({super.key});
+class BannerCustomErrorWidget extends StatelessWidget {
+  const BannerCustomErrorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

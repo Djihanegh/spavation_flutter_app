@@ -10,7 +10,7 @@ import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
-import 'package:spavation/features/salons/presentation/screens/widgets/salon_error_widget.dart';
+import 'package:spavation/core/widgets/error_widget.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/widgets/custom_back_button.dart';
 import '../../../cities/data/models/cities_model.dart';
@@ -91,7 +91,7 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
 
                               if (state.status ==
                                   FormzSubmissionStatus.failure) {
-                                child = SalonErrorWidget(
+                                child = CustomErrorWidget(
                                   onRefresh: () => _refresh(),
                                   errorMessage: state.errorMessage,
                                 );

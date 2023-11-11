@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spavation/core/utils/constant.dart';
+import 'package:spavation/core/widgets/error_widget.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
 import 'package:spavation/features/categories/presentation/screens/widgets/category_item.dart';
 
@@ -21,8 +24,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   void initState() {
-    _categoryBloc = BlocProvider.of(context);
-    _categoryBloc.add(const GetCategoriesEvent());
+    _categoryBloc = BlocProvider.of(context)..add(const GetCategoriesEvent());
     super.initState();
   }
 
@@ -30,8 +32,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<CategoryBloc, CategoryState>(
         listener: (context, state) {},
-        listenWhen: (prev, curr) => prev.status != curr.status,
-        buildWhen: (prev, curr) => prev.status != curr.status,
+        //  listenWhen: (prev, curr) => prev.status != curr.status,
+        //  buildWhen: (prev, curr) => prev.status != curr.status,
         builder: (context, state) {
           return Positioned(
               top: sh! * 0.37,
@@ -46,19 +48,32 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     boxShadow: boxShadow),
                 child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        itemCount: state.data?.length ?? 0,
-                        itemBuilder: (context, index) => CategoryItem(
-                            nameAr: state.data?[index].nameAr ?? '',
-                            lat: widget.lat,
-                            long: widget.long,
-                            categoryId: "${state.data?[index].id}",
-                            image: state.data?[index].image ?? '',
-                            title: state.data?[index].name ?? '',
-                            color: Colors.transparent))),
+                    child: _buildItem(state)),
               ));
         });
+  }
+
+  Widget _buildItem(CategoryState state) {
+    Widget child = emptyWidget();
+    if (state is CategoryLoadDataSuccessState) {
+      child = ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          itemCount: state.categories.length ,
+          itemBuilder: (context, index) => CategoryItem(
+              nameAr: state.categories[index].nameAr ,
+              lat: widget.lat,
+              long: widget.long,
+              categoryId: "${state.categories[index].id}",
+              image: state.categories[index].image ,
+              title: state.categories[index].name ,
+              color: Colors.transparent));
+    }
+    if (state is CategoryLoadDataFailureState) {
+      child =
+          CustomErrorWidget(onRefresh: () {}, errorMessage: state.errorMessage);
+    }
+    if (state is CategoryInProgressState) child = const LoadingWidget(color: appPrimaryColor,);
+    return child;
   }
 }

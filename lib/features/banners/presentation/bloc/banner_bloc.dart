@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
-import 'package:spavation/core/enum/enum.dart';
 import 'package:spavation/features/banners/data/models/banner_model.dart';
 import 'package:spavation/features/banners/domain/usecases/get_banners.dart';
 
@@ -14,7 +11,7 @@ part 'banner_state.dart';
 class BannerBloc extends Bloc<BannerEvent, BannerState> {
   BannerBloc({required GetBannersUseCase getBannersUseCase})
       : _getBannersUseCase = getBannersUseCase,
-        super(const BannerState()) {
+        super(BannerInitialState()) {
     on<BannerEvent>(_onGetBannersHandler);
   }
 
@@ -22,20 +19,13 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
 
   Future<void> _onGetBannersHandler(
       BannerEvent event, Emitter<BannerState> emit) async {
-    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(const Duration(seconds: 2));
+    emit.call(BannerInProgressState());
+    await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _getBannersUseCase();
 
     result.fold(
-        (l) => emit(state.copyWith(
-            status: FormzSubmissionStatus.failure,
-            errorMessage: l.message,
-            action: RequestType.getBanners)),
-        (r) => emit(state.copyWith(
-            status: FormzSubmissionStatus.success,
-            banners: r.banners,
-            successMessage: '',
-            action: RequestType.getBanners)));
+        (l) => emit.call(BannerLoadDataFailureState(errorMessage: l.message)),
+        (r) => emit.call(BannerLoadDataSuccessState(banners: r.banners ?? [])));
   }
 }
