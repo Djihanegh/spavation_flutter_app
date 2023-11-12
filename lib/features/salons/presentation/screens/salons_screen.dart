@@ -113,7 +113,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
                     salons.sort((a, b) => a.distance.compareTo(b.distance));
 
                     child = Flexible(
-                        child: ListView.builder(
+                        child:  ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,

@@ -101,8 +101,6 @@ class CustomTextFormField extends StatelessWidget {
                     decoration: InputDecoration(
                         fillColor: Colors.white,
                         focusColor: Colors.white,
-                        prefixIconConstraints:
-                            const BoxConstraints(minWidth: 23, maxHeight: 20),
                         isDense: true,
                         suffixIconConstraints: const BoxConstraints(
                           minWidth: 10,

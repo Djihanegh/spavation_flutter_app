@@ -11,8 +11,10 @@ class Assets {
   static const String iconsAwesomeHeadset = 'assets/icons/awesome-headset.svg';
   static const String iconsAwesomeMale = 'assets/icons/awesome-male.png';
   static const String iconsAwesomeUser = 'assets/icons/awesome-user.svg';
+  static const String iconsChatBtn = 'assets/icons/chat-btn.svg';
   static const String iconsClock = 'assets/icons/clock.png';
   static const String iconsClockSvg = 'assets/icons/clockSvg.svg';
+  static const String iconsFrame = 'assets/icons/Frame.png';
   static const String iconsHomeSvg = 'assets/icons/homeSvg.svg';
   static const String iconsIonicIosBookmark = 'assets/icons/ionic-ios-bookmark.svg';
   static const String iconsIonicIosCalendar = 'assets/icons/ionic-ios-calendar.svg';
@@ -29,6 +31,7 @@ class Assets {
   static const String iconsSpaLogo = 'assets/icons/spa-logo.png';
   static const String iconsSpavationLogo = 'assets/icons/spavation-logo.png';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
+  static const String iconsWalletIcon = 'assets/icons/wallet-icon.svg';
   static const String imagesGreyStar = 'assets/images/grey-star.png';
   static const String imagesImage2 = 'assets/images/image2.jpg';
   static const String imagesLocationPermission = 'assets/images/location-permission.svg';

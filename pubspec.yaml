@@ -63,6 +63,7 @@ dependencies:
   geolocator: ^10.0.1
   intl: any
   cached_network_image: ^3.3.0
+  flutter_svg_provider: ^1.0.6
 
 
 dev_dependencies:

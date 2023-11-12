@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/features/authentication/presentation/screens/splash/splash_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,12 +18,8 @@ class SpavationApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String language = Prefs.getString(Prefs.LANGUAGE) ?? '';;
-    log('LANGUAGE');
-    log(language);
-    String token = Prefs.getString(Prefs.TOKEN) ?? '';
-    log('TOKEN');
-    log(token);
+    String language = Prefs.getString(Prefs.LANGUAGE) ?? '';
+
     return BlocProvider(
         create: (context) => LanguageBloc(),
         child: BlocListener<LanguageBloc, LanguageState>(
@@ -41,18 +38,13 @@ class SpavationApp extends StatelessWidget {
                   locale: language == 'en'
                       ? Language.english.value
                       : Language.arabic.value,
-                  theme: ThemeData(
-                    useMaterial3: true,
-                  ),
+                  theme:  lightTheme,
                   home: Directionality(
                       textDirection: language.isNotEmpty
                           ? language == 'en'
                               ? TextDirection.ltr
                               : TextDirection.rtl
                           : TextDirection.rtl,
-                      /*  state.selectedLanguage.value == Language.english.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,*/ // set this property
                       child: const SplashScreen()));
             })));
   }

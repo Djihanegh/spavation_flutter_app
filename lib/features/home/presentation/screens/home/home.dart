@@ -77,6 +77,7 @@ class _HomeState extends State<Home> {
         width: sw!,
         color: Colors.transparent,
         child: Stack(alignment: Alignment.center, children: [
+
           Container(
               height: 82,
               width: sw!,
@@ -87,6 +88,7 @@ class _HomeState extends State<Home> {
                 width: sw!,
                 color: appPrimaryColor,
               )),
+
           if (_selectedIndex == 0 && language.value == Language.english.value)
             Positioned(
                 top: -20,
@@ -115,7 +117,7 @@ class _HomeState extends State<Home> {
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                 )),
-          if (_selectedIndex == 1 && language.value == Language.english.value )
+          if (_selectedIndex == 1 && language.value == Language.english.value)
             Positioned(
                 top: -20,
                 bottom: 10,
@@ -133,13 +135,13 @@ class _HomeState extends State<Home> {
             Positioned(
                 top: -20,
                 bottom: 10,
-               // right: sw! / 0.8,
-                 left: sw! / 3,
+                // right: sw! / 0.8,
+                left: sw! / 3,
                 child: Container(
                   height: 80,
-                  width: sw! *  0.24,
+                  width: sw! * 0.24,
                   decoration: const BoxDecoration(
-                      color: Colors.white ,
+                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
@@ -198,7 +200,7 @@ class _HomeState extends State<Home> {
                   index: 2,
                   navBarIndex: _selectedIndex,
                 ),
-              ])
+              ]),
         ]));
   }
 }

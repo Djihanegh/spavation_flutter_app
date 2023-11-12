@@ -71,7 +71,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     }
     if (state is CategoryLoadDataFailureState) {
       child =
-          CustomErrorWidget(onRefresh: () {}, errorMessage: state.errorMessage);
+         const Center(child: Icon(Icons.error));
     }
     if (state is CategoryInProgressState) child = const LoadingWidget(color: appPrimaryColor,);
     return child;
