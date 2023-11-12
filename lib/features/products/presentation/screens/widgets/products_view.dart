@@ -64,51 +64,33 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    ProductModel product = ProductModel.empty();
 
     return BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {},
         builder: (context, state) {
           DataMap reservations = state.reservations ?? {};
           //if (state.data != null) {
-            ProductModel product = ProductModel.empty();
-            if (state.data!.isNotEmpty) {
-              product = state.data![0];
-            }
-            state.selectedProducts?.forEach((element) {
-              if (element.salonId == widget.salonId) {
-                isNotEmpty = true;
-                totalPrice = totalPrice + int.parse(element.price);
-              } else {
-                isNotEmpty = false;
-              }
-            });
-            if (state.selectedProducts != null) {
-              if (state.selectedProducts!.isEmpty) {
-                isNotEmpty = false;
-              }
+          ProductModel product = ProductModel.empty();
+          if (state.data!.isNotEmpty) {
+            product = state.data![0];
+          }
+          totalPrice = 0.0;
+          state.selectedProducts?.forEach((element) {
+            if (element.salonId == widget.salonId) {
+              isNotEmpty = true;
+              totalPrice = totalPrice + int.parse(element.price);
             } else {
               isNotEmpty = false;
             }
-        //  }
-
-          /*if (state.selectedProducts != null) {
-            for (var element in state.selectedProducts!) {
-              if (element.salonId == widget.salonId) {
-                isNotEmpty = true;
-                totalPrice = totalPrice + int.parse(element.price);
-              } else {
-                isNotEmpty = false;
-              }
-            }
-          }
+          });
           if (state.selectedProducts != null) {
             if (state.selectedProducts!.isEmpty) {
               isNotEmpty = false;
             }
           } else {
             isNotEmpty = false;
-          }*/
+          }
+
           return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -369,32 +351,40 @@ class _ProductsViewState extends State<ProductsView> {
                                       if (reservations[widget.salonId][0]
                                               ['date'] ==
                                           null) {
-                                        openSnackBar(
-                                            context,
-                                            l10n.pleaseSelectDateReservation,
-                                            AnimatedSnackBarType.warning);
+                                        setState(() {
+                                          openSnackBar(
+                                              context,
+                                              l10n.pleaseSelectDateReservation,
+                                              AnimatedSnackBarType.warning);
+                                        });
+
                                         return;
                                       }
 
                                       if (reservations[widget.salonId][0]
                                               ['time'] ==
                                           null) {
-                                        openSnackBar(
-                                            context,
-                                            l10n.pleaseSelectReservationTime,
-                                            AnimatedSnackBarType.warning);
+                                        setState(() {
+                                          openSnackBar(
+                                              context,
+                                              l10n.pleaseSelectReservationTime,
+                                              AnimatedSnackBarType.warning);
+                                        });
+
                                         return;
                                       }
                                     }
                                   }
 
-                                  navigateToPage(
-                                      PaymentScreen(
-                                        salonId: widget.salonId,
-                                        taxNumber: widget.taxNumber,
-                                        taxRate: widget.taxRate,
-                                      ),
-                                      context);
+                                  if (isNotEmpty) {
+                                    navigateToPage(
+                                        PaymentScreen(
+                                          salonId: widget.salonId,
+                                          taxNumber: widget.taxNumber,
+                                          taxRate: widget.taxRate,
+                                        ),
+                                        context);
+                                  }
                                 },
                                 child: Container(
                                   height: 40,

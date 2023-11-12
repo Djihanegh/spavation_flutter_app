@@ -100,7 +100,7 @@ class SalonItem extends StatelessWidget {
                                       ),
                                       borderRadius: BorderRadius.circular(5),
                                       color: Colors
-                                          .grey), /* Image.network(
+                                          .transparent), /* Image.network(
                                     Endpoints.storageUrl + image,
                                     loadingBuilder: (BuildContext context,
                                         Widget child,
