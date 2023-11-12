@@ -12,7 +12,9 @@ import 'package:spavation/features/home/presentation/screens/home/home.dart';
 import 'package:spavation/features/localization/presentation/bloc/language_bloc.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/navigation.dart';
+import '../../../../home/presentation/screens/permission/screens/location_permission.dart';
 import '../../../../localization/domain/entities/language.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -47,8 +49,6 @@ class _SplashScreenState extends State<SplashScreen>
           selectedLanguage:
               language == 'en' ? Language.english : Language.arabic));
 
-    log(token);
-
     if (token != '') {
       _authenticationBloc.add(GetUserEvent(token: token));
     }
@@ -79,16 +79,22 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
   }
 
-  void navigateToHome() {
-    if (mounted) {
+  void checkLocationPermission() async {}
+
+  void navigateToHome() async {
+    bool requestPermission = false;
+    requestPermission = await Location().isLocationServiceEnabled();
+
+    if (context.mounted) {
       Future.delayed(
           const Duration(seconds: 1),
-          () => navigateAndRemoveUntil(
-              token.isEmpty || !userExists
-                  ? const AuthenticationScreen()
-                  : const Home(),
-              context,
-              false));
+          () => token.isEmpty || !userExists
+              ? navigateAndRemoveUntil(
+                  const AuthenticationScreen(), context, false)
+              : requestPermission
+                  ? navigateToPage(const LocationPermissionScreen(), context)
+                  : navigateAndRemoveUntil(
+                      const Home(), context, false));
     }
   }
 

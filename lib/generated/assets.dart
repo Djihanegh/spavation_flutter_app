@@ -30,6 +30,8 @@ class Assets {
   static const String iconsSpavationLogo = 'assets/icons/spavation-logo.png';
   static const String iconsVisaCard = 'assets/icons/visa-card.svg';
   static const String imagesGreyStar = 'assets/images/grey-star.png';
+  static const String imagesImage2 = 'assets/images/image2.jpg';
+  static const String imagesLocationPermission = 'assets/images/location-permission.svg';
   static const String imagesSlider1 = 'assets/images/slider1.png';
   static const String imagesSlider2 = 'assets/images/slider2.png';
   static const String imagesSpa = 'assets/images/spa.png';
@@ -38,5 +40,6 @@ class Assets {
   static const String tahomaTAHOMA0 = 'assets/fonts/tahoma/TAHOMA_0.TTF';
   static const String tahomaTAHOMAB0 = 'assets/fonts/tahoma/TAHOMAB0.TTF';
   static const String tahomaTAHOMABD = 'assets/fonts/tahoma/TAHOMABD.TTF';
+  static const String tahomaTahomaRegularfont = 'assets/fonts/tahoma/TahomaRegularfont.ttf';
 
 }

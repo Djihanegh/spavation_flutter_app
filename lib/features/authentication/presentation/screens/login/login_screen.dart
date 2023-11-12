@@ -119,43 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           : const SizedBox(),
                     ],
                   )),
-              /*  Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        '${l10n.password} :',
-                        style: TextStyles.inter
-                            .copyWith(color: purple[2], fontSize: 16),
-                      ),
-                      CustomTextFormField(
-                        controller: passwordController,
-                        borderColor: purple[2],
-                        obscureText: true,
-                        onSaved: (e) {},
-                        onChanged: (e) {
-                          validatePassword(e);
-                          context
-                              .read<AuthenticationBloc>()
-                              .add(PasswordChanged(password: e));
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (v) => null,
-                      ),
-                      passwordValidator.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: SizedBox(
-                                  width: double.infinity,
-                                  child: Text(passwordValidator,
-                                      style:
-                                          const TextStyle(color: Colors.red))))
-                          : const SizedBox(),
-                    ],
-                  )), */
+
               20.heightXBox,
               AppButton(
                 isLoading: state.status ==

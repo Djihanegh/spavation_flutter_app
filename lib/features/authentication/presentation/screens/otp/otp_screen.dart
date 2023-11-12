@@ -13,9 +13,11 @@ import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/screens/forgetPassword/update_password_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spavation/features/home/presentation/screens/permission/screens/location_permission.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/enum/enum.dart';
+import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
@@ -56,8 +58,15 @@ class _OtpScreenState extends State<OtpScreen> {
     );
   }
 
+  bool requestPermission = false;
+
+  void checkPermission() async {
+    requestPermission = await Location().isLocationServiceEnabled();
+  }
+
   @override
   void initState() {
+    checkPermission();
     super.initState();
 
     startTimer();
@@ -85,7 +94,11 @@ class _OtpScreenState extends State<OtpScreen> {
                     AnimatedSnackBarType.success);
                 if (state.action == RequestType.checkOtp &&
                     state.status == AuthenticationStatus.success) {
-                  navigateAndRemoveUntil(const Home(), context, false);
+                  if (requestPermission) {
+                    navigateToPage(const LocationPermissionScreen(), context);
+                  } else {
+                    navigateAndRemoveUntil(const Home(), context, false);
+                  }
                 }
               }
 
@@ -209,7 +222,8 @@ class _OtpScreenState extends State<OtpScreen> {
                                                 left: 20, right: 20),
                                             child: AppButton(
                                                 isLoading: state.status ==
-                                                    AuthenticationStatus.inProgress
+                                                        AuthenticationStatus
+                                                            .inProgress
                                                     ? true
                                                     : false,
                                                 title: l10n.verify,

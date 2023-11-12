@@ -21,6 +21,10 @@ popWithRoot<T>(BuildContext context) {
   Navigator.of(context, rootNavigator: true).pop();
 }
 
+pop(BuildContext context) {
+  Navigator.pop(context);
+}
+
 Route createRoute(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
