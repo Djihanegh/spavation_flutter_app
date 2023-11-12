@@ -43,11 +43,13 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-build_apk.sh
-generate-l10n.sh
-localization.sh
+/build_apk.sh
+/generate-l10n.sh
+/localization.sh
 
-/lib/features/authentication
-/lib/features/home
-/lib/features/salons
-/lib/features/reservation
+/lib/features/authentication/
+/lib/features/home/
+/lib/features/salons/
+/lib/features/reservation/
+
+/.github/
