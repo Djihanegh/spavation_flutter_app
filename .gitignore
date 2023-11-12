@@ -53,3 +53,5 @@ app.*.map.json
 /lib/features/reservation/
 
 /.github/
+
+README.md
