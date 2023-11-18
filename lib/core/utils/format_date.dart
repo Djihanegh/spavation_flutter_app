@@ -4,15 +4,34 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 String getHourMnSec(String timeTo) {
-  return DateFormat("hh:mm a").format(DateFormat('hh:mm:ss').parseUtc(timeTo));
+  String date = '';
+  try {
+    date =
+        DateFormat("hh:mm a").format(DateFormat('hh:mm:ss').parseUtc(timeTo));
+  } catch (e) {
+    log(e.toString());
+  }
+  return date;
 }
 
 DateTime convertStringToHourMnSec(String time) {
-  return DateFormat("HH:mm:ss").parse(time);
+  DateTime date = DateTime.now();
+  try {
+    date = DateFormat("HH:mm:ss").parse(time);
+  } catch (e) {
+    log(e.toString());
+  }
+  return date;
 }
 
 DateTime convertStringToDateTime(String time) {
-  return DateFormat("yyyy-MM-dd").parse(time);
+  DateTime date = DateTime.now();
+  try {
+    date = DateFormat("yyyy-MM-dd").parse(time);
+  } catch (e) {
+    log(e.toString());
+  }
+  return date;
 }
 
 int daysBetween(DateTime from, DateTime to) {

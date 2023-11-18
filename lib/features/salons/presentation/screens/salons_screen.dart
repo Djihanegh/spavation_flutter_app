@@ -131,6 +131,7 @@ class _SalonsScreenState extends State<SalonsScreen> {
                                 image: salon.image,
                                 isForFemale: salon.isForFemale,
                                 isForMale: salon.isForMale,
+                                closeTime: salon.closeTime,
                               );
                             }));
                   } else {

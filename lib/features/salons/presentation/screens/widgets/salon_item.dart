@@ -8,7 +8,6 @@ import 'package:spavation/core/utils/endpoint.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/products/presentation/screens/products_screen.dart';
-import 'package:spavation/features/salons/presentation/screens/widgets/salon_loadig_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../app/theme.dart';
@@ -29,6 +28,7 @@ class SalonItem extends StatelessWidget {
       required this.image,
       required this.salonId,
       required this.taxRate,
+        required this.closeTime,
       required this.taxNumber});
 
   final String title;
@@ -41,6 +41,7 @@ class SalonItem extends StatelessWidget {
   final String salonId;
   final String taxRate;
   final String taxNumber;
+  final String closeTime;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class SalonItem extends StatelessWidget {
               image: image,
               taxRate: taxRate,
               taxNumber: taxNumber,
+              closeTime: closeTime,
             ),
             context),
         child: Padding(

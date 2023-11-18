@@ -36,6 +36,7 @@ class ProductsView extends StatefulWidget {
     required this.image,
     required this.taxRate,
     required this.taxNumber,
+    required this.closeTime,
     //   required this.reservations
   });
 
@@ -50,6 +51,7 @@ class ProductsView extends StatefulWidget {
   final String image;
   final String taxRate;
   final String taxNumber;
+  final String closeTime;
 
   // final DataMap reservations;
 
@@ -266,7 +268,7 @@ class _ProductsViewState extends State<ProductsView> {
                                                 SvgPicture.asset(
                                                     Assets.iconsClockSvg),
                                                 Text(
-                                                  '${l10n.closeAt} ${getHourMnSec(product.timeTo).substring(1, 2)}${getHourMnSec(product.timeTo).substring(6, 8)}',
+                                                  '${l10n.closeAt} ${getHourMnSec(widget.closeTime) != '' ? getHourMnSec(widget.closeTime) : ''}',
                                                   style: TextStyles.inter
                                                       .copyWith(
                                                           fontSize: 10,

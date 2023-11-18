@@ -22,6 +22,7 @@ class ProductsScreen extends StatefulWidget {
       required this.description,
       required this.image,
       required this.taxRate,
+      required this.closeTime,
       required this.taxNumber});
 
   final String salonId;
@@ -33,6 +34,7 @@ class ProductsScreen extends StatefulWidget {
   final String image;
   final String taxRate;
   final String taxNumber;
+  final String closeTime;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -100,6 +102,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         isForMale: widget.isForMale,
                         isForFemale: widget.isForFemale,
                         distance: widget.distance,
+                        closeTime: widget.closeTime,
                       );
                     }
                   }

@@ -170,6 +170,7 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
                                         image: salon.image,
                                         isForFemale: salon.isForFemale,
                                         isForMale: salon.isForMale,
+                                        closeTime: salon.closeTime,
                                       );
                                     });
                               } else {
