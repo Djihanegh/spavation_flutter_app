@@ -43,7 +43,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 navigateToPage(
                     OtpScreen(
                       key: forgetPasswordKey,
-                      email: emailController.text,
+                      email: state.email,
+                      phone: '',
                     ),
                     context);
               } else if (state.status == AuthenticationStatus.failure) {
@@ -115,7 +116,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                                 left: 20, right: 20),
                                             child: AppButton(
                                                 isLoading: state.status ==
-                                                    AuthenticationStatus.inProgress
+                                                        AuthenticationStatus
+                                                            .inProgress
                                                     ? true
                                                     : false,
                                                 title: l10n.send,

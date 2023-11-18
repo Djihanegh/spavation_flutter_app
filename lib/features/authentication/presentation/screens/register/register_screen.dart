@@ -66,6 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               navigateToPage(
                   OtpScreen(
                     email: emailController.text,
+                    phone: mobileController.text,
                   ),
                   context);
               clearTextFields();
@@ -135,6 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       CustomTextFormField(
                         controller: mobileController,
+                        textDirection: TextDirection.ltr,
                         onSaved: (e) {},
                         borderColor: purple[2],
                         onChanged: (e) => validatePhone(e),
@@ -290,8 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ])),
               20.heightXBox,
               AppButton(
-                isLoading: state.status ==
-                    AuthenticationStatus.inProgress
+                isLoading: state.status == AuthenticationStatus.inProgress
                     ? true
                     : false,
                 title: l10n.register,

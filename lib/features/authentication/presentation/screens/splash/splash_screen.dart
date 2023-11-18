@@ -14,7 +14,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../../../../core/services/location_service.dart';
 import '../../../../../core/utils/navigation.dart';
-import '../../../../home/presentation/screens/permission/screens/location_permission.dart';
+import '../../../../home/presentation/screens/permission/location_permission_screen.dart';
 import '../../../../localization/domain/entities/language.dart';
 
 class SplashScreen extends StatefulWidget {

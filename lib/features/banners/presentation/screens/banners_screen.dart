@@ -61,28 +61,31 @@ class _BannerScreenState extends State<BannerScreen> {
 
   void _onStateListenHandler() {
     Timer.periodic(const Duration(seconds: 6), (Timer timer) {
-      if (_currentPage == 2) {
-        end = true;
-      } else if (_currentPage == 0) {
-        end = false;
-      }
+      if (sliderController.hasClients) {
+        if (_currentPage == 2) {
+          end = true;
+        } else if (_currentPage == 0) {
+          end = false;
+        }
 
-      if (end == false) {
-        _currentPage++;
-      } else {
-        _currentPage--;
-      }
+        if (end == false) {
+          _currentPage++;
+        } else {
+          _currentPage--;
+        }
 
-      sliderController.animateToPage(
-        _currentPage,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeIn,
-      );
+        sliderController.animateToPage(
+          _currentPage,
+          duration: const Duration(seconds: 2),
+          curve: Curves.easeIn,
+        );
+      }
     });
   }
 
   @override
   void dispose() {
     super.dispose();
+    sliderController.dispose();
   }
 }

@@ -13,7 +13,6 @@ import 'package:spavation/core/widgets/app_button.dart';
 import 'package:spavation/core/widgets/app_snack_bar.dart';
 import 'package:spavation/features/authentication/presentation/screens/forgetPassword/update_password_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spavation/features/home/presentation/screens/permission/screens/location_permission.dart';
 
 import '../../../../../app/theme.dart';
 import '../../../../../core/enum/enum.dart';
@@ -23,12 +22,14 @@ import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/size_config.dart';
 import '../../../../../generated/assets.dart';
 import '../../../../home/presentation/screens/home/home.dart';
+import '../../../../home/presentation/screens/permission/location_permission_screen.dart';
 import '../../bloc/authentication_bloc.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key, required this.email});
+  const OtpScreen({super.key, required this.email, required this.phone});
 
   final String email;
+  final String phone;
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -180,41 +181,51 @@ class _OtpScreenState extends State<OtpScreen> {
                                         SizedBox(
                                           height: 80,
                                           child: Center(
-                                              child: OtpTextField(
-                                            numberOfFields: 6,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            disabledBorderColor: purple[2],
-                                            enabledBorderColor: purple[2],
-                                            focusedBorderColor: purple[2],
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(7)),
-                                            borderWidth: 1,
+                                              child: Directionality(
+                                                  textDirection:
+                                                      TextDirection.ltr,
+                                                  child: OtpTextField(
+                                                    numberOfFields: 6,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    disabledBorderColor:
+                                                        purple[2],
+                                                    enabledBorderColor:
+                                                        purple[2],
+                                                    focusedBorderColor:
+                                                        purple[2],
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(7)),
+                                                    borderWidth: 1,
 
-                                            borderColor: purple[2],
-                                            //set to true to show as box or false to show as dash
-                                            showFieldAsBox: true,
-                                            //runs when a code is typed in
-                                            onCodeChanged: (String code) {
-                                              //handle validation or checks here
-                                            },
+                                                    borderColor: purple[2],
+                                                    //set to true to show as box or false to show as dash
+                                                    showFieldAsBox: true,
+                                                    //runs when a code is typed in
+                                                    onCodeChanged:
+                                                        (String code) {
+                                                      //handle validation or checks here
+                                                    },
 
-                                            //runs when every textfield is filled
-                                            onSubmit:
-                                                (String verificationCode) {
-                                              setState(() {
-                                                otp = verificationCode;
-                                                context
-                                                    .read<AuthenticationBloc>()
-                                                    .add(OtpChanged(
-                                                      otp: otp,
-                                                    ));
-                                              });
-                                            }, // end onSubmit
-                                          )),
+                                                    //runs when every textfield is filled
+                                                    onSubmit: (String
+                                                        verificationCode) {
+                                                      setState(() {
+                                                        otp = verificationCode;
+                                                        context
+                                                            .read<
+                                                                AuthenticationBloc>()
+                                                            .add(OtpChanged(
+                                                              otp: otp,
+                                                            ));
+                                                      });
+                                                    }, // end onSubmit
+                                                  ))),
                                         ),
                                         30.heightXBox,
                                         Padding(

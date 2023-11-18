@@ -33,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
       this.validator,
       this.borderColor,
       this.onFieldSubmitted,
+      this.textDirection,
       this.onEditingComplete})
       : super(key: key);
 
@@ -57,7 +58,7 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxlines;
   final Widget? prefixIcon;
   final Color? borderColor;
-
+  final TextDirection? textDirection;
   final Function? validator;
 
   @override
@@ -78,9 +79,10 @@ class CustomTextFormField extends StatelessWidget {
                       border: Border.all(color: borderColor ?? Colors.white)),
                   child: TextFormField(
                     textDirection:
-                        state.selectedLanguage.value == Language.english.value
+                    textDirection ??
+                        (state.selectedLanguage.value == Language.english.value
                             ? TextDirection.ltr
-                            : TextDirection.rtl,
+                            : TextDirection.rtl),
                     enabled: enabled,
                     maxLines: maxlines ?? 1,
                     controller: controller,

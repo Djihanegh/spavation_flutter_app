@@ -48,7 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 navigateToPage(
                     OtpScreen(
-                      email: phoneController.text,
+                      email: state.email,
+                      phone: phoneController.text,
                     ),
                     context);
               }
@@ -59,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
               saveUserData(state.name);
               navigateToPage(
                   OtpScreen(
-                    email: phoneController.text,
+                    email: state.email,
+                    phone: phoneController.text,
                   ),
                   context);
               //   navigateAndRemoveUntil(const Home(), context, false);
@@ -88,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             .copyWith(color: purple[2], fontSize: 16),
                       ),
                       CustomTextFormField(
+                        textDirection: TextDirection.ltr,
                         controller: phoneController,
                         borderColor: purple[2],
                         onSaved: (e) {

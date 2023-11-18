@@ -30,17 +30,14 @@ class _SalonsScreenState extends State<SalonsScreen> {
   @override
   void initState() {
     _salonBloc = BlocProvider.of(context);
-    _getCurrentPosition();
+   // _getCurrentPosition();
     // if (_salonBloc.state.salons == [] || _salonBloc.state.salons == null) {
     // _salonBloc.add(const GetSalonsEvent({}));
     // }
     super.initState();
   }
 
-  void _getCurrentPosition() async {
-    currentPosition = await Location().determinePosition();
-  }
-
+//
   void _refresh() {
     _salonBloc.add(const GetSalonsEvent({}));
   }

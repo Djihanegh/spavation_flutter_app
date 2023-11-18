@@ -38,7 +38,7 @@ class SpavationApp extends StatelessWidget {
                   locale: language == 'en'
                       ? Language.english.value
                       : Language.arabic.value,
-                  theme:  lightTheme,
+                  theme: ThemeData(useMaterial3: true),
                   home: Directionality(
                       textDirection: language.isNotEmpty
                           ? language == 'en'
