@@ -17,6 +17,7 @@ class ReservationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    log(reservation.toString());
     return Column(
       children: [
         20.heightXBox,

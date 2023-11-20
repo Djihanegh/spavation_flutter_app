@@ -40,9 +40,9 @@ class SalonRemoteDataSrcImpl implements SalonRemoteDataSource {
         if (data['gender'] != null) {
           if (data['gender'] == 'men') {
             queryParams['is_for_male'] = "1";
-            queryParams['is_for_female'] = "2";
+            queryParams['is_for_female'] = "0";
           } else if (data['gender'] == 'women') {
-            queryParams['is_for_male'] = "2";
+            queryParams['is_for_male'] = "0";
           } else if (data['gender'] == 'both') {
             queryParams['is_for_female'] = "1";
             queryParams['is_for_male'] = "1";

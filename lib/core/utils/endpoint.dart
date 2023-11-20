@@ -2,18 +2,21 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl =
-      'http://admin.spavation.co/public/api'; //'https://spa.esayway.com/public/api';
+  static const String baseUrl = 'http://admin.spavation.co/public/api';
+
+  // dev Url
+
+  static const String devUrl = 'https://spa.esayway.com/public/api';
 
   // Storage Url
-  static const storageUrl = 'http://admin.spavation.co/public/storage/'; // 'https://spa.esayway.com/public/storage/';
-
+  static const storageUrl =
+      'http://admin.spavation.co/public/storage/'; // 'https://spa.esayway.com/public/storage/';
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(seconds: 15000);
 
   // connectTimeout
-  static const Duration connectionTimeout = Duration(seconds: 30);
+  static const Duration connectionTimeout = Duration(seconds: 80);
 
   // Auth
 

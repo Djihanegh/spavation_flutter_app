@@ -347,7 +347,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
 
   void getCurrentPosition() async {
     //  setState(() async {
-    currentPosition = await Location().determinePosition();
+  //  currentPosition = await Location().determinePosition();
     //  });
   }
 }

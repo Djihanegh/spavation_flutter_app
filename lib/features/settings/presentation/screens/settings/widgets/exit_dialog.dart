@@ -16,7 +16,7 @@ showExitDialog(
             backgroundColor: Colors.white,
             shadowColor: Colors.white,
             surfaceTintColor: Colors.white,
-            insetPadding: EdgeInsets.only(top: sh! * 0.1),
+            insetPadding: EdgeInsets.only(top: sh! * 0.1 , ),
             scrollable: true,
             actions: [
               TextButton(

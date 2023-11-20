@@ -114,7 +114,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       response = await _client.post(
           Uri.parse(Endpoints.baseUrl + Endpoints.resendOtp),
           headers: headers,
-          body: jsonEncode({'email': email}));
+          body: jsonEncode({'phone': email}));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         BaseResponse result = BaseResponse.fromJson(response.body);

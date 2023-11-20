@@ -171,12 +171,14 @@ class _OtpScreenState extends State<OtpScreen> {
                                           style: TextStyles.inter.copyWith(
                                               color: purple[0], fontSize: 15),
                                         ),
-                                        AutoSizeText(
-                                          widget.email,
-                                          style: TextStyles.inter.copyWith(
-                                              color: Colors.black,
-                                              fontSize: 15),
-                                        ),
+                                        Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: AutoSizeText(
+                                              widget.phone,
+                                              style: TextStyles.inter.copyWith(
+                                                  color: Colors.black,
+                                                  fontSize: 15),
+                                            )),
                                         20.heightXBox,
                                         SizedBox(
                                           height: 80,
@@ -310,7 +312,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                                               AuthenticationBloc>()
                                                           .add(ResendOtpEvent(
                                                               email: widget
-                                                                  .email));
+                                                                  .phone));
                                                     },
                                                     child: Text(
                                                       "${l10n.resendCode} ",

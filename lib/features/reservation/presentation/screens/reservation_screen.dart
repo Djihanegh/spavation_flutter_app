@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -84,6 +86,9 @@ class _ReservationScreenState extends State<ReservationScreen> {
                             //     discount =
                             //       double.parse(state.reservations![indexA].products[0);
 
+                            log(double.parse(
+                                state.reservations![indexA].totalTax).toString());
+
                             totalTax = double.parse(
                                 state.reservations![indexA].totalTax);
 
@@ -141,6 +146,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                                   DataMap reservation = state
                                                       .reservations?[indexA]
                                                       .products[indexB];
+
+
 
                                                   return ReservationItem(
                                                     reservation: reservation,
