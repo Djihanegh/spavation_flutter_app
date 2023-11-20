@@ -10,6 +10,7 @@ import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../../core/utils/navigation.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
+import '../../../../../localization.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 
 class ChatView extends StatefulWidget {
@@ -24,6 +25,8 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
@@ -45,7 +48,7 @@ class _ChatViewState extends State<ChatView> {
                                 child: CustomBackButton())),
                         10.heightXBox,
                         Padding(
-                          padding:  EdgeInsets.only(
+                          padding: EdgeInsets.only(
                               top: sh! * 0.2, left: 20, right: 20),
                           child: Stack(children: [
                             Container(
@@ -68,13 +71,13 @@ class _ChatViewState extends State<ChatView> {
                                           text: '',
                                           children: <TextSpan>[
                                             TextSpan(
-                                                text: 'You are chatting with ',
+                                                text: l10n.youAreChattingWith,
                                                 style: TextStyles.inter
                                                     .copyWith(
                                                         color: Colors.black,
                                                         fontSize: 15)),
                                             TextSpan(
-                                                text: 'Support Team',
+                                                text: l10n.supportTeam,
                                                 style: TextStyles.inter
                                                     .copyWith(
                                                         fontWeight:
@@ -87,14 +90,14 @@ class _ChatViewState extends State<ChatView> {
                                       10.heightXBox,
                                       ListTile(
                                         title: AutoSizeText(
-                                          'Spavation support',
+                                          l10n.spavationSupport,
                                           style: TextStyles.inter.copyWith(
                                               color: purple[2],
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         subtitle: AutoSizeText(
-                                          'Hello how can i help you?',
+                                          l10n.helloHowCanIhelpYou,
                                           style: TextStyles.inter.copyWith(
                                               color: Colors.black,
                                               fontSize: 14,
@@ -131,7 +134,7 @@ class _ChatViewState extends State<ChatView> {
                                           child: Image.asset(Assets.iconsFrame),
                                         )),
                                     AutoSizeText(
-                                      "Live Support Chat",
+                                      l10n.liveSupportChat,
                                       style: TextStyles.inter.copyWith(
                                           color: Colors.white, fontSize: 15),
                                     ),
@@ -150,7 +153,7 @@ class _ChatViewState extends State<ChatView> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(15)),
                                 child: CustomTextFormField(
-                                  hintText: 'Type your message...',
+                                  hintText: l10n.typeYourMessage,
                                   controller: controller,
                                   onSaved: (e) {},
                                   onChanged: (e) {},
@@ -160,7 +163,7 @@ class _ChatViewState extends State<ChatView> {
                                       child: AppButton(
                                           isLoading: false,
                                           color: purple[2],
-                                          title: 'Send',
+                                          title: l10n.send,
                                           textColor: Colors.white,
                                           onPressed: () => {})),
                                 ))),

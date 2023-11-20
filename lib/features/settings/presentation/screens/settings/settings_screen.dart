@@ -201,11 +201,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Assets.iconsAwesomeUser,
               name: l10n.account,
               onPressed: () => pageController.jumpToPage(1)),
-          SettingsItem(
+         /* SettingsItem(
             icon: Assets.iconsMaterialPayment,
             name: l10n.paymentMethod,
             onPressed: () {},
-          ),
+          ),*/
           SettingsItem(
               icon: Assets.iconsMetroHistory,
               name: l10n.bills,

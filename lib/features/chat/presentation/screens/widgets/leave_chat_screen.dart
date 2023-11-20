@@ -10,6 +10,7 @@ import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../../core/utils/navigation.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
+import '../../../../../localization.dart';
 import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
 
 class LeaveChatScreen extends StatefulWidget {
@@ -24,6 +25,8 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
@@ -80,15 +83,17 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                                       ],
                                     ),
                                     20.heightXBox,
+                                    Directionality(
+                                        textDirection: TextDirection.ltr,
+                                        child: AutoSizeText(
+                                          l10n.spavationLiveChat,
+                                          style: TextStyles.inter.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25,
+                                              color: purple[2]),
+                                        )),
                                     AutoSizeText(
-                                      'Spavation Live Chat',
-                                      style: TextStyles.inter.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25,
-                                          color: purple[2]),
-                                    ),
-                                    AutoSizeText(
-                                      'Are you sure you want to end the conversation?',
+                                      l10n.leaveConversationText,
                                       style: TextStyles.inter.copyWith(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 15,
@@ -106,7 +111,7 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                                             width: 100,
                                             child: AppButton(
                                                 borderColor: Colors.black,
-                                                title: 'Stay',
+                                                title: l10n.stay,
                                                 color: purple[2],
                                                 textColor: Colors.white,
                                                 onPressed: () => {pop(context)},
@@ -116,7 +121,7 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                                             width: 100,
                                             child: AppButton(
                                                 borderColor: dividerColor,
-                                                title: 'End',
+                                                title: l10n.end,
                                                 color: Colors.white,
                                                 textColor: red[0],
                                                 onPressed: () =>

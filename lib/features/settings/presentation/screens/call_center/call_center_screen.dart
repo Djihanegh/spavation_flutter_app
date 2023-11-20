@@ -84,10 +84,10 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                                 icon: Assets.iconsAwesomeHeadset,
                                 name: l10n.contactUs,
                                 onPressed: () {}),
-                            CallCenterItem(
+                           /* CallCenterItem(
                                 icon: null,
                                 name: l10n.question,
-                                onPressed: () {}),
+                                onPressed: () {}),*/
                             CallCenterItem(
                                 icon: null,
                                 name: l10n.technicalQuestion,

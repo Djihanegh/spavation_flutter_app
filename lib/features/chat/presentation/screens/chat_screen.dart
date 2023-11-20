@@ -10,6 +10,7 @@ import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../core/widgets/custom_back_button.dart';
+import '../../../../localization.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -22,6 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     screenSizeInit(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: SingleChildScrollView(
@@ -79,14 +81,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                       ),
                                       20.heightXBox,
                                       AutoSizeText(
-                                        'Spavation Live Chat',
+                                        l10n.spavationLiveChat,
                                         style: TextStyles.inter.copyWith(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
                                             color: purple[2]),
                                       ),
                                       AutoSizeText(
-                                        'Hello 👋 Nice to see you here! By pressing the "Start chat"  we’ll transfer you to a Customer Support Agent',
+                                        l10n.liveChatWelcomeMessage,
                                         style: TextStyles.inter.copyWith(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 15,
@@ -95,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       ),
                                       80.heightXBox,
                                       AppButton(
-                                          title: 'Start chat',
+                                          title: l10n.startChat,
                                           color: purple[2],
                                           textColor: Colors.white,
                                           onPressed: () => navigateToPage(

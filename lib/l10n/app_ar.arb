@@ -84,5 +84,18 @@
   "am": "ص",
   "pm": "م",
   "tryAgain": "حاول مرة أخرى",
-  "discount": "خصم"
+  "discount": "خصم",
+  "liveChatWelcomeMessage" : " مرحبا \uD83D\uDC4B جميل أن أراك هنا! بالضغط على \"بدء الدردشة\" ، سننقلك إلى دعم العملاء",
+  "startChat": "ابدأ الدردشة",
+  "spavationLiveChat": "Spavation التواصل مباشرة مع",
+  "liveSupportChat" : "الدعم المباشر",
+  "youAreChattingWith": "أنت تدردش مع ",
+  "supportTeam": "فريق الدعم",
+  "spavationSupport": "Spavation دعم",
+  "helloHowCanIhelpYou": "مرحبا كيف يمكنني مساعدتك؟",
+  "typeYourMessage": "اكتب رسالتك...",
+  "leaveConversationText": "هل أنت متأكد من أنك تريد إنهاء المحادثة ؟",
+  "end": "انهاء",
+  "stay": "بقاء"
+
 }

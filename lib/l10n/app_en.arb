@@ -84,5 +84,24 @@
   "am": "AM",
   "pm": "PM",
   "tryAgain": "TRY AGAIN",
-  "discount": "discount"
+  "discount": "discount",
+  "liveChatWelcomeMessage": "Hello 👋 Nice to see you here! By pressing the 'Start chat'  we’ll transfer you to a Customer Support Agent",
+  "startChat": "Start chat",
+  "spavationLiveChat": "Spavation Live Chat",
+  "liveSupportChat"  : "Live Support Chat",
+  "youAreChattingWith": "You are chatting with ",
+  "supportTeam": "Support Team",
+  "spavationSupport": "Spavation support",
+  "helloHowCanIhelpYou": "Hello how can I help you ?",
+  "typeYourMessage": "Type your message...",
+  "leaveConversationText": "Are you sure you want to end the conversation ?",
+  "end": "End",
+  "stay": "Stay"
+
+
+
+
+
+
+
 }
