@@ -93,8 +93,7 @@ class _SplashScreenState extends State<SplashScreen>
                   const AuthenticationScreen(), context, false)
               : requestPermission
                   ? navigateToPage(const LocationPermissionScreen(), context)
-                  : navigateAndRemoveUntil(
-                      const Home(), context, false));
+                  : navigateAndRemoveUntil(const Home(), context, false));
     }
   }
 
@@ -114,6 +113,8 @@ class _SplashScreenState extends State<SplashScreen>
                 if (state.user!.isNotEmpty) {
                   setState(() {
                     userExists = true;
+                    saveUserId(state);
+                    log(state.user.toString());
                     //  navigateToHome();
                   });
                 }
@@ -132,5 +133,11 @@ class _SplashScreenState extends State<SplashScreen>
                           _controller)) //  SvgPicture.asset(Assets.iconsLogo),
                   );
             }));
+  }
+
+  void saveUserId(AuthenticationState state) {
+    if (state.user != null) {
+      Prefs.setInt(Prefs.ID, state.user!['id'] ?? "");
+    }
   }
 }

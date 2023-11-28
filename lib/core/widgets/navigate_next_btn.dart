@@ -7,7 +7,9 @@ import '../../features/localization/presentation/bloc/language_bloc.dart';
 import '../utils/size_config.dart';
 
 class NavigateNextButton extends StatelessWidget {
-  const NavigateNextButton({super.key});
+  const NavigateNextButton({super.key, this.topPadding});
+
+  final double? topPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,7 @@ class NavigateNextButton extends StatelessWidget {
         builder: (context, language) {
           return GestureDetector(
             child: Padding(
-              padding: EdgeInsets.only(top: sh! * 0.12, right: 0),
-              // top: (sh! * 0.12),
-              //  right: 0,
+              padding: EdgeInsets.only(top: topPadding ?? sh! * 0.12, right: 0),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,9 +47,7 @@ class NavigateNextButton extends StatelessWidget {
                                   child: Icon(
                                 Icons.navigate_next,
                                 color: appPrimaryColor,
-                                size: 40,
-
-                                //  onPressed: () => ,
+                                size: 20,
                               )),
                             ))
                       ],

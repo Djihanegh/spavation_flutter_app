@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/features/localization/domain/entities/language.dart';
 
 import '../../app/theme.dart';
@@ -10,22 +13,27 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('HEYYYYYYYY');
     return BlocConsumer<LanguageBloc, LanguageState>(
         listener: (context, state) {},
-        buildWhen: (prev, curr) =>
-            prev.selectedLanguage != curr.selectedLanguage,
         builder: (context, state) {
           return Padding(
               padding: state.selectedLanguage.value == Language.english.value
                   ? const EdgeInsets.only(right: 10)
                   : const EdgeInsets.only(left: 20),
               child: Container(
-                height: 20,
-                width: 20,
+                height: 30,
+                width: 30,
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.white),
                 child: Center(
-                    child: IconButton(
+                  child: const Icon(
+                    Icons.navigate_next,
+                    color: appPrimaryColor,
+                    size: 20,
+                  ),
+
+                  /*IconButton(
                   splashRadius: 10,
                   iconSize: 20,
                   padding: paddingAll(0),
@@ -34,8 +42,12 @@ class CustomBackButton extends StatelessWidget {
                     color: appPrimaryColor,
                     size: 20,
                   ),
-                  onPressed: () => Navigator.pop(context),
-                )),
+                  onPressed: () {
+                    log('ICON PRESSED');
+                    pop(context);
+                  },
+                )*/
+                ),
               ));
         });
   }

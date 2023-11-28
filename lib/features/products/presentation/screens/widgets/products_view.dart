@@ -37,14 +37,15 @@ class ProductsView extends StatefulWidget {
     required this.taxRate,
     required this.taxNumber,
     required this.closeTime,
+    required this.rate,
     //   required this.reservations
   });
 
   // final List<ProductModel> data;
   // final List<ProductModel> selectedProducts;
   final String salonId;
-  final bool isForFemale;
-  final bool isForMale;
+  final int isForFemale;
+  final int isForMale;
   final String distance;
   final String name;
   final String description;
@@ -52,6 +53,7 @@ class ProductsView extends StatefulWidget {
   final String taxRate;
   final String taxNumber;
   final String closeTime;
+  final int rate;
 
   // final DataMap reservations;
 
@@ -203,7 +205,7 @@ class _ProductsViewState extends State<ProductsView> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   const AutoSizeText(''),
-                                                  if (widget.isForFemale)
+                                                  if (widget.isForFemale == 1)
                                                     Image.asset(
                                                         Assets
                                                             .iconsAwesomeFemale,
@@ -218,13 +220,14 @@ class _ProductsViewState extends State<ProductsView> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   const AutoSizeText(''),
-                                                  if (widget.isForMale)
+                                                  if (widget.isForMale == 1)
                                                     Image.asset(
                                                         Assets.iconsAwesomeMale,
                                                         height: 20,
                                                         color: appPrimaryColor),
                                                   const AutoSizeText('')
                                                 ]),
+
                                             Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -235,6 +238,26 @@ class _ProductsViewState extends State<ProductsView> {
                                                   SvgPicture.asset(
                                                       Assets.iconsHomeSvg),
                                                   const AutoSizeText(''),
+                                                ]),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.star,
+                                                    color: appYellowColor,
+                                                    size: 15,
+                                                  ),
+                                                  AutoSizeText(
+                                                    widget.rate.toString(),
+                                                    style: TextStyles.inter
+                                                        .copyWith(
+                                                            fontSize: 10,
+                                                            color:
+                                                                appPrimaryColor),
+                                                  ),
                                                 ]),
                                             Column(
                                               crossAxisAlignment:

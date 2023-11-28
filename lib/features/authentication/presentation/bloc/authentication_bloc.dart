@@ -295,8 +295,7 @@ class AuthenticationBloc
               action: RequestType.loginUser,
               gender: state.gender,
               status: AuthenticationStatus.success,
-              //  token: r.token,
-              email: r.email,
+              token: r.token,
               name: r.name,
               successMessage: r.message,
             )));

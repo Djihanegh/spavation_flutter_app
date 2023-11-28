@@ -1,4 +1,3 @@
-import 'package:spavation/core/utils/base_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spavation/core/utils/typedef.dart';
 

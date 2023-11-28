@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,10 +11,11 @@ import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
+import '../../../../../core/cache/cache.dart';
 import '../../../../../core/utils/navigation.dart';
 import '../../../../../core/widgets/custom_back_button.dart';
 import '../../../../../localization.dart';
-import '../../../../settings/presentation/screens/update_user/widgets/custom_text_field.dart';
+import 'package:http/http.dart' as http;
 
 class LeaveChatScreen extends StatefulWidget {
   const LeaveChatScreen({super.key});
@@ -22,6 +26,14 @@ class LeaveChatScreen extends StatefulWidget {
 
 class _LeaveChatScreenState extends State<LeaveChatScreen> {
   late TextEditingController controller = TextEditingController();
+
+  int userId = -1;
+
+  @override
+  void initState() {
+    userId = Prefs.getInt(Prefs.ID) ?? -1;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +136,7 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                                                 title: l10n.end,
                                                 color: Colors.white,
                                                 textColor: red[0],
-                                                onPressed: () =>
-                                                    navigateAndRemoveUntil(
-                                                        const HomeScreen(),
-                                                        context,
-                                                        false),
+                                                onPressed: () => closeChat(),
                                                 isLoading: false)),
                                       ],
                                     )
@@ -146,5 +154,24 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                             borderRadius: appCircular),
                       )),
                 ])));
+  }
+
+  closeChat() async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST', Uri.parse('http://support.spavation.co/api/closeChat'));
+    request.body = jsonEncode({"user_id": userId});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      //go home
+      if (context.mounted) {
+        navigateAndRemoveUntil(const HomeScreen(), context, false);
+      }
+    } else {
+      log(response.reasonPhrase.toString());
+    }
   }
 }

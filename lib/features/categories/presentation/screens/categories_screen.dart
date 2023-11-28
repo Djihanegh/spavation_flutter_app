@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spavation/core/utils/constant.dart';
-import 'package:spavation/core/widgets/error_widget.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/categories/presentation/bloc/category_bloc.dart';
 import 'package:spavation/features/categories/presentation/screens/widgets/category_item.dart';

@@ -42,7 +42,7 @@ class CategoryItem extends StatelessWidget {
                     .read<SalonBloc>()
                     .state
                     .filterOptions ?? {});
-                query['category_id'] = "$categoryId";
+                query['category_id'] = categoryId;
 
                 context.read<SalonBloc>().add(GetSalonsEvent(query));
               },

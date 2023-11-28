@@ -33,9 +33,9 @@ class SalonItem extends StatelessWidget {
 
   final String title;
   final String subtitle;
-  final bool isForFemale;
-  final bool isForMale;
-  final String rate;
+  final int isForFemale;
+  final int isForMale;
+  final int rate;
   final String distance;
   final String image;
   final String salonId;
@@ -59,6 +59,7 @@ class SalonItem extends StatelessWidget {
               taxRate: taxRate,
               taxNumber: taxNumber,
               closeTime: closeTime,
+              rate: rate
             ),
             context),
         child: Padding(
@@ -142,11 +143,11 @@ class SalonItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 50.widthXBox,
-                                isForFemale == true
+                                isForFemale == 1
                                     ? Image.asset(Assets.iconsAwesomeFemale)
                                     : emptyWidget(),
                                 5.widthXBox,
-                                isForMale == true
+                                isForMale == 1
                                     ? Image.asset(Assets.iconsAwesomeMale)
                                     : emptyWidget(),
                               ],
@@ -172,8 +173,8 @@ class SalonItem extends StatelessWidget {
                                           right: 10, top: 0),
 
                                       //padding: const EdgeInsets.only(left: 10, right: 10),
-                                      itemCount: int.parse(rate) <= 5
-                                          ? int.parse(rate)
+                                      itemCount: rate <= 5
+                                          ? rate
                                           : 5,
                                       itemBuilder: (context, index) =>
                                           stars[index]))),

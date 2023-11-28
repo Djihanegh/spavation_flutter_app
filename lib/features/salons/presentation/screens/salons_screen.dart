@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/core/widgets/error_widget.dart';
-import '../../../../core/services/location_service.dart';
 import '../../../cities/data/models/cities_model.dart';
 import '../bloc/salon_bloc.dart';
 import 'widgets/salon_loadig_widget.dart';

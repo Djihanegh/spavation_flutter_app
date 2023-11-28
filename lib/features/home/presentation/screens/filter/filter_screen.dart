@@ -221,14 +221,14 @@ class _FilterScreenState extends State<FilterScreen> {
                             color: dividerColor,
                           ),
                           AppButton(
-                              isLoading:  false,
+                              isLoading: false,
                               onPressed: () {
                                 setState(() {
-                                  DataMap query = context
+                                  DataMap query = Map.of(context
                                           .read<SalonBloc>()
                                           .state
                                           .filterOptions ??
-                                      {};
+                                      {});
                                   if (filterOptions['open_now'] != null) {
                                     query['open_now'] =
                                         filterOptions['open_now'];

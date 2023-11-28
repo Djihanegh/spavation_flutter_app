@@ -15,10 +15,13 @@ import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
 import 'core/utils/bloc_observer.dart';
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   await Prefs.load();
+  //initializePusher();
   //setupLogging();
   Bloc.observer = SpavationBlocObserver();
 

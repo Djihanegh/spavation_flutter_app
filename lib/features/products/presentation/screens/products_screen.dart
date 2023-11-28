@@ -23,11 +23,12 @@ class ProductsScreen extends StatefulWidget {
       required this.image,
       required this.taxRate,
       required this.closeTime,
-      required this.taxNumber});
+      required this.taxNumber,
+      required this.rate});
 
   final String salonId;
-  final bool isForMale;
-  final bool isForFemale;
+  final int isForMale;
+  final int isForFemale;
   final String distance;
   final String name;
   final String description;
@@ -35,6 +36,7 @@ class ProductsScreen extends StatefulWidget {
   final String taxRate;
   final String taxNumber;
   final String closeTime;
+  final int rate;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -94,6 +96,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ///// NEED TO BE REFACTORED
                       subChild = ProductsView(
                         name: widget.name,
+                        rate:  widget.rate,
                         description: widget.description,
                         image: widget.image,
                         taxRate: widget.taxRate,

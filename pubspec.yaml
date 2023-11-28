@@ -65,6 +65,9 @@ dependencies:
   intl: any
   cached_network_image: ^3.3.0
   flutter_svg_provider: ^1.0.6
+  pusher_channels_flutter: ^2.2.0
+  crypto: ^3.0.3
+  pusher_client: ^2.0.0
 
 
 dev_dependencies:

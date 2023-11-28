@@ -71,8 +71,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       return BlocConsumer<ReservationBloc, ReservationState>(
                           listener: (context, state) {
                             if (state.action == RequestType.addReservation) {
-                              if (state.status ==
-                                  ReservationStatus.success) {
+                              if (state.status == ReservationStatus.success) {
                                 context
                                     .read<ProductBloc>()
                                     .add(const RemoveReservation());
@@ -516,6 +515,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         onPressed: () {
                                           setState(() {
                                             log(widget.salonId.toString());
+                                            log(totalTaxes);
                                             context
                                                 .read<ReservationBloc>()
                                                 .add(AddReservationEvent({
@@ -523,6 +523,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   'status': 'pending',
                                                   'payment_method':
                                                       paymentMethod,
+                                                  "service_fee":
+                                                      '${totalPrice - discount}',
                                                   'salon_id': widget.salonId,
                                                   'total_tax': totalTaxes,
                                                   'total':

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
+import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/salons/data/models/salon_model.dart';
 import 'package:spavation/core/widgets/error_widget.dart';
@@ -54,132 +55,139 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: InkWell(
+            onTap: () => pop(context),
+            child: Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AutoSizeText(
-                        '',
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            '',
+                          ),
+                          AutoSizeText(
+                            '',
+                          ),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: CustomBackButton()),
+                        ],
                       ),
-                      AutoSizeText(
-                        '',
-                      ),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: CustomBackButton()),
-                    ],
-                  ),
-                  10.heightXBox,
-                  BlocConsumer<CityBloc, CityState>(
-                      listener: (context, cityState) {},
-                      //listenWhen: (prev, curr) => prev.status != curr.status,
-                      builder: (context, cityState) {
-                        return BlocConsumer<SalonBloc, SalonState>(
-                            listener: (context, state) {},
-                            listenWhen: (prev, curr) =>
-                                prev.status != curr.status,
-                            builder: (context, state) {
-                              Widget? child;
+                      10.heightXBox,
+                      BlocConsumer<CityBloc, CityState>(
+                          listener: (context, cityState) {},
+                          //listenWhen: (prev, curr) => prev.status != curr.status,
+                          builder: (context, cityState) {
+                            return BlocConsumer<SalonBloc, SalonState>(
+                                listener: (context, state) {},
+                                listenWhen: (prev, curr) =>
+                                    prev.status != curr.status,
+                                builder: (context, state) {
+                                  Widget? child;
 
-                              if (state.status ==
-                                  SalonsStatus.failure) {
-                                child = CustomErrorWidget(
-                                  onRefresh: () => _refresh(),
-                                  errorMessage: state.errorMessage,
-                                );
-                              } else if (state.status ==
-                                      SalonsStatus.initial ||
-                                  state.status ==
-                                      SalonsStatus.inProgress ||
-                                  currentPosition == null) {
-                                child = const Center(
-                                    child: LoadingWidget(
-                                  color: appPrimaryColor,
-                                ));
-                              } else if (state.filteredSalons != null &&
-                                  state.filteredSalons != []) {
-                                child = ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10, top: 0),
-                                    itemCount: state.filteredSalons?.length,
-                                    itemBuilder: (context, index) {
-                                      SalonModel? salon =
-                                          state.filteredSalons?[index];
+                                  if (state.status == SalonsStatus.failure) {
+                                    child = CustomErrorWidget(
+                                      onRefresh: () => _refresh(),
+                                      errorMessage: state.errorMessage,
+                                    );
+                                  } else if (state.status ==
+                                          SalonsStatus.initial ||
+                                      state.status == SalonsStatus.inProgress ) {
+                                    child = const Center(
+                                        child: LoadingWidget(
+                                      color: appPrimaryColor,
+                                    ));
+                                  } else if (state.filteredSalons != null &&
+                                      state.filteredSalons != []) {
+                                    child = ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 0),
+                                        itemCount: state.filteredSalons?.length,
+                                        itemBuilder: (context, index) {
+                                          SalonModel? salon =
+                                              state.filteredSalons?[index];
 
-                                      double distanceInMeters = 0.0;
+                                          double distanceInMeters = 0.0;
 
-                                      if (currentPosition == null ||
-                                          currentPosition?.latitude == 0.0 &&
-                                              currentPosition?.longitude ==
-                                                  0.0) {
-                                        int cityId = state.cityId;
-                                        if (cityState
-                                            is CityLoadDataSuccessState) {
-                                          List<CitiesModel> cities =
-                                              cityState.cities;
+                                          if (currentPosition == null ||
+                                              currentPosition?.latitude ==
+                                                      0.0 &&
+                                                  currentPosition?.longitude ==
+                                                      0.0) {
+                                            int cityId = state.cityId;
+                                            if (cityState
+                                                is CityLoadDataSuccessState) {
+                                              List<CitiesModel> cities =
+                                                  cityState.cities;
 
-                                          if (cities != null) {
-                                            CitiesModel? selectedCity =
-                                                cities.firstWhere((element) =>
-                                                    element.id == cityId);
-                                            if (selectedCity != null) {
-                                              distanceInMeters =
-                                                  Geolocator.distanceBetween(
-                                                      double.parse(
-                                                          salon!.latitude),
-                                                      double.parse(
-                                                          salon.longitude),
-                                                      double.parse(selectedCity
-                                                          .latitude),
-                                                      double.parse(selectedCity
-                                                          .longitude));
-                                              distanceInMeters =
-                                                  distanceInMeters / 1000;
+                                              if (cities != null) {
+                                                CitiesModel? selectedCity =
+                                                    cities
+                                                        .firstWhere((element) =>
+                                                            element.id ==
+                                                            cityId);
+                                                if (selectedCity != null) {
+                                                  distanceInMeters = Geolocator
+                                                      .distanceBetween(
+                                                          double.parse(
+                                                              salon!.latitude),
+                                                          double.parse(
+                                                              salon.longitude),
+                                                          double.parse(
+                                                              selectedCity
+                                                                  .latitude),
+                                                          double.parse(
+                                                              selectedCity
+                                                                  .longitude));
+                                                  distanceInMeters =
+                                                      distanceInMeters / 1000;
+                                                }
+                                              }
                                             }
+                                          } else {
+                                            distanceInMeters =
+                                                Geolocator.distanceBetween(
+                                                    double.parse(
+                                                        salon!.latitude),
+                                                    double.parse(
+                                                        salon.longitude),
+                                                    currentPosition!.latitude,
+                                                    currentPosition!.longitude);
+                                            distanceInMeters =
+                                                distanceInMeters / 1000;
                                           }
-                                        }
-                                      } else {
-                                        distanceInMeters =
-                                            Geolocator.distanceBetween(
-                                                double.parse(salon!.latitude),
-                                                double.parse(salon.longitude),
-                                                currentPosition!.latitude,
-                                                currentPosition!.longitude);
-                                        distanceInMeters =
-                                            distanceInMeters / 1000;
-                                      }
 
-                                      return SalonItem(
-                                        taxRate: salon!.taxRate,
-                                        taxNumber: salon.taxNumber,
-                                        salonId: "${salon.id}",
-                                        title: salon.name,
-                                        subtitle: salon.description,
-                                        rate: salon.rate,
-                                        distance: '$distanceInMeters',
-                                        image: salon.image,
-                                        isForFemale: salon.isForFemale,
-                                        isForMale: salon.isForMale,
-                                        closeTime: salon.closeTime,
-                                      );
-                                    });
-                              } else {
-                                child = Center(child: Text(l10n.noSalonFound));
-                              }
+                                          return SalonItem(
+                                            taxRate: salon!.taxRate,
+                                            taxNumber: salon.taxNumber,
+                                            salonId: "${salon.id}",
+                                            title: salon.name,
+                                            subtitle: salon.description,
+                                            rate: salon.rate,
+                                            distance: '$distanceInMeters',
+                                            image: salon.image,
+                                            isForFemale: salon.isForFemale,
+                                            isForMale: salon.isForMale,
+                                            closeTime: salon.closeTime,
+                                          );
+                                        });
+                                  } else {
+                                    child =
+                                        Center(child: Text(l10n.noSalonFound));
+                                  }
 
-                              return child;
-                            });
-                      })
-                ])));
+                                  return child;
+                                });
+                          })
+                    ]))));
   }
 }

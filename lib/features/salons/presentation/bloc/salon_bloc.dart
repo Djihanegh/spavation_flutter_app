@@ -29,10 +29,9 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
   Future<void> _onSelectFilterOptions(
       SelectFilterOptions event, Emitter<SalonState> emit) async {
     int categoryId = state.categoryId;
-    emit(state.copyWith(
-        status: SalonsStatus.inProgress, filteredSalons: null));
+    emit(state.copyWith(status: SalonsStatus.inProgress, filteredSalons: null));
 
-    DataMap options = state.filterOptions ?? {};
+    DataMap options = Map.of(state.filterOptions ?? {});
 
     if (event.options['gender'] != null) {
       options['gender'] = event.options['gender'];
@@ -60,8 +59,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
   Future<void> _onSearchSalons(
       SearchSalonsEvent event, Emitter<SalonState> emit) async {
-    emit(state.copyWith(
-        status: SalonsStatus.inProgress, filteredSalons: null));
+    emit(state.copyWith(status: SalonsStatus.inProgress, filteredSalons: null));
     await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _searchSalonsUseCase(event.text);
