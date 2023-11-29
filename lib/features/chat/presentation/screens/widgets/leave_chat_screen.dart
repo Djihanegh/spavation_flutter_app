@@ -52,16 +52,10 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.only(
-                                top: sh! * 0.05, left: 5, right: 20),
-                            child: const Align(
-                                alignment: Alignment.topLeft,
-                                child: CustomBackButton())),
                         10.heightXBox,
                         Padding(
                           padding: EdgeInsets.only(
-                              top: sh! * 0.2, left: 20, right: 20),
+                              top: sh! * 0.25, left: 20, right: 20),
                           child: Container(
                               width: sw! * 0.96,
                               height: sh! * 0.45,
@@ -153,6 +147,11 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                             color: Colors.white.withOpacity(0.35),
                             borderRadius: appCircular),
                       )),
+                  Positioned(
+                      top: sh! * 0.07,
+                      left: l10n.localeName == 'en' ? null : 20,
+                      right: l10n.localeName == 'en' ? 20 : null,
+                      child: const CustomBackButton()),
                 ])));
   }
 

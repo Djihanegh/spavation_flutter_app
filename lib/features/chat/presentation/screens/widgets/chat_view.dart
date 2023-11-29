@@ -61,311 +61,265 @@ class _ChatViewState extends State<ChatView> {
     screenSizeInit(context);
     return Scaffold(
         backgroundColor: appPrimaryColor,
-        body: InkWell(
-            onTap: () {
-              log('PRESSED 00000');
-              pop(context);
-            },
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Stack(
-                    fit: StackFit.loose,
-                    alignment: Alignment.center,
-                    children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            //   const NavigateNextButton(),
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    pop(context);
-                                  });
-                                },
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: sh! * 0.05, left: 5, right: 20),
-                                    child: const Align(
-                                      alignment: Alignment.topLeft,
-                                      child: CustomBackButton(),
-                                    ))),
-                            10.heightXBox,
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: sh! * 0.2, left: 20, right: 20),
-                              child: Stack(children: [
-                                Container(
-                                    width: sw! * 0.96,
-                                    height: sh! * 0.45,
-                                    padding: paddingAll(10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            height: sh! * 0.08,
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: '',
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                    text:
-                                                        l10n.youAreChattingWith,
-                                                    style: TextStyles.inter
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 15)),
-                                                TextSpan(
-                                                    text: l10n.supportTeam,
-                                                    style: TextStyles.inter
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15,
-                                                            color:
-                                                                Colors.black)),
-                                              ],
-                                            ),
-                                          ),
-                                          10.heightXBox,
-                                          messages.isEmpty
-                                              ? Flexible(
-                                                  child: ListView.builder(
-                                                      controller:
-                                                          _scrollController,
-                                                      itemCount: 1,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return ListTile(
-                                                            title: AutoSizeText(
-                                                              l10n.spavationSupport,
-                                                              style: TextStyles
-                                                                  .inter
-                                                                  .copyWith(
-                                                                      color:
-                                                                          purple[
-                                                                              2],
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                            ),
-                                                            subtitle:
-                                                                AutoSizeText(
-                                                              l10n.helloHowCanIhelpYou,
-                                                              style: TextStyles
-                                                                  .inter
-                                                                  .copyWith(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                            ),
-                                                            trailing:
-                                                                CircleAvatar(
-                                                              backgroundColor:
-                                                                  purple[2],
-                                                              radius: 20,
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                Assets
-                                                                    .iconsLogo,
-                                                                width: 30,
-                                                                height: 30,
-                                                              ),
-                                                            ));
-                                                      }))
-                                              : Flexible(
-                                                  child: ListView.builder(
-                                                    controller:
-                                                        _scrollController,
-                                                    itemCount: messages.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      log(messages[index]
-                                                          .userId
-                                                          .toString());
-                                                      return ListTile(
-                                                        leading: messages[index]
+        body: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Stack(
+                fit: StackFit.loose,
+                alignment: Alignment.center,
+                children: [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        10.heightXBox,
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: sh! * 0.2, left: 20, right: 20),
+                          child: Stack(children: [
+                            Container(
+                                width: sw! * 0.96,
+                                height: sh! * 0.45,
+                                padding: paddingAll(10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: sh! * 0.08,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: '',
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: l10n.youAreChattingWith,
+                                                style: TextStyles.inter
+                                                    .copyWith(
+                                                        color: Colors.black,
+                                                        fontSize: 15)),
+                                            TextSpan(
+                                                text: l10n.supportTeam,
+                                                style: TextStyles.inter
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                        color: Colors.black)),
+                                          ],
+                                        ),
+                                      ),
+                                      10.heightXBox,
+                                      messages.isEmpty
+                                          ? Flexible(
+                                              child: ListView.builder(
+                                                  controller: _scrollController,
+                                                  itemCount: 1,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return ListTile(
+                                                        title: AutoSizeText(
+                                                          l10n.spavationSupport,
+                                                          style: TextStyles
+                                                              .inter
+                                                              .copyWith(
+                                                                  color:
+                                                                      purple[2],
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ),
+                                                        subtitle: AutoSizeText(
+                                                          l10n.helloHowCanIhelpYou,
+                                                          style: TextStyles
+                                                              .inter
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                        ),
+                                                        trailing: CircleAvatar(
+                                                          backgroundColor:
+                                                              purple[2],
+                                                          radius: 20,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            Assets.iconsLogo,
+                                                            width: 30,
+                                                            height: 30,
+                                                          ),
+                                                        ));
+                                                  }))
+                                          : Flexible(
+                                              child: ListView.builder(
+                                                controller: _scrollController,
+                                                itemCount: messages.length,
+                                                itemBuilder: (context, index) {
+                                                  log(messages[index]
+                                                      .userId
+                                                      .toString());
+                                                  return ListTile(
+                                                    leading: messages[index]
+                                                                .userId ==
+                                                            "$userId"
+                                                        ? CircleAvatar(
+                                                            child: Image.network(
+                                                                messages[index]
+                                                                    .userImage
+                                                                    .toString(),
+                                                                fit: BoxFit
+                                                                    .fill),
+                                                          )
+                                                        : null,
+                                                    trailing: messages[index]
+                                                                .userId !=
+                                                            "$userId"
+                                                        ? CircleAvatar(
+                                                            child: Image.network(
+                                                                messages[index]
+                                                                    .userImage
+                                                                    .toString(),
+                                                                fit: BoxFit
+                                                                    .fill),
+                                                          )
+                                                        : null,
+                                                    title: AutoSizeText(
+                                                        messages[index]
+                                                            .userName,
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color:
+                                                                    purple[2],
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                        textDirection: messages[
+                                                                        index]
                                                                     .userId ==
                                                                 "$userId"
-                                                            ? CircleAvatar(
-                                                                child: Image.network(
-                                                                    messages[
-                                                                            index]
-                                                                        .userImage
-                                                                        .toString(),
-                                                                    fit: BoxFit
-                                                                        .fill),
-                                                              )
-                                                            : null,
-                                                        trailing: messages[
+                                                            ? TextDirection.rtl
+                                                            : TextDirection
+                                                                .ltr),
+                                                    subtitle: AutoSizeText(
+                                                        messages[index].message,
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                        textDirection: messages[
                                                                         index]
-                                                                    .userId !=
+                                                                    .userId ==
                                                                 "$userId"
-                                                            ? CircleAvatar(
-                                                                child: Image.network(
-                                                                    messages[
-                                                                            index]
-                                                                        .userImage
-                                                                        .toString(),
-                                                                    fit: BoxFit
-                                                                        .fill),
-                                                              )
-                                                            : null,
-                                                        title: AutoSizeText(
-                                                            messages[index]
-                                                                .userName,
-                                                            style: TextStyles
-                                                                .inter
-                                                                .copyWith(
-                                                                    color:
-                                                                        purple[
-                                                                            2],
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                            textDirection: messages[
-                                                                            index]
-                                                                        .userId ==
-                                                                    "$userId"
-                                                                ? TextDirection
-                                                                    .rtl
-                                                                : TextDirection
-                                                                    .ltr),
-                                                        subtitle: AutoSizeText(
-                                                            messages[index]
-                                                                .message,
-                                                            style: TextStyles
-                                                                .inter
-                                                                .copyWith(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                            textDirection: messages[
-                                                                            index]
-                                                                        .userId ==
-                                                                    "$userId"
-                                                                ? TextDirection
-                                                                    .rtl
-                                                                : TextDirection
-                                                                    .ltr),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                          10.heightXBox,
-                                        ])),
-                                Container(
-                                    width: sw! * 0.96,
-                                    padding: paddingAll(15),
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () => navigateToPage(
-                                                const LeaveChatScreen(),
-                                                context),
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              child: Image.asset(
-                                                  Assets.iconsFrame),
-                                            )),
-                                        AutoSizeText(
-                                          l10n.liveSupportChat,
-                                          style: TextStyles.inter.copyWith(
-                                              color: Colors.white,
-                                              fontSize: 15),
-                                        ),
-                                      ],
-                                    ))
-                              ]),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 20, right: 20),
-                                child: Container(
-                                    width: sw! * 0.95,
-                                    padding: paddingAll(10),
-                                    decoration: BoxDecoration(
-                                        boxShadow: boxShadow,
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: CustomTextFormField(
-                                      hintText: l10n.typeYourMessage,
-                                      controller: controller,
-                                      onSaved: (e) {},
-                                      onChanged: (e) {},
-                                      padding: 0,
-                                      prefixIcon: SizedBox(
-                                          width: 100,
-                                          child: AppButton(
-                                              isLoading: _isLoading,
-                                              color: purple[2],
-                                              title: l10n.send,
-                                              textColor: Colors.white,
-                                              onPressed: () {
-                                                if (controller
-                                                    .text.isNotEmpty) {
-                                                  if (!_isLoading) {
-                                                    setState(() {
-                                                      _isLoading = true;
-                                                    });
-                                                    sendMessage();
-                                                  } else {
-                                                    openSnackBar(
-                                                        context,
-                                                        "Please wait..",
-                                                        AnimatedSnackBarType
-                                                            .warning);
-                                                  }
-                                                } else {
-                                                  openSnackBar(
-                                                      context,
-                                                      "Message cannot be empty",
-                                                      AnimatedSnackBarType
-                                                          .warning);
-                                                }
-                                              })),
-                                    ))),
+                                                            ? TextDirection.rtl
+                                                            : TextDirection
+                                                                .ltr),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                      10.heightXBox,
+                                    ])),
+                            Container(
+                                width: sw! * 0.96,
+                                padding: paddingAll(15),
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () => navigateToPage(
+                                            const LeaveChatScreen(), context),
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          child: Image.asset(Assets.iconsFrame),
+                                        )),
+                                    AutoSizeText(
+                                      l10n.liveSupportChat,
+                                      style: TextStyles.inter.copyWith(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                  ],
+                                ))
                           ]),
-                      Positioned(
-                          top: -10,
-                          left: -25,
-                          child: Container(
-                            height: sh! * 0.17,
-                            width: sw! * 0.35,
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.35),
-                                borderRadius: appCircular),
-                          )),
-                    ]))));
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            child: Container(
+                                width: sw! * 0.95,
+                                padding: paddingAll(10),
+                                decoration: BoxDecoration(
+                                    boxShadow: boxShadow,
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: CustomTextFormField(
+                                  hintText: l10n.typeYourMessage,
+                                  controller: controller,
+                                  onSaved: (e) {},
+                                  onChanged: (e) {},
+                                  padding: 0,
+                                  prefixIcon: SizedBox(
+                                      width: 100,
+                                      child: AppButton(
+                                          isLoading: _isLoading,
+                                          color: purple[2],
+                                          title: l10n.send,
+                                          textColor: Colors.white,
+                                          onPressed: () {
+                                            if (controller.text.isNotEmpty) {
+                                              if (!_isLoading) {
+                                                setState(() {
+                                                  _isLoading = true;
+                                                });
+                                                sendMessage();
+                                              } else {
+                                                openSnackBar(
+                                                    context,
+                                                    "Please wait..",
+                                                    AnimatedSnackBarType
+                                                        .warning);
+                                              }
+                                            } else {
+                                              openSnackBar(
+                                                  context,
+                                                  "Message cannot be empty",
+                                                  AnimatedSnackBarType.warning);
+                                            }
+                                          })),
+                                ))),
+                      ]),
+                  Positioned(
+                      top: -10,
+                      left: -25,
+                      child: Container(
+                        height: sh! * 0.17,
+                        width: sw! * 0.35,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.35),
+                            borderRadius: appCircular),
+                      )),
+                  Positioned(
+                      top: sh! * 0.07,
+                      left: l10n.localeName == 'en' ? null : 20,
+                      right: l10n.localeName == 'en' ? 20 : null,
+                      child: const CustomBackButton()),
+                ])));
   }
 
   void getMessages() async {

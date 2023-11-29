@@ -1,7 +1,7 @@
 import 'package:spavation/core/utils/base_response.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/features/reservation/data/models/coupon_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'check_coupon_response.g.dart';
 

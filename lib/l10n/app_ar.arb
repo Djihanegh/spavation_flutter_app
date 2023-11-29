@@ -85,10 +85,10 @@
   "pm": "م",
   "tryAgain": "حاول مرة أخرى",
   "discount": "خصم",
-  "liveChatWelcomeMessage" : " مرحبا \uD83D\uDC4B جميل أن أراك هنا! بالضغط على \"بدء الدردشة\" ، سننقلك إلى دعم العملاء",
+  "liveChatWelcomeMessage": " مرحبا \uD83D\uDC4B جميل أن أراك هنا! بالضغط على \"بدء الدردشة\" ، سننقلك إلى دعم العملاء",
   "startChat": "ابدأ الدردشة",
-  "spavationLiveChat": "Spavation التواصل مباشرة مع",
-  "liveSupportChat" : "الدعم المباشر",
+  "spavationLiveChat": "التواصل مباشرة مع",
+  "liveSupportChat": "الدعم المباشر",
   "youAreChattingWith": "أنت تدردش مع ",
   "supportTeam": "فريق الدعم",
   "spavationSupport": "Spavation دعم",
@@ -96,6 +96,9 @@
   "typeYourMessage": "اكتب رسالتك...",
   "leaveConversationText": "هل أنت متأكد من أنك تريد إنهاء المحادثة ؟",
   "end": "انهاء",
-  "stay": "بقاء"
-
+  "stay": "بقاء",
+  "grantUsLocation": "عزز تجربتك! امنحنا إذن الموقع للخدمات الشخصية وتوصية السبا القريبة",
+  "turnOnLocation": "تشغيل خدمات الموقع",
+  "locationPermission": "إذن الموقع",
+  "notNow": "ليس الآن"
 }

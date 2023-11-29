@@ -15,16 +15,12 @@ import 'core/cache/cache.dart';
 import 'core/services/injection_container.dart';
 import 'core/utils/bloc_observer.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   await Prefs.load();
-  //initializePusher();
-  //setupLogging();
-  Bloc.observer = SpavationBlocObserver();
 
+  Bloc.observer = SpavationBlocObserver();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -37,7 +33,8 @@ void main() async {
           BlocProvider<SalonBloc>(create: (context) => sl<SalonBloc>()),
           BlocProvider<ProductBloc>(create: (context) => sl<ProductBloc>()),
           BlocProvider<SettingsBloc>(create: (context) => sl<SettingsBloc>()),
-          BlocProvider<ReservationBloc>(create: (context) => sl<ReservationBloc>()),
+          BlocProvider<ReservationBloc>(
+              create: (context) => sl<ReservationBloc>()),
           BlocProvider<CityBloc>(create: (context) => sl<CityBloc>()),
         ],
         child: const SpavationApp(

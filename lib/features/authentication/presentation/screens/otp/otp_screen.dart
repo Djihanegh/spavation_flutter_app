@@ -96,7 +96,8 @@ class _OtpScreenState extends State<OtpScreen> {
                 if (state.action == RequestType.checkOtp &&
                     state.status == AuthenticationStatus.success) {
                   if (requestPermission) {
-                    navigateToPage(const LocationPermissionScreen(), context);
+                    navigateAndRemoveUntil(
+                        const LocationPermissionScreen(), context, false);
                   } else {
                     navigateAndRemoveUntil(const Home(), context, false);
                   }

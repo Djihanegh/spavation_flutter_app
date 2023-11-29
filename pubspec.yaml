@@ -72,7 +72,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
-  json_serializable: ^6.7.1
+  json_serializable: any
   flutter_test:
     sdk: flutter
 

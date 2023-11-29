@@ -92,7 +92,8 @@ class _SplashScreenState extends State<SplashScreen>
               ? navigateAndRemoveUntil(
                   const AuthenticationScreen(), context, false)
               : requestPermission
-                  ? navigateToPage(const LocationPermissionScreen(), context)
+                  ? navigateAndRemoveUntil(
+                      const LocationPermissionScreen(), context, false)
                   : navigateAndRemoveUntil(const Home(), context, false));
     }
   }
@@ -114,8 +115,6 @@ class _SplashScreenState extends State<SplashScreen>
                   setState(() {
                     userExists = true;
                     saveUserId(state);
-                    log(state.user.toString());
-                    //  navigateToHome();
                   });
                 }
               }

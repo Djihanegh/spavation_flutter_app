@@ -13,42 +13,29 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('HEYYYYYYYY');
-    return BlocConsumer<LanguageBloc, LanguageState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Padding(
-              padding: state.selectedLanguage.value == Language.english.value
-                  ? const EdgeInsets.only(right: 10)
-                  : const EdgeInsets.only(left: 20),
-              child: Container(
-                height: 30,
-                width: 30,
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.white),
-                child: Center(
-                  child: const Icon(
-                    Icons.navigate_next,
-                    color: appPrimaryColor,
-                    size: 20,
-                  ),
-
-                  /*IconButton(
-                  splashRadius: 10,
-                  iconSize: 20,
-                  padding: paddingAll(0),
-                  icon: const Icon(
-                    Icons.navigate_next,
-                    color: appPrimaryColor,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    log('ICON PRESSED');
-                    pop(context);
-                  },
-                )*/
-                ),
-              ));
-        });
+    return GestureDetector(
+        onTap: () => pop(context),
+        child: BlocConsumer<LanguageBloc, LanguageState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              return Padding(
+                  padding:
+                      state.selectedLanguage.value == Language.english.value
+                          ? const EdgeInsets.only(right: 10)
+                          : const EdgeInsets.only(left: 20),
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.white),
+                    child: const Center(
+                      child: Icon(
+                        Icons.navigate_next,
+                        color: appPrimaryColor,
+                        size: 20,
+                      ),
+                    ),
+                  ));
+            }));
   }
 }
