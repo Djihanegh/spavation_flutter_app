@@ -226,7 +226,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               ? ServiceDetailsItem(
                                                   productId: "${product.id}",
                                                   salonId: product.salonId,
-                                                  productName: product.name,
+                                                  productName:
+                                                      l10n.localeName == 'en'
+                                                          ? product.name
+                                                          : product.nameAr,
                                                   productPrice: product.price,
                                                   selectedDate: productState
                                                       .selectedDate!,
