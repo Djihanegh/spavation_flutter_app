@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/size_config.dart';
@@ -16,7 +17,9 @@ showExitDialog(
             backgroundColor: Colors.white,
             shadowColor: Colors.white,
             surfaceTintColor: Colors.white,
-            insetPadding: EdgeInsets.only(top: sh! * 0.1 , ),
+            insetPadding: EdgeInsets.only(
+              top: sh! * 0.1,
+            ),
             scrollable: true,
             actions: [
               TextButton(
@@ -28,7 +31,6 @@ showExitDialog(
             ],
             content: Container(
               width: sw! * 0.5,
-              height: 90,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(5)),
               child: Text(

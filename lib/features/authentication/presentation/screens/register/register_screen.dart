@@ -31,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-  String gender = '';
+  String gender = 'male';
   String emailValidator = '',
       passwordValidator = '',
       mobileValidator = '',

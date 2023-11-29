@@ -1,3 +1,4 @@
+import 'dart:ffi';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -72,7 +73,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                   _settingsBloc.state.action != RequestType.updateUser) {
                 user = _settingsBloc.state.customers!;
 
-                isMale = user['gender'] == 'Male' ? true : false;
+                isMale = user['gender'] == 'female' ? false : true;
 
                 mobileController.text = user['phone'] ?? '';
                 emailController.text = user['email'] ?? '';
@@ -84,6 +85,9 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                 if (state.status == SettingsStatus.success) {
                   openSnackBar(context, state.successMessage,
                       AnimatedSnackBarType.success);
+                  if (nameController.text.isNotEmpty) {
+                    Prefs.setString(Prefs.FIRSTNAME, nameController.text);
+                  }
                 }
 
                 if (state.status == SettingsStatus.failure) {
@@ -299,8 +303,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                     ...[
                       10.heightXBox,
                       AppButton(
-                        isLoading: state.status ==
-                            SettingsStatus.inProgress
+                        isLoading: state.status == SettingsStatus.inProgress
                             ? true
                             : false,
                         title: l10n.update,
@@ -308,24 +311,36 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                         borderColor: borderColor,
                         textColor: Colors.white,
                         onPressed: () {
-                          if (nameController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              mobileController.text.isNotEmpty) {
-                            context.read<SettingsBloc>().add(UpdateUserEvent({
-                                  'fullname': nameController.text,
-                                  'phone': mobileController.text,
-                                  'address': addressController.text,
-                                  'gender': gender.isNotEmpty
-                                      ? gender
-                                      : isMale
-                                          ? 'male'
-                                          : 'female',
-                                  'latitude': currentPosition?.latitude,
-                                  'longitude': currentPosition?.longitude,
-                                  'image': 'bbvnv',
-                                  'birthday': "string",
-                                }));
+                          if (nameController.text.isEmpty) {
+                            setState(() {
+                              openSnackBar(context, "Name is required",
+                                  AnimatedSnackBarType.warning);
+                            });
+                            return;
                           }
+
+                          if (mobileController.text.isEmpty) {
+                            setState(() {
+                              openSnackBar(context, "Mobile number is required",
+                                  AnimatedSnackBarType.warning);
+                            });
+                            return;
+                          }
+
+                          context.read<SettingsBloc>().add(UpdateUserEvent({
+                                'fullname': nameController.text,
+                                'phone': mobileController.text,
+                                'address': addressController.text,
+                                'gender': gender.isNotEmpty
+                                    ? gender
+                                    : isMale
+                                        ? 'male'
+                                        : 'female',
+                                'latitude': currentPosition?.latitude,
+                                'longitude': currentPosition?.longitude,
+                                'image': 'bbvnv',
+                                'birthday': "string",
+                              }));
                         },
                       ),
                       10.heightXBox,
@@ -347,7 +362,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
 
   void getCurrentPosition() async {
     //  setState(() async {
-  //  currentPosition = await Location().determinePosition();
+    //  currentPosition = await Location().determinePosition();
     //  });
   }
 }

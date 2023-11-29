@@ -167,8 +167,15 @@ class _ChatViewState extends State<ChatView> {
                                                       .toString());
                                                   return ListTile(
                                                     leading: messages[index]
-                                                                .userId ==
-                                                            "$userId"
+                                                                        .userId ==
+                                                                    "$userId" &&
+                                                                l10n.localeName ==
+                                                                    'ar' ||
+                                                            messages[index]
+                                                                        .userId !=
+                                                                    "$userId" &&
+                                                                l10n.localeName ==
+                                                                    'en'
                                                         ? CircleAvatar(
                                                             child: Image.network(
                                                                 messages[index]
@@ -179,8 +186,15 @@ class _ChatViewState extends State<ChatView> {
                                                           )
                                                         : null,
                                                     trailing: messages[index]
-                                                                .userId !=
-                                                            "$userId"
+                                                                        .userId !=
+                                                                    "$userId" &&
+                                                                l10n.localeName ==
+                                                                    'ar' ||
+                                                            messages[index]
+                                                                        .userId ==
+                                                                    "$userId" &&
+                                                                l10n.localeName ==
+                                                                    'en'
                                                         ? CircleAvatar(
                                                             child: Image.network(
                                                                 messages[index]

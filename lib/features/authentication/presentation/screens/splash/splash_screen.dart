@@ -114,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen>
                 if (state.user!.isNotEmpty) {
                   setState(() {
                     userExists = true;
-                    saveUserId(state);
+                    saveUserData(state);
                   });
                 }
               }
@@ -134,9 +134,10 @@ class _SplashScreenState extends State<SplashScreen>
             }));
   }
 
-  void saveUserId(AuthenticationState state) {
+  void saveUserData(AuthenticationState state) {
     if (state.user != null) {
       Prefs.setInt(Prefs.ID, state.user!['id'] ?? "");
+      Prefs.setString(Prefs.FIRSTNAME, state.user!['name'] ?? "");
     }
   }
 }
