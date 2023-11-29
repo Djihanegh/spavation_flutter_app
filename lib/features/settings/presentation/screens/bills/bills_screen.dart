@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/cache/cache.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../core/widgets/navigate_next_btn.dart';
 import '../../../../reservation/presentation/bloc/reservation_bloc.dart';
@@ -19,8 +20,17 @@ class BillsScreen extends StatefulWidget {
 }
 
 class _BillsScreenState extends State<BillsScreen> {
+  String token = '';
+
   void _refresh() {
-    // _settingsBloc.add(GetUserDetailsEvent(token));
+    context.read<ReservationBloc>().add(GetReservationsEvent(token));
+  }
+
+  @override
+  void initState() {
+    token = Prefs.getString(Prefs.TOKEN) ?? '';
+    context.read<ReservationBloc>().add(GetReservationsEvent(token));
+    super.initState();
   }
 
   @override
@@ -82,45 +92,46 @@ class _BillsScreenState extends State<BillsScreen> {
                         child: Padding(
                             padding: const EdgeInsets.only(
                                 left: 20, right: 20, top: 20),
-                            child: BlocConsumer<ReservationBloc,
-                                    ReservationState>(
-                                listener: (context, state) {},
-                                listenWhen: (prev, curr) =>
-                                    prev.status != curr.status,
-                                builder: (context, state) {
-                                  Widget? child;
-                                  Widget? subChild;
+                            child:
+                                BlocConsumer<ReservationBloc, ReservationState>(
+                                    listener: (context, state) {},
+                                    listenWhen: (prev, curr) =>
+                                        prev.status != curr.status,
+                                    builder: (context, state) {
+                                      Widget? child;
+                                      Widget? subChild;
 
-                                  // child = subChild;
+                                      // child = subChild;
 
-                                  if (state.status ==
-                                      ReservationStatus.failure) {
-                                    subChild = CustomErrorWidget(
-                                      onRefresh: () => _refresh(),
-                                      errorMessage: state.errorMessage,
-                                    );
-                                  }
+                                      if (state.status ==
+                                          ReservationStatus.failure) {
+                                        subChild = CustomErrorWidget(
+                                          onRefresh: () => _refresh(),
+                                          errorMessage: state.errorMessage,
+                                        );
+                                      }
 
-                                  if (state.status ==
-                                          ReservationStatus.initial ||
-                                      state.status ==
-                                          ReservationStatus.inProgress) {
-                                    subChild = const LoadingWidget();
-                                  }
+                                      if (state.status ==
+                                              ReservationStatus.initial ||
+                                          state.status ==
+                                              ReservationStatus.inProgress) {
+                                        subChild = const LoadingWidget();
+                                      }
 
-                                  if (state.reservations != null) {
-                                    if (state.reservations!.isNotEmpty) {
-                                      subChild = ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const AlwaysScrollableScrollPhysics(),
-                                          itemCount: state.reservations?.length,
-                                          itemBuilder: (context, indexA) {
-                                            //  log(state.reservations![indexA].status);
-                                            return BillsItem(
-                                              reservationModel:
-                                                  state.reservations![indexA],
-                                            ); /* GestureDetector(
+                                      if (state.reservations != null) {
+                                        if (state.reservations!.isNotEmpty) {
+                                          subChild = ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const AlwaysScrollableScrollPhysics(),
+                                              itemCount:
+                                                  state.reservations?.length,
+                                              itemBuilder: (context, indexA) {
+                                                //  log(state.reservations![indexA].status);
+                                                return BillsItem(
+                                                  reservationModel: state
+                                                      .reservations![indexA],
+                                                ); /* GestureDetector(
                                                 onTap: () {
                                                   setState(() {
                                                   //  showDetailsList = !showDetailsList;
@@ -179,23 +190,23 @@ class _BillsScreenState extends State<BillsScreen> {
                                                         : emptyWidget(),
                                                   ],
                                                 )); */
-                                          });
-                                    } else {
-                                      subChild = Center(
-                                          child: AutoSizeText(
-                                        l10n.noReservationFound,
-                                        style: TextStyles.inter
-                                            .copyWith(color: Colors.white),
-                                      ));
-                                    }
-                                  }
+                                              });
+                                        } else {
+                                          subChild = Center(
+                                              child: AutoSizeText(
+                                            l10n.noReservationFound,
+                                            style: TextStyles.inter
+                                                .copyWith(color: Colors.white),
+                                          ));
+                                        }
+                                      }
 
-                                  /* if (subChild != null) {
+                                      /* if (subChild != null) {
                                     child = body(subChild);
                                   } */
 
-                                  return subChild!;
-                                })
+                                      return subChild!;
+                                    })
 
                             /*   ListView.builder(
                                 itemCount: 10,
@@ -206,53 +217,5 @@ class _BillsScreenState extends State<BillsScreen> {
                             ))),
               ],
             )));
-  }
-
-  Widget body(Widget? subChild) {
-    final l10n = AppLocalizations.of(context)!;
-    return SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Stack(children: [
-          Container(
-            height: sh!,
-            color: Colors.white,
-          ),
-          Padding(
-              padding: EdgeInsets.only(top: sh! * 0.1),
-              child: Container(
-                width: sw!,
-                height: sh! * 0.2,
-                decoration: BoxDecoration(
-                  boxShadow: boxShadow2,
-                  borderRadius: BorderRadius.circular(25),
-                  color: appPrimaryColor.withOpacity(0.22),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.only(top: sh! * 0.05),
-                    child: AutoSizeText(
-                      l10n.reservations,
-                      style: TextStyles.inter.copyWith(
-                          fontSize: 40,
-                          color: appPrimaryColor,
-                          fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.center,
-                    )),
-              )),
-          Positioned(
-              top: sh! * 0.25,
-              bottom: 0,
-              child: Container(
-                  width: sw!,
-                  height: sh!,
-                  margin: const EdgeInsets.only(bottom: 80),
-                  decoration: const BoxDecoration(
-                    //  boxShadow: boxShadow2,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                    color: appPrimaryColor,
-                  ),
-                  child: subChild))
-        ]));
   }
 }

@@ -1,11 +1,14 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/cache/cache.dart';
+import 'package:spavation/core/errors/api_message_handler.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/utils/navigation.dart';
 import 'package:spavation/core/widgets/app_button.dart';
+import 'package:spavation/core/widgets/app_snack_bar.dart';
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/size_config.dart';
@@ -128,7 +131,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       color: purple[2],
                                       textColor: Colors.white,
                                       onPressed: () => checkChat(),
-                                      isLoading: false),
+                                      isLoading: _isLoading),
                                   10.heightXBox,
                                 ]))),
                   ]),
@@ -144,8 +147,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   )),
               Positioned(
                   top: sh! * 0.07,
-                  left: l10n.localeName == 'en' ? null : 20,
-                  right: l10n.localeName == 'en' ? 20 : null,
+                  left: l10n.localeName == 'en' ? null : 0,
+                  right: l10n.localeName == 'en' ? 10 : null,
                   child: const CustomBackButton()),
             ]));
   }
@@ -170,7 +173,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       ))*/
 
+  bool _isLoading = false;
+
   checkChat() async {
+    http.StreamedResponse? response;
     try {
       int userId = Prefs.getInt(Prefs.ID) ?? -1;
       var headers = {'Content-Type': 'application/json'};
@@ -181,9 +187,17 @@ class _ChatScreenState extends State<ChatScreen> {
       });
       request.headers.addAll(headers);
 
-      http.StreamedResponse response = await request.send();
+      response = await request.send();
+
+      setState(() {
+        _isLoading = true;
+      });
+      await Future.delayed(const Duration(milliseconds: 50));
 
       if (response.statusCode == 200) {
+        setState(() {
+          _isLoading = false;
+        });
         //decode
         var data = jsonDecode(await response.stream.bytesToString());
         if (context.mounted) {
@@ -196,10 +210,25 @@ class _ChatScreenState extends State<ChatScreen> {
 
         //http
       } else {
+        setState(() {
+          _isLoading = false;
+        });
         log(response.reasonPhrase.toString());
+        if (context.mounted) {
+          setState(() {
+            openSnackBar(context, response!.reasonPhrase.toString(),
+                AnimatedSnackBarType.error);
+          });
+        }
       }
     } catch (e) {
       log(e.toString());
+      if (context.mounted) {
+        setState(() {
+          openSnackBar(context, catchStreamedExceptions(response, e),
+              AnimatedSnackBarType.error);
+        });
+      }
     }
   }
 }

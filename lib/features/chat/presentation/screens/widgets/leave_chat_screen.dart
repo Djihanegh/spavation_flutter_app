@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
 import 'package:spavation/core/widgets/app_button.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 import 'package:spavation/features/home/presentation/screens/home/home_screen.dart';
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/app_styles.dart';
@@ -132,6 +133,8 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                                                 textColor: red[0],
                                                 onPressed: () => closeChat(),
                                                 isLoading: false)),
+                                        20.heightXBox,
+                                        if (_isLoading) const LoadingWidget()
                                       ],
                                     )
                                   ])),
@@ -155,6 +158,8 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
                 ])));
   }
 
+  bool _isLoading = false;
+
   closeChat() async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
@@ -164,12 +169,24 @@ class _LeaveChatScreenState extends State<LeaveChatScreen> {
 
     http.StreamedResponse response = await request.send();
 
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(milliseconds: 50));
+
     if (response.statusCode == 200) {
+      setState(() {
+        _isLoading = false;
+      });
       //go home
       if (context.mounted) {
         navigateAndRemoveUntil(const HomeScreen(), context, false);
       }
     } else {
+      setState(() {
+        _isLoading = false;
+      });
       log(response.reasonPhrase.toString());
     }
   }
