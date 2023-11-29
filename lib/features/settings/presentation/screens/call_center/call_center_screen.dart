@@ -35,33 +35,27 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                   height: sh!,
                   color: Colors.white,
                 ),
-                const NavigateNextButton(),
-                GestureDetector(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: sh! * 0.1),
-                      child: Container(
-                        width: sw!,
-                        height: sh! * 0.2,
-                        decoration: BoxDecoration(
-                          boxShadow: boxShadow2,
-                          borderRadius: BorderRadius.circular(25),
-                          color: appPrimaryColor.withOpacity(0.22),
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.only(top: sh! * 0.05),
-                            child: AutoSizeText(
-                              l10n.callCenter,
-                              style: TextStyles.inter.copyWith(
-                                  fontSize: 40,
-                                  color: appPrimaryColor,
-                                  fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
-                            )),
-                      )),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                Padding(
+                    padding: EdgeInsets.only(top: sh! * 0.1),
+                    child: Container(
+                      width: sw!,
+                      height: sh! * 0.2,
+                      decoration: BoxDecoration(
+                        boxShadow: boxShadow2,
+                        borderRadius: BorderRadius.circular(25),
+                        color: appPrimaryColor.withOpacity(0.22),
+                      ),
+                      child: Padding(
+                          padding: EdgeInsets.only(top: sh! * 0.05),
+                          child: AutoSizeText(
+                            l10n.callCenter,
+                            style: TextStyles.inter.copyWith(
+                                fontSize: 40,
+                                color: appPrimaryColor,
+                                fontWeight: FontWeight.w700),
+                            textAlign: TextAlign.center,
+                          )),
+                    )),
                 Positioned(
                     top: sh! * 0.25,
                     bottom: 0,
@@ -84,7 +78,7 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                                 icon: Assets.iconsAwesomeHeadset,
                                 name: l10n.contactUs,
                                 onPressed: () {}),
-                           /* CallCenterItem(
+                            /* CallCenterItem(
                                 icon: null,
                                 name: l10n.question,
                                 onPressed: () {}),*/
@@ -102,6 +96,7 @@ class _CallCenterScreenState extends State<CallCenterScreen> {
                                 onPressed: () {})
                           ]),
                     )),
+                const NavigateNextButton(),
               ],
             )));
   }
