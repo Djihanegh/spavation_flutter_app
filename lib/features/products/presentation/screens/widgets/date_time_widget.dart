@@ -17,7 +17,6 @@ import '../../../../../../core/utils/size_config.dart';
 import '../../../../../../generated/assets.dart';
 import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/format_date.dart';
-import '../../../../localization/presentation/bloc/language_bloc.dart';
 import '../../../data/models/product_model.dart';
 import '../../bloc/product_bloc.dart';
 import 'cancel_icon.dart';
@@ -150,9 +149,22 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                 AppButton(
                     isLoading: false,
                     title: l10n.continueX,
-                    color: appPrimaryColor,
+                    color: context.read<ProductBloc>().state.selectedTime !=
+                                null &&
+                            context.read<ProductBloc>().state.selectedDate !=
+                                null
+                        ? appPrimaryColor
+                        : appPrimaryColor.withOpacity(0.5),
                     textColor: Colors.white,
-                    onPressed: () => _continue()),
+                    onPressed: () => context
+                                    .read<ProductBloc>()
+                                    .state
+                                    .selectedTime !=
+                                null &&
+                            context.read<ProductBloc>().state.selectedDate !=
+                                null
+                        ? _continue()
+                        : null),
                 20.heightXBox
               ]);
             }));
@@ -199,7 +211,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   }
 
   void _onStateListenHandler({required ProductState state}) {
-    if (state.timeIntervals != null ) {
+    if (state.timeIntervals != null) {
       setState(() {
         timeIntervals = state.timeIntervals ?? [];
       });
