@@ -33,11 +33,35 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   Future<void> _getProductTimesHandler(
       GetProductTimesEvent event, Emitter<ProductState> emit) async {
+    //  emit(state.copyWith(timeIntervals: []));
+
     final result =
         await _getProductTimesUseCase({"id": event.id, "date": event.date});
 
-    result.fold((l) => emit(state.copyWith(errorMessage: l.message, status: ProductStatus.failure)),
-        (r) => emit(state.copyWith(timeIntervals: r.timeIntervals ?? [], status: ProductStatus.success)));
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            status: ProductStatus.failure,
+            timeIntervals: [])), (r) {
+      if (r.timeIntervals != null) {
+        if (r.timeIntervals != []) {
+          emit(state.copyWith(
+              successMessage: '',
+              timeIntervals: r.timeIntervals ?? [],
+              status: ProductStatus.success));
+        } else {
+          emit(state.copyWith(
+              successMessage: r.message,
+              timeIntervals: r.timeIntervals ?? [],
+              status: ProductStatus.success));
+        }
+      } else {
+        emit(state.copyWith(
+            successMessage: r.message,
+            timeIntervals: r.timeIntervals ?? [],
+            status: ProductStatus.success));
+      }
+    });
   }
 
   void _onRemoveReservation(

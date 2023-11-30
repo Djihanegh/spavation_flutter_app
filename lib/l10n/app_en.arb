@@ -100,5 +100,6 @@
   "grantUsLocation": "Enhance your experience! Grant us location permission for personalized services and nearby spa recommendations.",
   "turnOnLocation": "TURN ON LOCATION SERVICES",
   "locationPermission": "Location Permission",
-  "notNow": "Not Now"
+  "notNow": "Not Now",
+  "timeNotAvailable": "Time Not available"
 }

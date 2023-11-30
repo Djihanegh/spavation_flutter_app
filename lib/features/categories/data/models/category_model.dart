@@ -18,13 +18,13 @@ class CategoryModel extends Category {
 
   CategoryModel.fromMap(DataMap map)
       : this(
-            name: map['name'] as String,
-            nameAr: map['name_ar'] as String,
+            name: map['name'] ?? '',
+            nameAr: map['name_ar'] ?? '',
             id: map['id'] as int,
-            image: map['image'] as String,
-            updatedAt: map['updated_at'] as String,
-            createdAt: map['created_at'] as String,
-            status: map['status'] as String);
+            image: map['image'] ?? '',
+            updatedAt: map['updated_at'] ?? '',
+            createdAt: map['created_at'] ?? '',
+            status: map['status'] ?? '');
 
   DataMap toMap() => {
         'name': name,

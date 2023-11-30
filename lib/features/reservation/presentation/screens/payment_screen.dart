@@ -133,13 +133,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           List<String> endTime =
                                               times[1].split(' ');
 
+                                          log(e.toString());
+
                                           products.add({
                                             'id': e.id,
                                             'name': e.name,
+                                            'nameAr': e.nameAr,
+                                            'descriptionAr': e.descriptionAr,
                                             'date':
                                                 "${e.date.day}-${e.date.month}-${e.date.year}",
                                             'time': e.time,
-                                            //  "${startTime[0].replaceAll(" ", '')} - ${endTime[1].replaceAll(" ", '')}",
                                             'image': e.image,
                                             'description': e.description,
                                             'price': e.price,

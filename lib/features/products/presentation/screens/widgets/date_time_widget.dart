@@ -11,6 +11,7 @@ import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/typedef.dart';
 import 'package:spavation/core/widgets/app_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spavation/core/widgets/loading_widget.dart';
 
 import '../../../../../../app/theme.dart';
 import '../../../../../../core/utils/size_config.dart';
@@ -43,7 +44,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   int days = 0;
   String selectedTime = '', actualHour = '', dayFrom = '', dayTo = '';
 
-  List<DateTime> inactiveDates = [];
+  //List<DateTime> inactiveDates = [];
   List<String> activeDays = [];
   List<int> times = [];
   List<String> timeIntervals = [];
@@ -60,7 +61,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     actualHour = DateFormat('hh').format(DateFormat('hh').parse('${now.hour}'));
     getNumberOfDays();
     getActiveDays();
-    getInactiveDates();
     getSelectedDateBySalon(context.read<ProductBloc>().state);
     getSelectedTimeBySalon(context.read<ProductBloc>().state);
 
@@ -76,7 +76,8 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
             buildWhen: (prev, curr) =>
                 prev.selectedDate != curr.selectedDate ||
                 prev.selectedTime != curr.selectedTime ||
-                prev.reservations != curr.reservations,
+                prev.reservations != curr.reservations ||
+                prev.timeIntervals != curr.timeIntervals,
             builder: (context, state) {
               return Column(mainAxisSize: MainAxisSize.min, children: [
                 const CancelIcon(),
@@ -106,7 +107,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                           selectionColor: appPrimaryColor,
                           selectedTextColor: Colors.white,
                           daysCount: days + 1,
-                          inactiveDates: inactiveDates,
                           deactivatedColor: grey[0],
                           locale: l10n.localeName,
                           width: 60,
@@ -128,23 +128,26 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                       .copyWith(color: red[2], fontWeight: FontWeight.w700),
                 ),
                 10.heightXBox,
-                SizedBox(
-                    width: sw!,
-                    child: Wrap(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.center,
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: [
-                          for (var i = 0; i < timeIntervals.length - 1; i++)
-                            GestureDetector(
-                                onTap: () => _selectTime(i),
-                                child: TimeContainer(
-                                  isSelected: selectedTime == timeIntervals[i],
-                                  isDisabled: false,
-                                  time: timeIntervals[i],
-                                )),
-                        ])),
+                state.successMessage != ''
+                    ? Text(l10n.timeNotAvailable)
+                    : SizedBox(
+                        width: sw!,
+                        child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              for (var i = 0; i < timeIntervals.length; i++)
+                                GestureDetector(
+                                    onTap: () => _selectTime(i),
+                                    child: TimeContainer(
+                                      isSelected:
+                                          selectedTime == timeIntervals[i],
+                                      isDisabled: false,
+                                      time: timeIntervals[i],
+                                    )),
+                            ])),
                 20.heightXBox,
                 AppButton(
                     isLoading: false,
@@ -152,7 +155,8 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                     color: context.read<ProductBloc>().state.selectedTime !=
                                 null &&
                             context.read<ProductBloc>().state.selectedDate !=
-                                null
+                                null &&
+                            selectedTime != ''
                         ? appPrimaryColor
                         : appPrimaryColor.withOpacity(0.5),
                     textColor: Colors.white,
@@ -162,7 +166,8 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                     .selectedTime !=
                                 null &&
                             context.read<ProductBloc>().state.selectedDate !=
-                                null
+                                null &&
+                            selectedTime != ''
                         ? _continue()
                         : null),
                 20.heightXBox
@@ -188,19 +193,6 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     }
   }
 
-  void getInactiveDates() {
-    for (var i = 0; i <= days + 1; i++) {
-      DateTime actual = DateTime.now().toUtc();
-      DateTime date = DateTime(actual.year, actual.month, i + 1);
-      String day = DateFormat('EEEE').format(date);
-
-      if (dateFrom.day + i < now.day ||
-          !activeDays.contains(day.toLowerCase())) {
-        inactiveDates.add(dateFrom.add(Duration(days: i)));
-      }
-    }
-  }
-
   void _selectTime(int i) {
     setState(() {
       selectedTime = timeIntervals[i];
@@ -220,8 +212,11 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
 
   void _selectDate(DateTime date) {
     String day = DateFormat('EEEE').format(date);
-    if ((date.day > DateTime.now().day &&
-            activeDays.contains(day.toLowerCase())) ||
+    log((date.day > DateTime.now().day).toString());
+    log(date.isAfter(DateTime.now()).toString());
+    log(activeDays.contains(day.toLowerCase()).toString());
+    if ((date.isAfter(DateTime.now())) || //&&
+        // activeDays.contains(day.toLowerCase())
         date.day == DateTime.now().day) {
       // New date selected
 
@@ -237,6 +232,12 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
         context.read<ProductBloc>().add(SelectDate(
             selectedDate!, widget.product.id, widget.product.salonId));
       }
+    } else {
+      setState(() {
+        timeIntervals = [];
+        context.read<ProductBloc>().add(const RemoveReservation());
+        selectedTime = '';
+      });
     }
   }
 

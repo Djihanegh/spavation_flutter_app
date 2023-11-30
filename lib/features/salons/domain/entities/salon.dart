@@ -14,6 +14,7 @@ class Salon extends Equatable {
       required this.phone,
       required this.email,
       required this.description,
+      required this.descriptionAr,
       required this.openTime,
       required this.closeTime,
       required this.openDay,
@@ -42,6 +43,7 @@ class Salon extends Equatable {
   final String phone;
   final String email;
   final String description;
+  final String descriptionAr;
   final String openTime;
   final String closeTime;
   final String openDay;
@@ -72,6 +74,7 @@ class Salon extends Equatable {
         phone,
         email,
         description,
+        descriptionAr,
         openTime,
         closeTime,
         openDay,

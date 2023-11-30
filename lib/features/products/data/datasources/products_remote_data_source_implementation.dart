@@ -59,6 +59,7 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
 
       log(response.body.toString());
 
+
       return GetProductTimesResponse.fromJson(jsonDecode(response.body));
     } on APIException {
       rethrow;

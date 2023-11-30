@@ -100,5 +100,6 @@
   "grantUsLocation": "عزز تجربتك! امنحنا إذن الموقع للخدمات الشخصية وتوصية السبا القريبة",
   "turnOnLocation": "تشغيل خدمات الموقع",
   "locationPermission": "إذن الموقع",
-  "notNow": "ليس الآن"
+  "notNow": "ليس الآن",
+  "timeNotAvailable": "الوقت غير متوفر"
 }

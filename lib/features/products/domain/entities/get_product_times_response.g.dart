@@ -13,11 +13,13 @@ GetProductTimesResponse _$GetProductTimesResponseFromJson(
           ?.map((e) => e as String)
           .toList(),
       json['status'] as int,
+      json['message'] as String?,
     );
 
 Map<String, dynamic> _$GetProductTimesResponseToJson(
         GetProductTimesResponse instance) =>
     <String, dynamic>{
       'timeIntervals': instance.timeIntervals,
+      'message': instance.message,
       'status': instance.status,
     };

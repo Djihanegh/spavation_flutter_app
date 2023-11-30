@@ -40,14 +40,18 @@ class ReservationItem extends StatelessWidget {
                 : const Icon(Icons.error, color: Colors.black),
           ),
           title: AutoSizeText(
-            reservation['name'],
+            l10n.localeName == 'en'
+                ? reservation['name']
+                : reservation['nameAr'] ?? reservation['name'],
             style: TextStyles.inter.copyWith(
                 color: whiteWithOpacity,
                 fontWeight: FontWeight.w700,
                 fontSize: 16),
           ),
           subtitle: AutoSizeText(
-            reservation['description'] ?? '',
+            l10n.localeName == 'en'
+                ? reservation['description']
+                : reservation['descriptionAr'] ?? reservation['description'],
             style: TextStyles.inter
                 .copyWith(color: whiteWithOpacity, fontSize: 14),
           ),

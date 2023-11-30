@@ -23,7 +23,7 @@ class CategoryRemoteDataSrcImpl implements CategoryRemoteDataSource {
             headers: headers,
           )
           .timeout(Endpoints.connectionTimeout);
-      ;
+
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         GetCategoryResponse result =
