@@ -68,23 +68,9 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     getSelectedTimeBySalon(context.read<ProductBloc>().state);
 
     _scrollController.addListener(() {
-      //listener
-      log(_scrollController.offset.toString());
-
       setState(() {
         position = _scrollController.offset;
       });
-      log('///////////////////////');
-      log("POSITION" + ((sh! * 0.3) / (position)).toString());
-      //.offset is double value
-      /* Outputs --------
-      I/flutter (26854): 35.984641335227536
-      I/flutter (26854): 36.34810014204572
-      I/flutter (26854): 36.71160333806847
-      I/flutter (26854): 37.07506214488666
-      I/flutter (26854): 37.80202414772759
-      I/flutter (26854): 38.16552734375034
-  */
     });
 
     super.initState();
@@ -178,7 +164,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                   ]),
                   selectedTime != ''
                       ? Positioned(
-                          top:  (position) + 450,
+                          top: (position) + 450,
                           left: 20,
                           right: 20,
                           child: AppButton(
