@@ -11,14 +11,15 @@ import '../../../../salons/presentation/bloc/salon_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key,
-    required this.image,
-    required this.title,
-    required this.nameAr,
-    required this.color,
-    required this.categoryId,
-    required this.lat,
-    required this.long});
+  const CategoryItem(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.nameAr,
+      required this.color,
+      required this.categoryId,
+      required this.lat,
+      required this.long});
 
   final String image;
   final String title;
@@ -38,10 +39,7 @@ class CategoryItem extends StatelessWidget {
           return GestureDetector(
               onTap: () {
                 DataMap query =
-                Map.of(context
-                    .read<SalonBloc>()
-                    .state
-                    .filterOptions ?? {});
+                    Map.of(context.read<SalonBloc>().state.filterOptions ?? {});
                 query['category_id'] = categoryId;
 
                 context.read<SalonBloc>().add(GetSalonsEvent(query));
@@ -58,7 +56,7 @@ class CategoryItem extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                           color: state.categoryId == int.parse(categoryId) &&
-                              state.applyFilter
+                                  state.applyFilter
                               ? appPrimaryColor.withOpacity(0.5)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(5)),
@@ -66,12 +64,12 @@ class CategoryItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircleAvatar(
+                          /*  CircleAvatar(
                             radius: 30,
                             backgroundColor: color,
                             child: Image.network(
                               Endpoints.storageUrl + image,
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                               errorBuilder: ((context, error, stackTrace) =>
                                   CircleAvatar(
                                       radius: 30,
@@ -79,6 +77,17 @@ class CategoryItem extends StatelessWidget {
                                       child: const Icon(Icons.error,
                                           color: Colors.black))),
                             ),
+                          ),*/
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      Endpoints.storageUrl + image,
+                                    ),
+                                    fit: BoxFit.cover)),
                           ),
                           AutoSizeText(
                             l10n.localeName == 'en' ? title : nameAr,
