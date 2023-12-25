@@ -34,6 +34,7 @@ class DateTimeWidget extends StatefulWidget {
 
 class _DateTimeWidgetState extends State<DateTimeWidget> {
   final DatePickerController _pickerController = DatePickerController();
+  final ScrollController _scrollController = ScrollController();
   DateTime timeTo = DateTime.now(),
       timeFrom = DateTime.now(),
       dateTo = DateTime.now(),
@@ -56,6 +57,8 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     return firstDayNextMonth.difference(firstDayThisMonth).inDays;
   }
 
+  double position = 0;
+
   @override
   void initState() {
     actualHour = DateFormat('hh').format(DateFormat('hh').parse('${now.hour}'));
@@ -64,6 +67,26 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     getSelectedDateBySalon(context.read<ProductBloc>().state);
     getSelectedTimeBySalon(context.read<ProductBloc>().state);
 
+    _scrollController.addListener(() {
+      //listener
+      log(_scrollController.offset.toString());
+
+      setState(() {
+        position = _scrollController.offset;
+      });
+      log('///////////////////////');
+      log("POSITION" + ((sh! * 0.3) / (position)).toString());
+      //.offset is double value
+      /* Outputs --------
+      I/flutter (26854): 35.984641335227536
+      I/flutter (26854): 36.34810014204572
+      I/flutter (26854): 36.71160333806847
+      I/flutter (26854): 37.07506214488666
+      I/flutter (26854): 37.80202414772759
+      I/flutter (26854): 38.16552734375034
+  */
+    });
+
     super.initState();
   }
 
@@ -71,6 +94,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
+        controller: _scrollController,
         child: BlocConsumer<ProductBloc, ProductState>(
             listener: (context, state) => _onStateListenHandler(state: state),
             buildWhen: (prev, curr) =>
@@ -79,99 +103,118 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                 prev.reservations != curr.reservations ||
                 prev.timeIntervals != curr.timeIntervals,
             builder: (context, state) {
-              return Column(mainAxisSize: MainAxisSize.min, children: [
-                const CancelIcon(),
-                AutoSizeText(
-                  l10n.date,
-                  style: TextStyles.inter
-                      .copyWith(color: red[2], fontWeight: FontWeight.w700),
-                ),
-                10.heightXBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    l10n.localeName == 'en'
-                        ? GestureDetector(
-                            onTap: () => setDateAndAnimateTo('-'),
-                            child: SvgPicture.asset(Assets.iconsPrevious))
-                        : GestureDetector(
-                            onTap: () => setDateAndAnimateTo('-'),
-                            child: SvgPicture.asset(Assets.iconsNext)),
-                    SizedBox(
-                        height: 100,
-                        width: sw! * 0.5,
-                        child: DatePicker(
-                          DateTime.now(),
-                          controller: _pickerController,
-                          selectionColor: appPrimaryColor,
-                          selectedTextColor: Colors.white,
-                          daysCount: days + 1,
-                          deactivatedColor: grey[0],
-                          locale: l10n.localeName,
-                          width: 60,
-                          onDateChange: (date) => _selectDate(date),
-                        )),
-                    l10n.localeName == 'en'
-                        ? GestureDetector(
-                            onTap: () => setDateAndAnimateTo('+'),
-                            child: SvgPicture.asset(Assets.iconsNext))
-                        : GestureDetector(
-                            onTap: () => setDateAndAnimateTo('+'),
-                            child: SvgPicture.asset(Assets.iconsPrevious)),
-                  ],
-                ),
-                20.heightXBox,
-                AutoSizeText(
-                  l10n.time,
-                  style: TextStyles.inter
-                      .copyWith(color: red[2], fontWeight: FontWeight.w700),
-                ),
-                10.heightXBox,
-                state.successMessage != ''
-                    ? Text(l10n.timeNotAvailable)
-                    : SizedBox(
-                        width: sw!,
-                        child: Wrap(
-                            direction: Axis.horizontal,
-                            alignment: WrapAlignment.center,
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              for (var i = 0; i < timeIntervals.length; i++)
-                                GestureDetector(
-                                    onTap: () => _selectTime(i),
-                                    child: TimeContainer(
-                                      isSelected:
-                                          selectedTime == timeIntervals[i],
-                                      isDisabled: false,
-                                      time: timeIntervals[i],
-                                    )),
-                            ])),
-                20.heightXBox,
-                AppButton(
-                    isLoading: false,
-                    title: l10n.continueX,
-                    color: context.read<ProductBloc>().state.selectedTime !=
-                                null &&
-                            context.read<ProductBloc>().state.selectedDate !=
-                                null &&
-                            selectedTime != ''
-                        ? appPrimaryColor
-                        : appPrimaryColor.withOpacity(0.5),
-                    textColor: Colors.white,
-                    onPressed: () => context
-                                    .read<ProductBloc>()
-                                    .state
-                                    .selectedTime !=
-                                null &&
-                            context.read<ProductBloc>().state.selectedDate !=
-                                null &&
-                            selectedTime != ''
-                        ? _continue()
-                        : null),
-                20.heightXBox
-              ]);
+              return Stack(
+                children: [
+                  Column(mainAxisSize: MainAxisSize.min, children: [
+                    const CancelIcon(),
+                    AutoSizeText(
+                      l10n.date,
+                      style: TextStyles.inter
+                          .copyWith(color: red[2], fontWeight: FontWeight.w700),
+                    ),
+                    10.heightXBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        l10n.localeName == 'en'
+                            ? GestureDetector(
+                                onTap: () => setDateAndAnimateTo('-'),
+                                child: SvgPicture.asset(Assets.iconsPrevious))
+                            : GestureDetector(
+                                onTap: () => setDateAndAnimateTo('-'),
+                                child: SvgPicture.asset(Assets.iconsNext)),
+                        SizedBox(
+                            height: 100,
+                            width: sw! * 0.5,
+                            child: DatePicker(
+                              DateTime.now(),
+                              controller: _pickerController,
+                              selectionColor: appPrimaryColor,
+                              selectedTextColor: Colors.white,
+                              daysCount: days + 1,
+                              deactivatedColor: grey[0],
+                              locale: l10n.localeName,
+                              width: 60,
+                              onDateChange: (date) => _selectDate(date),
+                            )),
+                        l10n.localeName == 'en'
+                            ? GestureDetector(
+                                onTap: () => setDateAndAnimateTo('+'),
+                                child: SvgPicture.asset(Assets.iconsNext))
+                            : GestureDetector(
+                                onTap: () => setDateAndAnimateTo('+'),
+                                child: SvgPicture.asset(Assets.iconsPrevious)),
+                      ],
+                    ),
+                    20.heightXBox,
+                    AutoSizeText(
+                      l10n.time,
+                      style: TextStyles.inter
+                          .copyWith(color: red[2], fontWeight: FontWeight.w700),
+                    ),
+                    10.heightXBox,
+                    state.successMessage != ''
+                        ? Text(l10n.timeNotAvailable)
+                        : SizedBox(
+                            width: sw!,
+                            child: Wrap(
+                                direction: Axis.horizontal,
+                                alignment: WrapAlignment.center,
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  for (var i = 0; i < timeIntervals.length; i++)
+                                    GestureDetector(
+                                        onTap: () => _selectTime(i),
+                                        child: TimeContainer(
+                                          isSelected:
+                                              selectedTime == timeIntervals[i],
+                                          isDisabled: false,
+                                          time: timeIntervals[i],
+                                        )),
+                                ])),
+                    20.heightXBox,
+                  ]),
+                  selectedTime != ''
+                      ? Positioned(
+                          top:  (position) + 450,
+                          left: 20,
+                          right: 20,
+                          child: AppButton(
+                              isLoading: false,
+                              title: l10n.continueX,
+                              color: context
+                                              .read<ProductBloc>()
+                                              .state
+                                              .selectedTime !=
+                                          null &&
+                                      context
+                                              .read<ProductBloc>()
+                                              .state
+                                              .selectedDate !=
+                                          null &&
+                                      selectedTime != ''
+                                  ? appPrimaryColor
+                                  : appPrimaryColor.withOpacity(0.5),
+                              textColor: Colors.white,
+                              onPressed: () => context
+                                              .read<ProductBloc>()
+                                              .state
+                                              .selectedTime !=
+                                          null &&
+                                      context
+                                              .read<ProductBloc>()
+                                              .state
+                                              .selectedDate !=
+                                          null &&
+                                      selectedTime != ''
+                                  ? _continue()
+                                  : null))
+                      : emptyWidget(),
+                  20.heightXBox
+                ],
+              );
             }));
   }
 
