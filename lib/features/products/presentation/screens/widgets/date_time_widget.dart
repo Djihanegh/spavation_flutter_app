@@ -160,7 +160,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
                                           time: timeIntervals[i],
                                         )),
                                 ])),
-                    20.heightXBox,
+                    70.heightXBox,
                   ]),
                   selectedTime != ''
                       ? Positioned(
