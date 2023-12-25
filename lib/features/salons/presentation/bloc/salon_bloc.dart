@@ -59,7 +59,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
 
   Future<void> _onSearchSalons(
       SearchSalonsEvent event, Emitter<SalonState> emit) async {
-    emit(state.copyWith(status: SalonsStatus.inProgress, filteredSalons: null));
+    emit(state.copyWith(status: SalonsStatus.inProgress, salons: state.salons));
     await Future.delayed(const Duration(milliseconds: 20));
 
     final result = await _searchSalonsUseCase(event.text);
@@ -74,7 +74,7 @@ class SalonBloc extends Bloc<SalonEvent, SalonState> {
             categoryId: state.categoryId,
             applyFilter: state.applyFilter,
             status: SalonsStatus.success,
-            filteredSalons: r.salons,
+            salons: r.salons,
             action: RequestType.searchSalons,
             successMessage: '')));
   }
