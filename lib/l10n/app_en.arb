@@ -101,5 +101,6 @@
   "turnOnLocation": "TURN ON LOCATION SERVICES",
   "locationPermission": "Location Permission",
   "notNow": "Not Now",
-  "timeNotAvailable": "Time Not available"
+  "timeNotAvailable": "Time Not available",
+  "taxIncluded": "Prices include 15% value added tax"
 }

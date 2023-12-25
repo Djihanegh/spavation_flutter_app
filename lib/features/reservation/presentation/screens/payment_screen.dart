@@ -445,7 +445,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    AutoSizeText(l10n.tax,
+                                                    /* AutoSizeText(l10n.tax,
                                                         style: TextStyles.inter
                                                             .copyWith(
                                                                 color:
@@ -459,7 +459,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                             .copyWith(
                                                                 color:
                                                                     purple[4],
+                                                                fontSize: 15)),*/
+
+                                                    AutoSizeText(
+                                                        l10n.taxIncluded,
+                                                        style: TextStyles.inter
+                                                            .copyWith(
+                                                                color:
+                                                                    purple[1],
                                                                 fontSize: 15)),
+                                                    const AutoSizeText('')
                                                   ],
                                                 )),
                                             20.heightXBox,
@@ -520,8 +529,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         textColor: Colors.white,
                                         onPressed: () {
                                           setState(() {
-                                            log(widget.salonId.toString());
-                                            log(totalTaxes);
                                             context
                                                 .read<ReservationBloc>()
                                                 .add(AddReservationEvent({

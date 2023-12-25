@@ -101,5 +101,6 @@
   "turnOnLocation": "تشغيل خدمات الموقع",
   "locationPermission": "إذن الموقع",
   "notNow": "ليس الآن",
-  "timeNotAvailable": "الوقت غير متوفر"
+  "timeNotAvailable": "الوقت غير متوفر",
+  "taxIncluded": "الأسعار تشمل ١٥٪\u061C ضريبة القيمة المضافة"
 }
