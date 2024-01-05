@@ -43,7 +43,7 @@ class _FilterSalonsByTextScreenState extends State<FilterSalonsByTextScreen> {
   }
 
   void _getCurrentPosition() async {
-    currentPosition = await Location().determinePosition();
+    currentPosition = await Location().determinePosition(context);
   }
 
   void _refresh() {

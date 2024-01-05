@@ -14,7 +14,9 @@ class Assets {
   static const String iconsChatBtn = 'assets/icons/chat-btn.svg';
   static const String iconsClock = 'assets/icons/clock.png';
   static const String iconsClockSvg = 'assets/icons/clockSvg.svg';
+  static const String iconsDirection = 'assets/icons/direction.svg';
   static const String iconsFrame = 'assets/icons/Frame.png';
+  static const String iconsGoIcon = 'assets/icons/goIcon.svg';
   static const String iconsHomeSvg = 'assets/icons/homeSvg.svg';
   static const String iconsIonicIosBookmark = 'assets/icons/ionic-ios-bookmark.svg';
   static const String iconsIonicIosCalendar = 'assets/icons/ionic-ios-calendar.svg';

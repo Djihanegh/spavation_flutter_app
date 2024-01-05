@@ -9,6 +9,7 @@ class Prefs {
   static const String PASSWORD = 'password';
   static const String FIRSTNAME = "first_name";
   static const String LANGUAGE = "app_language";
+  static const String SHOW_RATING = "rating";
 
   static SharedPreferences? _prefs;
   static Map<String, dynamic> memoryPrefs = <String, dynamic>{};

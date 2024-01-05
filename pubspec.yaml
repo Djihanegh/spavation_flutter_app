@@ -68,6 +68,8 @@ dependencies:
   pusher_channels_flutter: ^2.2.0
   crypto: ^3.0.3
   pusher_client: ^2.0.0
+  google_maps_flutter: ^2.5.0
+  url_launcher: ^6.2.2
 
 
 dev_dependencies:

@@ -135,7 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: appCircular,
                           boxShadow: boxShadow3,
                           image: const DecorationImage(
-                              image: svg.Svg(Assets.iconsChatBtn))),
+                              image: svg.Svg(
+                            Assets.iconsChatBtn,
+                          ))),
                     ))),
           ]))),
     );

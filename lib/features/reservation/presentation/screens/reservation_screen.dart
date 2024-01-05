@@ -6,6 +6,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/core/extensions/sizedBoxExt.dart';
@@ -13,8 +17,12 @@ import 'package:spavation/core/utils/app_styles.dart';
 import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/core/utils/size_config.dart';
 import 'package:spavation/core/widgets/loading_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/services/location_service.dart';
+import '../../../../core/utils/endpoint.dart';
 import '../../../../core/utils/typedef.dart';
 import '../../../../core/widgets/error_widget.dart';
+import '../../../../generated/assets.dart';
 import '../bloc/reservation_bloc.dart';
 import '../widgets/reservation_item.dart';
 import '../widgets/status_button.dart';
@@ -32,12 +40,30 @@ class _ReservationScreenState extends State<ReservationScreen> {
   bool showDetailsList = false;
   int index = -1;
 
+  late Position position;
+  String status = 'complete';
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => getUserLocation());
+    });
     token = Prefs.getString(Prefs.TOKEN) ?? '';
     _reservationBloc = BlocProvider.of(context);
     _reservationBloc.add(GetReservationsEvent(token));
     super.initState();
+  }
+
+  void getUserLocation() async {
+    bool enabled = await Location().isLocationServiceEnabled();
+    if (!enabled) {}
+    if (mounted) {
+      await Location().determinePosition(context).then((value) {
+        //    setState(() {
+        position = value;
+        //   });
+      });
+    }
   }
 
   @override
@@ -87,7 +113,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
                             //       double.parse(state.reservations![indexA].products[0);
 
                             log(double.parse(
-                                state.reservations![indexA].totalTax).toString());
+                                    state.reservations![indexA].totalTax)
+                                .toString());
 
                             totalTax = double.parse(
                                 state.reservations![indexA].totalTax);
@@ -146,8 +173,6 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                                   DataMap reservation = state
                                                       .reservations?[indexA]
                                                       .products[indexB];
-
-
 
                                                   return ReservationItem(
                                                     reservation: reservation,
@@ -268,6 +293,143 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                             ),
                                           )
                                         : emptyWidget(),
+                                    showDetailsList &&
+                                            index == indexA &&
+                                            state.reservations![indexA]
+                                                    .status ==
+                                                'accept'
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10,
+                                                top: 20),
+                                            child: GestureDetector(
+                                                onTap: () {
+                                                  openMap();
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(height: 10),
+                                                    Container(
+                                                      height: 40,
+                                                      width: 40,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          image:
+                                                              DecorationImage(
+                                                                  image:
+                                                                      NetworkImage(
+                                                                    Endpoints
+                                                                            .storageUrl +
+                                                                        state
+                                                                            .reservations![indexA]
+                                                                            .logo,
+                                                                  ),
+                                                                  fit: BoxFit
+                                                                      .contain)),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    AutoSizeText(
+                                                      l10n.getDirection,
+                                                      style: TextStyles.inter
+                                                          .copyWith(
+                                                              color:
+                                                                  whiteWithOpacity,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 16),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    SvgPicture.asset(
+                                                      Assets.iconsDirection,
+                                                      height: 20,
+                                                      width: 20,
+                                                    ),
+                                                    SizedBox(width: sw! * 0.2),
+                                                    SvgPicture.asset(
+                                                      Assets.iconsGoIcon,
+                                                      height: 20,
+                                                      width: 20,
+                                                    ),
+                                                  ],
+                                                )))
+                                        : emptyWidget(),
+                                    showDetailsList &&
+                                            index == indexA && status ==
+                                           // state.reservations![indexA]
+                                            //        .status ==
+                                                'complete'
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                bottom: 10,
+                                                top: 20),
+                                            child: GestureDetector(
+                                                onTap: () {
+                                                  openMap();
+                                                },
+                                                child: RatingBar.builder(
+                                                  initialRating: 0,
+                                                  itemCount: 5,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    Widget child =
+                                                        emptyWidget();
+                                                    switch (index) {
+                                                      case 0:
+                                                        child = const Icon(
+                                                          Icons
+                                                              .sentiment_very_dissatisfied,
+                                                          color: Colors.red,
+                                                        );
+                                                      case 1:
+                                                        child = const Icon(
+                                                          Icons
+                                                              .sentiment_dissatisfied,
+                                                          color:
+                                                              Colors.redAccent,
+                                                        );
+                                                      case 2:
+                                                        child = const Icon(
+                                                          Icons
+                                                              .sentiment_neutral,
+                                                          color: Colors.amber,
+                                                        );
+                                                      case 3:
+                                                        child = const Icon(
+                                                          Icons
+                                                              .sentiment_satisfied,
+                                                          color:
+                                                              Colors.lightGreen,
+                                                        );
+                                                      case 4:
+                                                        child = const Icon(
+                                                          Icons
+                                                              .sentiment_very_satisfied,
+                                                          color: Colors.green,
+                                                        );
+                                                    }
+
+                                                    return child;
+                                                  },
+                                                  onRatingUpdate: (rating) {
+                                                    print(rating);
+                                                  },
+                                                )))
+                                        : emptyWidget()
                                   ],
                                 ));
                           });
@@ -339,4 +501,22 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child: subChild))
         ]));
   }
+
+  final Set<Marker> markers = {};
+
+  Future<void> openMap() async {
+    double latitude = position.latitude;
+    double longitude = position.longitude;
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    var url = Uri.parse(googleUrl);
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void rateSalon() {}
 }

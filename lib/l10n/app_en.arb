@@ -102,5 +102,7 @@
   "locationPermission": "Location Permission",
   "notNow": "Not Now",
   "timeNotAvailable": "Time Not available",
-  "taxIncluded": "Prices include 15% value added tax"
+  "taxIncluded": "Prices include 15% value added tax",
+  "getDirection": "Click here to access the site",
+  "rate": "rate your experience"
 }
