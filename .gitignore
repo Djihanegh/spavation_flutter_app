@@ -47,10 +47,7 @@ app.*.map.json
 /generate-l10n.sh
 /localization.sh
 
-/lib/features/authentication/
-/lib/features/home/
-/lib/features/salons/
-/lib/features/reservation/
+
 
 /.github/
 
