@@ -52,7 +52,7 @@ class Endpoints {
 
   // Products
 
-  static const String products = '/products/salon/';
+  static const String products = '/products/';
 
   static const String productTimes = '/products/time-intervals/';
 

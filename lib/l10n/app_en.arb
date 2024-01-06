@@ -104,5 +104,8 @@
   "timeNotAvailable": "Time Not available",
   "taxIncluded": "Prices include 15% value added tax",
   "getDirection": "Click here to access the site",
-  "rate": "rate your experience"
+  "rate": "rate your experience",
+  "rate_text": "How was your experience with",
+  "at_salon": "At Salon",
+  "at_home": "At Home"
 }

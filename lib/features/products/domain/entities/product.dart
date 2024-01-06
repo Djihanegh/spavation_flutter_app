@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class Product extends Equatable {
   Product(
       {required this.id,
+      required this.atHome,
       required this.image,
       required this.name,
       required this.nameAr,
@@ -34,7 +35,7 @@ class Product extends Equatable {
   final String categoryId;
   final String description;
   final String descriptionAr;
-
+  final String atHome;
   final String timeFrom;
   final String timeTo;
   final String dateFrom;
@@ -46,6 +47,7 @@ class Product extends Equatable {
   @override
   List<Object> get props => [
         id,
+        atHome,
         image,
         name,
         nameAr,

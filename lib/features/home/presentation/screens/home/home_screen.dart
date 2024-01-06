@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spavation/app/theme.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
+import 'package:spavation/core/cache/cache.dart';
 import 'package:spavation/features/banners/presentation/screens/banners_screen.dart';
 import 'package:spavation/features/chat/presentation/screens/chat_screen.dart';
 import 'package:spavation/features/cities/presentation/bloc/cities_bloc.dart';
@@ -17,6 +20,7 @@ import '../../../../categories/presentation/screens/categories_screen.dart';
 import '../../../../salons/presentation/bloc/salon_bloc.dart';
 import '../../../../salons/presentation/screens/salons_screen.dart';
 import 'widgets/search_input.dart';
+import 'widgets/show_rating_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _salonBloc = BlocProvider.of(context);
     _cityBloc = BlocProvider.of(context)..add(const GetCitiesEvent());
-
+    String token  = Prefs.getString(Prefs.TOKEN) ?? '';
+    //log(token);
+  //  Future.delayed(Duration.zero, () => showRatingDialog(context));
     super.initState();
   }
 

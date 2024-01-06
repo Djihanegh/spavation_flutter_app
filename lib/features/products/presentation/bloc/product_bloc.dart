@@ -201,7 +201,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(state.copyWith(status: ProductStatus.inProgress));
     await Future.delayed(const Duration(milliseconds: 50));
 
-    final result = await _getProductsUseCase(event.salonId);
+    final result = await _getProductsUseCase({'id': event.salonId, 'type': event.type});
 
     result.fold(
         (l) => emit(state.copyWith(

@@ -61,9 +61,35 @@ class ProductsView extends StatefulWidget {
   State<ProductsView> createState() => _ProductsViewState();
 }
 
-class _ProductsViewState extends State<ProductsView> {
+class _ProductsViewState extends State<ProductsView>
+    with SingleTickerProviderStateMixin {
   double totalPrice = 0.0;
   bool isNotEmpty = false;
+
+  late TabController tabController;
+
+  late ProductBloc _productBloc;
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+    _productBloc = BlocProvider.of(context);
+    tabController.addListener(() {
+      int index = tabController.index;
+      if (index == 0) {
+        _productBloc.add(GetProductsEvent(widget.salonId, 'atsalon'));
+      } else {
+        _productBloc.add(GetProductsEvent(widget.salonId, 'athome'));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -342,30 +368,88 @@ class _ProductsViewState extends State<ProductsView> {
                     child: Stack(
                       children: [
                         Positioned(
-                            bottom: sh! * 0.09,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                    height: sh! * 0.36,
-                                    width: sw!,
-                                    child: ListView.builder(
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemCount: state.data?.length ?? 0,
-                                        itemBuilder: (context, index) {
-                                          final item = state.data?[index];
-                                          if (widget.salonId == item?.salonId) {
-                                            return ProductItem(
-                                              product: state.data![index],
-                                            );
-                                          }
+                            bottom: sh! * 0.07,
+                            child: SizedBox(
+                                height: sh! * 0.36,
+                                width: sw!,
+                                child: TabBarView(
+                                    controller: tabController,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                              height: sh! * 0.36,
+                                              width: sw!,
+                                              child: ListView.builder(
+                                                  physics:
+                                                      const AlwaysScrollableScrollPhysics(),
+                                                  itemCount:
+                                                      state.data?.length ?? 0,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final item =
+                                                        state.data?[index];
+                                                    if (widget.salonId ==
+                                                        item?.salonId) {
+                                                      return ProductItem(
+                                                        product:
+                                                            state.data![index],
+                                                        tabIndex: 0,
+                                                      );
+                                                    }
 
-                                          return emptyWidget();
-                                        })),
-                              ],
-                            )),
+                                                    return emptyWidget();
+                                                  })),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                              height: sh! * 0.36,
+                                              width: sw!,
+                                              child: ListView.builder(
+                                                  physics:
+                                                      const AlwaysScrollableScrollPhysics(),
+                                                  itemCount:
+                                                      state.data?.length ?? 0,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final item =
+                                                        state.data?[index];
+                                                    if (widget.salonId ==
+                                                        item?.salonId) {
+                                                      return ProductItem(
+                                                        product:
+                                                            state.data![index],
+                                                        tabIndex: 1,
+                                                      );
+                                                    }
+
+                                                    return emptyWidget();
+                                                  })),
+                                        ],
+                                      ),
+                                    ]))),
+                        TabBar(
+                          controller: tabController,
+                          tabs: [
+                            Tab(
+                              text: l10n.at_salon,
+                            ),
+                            Tab(
+                              text: l10n.at_home,
+                            ),
+                          ],
+                          labelColor: Colors.black,
+                        ),
                         Positioned(
                             bottom: 0,
                             child: GestureDetector(

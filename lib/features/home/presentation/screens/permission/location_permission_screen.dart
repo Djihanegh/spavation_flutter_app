@@ -27,7 +27,6 @@ class _LocationPermissionScreenState extends State<LocationPermissionScreen> {
   Widget build(BuildContext context) {
     screenSizeInit(context);
     final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
         backgroundColor: appPrimaryColor,
         body: SingleChildScrollView(

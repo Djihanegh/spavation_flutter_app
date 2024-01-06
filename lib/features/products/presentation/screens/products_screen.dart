@@ -45,17 +45,20 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   late ProductBloc _productBloc;
 
+  bool firstRun = false;
+
   @override
   void initState() {
     _productBloc = BlocProvider.of(context);
     _productBloc.add(const RemoveReservation());
-    _productBloc.add(GetProductsEvent(widget.salonId));
+    _productBloc.add(GetProductsEvent(widget.salonId, 'atsalon'));
+    firstRun = true;
     context.read<ReservationBloc>().add(const InitializeDiscount());
     super.initState();
   }
 
   void _refresh() {
-    _productBloc.add(GetProductsEvent(widget.salonId));
+    _productBloc.add(GetProductsEvent(widget.salonId, 'atsalon'));
   }
 
   @override
@@ -71,7 +74,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 buildWhen: (prev, curr) =>
                     prev.reservations != curr.reservations ||
                     prev.selectedProducts != curr.selectedProducts ||
-                    prev.status != curr.status,
+                    prev.status != curr.status && firstRun,
                 builder: (context, state) {
                   Widget? child;
                   Widget? subChild;
@@ -90,13 +93,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   }
 
                   if (state.status == ProductStatus.success) {
+                    firstRun = false;
                     if (state.data == [] || state.data == null) {
                       subChild = const ProductsEmptyWidget();
                     } else {
                       ///// NEED TO BE REFACTORED
                       subChild = ProductsView(
                         name: widget.name,
-                        rate:  widget.rate,
+                        rate: widget.rate,
                         description: widget.description,
                         image: widget.image,
                         taxRate: widget.taxRate,

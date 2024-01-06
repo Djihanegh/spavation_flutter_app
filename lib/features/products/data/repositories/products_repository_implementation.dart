@@ -14,9 +14,9 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   ProductsRepositoryImplementation(this._remoteDataSource);
 
   @override
-  ResultFuture<GetProductsResponse> getProducts({required String id}) async {
+  ResultFuture<GetProductsResponse> getProducts({required String id, required String type}) async {
     try {
-      final result = await _remoteDataSource.getProducts(id: id);
+      final result = await _remoteDataSource.getProducts(id: id, type: type);
       return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fomException(e));

@@ -5,12 +5,13 @@ abstract class ProductEvent extends Equatable {
 }
 
 class GetProductsEvent extends ProductEvent {
-  const GetProductsEvent(this.salonId);
+  const GetProductsEvent(this.salonId, this.type);
 
   final String salonId;
+  final String type;
 
   @override
-  List<Object?> get props => [salonId];
+  List<Object?> get props => [salonId, type];
 }
 
 class GetProductTimesEvent extends ProductEvent {

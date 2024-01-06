@@ -25,7 +25,8 @@ class ProductModel extends Product {
       required super.dateTo,
       required super.discount,
       required super.date,
-      required super.time});
+      required super.time,
+      required super.atHome});
 
   factory ProductModel.fromJson(DataMap source) => ProductModel.fromMap(source);
 
@@ -51,6 +52,7 @@ class ProductModel extends Product {
       dateTo: '',
       discount: '',
       date: DateTime.now(),
+      atHome: '',
       time: '');
 
   ProductModel.fromMap(DataMap json)
@@ -72,6 +74,7 @@ class ProductModel extends Product {
             discount: json["discount"],
             createdAt: json["created_at"],
             updatedAt: json["updated_at"],
+            atHome: json['at_home'],
             date: DateTime.now(),
             time: '');
 
@@ -92,6 +95,7 @@ class ProductModel extends Product {
         "discount": discount,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "at_home": atHome,
         "time": time,
         "name_ar": nameAr,
         "date": date

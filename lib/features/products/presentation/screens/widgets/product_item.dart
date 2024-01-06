@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spavation/core/utils/constant.dart';
 import 'package:spavation/features/products/data/models/product_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,9 +18,10 @@ import '../../bloc/product_bloc.dart';
 import 'showDialog.dart';
 
 class ProductItem extends StatefulWidget {
-  const ProductItem({super.key, required this.product});
+  const ProductItem({super.key, required this.product, required this.tabIndex});
 
   final ProductModel product;
+  final int tabIndex;
 
   @override
   State<ProductItem> createState() => _ProductItemState();
@@ -25,6 +29,7 @@ class ProductItem extends StatefulWidget {
 
 class _ProductItemState extends State<ProductItem> {
   ProductModel? product;
+  ProductModel? type;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +47,7 @@ class _ProductItemState extends State<ProductItem> {
               builder: (context, state) {
                 if (state.selectedProducts != null) {
                   if (state.selectedProducts!.isNotEmpty) {
+                    type = state.selectedProducts!.first;
                     product = state.selectedProducts!.firstWhere(
                         (element) => element.id == widget.product.id,
                         orElse: () => ProductModel.empty());
@@ -55,18 +61,64 @@ class _ProductItemState extends State<ProductItem> {
                 } else {
                   product = null;
                 }
+
+                log(state.selectedProducts.toString());
+
                 return GestureDetector(
                     onTap: () {
-                      product == null
-                          ? showDateTimeDialog(
-                              context: context,
-                              product: widget.product,
-                            )
-                          : setState(() {
-                              context
-                                  .read<ProductBloc>()
-                                  .add(RemoveProduct(widget.product));
-                            });
+                      if (widget.product.atHome == '1') {
+                        if (type != null) {
+                          if (type!.atHome == '1') {
+                            product == null
+                                ? showDateTimeDialog(
+                                    context: context,
+                                    product: widget.product,
+                                  )
+                                : setState(() {
+                                    context
+                                        .read<ProductBloc>()
+                                        .add(RemoveProduct(widget.product));
+                                  });
+                          }
+                        } else {
+                          product == null
+                              ? showDateTimeDialog(
+                                  context: context,
+                                  product: widget.product,
+                                )
+                              : setState(() {
+                                  context
+                                      .read<ProductBloc>()
+                                      .add(RemoveProduct(widget.product));
+                                });
+                        }
+                      } else {
+                        if (type != null) {
+                          if (type!.atHome == '0') {
+                            product == null
+                                ? showDateTimeDialog(
+                                    context: context,
+                                    product: widget.product,
+                                  )
+                                : setState(() {
+                                    context
+                                        .read<ProductBloc>()
+                                        .add(RemoveProduct(widget.product));
+                                  });
+                          }
+                        } else {
+                          product == null
+                              ? showDateTimeDialog(
+                                  context: context,
+                                  product: widget.product,
+                                )
+                              : setState(() {
+                                  context
+                                      .read<ProductBloc>()
+                                      .add(RemoveProduct(widget.product));
+                                });
+                        }
+                      }
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,8 +140,14 @@ class _ProductItemState extends State<ProductItem> {
                         Padding(
                             padding: language.selectedLanguage.value ==
                                     Language.english.value
-                                ? EdgeInsets.only(left: sw! * 0.025, bottom: 0, )
-                                : EdgeInsets.only(right: sw! * 0.015, bottom: 0, ),
+                                ? EdgeInsets.only(
+                                    left: sw! * 0.025,
+                                    bottom: 0,
+                                  )
+                                : EdgeInsets.only(
+                                    right: sw! * 0.015,
+                                    bottom: 0,
+                                  ),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,16 +166,38 @@ class _ProductItemState extends State<ProductItem> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      product == null
+                                      state.selectedProducts == null ||
+                                              state.selectedProducts!.isEmpty
                                           ? GestureDetector(
                                               child: SvgPicture.asset(
                                                   Assets.iconsAddSvg,
                                                   height: 15))
-                                          : GestureDetector(
-                                              child: Icon(
-                                              Icons.delete,
-                                              color: red[0],
-                                            )),
+                                          : product?.atHome == '1' &&
+                                                  widget.tabIndex == 1
+                                              ? product == null
+                                                  ? GestureDetector(
+                                                      child: SvgPicture.asset(
+                                                          Assets.iconsAddSvg,
+                                                          height: 15))
+                                                  : GestureDetector(
+                                                      child: Icon(
+                                                      Icons.delete,
+                                                      color: red[0],
+                                                    ))
+                                              : emptyWidget(),
+                                      product?.atHome == '0' &&
+                                              widget.tabIndex == 0
+                                          ? product == null
+                                              ? GestureDetector(
+                                                  child: SvgPicture.asset(
+                                                      Assets.iconsAddSvg,
+                                                      height: 15))
+                                              : GestureDetector(
+                                                  child: Icon(
+                                                  Icons.delete,
+                                                  color: red[0],
+                                                ))
+                                          : emptyWidget(),
                                       AutoSizeText(
                                           '${widget.product.price} ${l10n.sr}',
                                           style: TextStyles.inter.copyWith(

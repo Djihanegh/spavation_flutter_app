@@ -4,7 +4,7 @@ import '../entities/entities.dart';
 abstract class ProductsRepository {
   const ProductsRepository();
 
-  ResultFuture<GetProductsResponse> getProducts({required String id});
+  ResultFuture<GetProductsResponse> getProducts({required String id, required String type});
 
   ResultFuture<GetProductTimesResponse> getProductTimes({required String date, required int id });
 }

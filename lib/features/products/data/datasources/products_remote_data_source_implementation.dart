@@ -16,12 +16,12 @@ class ProductsRemoteDataSrcImpl implements ProductsRemoteDataSource {
   final http.Client _client;
 
   @override
-  Future<GetProductsResponse> getProducts({required String id}) async {
+  Future<GetProductsResponse> getProducts({required String id, required String type}) async {
     http.Response? response;
     try {
       response = await _client
           .get(
-            Uri.parse(Endpoints.baseUrl + Endpoints.products + id),
+            Uri.parse('${Endpoints.baseUrl}${Endpoints.products}$type/$id'),
             headers: headers,
           )
           .timeout(Endpoints.connectionTimeout);
